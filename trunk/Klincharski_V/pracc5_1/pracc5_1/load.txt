@@ -1,0 +1,10 @@
+Ivanov Sergei Dmitrievich 300400 kspt 14
+Petrov Ivan Ivanovich 100500 kspt 13
+Vetrov Fedor Petrovich 100300 aivt 17
+Beswetr George Andreevivh 109932 kspt 10
+Vetrov Fedor Petrovich 10030 aivt 17
+Vetrov Fedor Petrovich 10300 aivt 17
+Ivan Ivanovich Ivanov 43434 kspt 45
+Ivanov Ivan Ivanych 12313 kspt 343
+Petrov Ivan Ivanych 100501 aivt 12
+Ivan Ivanov Ivanovyc 10231 aivt 23
