@@ -1,6 +1,0 @@
-#define LECTION_COST 200
-#define PRACTICE_COST 100
-
-#define SUBJ_MATH 50
-#define SUBJ_FIZ 75
-#define SUBJ_ECO 40
