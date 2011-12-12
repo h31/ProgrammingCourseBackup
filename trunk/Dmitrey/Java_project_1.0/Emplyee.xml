@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<start>
+<employee>
+ <name>Vasy</name>
+ <surname>Pupkkin</surname>
+ <postname>DYmic</postname>
+ <account>61607000</account>
+ <taskid>111111</taskid>
+ <lastcharg>
+  <day>1</day>
+  <month>11</month>
+  <year>11</year>
+ </lastcharg>
+</employee>
+</start>
