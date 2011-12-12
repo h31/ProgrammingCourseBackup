@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<start>
+<task>
+ <id>111111</id>
+ <descr>trgtyhy</descr>
+ <time>15</time>
+ <money>2000</money>
+ <date>
+  <day>1</day>
+  <month>10</month>
+  <year>11</year>
+ </date>
+</task>
+</start>
