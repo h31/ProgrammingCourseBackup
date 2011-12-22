@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+            xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance">
+                <xsd:include xsi:schemaLocation="DataTypesSchema.xsd" />
+                <xsd:element name="PurchaseDataBase">
+                    <xsdcompexType>
+                        <xsd:sequence>
+                        <xsd:element name="Purchase">
+                            <xsd:complexType>
+                                <xsd:attribute name="date" type="xsd:long" use="required" />
+                                <xsd:sequence>
+                                    <xsd:element name="GasList" type="TGasList" />
+                                    <xsd:element name="AddServicesIDs" type="listOfInt" />
+                                    <xsd:choise>
+                                        <xsd:element name="PayMoney" type="TPayMoney" />
+                                        <xsd:element name="PayBank" type="TPayBank" />
+                                    </xsd:choise>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        </xsd:sequence>
+                    </xsdcompexType>
+                </xsd:element>
+                <xsd:comlexType name="TGasList">
+                    <xsd:sequence maxOccurs="unbounded">
+                    <xsd:element name="Gas">
+                        <xsd:complexType>
+                            <xsd:attribute name="ID" type="xsd:int" use="required" />
+                            <xsd:attribute name="amount" type="xsd:int" use="required" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    </xsd:sequence>
+                </xsd:comlexType>
+                <xsd:comlexType name="TPayMoney">
+                    <xsd:attribute name="paid" type="Sum" use="required" />
+                </xsd:comlexType>
+                <xsd:complexType name="TPayBank">
+                    <xsd:attribute name="cnumber" type="xsd:string" use="required" />
+                </xsd:complexType>
+</xsd:schema>
