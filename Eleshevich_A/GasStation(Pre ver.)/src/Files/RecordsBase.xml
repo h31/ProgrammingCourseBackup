@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<History xmlns:xsi="http:/www.w3.org/2001/XMLSchema-instance"
+                    xsi:noNameSpaceSchemaLocation="RecordsBaseSchema.xsd">
+    <RecordsList>
+        <Record date="34765756">
+            <GasTypeList>
+            <GasType name="97 gas" price="35.70" ID="3"/>
+            </GasTypeList>
+            <ServiceTypeList>
+            <Service name="Washinng" price="47.90" ID="2"/>
+            </ServiceTypeList>
+        </Record>
+        <Record date="3476575656">
+            <GasTypeList>
+            <GasType name="85 gas" price="74.30" ID="5"/>
+            </GasTypeList>
+            <ServiceTypeList>
+            <Service name="Hipster" price="23.00" ID="1"/>
+            </ServiceTypeList>
+        </Record>
+        <Record date="3474235756">
+            <GasTypeList>
+            <GasType name="99 gas" price="78.70" ID="4"/>
+            </GasTypeList>
+            <ServiceTypeList>
+            <Service name="Washinngjj" price="120.79" ID="2"/>
+            </ServiceTypeList>
+        </Record>
+    </RecordsList>
+    <LastDataBase>
+        <GasTypeList>
+            <GasType name="95 gas" price="5.68" ID="1" />
+            <GasType name="98 gas" price="7.83" ID="2" />
+        </GasTypeList>
+        <ServiceList>
+            <Service name="hairing" price="43.60" ID="1" />
+            <Service name="blobbing" price="65.90" ID="2" />
+        </ServiceList>
+    </LastDataBase>
+</History>
