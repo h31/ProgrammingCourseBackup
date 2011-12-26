@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ClientsBase>
-    <Client name="Иван Иванович Ивановский" cash="3000.00" number="32" />
-    <Client name="Александр Сергеевич Пушкин" cash="700.50" number="56" />
-</ClientsBase>
