@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+            xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance">
+    <xsd:include xsi:schemalocation="DataTypesSchema.xsd" />
+    <xsd:element name="ConstantDataBase">
+        <xsd:comlexType>
+            <xsd:complexContent>
+                <xsd:extension base="TDataBase">
+                    <xsd:sequence>
+                        <xsd:element name="StationsList" type="TStationsList" />
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:comlexType>
+    </xsd:element>
+    <xsd:comlexType name="TStationsList">
+        <xsd:sequence maxOccurs="unbounded">
+            <element name="FillingSt">
+                <xsd:comlexType>
+                    <xsd:attribute name="number" type="xsd:int" />
+                    <xsd:sequence>
+                        <xsd:element name="GasTypesIDs" type="listOfInt" />
+                    </xsd:sequence>
+                </xsd:comlexType>
+            </element>
+        </xsd:sequence>
+    </xsd:comlexType>
+</xsd:schema>
