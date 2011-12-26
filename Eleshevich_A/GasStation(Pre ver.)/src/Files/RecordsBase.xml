@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<History xmlns:xsi="http:/www.w3.org/2001/XMLSchema-instance"
+xsi:noNameSpaceSchemaLocation="RecordsBaseSchema.xsd">
+<RecordsList>
+<Record date="1324879481803">
+<GasTypeList>
+<GasType name="95 gas" price="5.79" ID="1" />
+<GasType name="98 gas" price="7.83" ID="2" />
+</GasTypeList>
+<ServicesList>
+</ServicesList>
+</Record>
+<Record date="1324879632018">
+<GasTypeList>
+<GasType name="95 бензин" price="5.79" ID="1" />
+</GasTypeList>
+<ServicesList>
+</ServicesList>
+</Record>
+<Record date="1324879881192">
+<GasTypeList>
+<GasType name="Дизель" price="6.70" ID="3" />
+</GasTypeList>
+<ServicesList>
+</ServicesList>
+</Record>
+</RecordsList>
+<LastDataBase>
+<GasTypeList>
+<GasType name="95 бензин" price="6.30" ID="1" />
+<GasType name="98 бензин" price="7.83" ID="2" />
+<GasType name="Дизель" price="6.39" ID="3" />
+</GasTypeList>
+<ServicesList>
+<Service name="Cleaning" price="23.65" ID="1" />
+<Service name="Filling" price="65.90" ID="2" />
+<Service name="Подкачка колёс" price="10.00" ID="3" />
+</ServicesList>
+</LastDataBase>
+<Expence sum="0.00" /></History>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PurchaseDatabase xmlns:xsi="http:/www.w3.org/2001/XMLSchema-instance"
+xsi:noNameSpaceSchemaLocation="PurchasesDataSchema.xsd">
+<Purchase date="1324879812922">
+<GasList>
+<Gas ID="3" amount="30" />
+</GasList>
+<AddServicesIDs>
+3 
+</AddServicesIDs>
+<PayBank cnumber="56" />
+</Purchase>
+</PurchaseDatabase>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+            xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance">
+                <xsd:include xsi:schemaLocation="DataTypesSchema.xsd" />
+                <xsd:element name="ClientsBase">
+                    <xsd:complexType>
+                        <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+                            <xsd:element name="Account">
+                                <xsd:complexType>
+                                    <xsd:attribute name="name" type="xsd:string" use="required" />
+                                    <xsd:attribute name="cash" type="Sum" use="required" />
+                                    <xsd:attribute name="number" type="xsd:int" use="required" />
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+</xsd:schema>
