@@ -92,4 +92,46 @@ public class Date{
         {
           return year;
         }
+        
+        public boolean lastDayOfMonth()
+        {
+//            if(((month==1  ||
+//                 month==3  ||
+//                 month==5  ||
+//                 month==7  ||   
+//                 month==8  ||   
+//                 month==10 ||   
+//                 month==12)
+//                 && day==31)   || 
+//
+//                (month==2 
+//                 && day==28)   || 
+//
+//               ((month==4 ||
+//                 month==6 ||
+//                 month==9 ||
+//                 month==11)  
+//                 && day==30))
+//              
+//            return true;
+//            else
+//            {return false;}
+          if(month==1 && day==31) return true;
+          if(month==2 && day==28) return true;
+          if(month==3 && day==31) return true;
+          if(month==4 && day==30) return true;
+          if(month==5 && day==31) return true;
+          if(month==6 && day==30) return true;
+          if(month==7 && day==31) return true;
+          if(month==8 && day==31) return true;
+          if(month==9 && day==30) return true;
+          if(month==10 && day==31) return true;
+          if(month==11 && day==30) return true;
+          if(month==12 && day==31) return true;
+          return false;
+          }
+        public boolean equals(Date ob)
+        {
+          return(day==ob.day && month==ob.month && year==ob.year);
+        }
 }

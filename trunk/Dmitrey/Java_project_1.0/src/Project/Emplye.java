@@ -63,7 +63,10 @@ public class Emplye {
        {
          return tsk.getId();
        }
-       
+       public Task getTask()
+       {
+         return tsk;
+       }
        public String getPostName()
        {
          return post.getName();
@@ -77,30 +80,34 @@ public class Emplye {
          return lstCharg;
        }
        public void chargeMon(Date CurDate)
-	{
-		
-		if(CurDate.convertionDate()-tsk.getSinceDate().convertionDate()>=30)
-			account=account+tsk.getMon();
-		int qm = (CurDate.convertionDate()-lstCharg.convertionDate()/30);
-		while(qm!=0){
-			account=account+post.getSalary();
-                      qm--;  
-		}
-		lstCharg.setDate(CurDate);
+	{         
+          if(CurDate.lastDayOfMonth() && !(lstCharg.equals(CurDate)))
+          {
+            System.out.println("post_mon");
+            account=account+post.getSalary();
+            lstCharg.setDate(CurDate);
+          }
+          
+          if((CurDate.convertionDate()-tsk.getSinceDate().convertionDate())>=tsk.getTime() && (tsk.getStatus()==0))
+          {
+            System.out.println("task_mon");
+            account=account+tsk.getMon();
+            tsk.setDone(CurDate);
+          }
 	}
        public void showEmloyee()
         {
-          System.out.print("Name: ");
+          System.out.print("(Name: ");
           System.out.println(name);
-          System.out.print("Surname: ");
+          System.out.print("(Surname: ");
           System.out.println(surname);
-          System.out.print("Postname: ");
+          System.out.print("(Postname: ");
           System.out.println(post.getName());
-          System.out.print("Account: ");
+          System.out.print("(Account: ");
           System.out.println(account);
-          System.out.print("Taskid: ");
+          System.out.print("(Taskid: ");
           System.out.println(tsk.getId());
-          System.out.print("Last Charge: ");
+          System.out.print("(Last Charge: ");
           lstCharg.showDate();
          }
        
@@ -108,5 +115,15 @@ public class Emplye {
         {
           return (name.equalsIgnoreCase(ob.getName()) && surname.equalsIgnoreCase(ob.getSurname()));
         }
+       
+       public void setStatus(Date CurDate)
+        {
+          tsk.setDone(CurDate);
+        }
+       public void setStatus(int b)
+        {
+          tsk.setStatus(b);
+        }
+       
 
 }

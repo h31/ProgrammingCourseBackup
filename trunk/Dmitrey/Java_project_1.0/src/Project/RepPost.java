@@ -40,9 +40,9 @@ public class RepPost {
     {
       for(int i = 0; i<pst.size(); i++)
          {
-           System.out.println('{');
+           System.out.println("\n");
            pst.get(i).showPost();
-           System.out.println('}');
+           System.out.println("\n");
          }   
     }
     public Post findPost(String name)
