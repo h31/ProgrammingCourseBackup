@@ -12,4 +12,5 @@ public abstract class Service {
     public String toString(){
         return getName() + " стоимость: " + getCost();
     }
+    public abstract boolean equalType(Service serv2);
 }

@@ -6,7 +6,7 @@ import Sums.Sum;
  *
  * @author Andrew
  */
-public class GasType implements IServiceType{
+public class GasType{
     String name;
     Sum price;
     int identifier;
@@ -16,12 +16,9 @@ public class GasType implements IServiceType{
         this.price = price;
         identifier = ID;
     }
-    
-    @Override
     public String getName(){
         return name;
     }
-    @Override
     public Sum getCost(){
         return price;
     }

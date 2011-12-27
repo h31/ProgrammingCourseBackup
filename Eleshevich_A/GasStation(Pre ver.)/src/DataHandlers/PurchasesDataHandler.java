@@ -50,7 +50,7 @@ public class PurchasesDataHandler extends DefaultHandler{
             int amount = Integer.parseInt(attrs.getValue("amount"));
             try{
                 Gas tgas;
-                if(tdate.after(hist.lastDate())){
+                if(tdate.after(hist.lastRecordDate())){
                     tgas = new Gas(base.getGasType(ID), amount);
                 }else {
                     try{
@@ -92,13 +92,13 @@ public class PurchasesDataHandler extends DefaultHandler{
                 int ID = Integer.parseInt(st.nextToken());
                 try{
                     AddService tserv;
-                    if(tdate.after(hist.lastDate())){
-                        tserv = base.getAddSevice(ID);
+                    if(tdate.after(hist.lastRecordDate())){
+                        tserv = base.getAddService(ID);
                     }else {
                         try{
                             tserv = hist.getActualAddService(tdate, ID);
                         }catch(NotFoundException e){
-                            tserv = base.getAddSevice(ID);
+                            tserv = base.getAddService(ID);
                         }
                     }
                     services.add(tserv);

@@ -188,7 +188,7 @@ public class FileSystem {
             }
             dos.write("</" + Tags.srvlst + ">\n");
             dos.write("</" + Tags.lastdatbs + ">\n");
-            dos.write("<" + Tags.exp + " sum=\"" + expence + "\" />");
+            dos.write("<" + Tags.exp + " sum=\"" + expence + "\" />\n");
             dos.write("</" + Tags.hist + ">");
             dos.close();
         }catch(IOException e){System.out.println(e.getMessage());}

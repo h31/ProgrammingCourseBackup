@@ -74,6 +74,9 @@ public class Sum {
         str.append(Integer.toString(kop));
         return str.toString();
     }
+    public String toFullString(){
+        return toString() + " руб.";
+    }
     
     public static Sum parseSum(String str) throws InvalidFormatException{
         try{

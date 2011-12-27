@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ClientsBase xmlns:xsi="http:/www.w3.org/2001/XMLSchema-instance"
 xsi:noNameSpaceSchemaLocation="BankDataSchema.xsd">
-<Account name="Иван Иванович Ивановский" cash="3000.00" number="32" />
-<Account name="Александр Сергеевич Пушкин" cash="1000.00" number="56" />
+<Account name="fgdfgdfg" cash="3000.00" number="32" />
+<Account name="fgdfgfdg" cash="798.30" number="56" />
 </ClientsBase>

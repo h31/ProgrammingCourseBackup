@@ -10,8 +10,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.NavigableSet;
 import java.util.TreeSet;
 
@@ -20,11 +18,11 @@ import java.util.TreeSet;
  */
 public class History {
     TreeSet<Record> records;
-    List<Purchase> purchases; 
+    TreeSet<Purchase> purchases; 
     
     public History(){
         records = new TreeSet<Record>(new RecCompare());
-        purchases = new LinkedList<Purchase>();
+        purchases = new TreeSet<Purchase>(new PurchCompare());
     }
     
     public void addPurchase(Purchase purch){
@@ -54,7 +52,7 @@ public class History {
     public NavigableSet<Record> getRecords(){
         return records;
     }
-    public List<Purchase> getPurchases(){
+    public NavigableSet<Purchase> getPurchases(){
         return purchases;
     }
     public void addRecords(Collection<Record> records){    //может нужно доработать метод(отсутствует проверка, потенциально)
@@ -68,7 +66,13 @@ public class History {
         throw new NotFoundException();
     }
     public NavigableSet<Record> getRecords(Date dt1, Date dt2) throws NotFoundException{
-        NavigableSet set = records.subSet(new Record(dt1), true, new Record(dt2), true);
+        NavigableSet<Record> set = records.subSet(new Record(dt1), true, new Record(dt2), true);
+        if(set.isEmpty())
+            throw new NotFoundException();
+        return set;
+    }
+    public NavigableSet<Purchase> getPurchases(Date dt1, Date dt2) throws NotFoundException{
+        NavigableSet<Purchase> set = purchases.subSet(new Purchase(dt1), true, new Purchase(dt2), true);
         if(set.isEmpty())
             throw new NotFoundException();
         return set;
@@ -88,7 +92,7 @@ public class History {
         }
         for(AddService srv: lastDBase.getServices()){
             try{
-                AddService srv2 = cdata.getAddSevice(srv.getID());
+                AddService srv2 = cdata.getAddService(srv.getID());
                 if(!srv.getName().equals(srv2.getName()) || !srv.getCost().equals(srv2.getCost())){
                     rbase.add(srv);
                 }
@@ -99,7 +103,7 @@ public class History {
         if(!rbase.getGasTypes().isEmpty() || !rbase.getServices().isEmpty())
             records.add(new Record(date, rbase));
     }
-    public Date lastDate(){
+    public Date lastRecordDate(){
         return Collections.max(records, new RecCompare()).getDate();
     }
     public GasType getActualGasType(Date date, int ID) throws NotFoundException{
@@ -117,7 +121,7 @@ public class History {
         Iterator<Record> itt = records.tailSet(trec).iterator();
         while(!itt.hasNext()){
             try{
-                return itt.next().getDataBase().getAddSevice(ID);
+                return itt.next().getDataBase().getAddService(ID);
             }catch(NotFoundException e){}
         }
         throw new NotFoundException();
@@ -128,6 +132,14 @@ public class History {
             Record rec1 = (Record)obj1;
             Record rec2 = (Record)obj2;
             return rec1.getDate().compareTo(rec2.getDate());
+        }
+    }
+    class PurchCompare implements Comparator{
+        @Override
+    public int compare(Object obj1, Object obj2){
+            Purchase purch1 = (Purchase)obj1;
+            Purchase purch2 = (Purchase)obj2;
+            return purch1.getDate().compareTo(purch2.getDate());
         }
     }
 }
