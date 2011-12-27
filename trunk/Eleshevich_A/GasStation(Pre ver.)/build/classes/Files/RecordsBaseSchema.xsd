@@ -21,6 +21,11 @@
                             </xsd:complexType>
                         </xsd:element>
                         <xsd:element name="LastDataBase" type="TDataBase" />
+                        <xsd:element name="Expence">
+                            <xsd:complexType>
+                                <xsd:attribute name="sum" type="Sum" use="required" />
+                            </xsd:complexType>
+                        </xsd:element>
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>

@@ -12,29 +12,40 @@ xsi:noNameSpaceSchemaLocation="RecordsBaseSchema.xsd">
 </Record>
 <Record date="1324879632018">
 <GasTypeList>
-<GasType name="95 Ð±ÐµÐ½Ð·Ð¸Ð½" price="5.79" ID="1" />
+<GasType name="95 dfgfd" price="5.79" ID="1" />
 </GasTypeList>
 <ServicesList>
 </ServicesList>
 </Record>
 <Record date="1324879881192">
 <GasTypeList>
-<GasType name="Ð”Ð¸Ð·ÐµÐ»ÑŒ" price="6.70" ID="3" />
+<GasType name="dfgdfg" price="6.70" ID="3" />
 </GasTypeList>
 <ServicesList>
+</ServicesList>
+</Record>
+<Record date="1324993519328">
+<GasTypeList>
+<GasType name="95 dfss" price="6.30" ID="1" />
+<GasType name="98 dgfd" price="7.83" ID="2" />
+<GasType name="dfgdf" price="6.39" ID="3" />
+</GasTypeList>
+<ServicesList>
+<Service name="dfgdfggd" price="10.00" ID="3" />
 </ServicesList>
 </Record>
 </RecordsList>
 <LastDataBase>
 <GasTypeList>
-<GasType name="95 Ð±ÐµÐ½Ð·Ð¸Ð½" price="6.30" ID="1" />
-<GasType name="98 Ð±ÐµÐ½Ð·Ð¸Ð½" price="7.83" ID="2" />
-<GasType name="Ð”Ð¸Ð·ÐµÐ»ÑŒ" price="6.39" ID="3" />
+<GasType name="95 áåíçèí" price="6.30" ID="1" />
+<GasType name="98 áåíçèí" price="7.83" ID="2" />
+<GasType name="Äèçåëü" price="6.39" ID="3" />
 </GasTypeList>
 <ServicesList>
 <Service name="Cleaning" price="23.65" ID="1" />
 <Service name="Filling" price="65.90" ID="2" />
-<Service name="ÐŸÐ¾Ð´ÐºÐ°Ñ‡ÐºÐ° ÐºÐ¾Ð»Ñ‘Ñ" price="10.00" ID="3" />
+<Service name="Ïîäêà÷êà êîë¸ñ" price="10.00" ID="3" />
 </ServicesList>
 </LastDataBase>
-<Expence sum="0.00" /></History>
+<Expence sum="201.70" />
+</History>

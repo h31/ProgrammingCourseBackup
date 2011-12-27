@@ -31,8 +31,22 @@ public class Gas extends Service{
         this.type = type;
         this.amount = amount;
     }
+    public void addGas(int val){
+        amount += val;
+    }
     @Override
     public String toString(){
-        return type.getName() + " (" + type.price + " за литр) " + amount + " литров, стоимость: " + getCost();
+        return type.getName() + " (" + type.price + " за литр) " + amount + " литров, стоимость: " + getCost().toFullString();
+    }
+    @Override
+    public Gas clone(){
+        return new Gas(type, amount);
+    }
+    @Override
+    public boolean equalType(Service serv2){
+        if(serv2.getClass().equals(this.getClass())){
+            return type.name.equals(((Gas)serv2).type.name) && type.price.equals(((Gas)serv2).type.price);
+        }else
+            return false;
     }
 }

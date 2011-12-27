@@ -35,6 +35,12 @@ public class Purchase {
         this.payment = payment;
         this.date = date;
     }
+    Purchase(Date dt){
+        date = dt;
+    }
+    public Purchase(Collection<Service> services){
+        
+    }
     public Date getDate(){
         return date;
     }
@@ -43,6 +49,9 @@ public class Purchase {
     }
     public List<Service> getServices(){
         return services;
+    }
+    public Sum getTotalVal(){
+        return payment.getSum();
     }
     class InvalidPaymentException extends PaymentException{
         @Override

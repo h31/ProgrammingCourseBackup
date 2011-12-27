@@ -25,10 +25,18 @@ public class DataBase{
     }
         //возможно нужно делать проверку на повторяемость идентификаторов
     public void add(GasType gastype){
-        gastypes.add(gastype);
+        try{
+            getGasType(gastype.getID());
+        }catch(NotFoundException e){
+            gastypes.add(gastype);
+        }
     }
     public void add(AddService service){
-        services.add(service);
+        try{
+            getAddService(service.getID());
+        }catch(NotFoundException e){
+            services.add(service);
+        }
     }
     
     public void addGasTypes(Collection<GasType> gastypes){
@@ -45,10 +53,24 @@ public class DataBase{
         }
         throw new NotFoundException();
     }
-    public AddService getAddSevice(int ID) throws NotFoundException{
+    public AddService getAddService(int ID) throws NotFoundException{
         for(AddService sv: services){
             if(sv.getID() == ID)
                 return sv;
+        }
+        throw new NotFoundException();
+    }
+    public GasType findGasType(String name) throws NotFoundException{
+        for(GasType gt: gastypes){
+            if(gt.getName().equals(name))
+                return gt;
+        }
+        throw new NotFoundException();
+    }
+    public AddService findAddService(String name) throws NotFoundException{
+        for(AddService srv: services){
+            if(srv.getName().equals(name))
+                return srv;
         }
         throw new NotFoundException();
     }
