@@ -69,25 +69,17 @@ public class RepEmplye {
      {
        for(int i = 0; i<empl.size(); i++)
        {
-         System.out.println('{');
+         System.out.println("\n");
          empl.get(i).showEmloyee();
-         System.out.println('}');
+         System.out.println("\n");
        }   
      }
      
      public void setTask(RepTask RTsk)
      {
-         Scanner ConsIn = new Scanner(System.in);
-       String name = new String();
-       String surname = new String();
-       int id = 0;
-       System.out.print("Input name: ");
-       ConsIn.next(name);
-       System.out.print("Input surname: ");
-       ConsIn.next(surname);
-       System.out.print("Input task id: ");
-       ConsIn.nextInt(id);
-       this.findEmplye(name, surname).setTask(RTsk.findTask(id));
+       Scanner ConsIn = new Scanner(System.in);
+       System.out.println("Input: name surname task id");
+       this.findEmplye(ConsIn.next(), ConsIn.next()).setTask(RTsk.findTask(ConsIn.nextInt()));
       }
      
   
@@ -152,6 +144,10 @@ public class RepEmplye {
                       {
                           dat.setYear(new Integer(new String(ch, start, length)));
                       }
+                  if(thisElement.equalsIgnoreCase("STATUS"))
+                      {
+                        CurE.setStatus(new Integer(new String(ch, start, length)));
+                      }
                 }
                 
              };
@@ -195,6 +191,9 @@ public class RepEmplye {
             out.write(new String(Integer.toString(empl.get(i).getLstCh().getYear())).getBytes());
             out.write(new String("</year>\n").getBytes());
             out.write(new String(" </lastcharg>\n").getBytes());
+            out.write(new String(" <status>").getBytes());
+            out.write(Integer.toString(empl.get(i).getTask().getStatus()).getBytes());
+            out.write(new String("</status>\n").getBytes());
             out.write(new String("</employee>\n").getBytes());
          }
          

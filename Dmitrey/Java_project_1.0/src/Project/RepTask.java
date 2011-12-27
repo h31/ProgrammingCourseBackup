@@ -49,6 +49,15 @@ public class RepTask {
       System.out.println("the task has deleted.");
   }
   
+  public boolean deleteTask(int ndx)
+  {
+    if(ndx >= 0){
+        tas.remove(ndx); 
+        return true;
+    }
+    return false;
+  }
+  
   public Task findTask(int id)
   {
     for(int i=0; i<tas.size(); i++)
@@ -65,9 +74,9 @@ public class RepTask {
   {
     for(int i = 0; i<tas.size(); i++)
        {
-         System.out.println('{');
+         System.out.println("\n");
          tas.get(i).showTask();
-         System.out.println('}');
+         System.out.println("\n");
        }   
   }
   
@@ -134,6 +143,7 @@ public class RepTask {
                       {
                           dat.setYear(new Integer(new String(ch, start, length)));
                       }
+                      
                 }       
               };
                 saxParser.parse(in, _T);
@@ -173,7 +183,7 @@ public class RepTask {
             out.write(new String("  <year>").getBytes());
             out.write(Integer.toString(tas.get(i).getSinceDate().getYear()).getBytes());
             out.write(new String("</year>\n").getBytes());
-            out.write(new String(" </date>\n").getBytes());  
+            out.write(new String(" </date>\n").getBytes()); 
             out.write(new String("</task>\n").getBytes());
           }
           out.write(new String("</start>").getBytes());

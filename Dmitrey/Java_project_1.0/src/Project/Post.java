@@ -24,11 +24,11 @@ public class Post {
         
         public void showPost()
         {
-          System.out.print("Name: ");
+          System.out.print("(Name: ");
           System.out.println(name);
-          System.out.print("Description: ");
+          System.out.print("(Description: ");
           System.out.println(descr);
-          System.out.print("Salary: ");
+          System.out.print("(Salary: ");
           System.out.println(salary);
         }
         
