@@ -1,2 +1,0 @@
-MainPack.GasStation
-MainPack.WasNotSelectedException
