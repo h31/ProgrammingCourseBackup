@@ -19,7 +19,7 @@ class Sender
 public:
     bool addDestination(string dest);
     bool removeDestination(string dest);
-    void worker();
+    void operator() ();
 private:
     queue<T>* pipe;
     set<string> destinations;

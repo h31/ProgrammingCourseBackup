@@ -29,6 +29,7 @@ class Receiver
 public:
     bool addSource(string src, int interval=15);
     bool removeSource(string src);
+    void operator()() {}
     void worker();
 private:
     queue<T>* pipe;
