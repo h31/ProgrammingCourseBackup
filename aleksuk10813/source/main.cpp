@@ -1,6 +1,7 @@
 #include <iostream>
 #include <pthread.h>
 #include "dispatcher.h"
+#include <thread>
 
 using namespace std;
 
@@ -9,11 +10,9 @@ int main()
     queue<RSSRecord>* rssQueue = new queue<RSSRecord>;
     RSSReceiver* rss = new RSSReceiver(rssQueue);
     rss->addSource("urlHere");
-    // rss.run;
 
-    /*queue<TestRecord>* testQueue = new queue<TestRecord>;
-    TestReceiver* test = new TestReceiver(testQueue);
-    // test.run; */
+    thread t(ref(*rss));
+
     return 0;
 }
 
