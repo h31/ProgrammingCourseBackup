@@ -1,22 +1,28 @@
 #include <iostream>
-#include <pthread.h>
 #include "dispatcher.h"
+#include <pthread.h>
 #include <thread>
 
 using namespace std;
 
 int main()
 {
-    queue<RSSRecord>* rssQueue = new queue<RSSRecord>;
-    RSSReceiver* rss = new RSSReceiver(rssQueue);
-    rss->addSource("urlHere");
+    queue<TestRecord>* testInQueue = new queue<TestRecord>;
+    queue<TestRecord>* testOutQueue = new queue<TestRecord>;
 
-    thread t(ref(*rss));
+    TestReceiver test;
+    Dispatcher dispatcher;
+    bool* inReady;
+    condition_variable* inCond = new condition_variable;
+    //test->addSource("urlHere");
+
+    thread receiver(test, testInQueue, inReady, inCond);
+    //
+
+    thread disp(dispatcher, testInQueue, testOutQueue, inReady, inCond); // testOutQueue
+    receiver.join();
+
+    //cout << testInQueue->size();
 
     return 0;
-}
-
-RSSReceiver::RSSReceiver(queue<RSSRecord>*)
-{
-
 }

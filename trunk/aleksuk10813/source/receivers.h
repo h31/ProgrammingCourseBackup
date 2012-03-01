@@ -4,6 +4,7 @@
 #include <string>
 #include <queue>
 #include <set>
+#include <condition_variable>
 using namespace std;
 
 struct HTTPResponce
@@ -23,35 +24,44 @@ struct RSSRecord
     string pubDate;
 };
 
+struct TestRecord
+{
+    string title;
+    string text;
+};
+
 template <class T>
 class Receiver
 {
 public:
     bool addSource(string src, int interval=15);
     bool removeSource(string src);
-    void operator()() {}
-    void worker();
-private:
-    queue<T>* pipe;
+    void operator()(queue<T>* pipe, bool ready, condition_variable* inCond);
+protected:
     set<string> sources;
 };
 
-class RSSReceiver : public Receiver <RSSRecord>
+class RSSReceiver : protected Receiver <RSSRecord>
 {
 public:
-    RSSReceiver(queue<RSSRecord>*);
+    void operator()(queue<RSSRecord>* pipe);
 private:
     set<string> guids;
 
     HTTPResponce downloadSource();
     void parseFeed(HTTPResponce input);
-
 };
 
-template <class T>
+class TestReceiver : protected Receiver <TestRecord>
+{
+public:
+    void operator()(queue<TestRecord>* pipe, bool* ready, condition_variable* inCond);
+};
+
+/* template <class T>
 bool Receiver<T>::addSource(string src, int interval)
 {
     return 0;
-}
+} */
 
 #endif // RECEIVERS_H
