@@ -19,9 +19,8 @@ class Sender
 public:
     bool addDestination(string dest);
     bool removeDestination(string dest);
-    void operator() ();
-private:
-    queue<T>* pipe;
+    void operator()(queue<T>* pipe);
+protected:
     set<string> destinations;
 };
 
@@ -38,9 +37,10 @@ private:
 
 };
 
-string SMTPSender::genEmail(SMTPRecord input)
+class TestSender : protected Sender <TestRecord>
 {
-    return 0;
-}
+public:
+    void operator()(queue<TestRecord>* pipe);
+};
 
 #endif // SENDERS_H
