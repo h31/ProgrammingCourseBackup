@@ -5,14 +5,13 @@
 
 class Desk
 {
-	//игровое поле
-	Figure desk[8][8];
-
-public:
-	//конструктор
-	Desk();
 	//очистка доски
 	void clearBoard();
+public:
+	//игровое поле
+	Figure desk[8][8];
+	//конструктор
+	Desk();
 	//проверка на мат
 	void checkKingsMat(bool whitePlayerTurn);
 	//проверка на шах
