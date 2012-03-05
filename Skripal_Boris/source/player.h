@@ -24,6 +24,8 @@ class Player
 	void canTurn(int startX,int startY,int finishX,int finishY);
 public:
 	//конструктор
+	Player();
+	//игровое поле
 	Desk board;
 	//совершение хода
 	void makeTurn(int startX,int startY,int finishX,int finishY);
