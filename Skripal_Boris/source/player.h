@@ -15,19 +15,20 @@ class Player
 	//текущий победитель
 	Winner winner;
 	//возможность рокировки
-	bool canRokirovka;
+	bool canRokirovkaWhite;
+	bool canRokirovkaBlack;
 	//ход первого или второго игрока (true - сейчас ходит игрок играющий белыми фигурами)
 	bool whitePlayerTurn;
 	//проверка победителя
 	void checkWinner();
 	//проверка возможности хода
-	void canTurn(int startX,int startY,int finishX,int finishY);
+	bool canTurn(int startX,int startY,int finishX,int finishY);
 public:
 	//конструктор
 	Player();
 	//игровое поле
 	Desk board;
 	//совершение хода
-	void makeTurn(int startX,int startY,int finishX,int finishY);
+	bool makeTurn(int startX,int startY,int finishX,int finishY);
 };
 #endif
