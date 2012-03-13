@@ -6,10 +6,10 @@ using namespace std;
 
 Desk::Desk()
 {
-	clearBoard();
+	createNewPlayingBoard();
 }
 
-void Desk::clearBoard()
+void Desk::createNewPlayingBoard()
 {
 	for(int i=0;i<8;i+=2)
 		for(int k=0;k<8;k+=2)
@@ -98,4 +98,16 @@ void Desk::printBoard()
 		cout<<endl<<endl;
 	}
 	return;
+}
+
+bool Desk::canPawnTurn(int startX,int startY,int finishX,int finishY, bool whitePlayer)
+{
+	if (desk[startX][startY].whiteFigure==true)
+}
+
+void Desk::putFigure(Type typeFigure, bool white, int x, int y)
+{
+	desk[x][y].whiteFigure=white;
+	desk[x][y].type=typeFigure;
+	desk[x][y].steps=0;
 }
