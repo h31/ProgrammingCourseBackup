@@ -107,6 +107,11 @@ bool Desk::canPawnTurn(int startX,int startY,int finishX,int finishY, bool white
 
 void Desk::putFigure(Type typeFigure, bool white, int x, int y)
 {
+	while(x>7||x<0||y>7||y<0)
+	{
+		cout<<"write correct coordinat"<<endl;
+		cin>>x>>y;
+	}
 	desk[x][y].whiteFigure=white;
 	desk[x][y].type=typeFigure;
 	desk[x][y].steps=0;
