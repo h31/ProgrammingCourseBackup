@@ -36,7 +36,7 @@ class Receiver
 public:
     bool addSource(string src, int interval=15);
     bool removeSource(string src);
-    void operator()(queue<T>* pipe, bool ready, condition_variable* inCond);
+    void operator()(queue<T>* pipe, condition_variable* inCond, mutex* m);
 protected:
     set<string> sources;
 };
@@ -55,13 +55,7 @@ private:
 class TestReceiver : protected Receiver <TestRecord>
 {
 public:
-    void operator()(queue<TestRecord>* pipe, bool* ready, condition_variable* inCond);
+    void operator()(queue<TestRecord>* pipe, condition_variable* inCond, mutex* m);
 };
-
-/* template <class T>
-bool Receiver<T>::addSource(string src, int interval)
-{
-    return 0;
-} */
 
 #endif // RECEIVERS_H

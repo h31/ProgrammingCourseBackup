@@ -7,7 +7,8 @@ QMAKE_LFLAGS += -std=c++0x -lpthread -pthread
 SOURCES += main.cpp \
     test_receiver.cpp \
     rss_receiver.cpp \
-    dispatcher.cpp
+    dispatcher.cpp \
+    test_sender.cpp
 
 HEADERS += \
     receivers.h \
