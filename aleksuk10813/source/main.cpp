@@ -2,6 +2,7 @@
 #include "dispatcher.h"
 #include <pthread.h>
 #include <thread>
+#include <mutex>
 
 using namespace std;
 
@@ -10,16 +11,23 @@ int main()
     queue<TestRecord>* testInQueue = new queue<TestRecord>;
     queue<TestRecord>* testOutQueue = new queue<TestRecord>;
 
-    TestReceiver test;
+    TestReceiver testIn;
     Dispatcher dispatcher;
-    bool* inReady;
-    condition_variable* inCond = new condition_variable;
+    TestSender testOut;
+
+    mutex* inputMutex = new mutex;
+    mutex* outputMutex = new mutex;
+
+    condition_variable* inputCond = new condition_variable;
+    condition_variable* outputCond = new condition_variable;
     //test->addSource("urlHere");
 
-    thread receiver(test, testInQueue, inReady, inCond);
-    //
+    thread receiver(testIn, testInQueue, inputCond, inputMutex);
 
-    thread disp(dispatcher, testInQueue, testOutQueue, inReady, inCond); // testOutQueue
+    thread disp(dispatcher, testInQueue, inputCond, inputMutex,
+                            testOutQueue, outputCond, outputMutex);
+    thread sender(testOut, testOutQueue, outputCond, outputMutex);
+
     receiver.join();
 
     //cout << testInQueue->size();

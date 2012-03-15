@@ -5,17 +5,23 @@
 
 using namespace std;
 
-void Dispatcher::operator()(queue<TestRecord>* in_pipe, queue<TestRecord>* out_pipe,
-                            bool* ready, condition_variable* inCond)
+void Dispatcher::operator()(queue<TestRecord>* inQueue, condition_variable* inputCond, mutex* inputMutex,
+                            queue<TestRecord>* outQueue, condition_variable* outputCond, mutex* outputMutex)
 {
-    mutex m;
-    int i=0;
-    unique_lock<mutex> lk(m);
-    while(!ready)
-        inCond->wait(lk);
-    if (in_pipe->size() > 0)
+    while (1)
     {
-        TestRecord temp = in_pipe->front();
-        cout << temp.text;
+        unique_lock<mutex> inLock(*inputMutex);
+        inputCond->wait(inLock);
+
+        while (inQueue->size() > 0)
+        {
+            TestRecord temp = inQueue->front();
+            inQueue->pop();
+
+            unique_lock<mutex> outLock(*outputMutex);
+            outQueue->push(temp);
+            outLock.unlock();
+            outputCond->notify_one();
+        }
     }
 }

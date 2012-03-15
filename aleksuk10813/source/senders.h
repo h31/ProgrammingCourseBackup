@@ -2,8 +2,13 @@
 #define SENDERS_H
 
 #include <string>
+#include <receivers.h>
+#include <queue>
+#include <set>
+#include <condition_variable>
 
 using namespace std;
+
 
 struct SMTPRecord
 {
@@ -19,17 +24,16 @@ class Sender
 public:
     bool addDestination(string dest);
     bool removeDestination(string dest);
-    void operator()(queue<T>* pipe);
+    void operator()(queue<T>* pipe, condition_variable* cond, mutex* m);
 protected:
     set<string> destinations;
 };
 
-class SMTPSender : public Sender <SMTPRecord>
+class SMTPSender : protected Sender <SMTPRecord>
 {
 public:
-    SMTPSender(queue<SMTPRecord>*);
+    void operator()(queue<SMTPRecord>* pipe, condition_variable* cond, mutex* m);
 private:
-
     string genEmail(SMTPRecord input);
     bool sendEmail(string email,
                    string from,
@@ -40,7 +44,7 @@ private:
 class TestSender : protected Sender <TestRecord>
 {
 public:
-    void operator()(queue<TestRecord>* pipe);
+    void operator()(queue<TestRecord>* pipe, condition_variable* cond, mutex* m);
 };
 
 #endif // SENDERS_H
