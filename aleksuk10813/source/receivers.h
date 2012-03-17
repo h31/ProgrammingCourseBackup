@@ -7,10 +7,19 @@
 #include <condition_variable>
 using namespace std;
 
-struct HTTPResponce
+enum HTTPStatusCode
 {
-    int code;
-    string responce;
+    OK = 1,
+    NOT_IMPLEMENTED = 2,
+    INVALID_DATA = 3,
+    CLIENT_ERROR = 4,
+    SERVER_ERROR = 5
+};
+
+struct HTTPRecord
+{
+    enum HTTPStatusCode code;
+    string data;
 };
 
 struct RSSRecord
@@ -44,12 +53,14 @@ protected:
 class RSSReceiver : protected Receiver <RSSRecord>
 {
 public:
-    void operator()(queue<RSSRecord>* pipe);
+    void operator()(queue<RSSRecord>* pipe, condition_variable* inCond, mutex* m);
 private:
     set<string> guids;
 
-    HTTPResponce downloadSource();
-    void parseFeed(HTTPResponce input);
+    HTTPRecord parseHTTP(const string responce);
+    void parseFeed(HTTPRecord input);
+    bool parseUrl(const string url, string& address, int& port, string& path);
+    string downloadSource(const string url);
 };
 
 class TestReceiver : protected Receiver <TestRecord>
