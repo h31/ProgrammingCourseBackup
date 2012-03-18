@@ -8,8 +8,8 @@
 class Dispatcher
 {
 public:
-    void operator()(queue<TestRecord>* inQueue, condition_variable* inputCond, mutex* inputMutex,
-                    queue<TestRecord>* outQueue, condition_variable* outputCond, mutex* outputMutex);
+    void operator()(queue<InRecord>* inQueue, condition_variable* inputCond, mutex* inputMutex,
+                    queue<OutRecord>* outQueue, condition_variable* outputCond, mutex* outputMutex);
 private:
     string html2txt(string html);
 };

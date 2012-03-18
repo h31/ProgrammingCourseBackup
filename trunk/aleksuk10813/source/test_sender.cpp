@@ -7,7 +7,7 @@
 
 using namespace std;
 
-void TestSender::operator()(queue<TestRecord>* pipe, condition_variable* cond, mutex* m)
+void TestSender::operator()(queue<OutRecord>* pipe, condition_variable* cond, mutex* m)
 {
     while (1)
     {
@@ -17,7 +17,7 @@ void TestSender::operator()(queue<TestRecord>* pipe, condition_variable* cond, m
         while (pipe->size() > 0)
         {
             cout << "Queue size: " << pipe->size() << endl;
-            TestRecord temp = pipe->front();
+            OutRecord temp = pipe->front();
             cout << "Title: " << temp.title << endl;
             cout << "Text: " << temp.text << endl;
             cout << endl;
