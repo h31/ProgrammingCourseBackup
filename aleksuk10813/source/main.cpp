@@ -8,9 +8,8 @@ using namespace std;
 
 int main()
 {
-    queue<InRecord>* testInQueue = new queue<InRecord>;
-    queue<OutRecord>* testOutQueue = new queue<OutRecord>;
-    queue<InRecord>* rssInQueue = new queue<InRecord>;
+    queue<InRecord>* inQueue = new queue<InRecord>;
+    queue<OutRecord>* outQueue = new queue<OutRecord>;
 
     TestReceiver testIn;
     Dispatcher dispatcher;
@@ -25,11 +24,12 @@ int main()
     condition_variable* outputCond = new condition_variable;
     //test->addSource("urlHere");
 
-    thread receiver(rssIn, rssInQueue, inputCond, inputMutex);
+    thread receiver2(testIn, inQueue, inputCond, inputMutex);
+    thread receiver(rssIn, inQueue, inputCond, inputMutex);
 
-    //thread disp(dispatcher, testInQueue, inputCond, inputMutex,
-    //                        testOutQueue, outputCond, outputMutex);
-    //thread sender(testOut, testOutQueue, outputCond, outputMutex);
+    thread disp(dispatcher, inQueue, inputCond, inputMutex,
+                            outQueue, outputCond, outputMutex);
+    thread sender(testOut, outQueue, outputCond, outputMutex);
 
     receiver.join();
 

@@ -11,6 +11,8 @@
 #include <string.h>
 #include <netdb.h>
 #include "pugixml.hpp"
+#include <mutex>
+#include <thread>
 
 using namespace std;
 
@@ -125,12 +127,12 @@ HTTPRecord RSSReceiver::parseHTTP(const string responce)
 
 }
 
-void RSSReceiver::parseFeed(vector<InRecord>& itemArray)
+void RSSReceiver::parseFeed(const string rssContent, vector<InRecord>& itemArray)
 {
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file("test_xml.txt");
+    pugi::xml_parse_result result = doc.load_buffer(rssContent.c_str(), rssContent.length());
     pugi::xml_node itemRoot = doc.child("rss").child("channel");
-    for (pugi::xml_node item = itemRoot.child("item"); item; item = itemRoot.next_sibling("item") )
+    for (pugi::xml_node item = itemRoot.child("item"); item; item = item.next_sibling("item") )
     {
         InRecord record;
         record.title = item.child_value("title");
@@ -143,11 +145,21 @@ void RSSReceiver::parseFeed(vector<InRecord>& itemArray)
 
 void RSSReceiver::operator()(queue<InRecord>* pipe, condition_variable* cond, mutex* m)
 {
+    string url = "http://news.yandex.ru/security.rss";
+    const string responce = downloadSource(url);
+    HTTPRecord record = parseHTTP(responce);
+    // TODO: обработка ошибок
     vector<InRecord> itemArray;
-    //string url = "http://news.yandex.ru/hardware.rss";
-    //const string responce = downloadSource(url);
-    //HTTPRecord record = parseHTTP(responce);
-    parseFeed(itemArray);
-    cout << "record.data";
+    parseFeed(record.data, itemArray);
+
+    unique_lock<mutex> lk(*m);
+    // lk.try_lock();
+
+    for (vector<InRecord>::iterator it = itemArray.begin(); it!=itemArray.end(); ++it)
+        pipe->push(*it);
+
+    lk.unlock();
+    cond->notify_one();
+    this_thread::sleep_for(chrono::minutes(5));
 }
 
