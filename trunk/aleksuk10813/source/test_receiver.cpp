@@ -30,4 +30,8 @@ void TestReceiver::operator()(queue<InRecord>* pipe, condition_variable* cond, m
 
         this_thread::sleep_for(chrono::seconds(1));
     }
+    // Workaround того, что после завершения потока Receiver программа падает
+    // реальная реализация Receiver работает постоянно, поэтому проблема
+    // касается только TestReceiver.
+    this_thread::sleep_for(chrono::minutes(10));
 }

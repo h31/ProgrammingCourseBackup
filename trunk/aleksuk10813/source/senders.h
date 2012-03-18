@@ -12,13 +12,6 @@ using namespace std;
 struct OutRecord
 {
     //enum ReceiverStatusCode code;
-    string feedName;
-    string title;
-    string data;
-    string link;
-    string guid;
-    string pubDate;
-    string from;
     string to;
     string subject;
     string text;

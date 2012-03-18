@@ -20,7 +20,11 @@ void Dispatcher::operator()(queue<InRecord>* inQueue, condition_variable* inputC
 
             // временно поломано
             unique_lock<mutex> outLock(*outputMutex);
-            //outQueue->push(temp);
+            OutRecord out;
+            out.subject = temp.title;
+            out.text = temp.data;
+            out.to = "";
+            outQueue->push(out);
             outLock.unlock();
             outputCond->notify_one();
         }

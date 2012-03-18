@@ -18,7 +18,8 @@ void TestSender::operator()(queue<OutRecord>* pipe, condition_variable* cond, mu
         {
             cout << "Queue size: " << pipe->size() << endl;
             OutRecord temp = pipe->front();
-            cout << "Title: " << temp.title << endl;
+            cout << "Subject: " << temp.subject << endl;
+            cout << "To: " << temp.to << endl;
             cout << "Text: " << temp.text << endl;
             cout << endl;
             pipe->pop();

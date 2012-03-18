@@ -53,7 +53,7 @@ private:
     set<string> guids;
 
     HTTPRecord parseHTTP(const string responce);
-    void parseFeed(vector<InRecord> &itemArray);
+    void parseFeed(const string rssContent, vector<InRecord> &itemArray);
     bool parseUrl(const string url, string& address, int& port, string& path);
     string downloadSource(const string url);
 };
