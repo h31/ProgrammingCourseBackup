@@ -8,9 +8,9 @@ using namespace std;
 
 int main()
 {
-    queue<TestRecord>* testInQueue = new queue<TestRecord>;
-    queue<TestRecord>* testOutQueue = new queue<TestRecord>;
-    queue<RSSRecord>* rssInQueue = new queue<RSSRecord>;
+    queue<InRecord>* testInQueue = new queue<InRecord>;
+    queue<OutRecord>* testOutQueue = new queue<OutRecord>;
+    queue<InRecord>* rssInQueue = new queue<InRecord>;
 
     TestReceiver testIn;
     Dispatcher dispatcher;

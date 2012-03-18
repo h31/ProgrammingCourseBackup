@@ -7,8 +7,9 @@
 #include <condition_variable>
 using namespace std;
 
-enum HTTPStatusCode
+enum ReceiverStatusCode
 {
+    // если что-то не так, то номер больше единицы
     OK = 1,
     NOT_IMPLEMENTED = 2,
     INVALID_DATA = 3,
@@ -16,27 +17,21 @@ enum HTTPStatusCode
     SERVER_ERROR = 5
 };
 
-struct HTTPRecord
+struct InRecord
 {
-    enum HTTPStatusCode code;
-    string data;
-};
-
-struct RSSRecord
-{
-    string feed;
-
+    //enum ReceiverStatusCode code;
+    string feedName;
     string title;
-    string description;
+    string data;
     string link;
     string guid;
     string pubDate;
 };
 
-struct TestRecord
+struct HTTPRecord
 {
-    string title;
-    string text;
+    enum ReceiverStatusCode code;
+    string data;
 };
 
 template <class T>
@@ -50,23 +45,23 @@ protected:
     set<string> sources;
 };
 
-class RSSReceiver : protected Receiver <RSSRecord>
+class RSSReceiver : protected Receiver <InRecord>
 {
 public:
-    void operator()(queue<RSSRecord>* pipe, condition_variable* inCond, mutex* m);
+    void operator()(queue<InRecord>* pipe, condition_variable* inCond, mutex* m);
 private:
     set<string> guids;
 
     HTTPRecord parseHTTP(const string responce);
-    void parseFeed(HTTPRecord input);
+    void parseFeed(vector<InRecord> &itemArray);
     bool parseUrl(const string url, string& address, int& port, string& path);
     string downloadSource(const string url);
 };
 
-class TestReceiver : protected Receiver <TestRecord>
+class TestReceiver : protected Receiver <InRecord>
 {
 public:
-    void operator()(queue<TestRecord>* pipe, condition_variable* inCond, mutex* m);
+    void operator()(queue<InRecord>* pipe, condition_variable* inCond, mutex* m);
 };
 
 #endif // RECEIVERS_H

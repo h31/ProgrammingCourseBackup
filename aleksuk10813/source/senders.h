@@ -9,9 +9,15 @@
 
 using namespace std;
 
-
-struct SMTPRecord
+struct OutRecord
 {
+    //enum ReceiverStatusCode code;
+    string feedName;
+    string title;
+    string data;
+    string link;
+    string guid;
+    string pubDate;
     string from;
     string to;
     string subject;
@@ -29,22 +35,22 @@ protected:
     set<string> destinations;
 };
 
-class SMTPSender : protected Sender <SMTPRecord>
+class SMTPSender : protected Sender <OutRecord>
 {
 public:
-    void operator()(queue<SMTPRecord>* pipe, condition_variable* cond, mutex* m);
+    void operator()(queue<OutRecord>* pipe, condition_variable* cond, mutex* m);
 private:
-    string genEmail(SMTPRecord input);
+    string genEmail(OutRecord input);
     bool sendEmail(string email,
                    string from,
                    string to);
 
 };
 
-class TestSender : protected Sender <TestRecord>
+class TestSender : protected Sender <OutRecord>
 {
 public:
-    void operator()(queue<TestRecord>* pipe, condition_variable* cond, mutex* m);
+    void operator()(queue<OutRecord>* pipe, condition_variable* cond, mutex* m);
 };
 
 #endif // SENDERS_H

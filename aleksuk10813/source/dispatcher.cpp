@@ -5,8 +5,8 @@
 
 using namespace std;
 
-void Dispatcher::operator()(queue<TestRecord>* inQueue, condition_variable* inputCond, mutex* inputMutex,
-                            queue<TestRecord>* outQueue, condition_variable* outputCond, mutex* outputMutex)
+void Dispatcher::operator()(queue<InRecord>* inQueue, condition_variable* inputCond, mutex* inputMutex,
+                            queue<OutRecord>* outQueue, condition_variable* outputCond, mutex* outputMutex)
 {
     while (1)
     {
@@ -15,11 +15,12 @@ void Dispatcher::operator()(queue<TestRecord>* inQueue, condition_variable* inpu
 
         while (inQueue->size() > 0)
         {
-            TestRecord temp = inQueue->front();
+            InRecord temp = inQueue->front();
             inQueue->pop();
 
+            // временно поломано
             unique_lock<mutex> outLock(*outputMutex);
-            outQueue->push(temp);
+            //outQueue->push(temp);
             outLock.unlock();
             outputCond->notify_one();
         }
