@@ -20,6 +20,18 @@ enum CellType
 
 class Figure
 {
+	//возможность хода пешки
+	bool canPawnTurn(Figure ** desk,const int startX,const int startY,const int finishX,const int finishY, const bool whitePlayer);
+	//возможность хода короля
+	bool canKingTurn(Figure ** desk,const int startX,const int startY,const int finishX,const int finishY);
+	//возможность хода ладьи
+	bool canRookTurn(Figure ** desk,const int startX,const int startY,const int finishX,const int finishY);
+	//возможность хода ферзя
+	bool canQueenTurn(Figure ** desk,const int startX,const int startY,const int finishX,const int finishY);
+	//возможность хода коня
+	bool canHourseTurn(Figure ** desk,const int startX,const int startY,const int finishX,const int finishY);
+	//возможность хода слона
+	bool canElephantTurn(Figure ** desk,const int startX,const int startY,const int finishX,const int finishY);
 public:
 	//цвет фигуры
 	bool whiteFigure;
@@ -31,6 +43,8 @@ public:
 	int steps;
 	//конструктор
 	Figure();
+
+	friend class Desk;
 };
 
 #endif
