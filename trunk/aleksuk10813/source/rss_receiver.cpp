@@ -1,15 +1,20 @@
 #include "receivers.h"
 
 #include <iostream>
-
+#ifdef __MINGW32__
+#define _WIN32_WINNT 0x0601
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#else
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <netdb.h>
+#endif
 #include <string>
 #include <stdlib.h>
 #include <string.h>
-#include <netdb.h>
 #include "pugixml.hpp"
 #include <mutex>
 #include <thread>
@@ -50,6 +55,16 @@ string RSSReceiver::downloadSource(const string url)
     int port;
     string request;
     string responce;
+
+#ifdef __MINGW32__
+    WSADATA wsaData;
+    int iResult;
+
+    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+    if (iResult != 0) {
+        // TODO
+    }
+#endif
 
     parseUrl(url, address, port, path);
 
