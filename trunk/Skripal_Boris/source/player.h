@@ -14,21 +14,24 @@ class Player
 {
 	//текущий победитель
 	Winner winner;
-	//возможность рокировки
-	bool canRokirovkaWhite;
-	bool canRokirovkaBlack;
 	//ход первого или второго игрока (true - сейчас ходит игрок играющий белыми фигурами)
 	bool whitePlayerTurn;
 	//проверка победителя
 	void checkWinner();
 	//проверка возможности хода
-	bool canTurn(int startX,int startY,int finishX,int finishY);
+	bool canTurn(const int startX,const int startY,const int finishX,const int finishY);
+	//рокировка
+	bool makeСastling(const int startX,const int startY,const int finishX,const int finishY);
 public:
 	//конструктор
 	Player();
 	//игровое поле
 	Desk board;
 	//совершение хода
-	bool makeTurn(int startX,int startY,int finishX,int finishY);
+	bool makeTurn(const int startX,const int startY,const int finishX,const int finishY);
+	//проверка наличия победителя
+	bool haveWinner();
+	//чей ход текущий
+	bool whitePlayerTurnNow();
 };
 #endif
