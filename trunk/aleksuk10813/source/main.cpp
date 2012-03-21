@@ -7,36 +7,42 @@
 #include "logger.h"
 #include "tests.h"
 
+const bool TESTING = true;
+
 using namespace std;
 
 int main()
 {
-    queue<InRecord>* inQueue = new queue<InRecord>;
-    queue<OutRecord>* outQueue = new queue<OutRecord>;
+    if (TESTING)
+    {
+        testSequence();
+    }
+    else
+    {
+        queue<InRecord>* inQueue = new queue<InRecord>;
+        queue<OutRecord>* outQueue = new queue<OutRecord>;
 
-    TestReceiver testIn;
-    Dispatcher dispatcher;
-    TestSender testOut;
+        TestReceiver testIn;
+        Dispatcher dispatcher;
+        TestSender testOut;
 
-    RSSReceiver rssIn;
+        RSSReceiver rssIn;
 
-    mutex* inputMutex = new mutex;
-    mutex* outputMutex = new mutex;
+        mutex* inputMutex = new mutex;
+        mutex* outputMutex = new mutex;
 
-    condition_variable* inputCond = new condition_variable;
-    condition_variable* outputCond = new condition_variable;
-    rssIn.addSource("http://news.yandex.ru/security.rss");
+        condition_variable* inputCond = new condition_variable;
+        condition_variable* outputCond = new condition_variable;
+        rssIn.addSource("http://news.yandex.ru/security.rss");
 
-    thread receiver2(testIn, inQueue, inputCond, inputMutex);
-    thread receiver(rssIn, inQueue, inputCond, inputMutex);
+        thread receiver2(testIn, inQueue, inputCond, inputMutex);
+        thread receiver(rssIn, inQueue, inputCond, inputMutex);
 
-    thread disp(dispatcher, inQueue, inputCond, inputMutex,
-                            outQueue, outputCond, outputMutex);
-    thread sender(testOut, outQueue, outputCond, outputMutex);
-
-    receiver2.join();
-
-    // testSequence();
+        thread disp(dispatcher, inQueue, inputCond, inputMutex,
+                    outQueue, outputCond, outputMutex);
+        thread sender(testOut, outQueue, outputCond, outputMutex);
+        receiver2.join();
+    }
 
     return 0;
 }

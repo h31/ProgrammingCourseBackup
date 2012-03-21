@@ -16,5 +16,6 @@ bool test2();
 bool test3();
 bool test4();
 bool test5();
+bool test6();
 
 #endif // TESTS_H
