@@ -178,3 +178,7 @@ void RSSReceiver::operator()(queue<InRecord>* pipe, condition_variable* cond, mu
     this_thread::sleep_for(chrono::minutes(5));
 }
 
+template <class T> bool Receiver<T>::addSource(string src, int interval)
+{
+    sources.insert(src);
+}

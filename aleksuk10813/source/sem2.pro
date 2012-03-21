@@ -9,13 +9,17 @@ SOURCES += main.cpp \
     rss_receiver.cpp \
     dispatcher.cpp \
     test_sender.cpp \
-    pugixml.cpp
+    pugixml.cpp \
+    logger.cpp \
+    tests.cpp
 
 HEADERS += \
     receivers.h \
     dispatcher.h \
     remote_control.h \
-    senders.h
+    senders.h \
+    logger.h \
+    tests.h
 
 OTHER_FILES += \
     test_xml.txt
