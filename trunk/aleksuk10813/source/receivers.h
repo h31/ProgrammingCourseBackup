@@ -49,7 +49,7 @@ class RSSReceiver : protected Receiver <InRecord>
 {
 public:
     void operator()(queue<InRecord>* pipe, condition_variable* inCond, mutex* m);
-private:
+protected:
     set<string> guids;
 
     HTTPRecord parseHTTP(const string responce);

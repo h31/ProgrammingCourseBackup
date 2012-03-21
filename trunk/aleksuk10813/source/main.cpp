@@ -3,6 +3,7 @@
 #include <pthread.h>
 #include <thread>
 #include <mutex>
+#include "logger.h"
 
 using namespace std;
 
@@ -24,16 +25,16 @@ int main()
     condition_variable* outputCond = new condition_variable;
     //test->addSource("urlHere");
 
-    thread receiver2(testIn, inQueue, inputCond, inputMutex);
-    thread receiver(rssIn, inQueue, inputCond, inputMutex);
+    //thread receiver2(testIn, inQueue, inputCond, inputMutex);
+    //thread receiver(rssIn, inQueue, inputCond, inputMutex);
 
-    thread disp(dispatcher, inQueue, inputCond, inputMutex,
-                            outQueue, outputCond, outputMutex);
-    thread sender(testOut, outQueue, outputCond, outputMutex);
+    //thread disp(dispatcher, inQueue, inputCond, inputMutex,
+    //                        outQueue, outputCond, outputMutex);
+    //thread sender(testOut, outQueue, outputCond, outputMutex);
 
-    receiver.join();
+    //receiver.join();
 
-    //cout << testInQueue->size();
+    log(INFO, "test");
 
     return 0;
 }
