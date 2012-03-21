@@ -11,7 +11,8 @@ SOURCES += main.cpp \
     test_sender.cpp \
     pugixml.cpp \
     logger.cpp \
-    tests.cpp
+    tests.cpp \
+    shared.cpp
 
 HEADERS += \
     receivers.h \
@@ -19,7 +20,8 @@ HEADERS += \
     remote_control.h \
     senders.h \
     logger.h \
-    tests.h
+    tests.h \
+    shared.h
 
 OTHER_FILES += \
     test_xml.txt

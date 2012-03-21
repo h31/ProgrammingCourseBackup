@@ -7,12 +7,11 @@ using namespace std;
 
 enum Importance
 {
-    FATAL_ERROR = 0,
-    SOLVABLE_PROBLEM = 1,
+    ERROR = 1,
     INFO = 2,
     DEBUG = 3
 };
 
-void log(enum Importance importance, char *message);
+void log(enum Importance importance, const char *unit_name, const char *message);
 
 #endif // LOGGER_H

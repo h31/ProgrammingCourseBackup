@@ -1,6 +1,3 @@
-#include "receivers.h"
-
-#include <iostream>
 #ifdef __MINGW32__
 #define _WIN32_WINNT 0x0601
 #include <winsock2.h>
@@ -12,12 +9,18 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #endif
+
 #include <string>
 #include <stdlib.h>
 #include <string.h>
-#include "pugixml.hpp"
 #include <mutex>
 #include <thread>
+#include <iostream>
+
+#include "pugixml.hpp"
+#include "receivers.h"
+#include "shared.h"
+#include "logger.h"
 
 using namespace std;
 
@@ -25,7 +28,11 @@ bool RSSReceiver::parseUrl(const string url, string& address, int& port, string&
 {
     const int prefixLen = strlen("http://");
     int slashPos = url.find('/', prefixLen); // ищём разделитель между адресом и путём
-    // TODO: если нет слэша в конце
+    if (slashPos == -1)
+    {
+        log(ERROR, "HTTPClient", "invalid URL");
+        throw HTTPClientException();
+    }
 
     if (url.substr(0, prefixLen) != "http://")
         return false;
@@ -55,32 +62,47 @@ string RSSReceiver::downloadSource(const string url)
     int port;
     string request;
     string responce;
+    const char* unit_name = "HTTPClient";
 
 #ifdef __MINGW32__
     WSADATA wsaData;
     int iResult;
 
     iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
-    if (iResult != 0) {
-        // TODO
+    if (iResult != 0)
+    {
+        log(ERROR, unit_name, "WSAStartup error");
+        throw HTTPClientException;
     }
 #endif
 
     parseUrl(url, address, port, path);
 
     gaiStatus = getaddrinfo(address.c_str(), NULL, NULL, &gaiResult);
+    if (gaiStatus != 0)
+    {
+        log(ERROR, unit_name, "getaddrinfo error");
+        throw HTTPClientException();
+    }
 
-    peer.sin_family = AF_INET;
+    peer.sin_family = gaiResult->ai_family;
     peer.sin_port = htons(80);
     sockaddr_ipv4 = (struct sockaddr_in *) gaiResult->ai_addr;
     peer.sin_addr = sockaddr_ipv4->sin_addr;
-    //peer.sin_addr.s_addr = inet_addr(address.c_str() );
 
     sock = socket(AF_INET, SOCK_STREAM, 0);
-    if (sock < 0) {} //TODO: Log
+    if (sock < 0)
+    {
+        log(ERROR, unit_name, "socket error");
+        throw HTTPClientException();
+    }
 
     sockStatus = connect(sock, (struct sockaddr *)&peer, sizeof(peer) );
-    if (sockStatus) {} //TODO: Log
+    if (sockStatus)
+    {
+        log(ERROR, unit_name, "connect error");
+        throw HTTPClientException();
+    }
 
     // Пример:
     // GET / HTTP/1.1
@@ -90,13 +112,21 @@ string RSSReceiver::downloadSource(const string url)
     request += "Host: " + address + "\r\n";
     request += "\r\n";
     sendStatus = send(sock, request.c_str(), request.length(), 0);
-    if ( sendStatus <= 0 ) {}  //TODO: Log
+    if ( sendStatus <= 0 )
+    {
+        log(ERROR, unit_name, "send error");
+        throw HTTPClientException();
+    }
 
     do {
         recvStatus = recv(sock, buf, sizeof(buf), 0);
         responce.append(buf, recvStatus);
+        // TODO: проверка на зависание
     } while (recvStatus > 0);
-    //if ( currStatus <= 0 ) {}  //TODO: Log
+
+    delete gaiResult;
+    // delete sockaddr_ipv4;
+
     return responce;
 }
 
@@ -137,6 +167,11 @@ HTTPRecord RSSReceiver::parseHTTP(const string responce)
     }
 
     int dataStart = responce.find("\r\n\r\n", prefixLen) + strlen("\r\n\r\n");
+    if (dataStart == -1)
+    {
+        log(ERROR, "HTTPClient", "invalid HTTP responce");
+        throw HTTPClientException();
+    }
     record.data = responce.substr(dataStart);
     return record;
 
@@ -146,7 +181,22 @@ void RSSReceiver::parseFeed(const string rssContent, vector<InRecord>& itemArray
 {
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_buffer(rssContent.c_str(), rssContent.length());
+    if (result.status != pugi::status_ok)
+    {
+        log(ERROR, "XMLParser", "Bad XML syntax");
+        throw XMLParserException();
+    }
     pugi::xml_node itemRoot = doc.child("rss").child("channel");
+    if (itemRoot == NULL)
+    {
+        log(ERROR, "XMLParser", "No rss or channel nodes");
+        throw XMLParserException();
+    }
+    if (itemRoot.child("item") == NULL)
+    {
+        log(ERROR, "XMLParser", "No item node");
+        throw XMLParserException();
+    }
     for (pugi::xml_node item = itemRoot.child("item"); item; item = item.next_sibling("item") )
     {
         InRecord record;
@@ -160,25 +210,25 @@ void RSSReceiver::parseFeed(const string rssContent, vector<InRecord>& itemArray
 
 void RSSReceiver::operator()(queue<InRecord>* pipe, condition_variable* cond, mutex* m)
 {
-    string url = "http://news.yandex.ru/security.rss";
-    const string responce = downloadSource(url);
-    HTTPRecord record = parseHTTP(responce);
-    // TODO: обработка ошибок
-    vector<InRecord> itemArray;
-    parseFeed(record.data, itemArray);
+    for(set<string>::const_iterator it = sources.begin(); it != sources.end(); it++)
+    {
+        const string responce = downloadSource(*it);
+        HTTPRecord record = parseHTTP(responce);
+        if (record.code != OK)
+        {
+            log(ERROR, "HTTPClient", "bad HTTP status code");
+            throw HTTPClientException();
+        }
+        vector<InRecord> itemArray;
+        parseFeed(record.data, itemArray);
 
-    unique_lock<mutex> lk(*m);
-    // lk.try_lock();
+        unique_lock<mutex> lk(*m);
+        // lk.try_lock();
 
-    for (vector<InRecord>::iterator it = itemArray.begin(); it!=itemArray.end(); ++it)
-        pipe->push(*it);
+        for (vector<InRecord>::iterator it = itemArray.begin(); it!=itemArray.end(); ++it)
+            pipe->push(*it);
 
-    lk.unlock();
-    cond->notify_one();
-    this_thread::sleep_for(chrono::minutes(5));
-}
-
-template <class T> bool Receiver<T>::addSource(string src, int interval)
-{
-    sources.insert(src);
+        lk.unlock();
+        cond->notify_one();
+    }
 }

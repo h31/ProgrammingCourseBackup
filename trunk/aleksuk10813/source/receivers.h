@@ -38,14 +38,14 @@ template <class T>
 class Receiver
 {
 public:
-    bool addSource(string src, int interval=15);
-    bool removeSource(string src);
+    void addSource(const string src, int interval=15);
+    void removeSource(const string src);
     void operator()(queue<T>* pipe, condition_variable* inCond, mutex* m);
 protected:
     set<string> sources;
 };
 
-class RSSReceiver : protected Receiver <InRecord>
+class RSSReceiver : public Receiver <InRecord>
 {
 public:
     void operator()(queue<InRecord>* pipe, condition_variable* inCond, mutex* m);
@@ -55,10 +55,10 @@ protected:
     HTTPRecord parseHTTP(const string responce);
     void parseFeed(const string rssContent, vector<InRecord> &itemArray);
     bool parseUrl(const string url, string& address, int& port, string& path);
-    string downloadSource(const string url);
+    virtual string downloadSource(const string url);
 };
 
-class TestReceiver : protected Receiver <InRecord>
+class TestReceiver : public Receiver <InRecord>
 {
 public:
     void operator()(queue<InRecord>* pipe, condition_variable* inCond, mutex* m);

@@ -1,9 +1,11 @@
 #include <iostream>
-#include "dispatcher.h"
 #include <pthread.h>
 #include <thread>
 #include <mutex>
+
+#include "dispatcher.h"
 #include "logger.h"
+#include "tests.h"
 
 using namespace std;
 
@@ -23,18 +25,18 @@ int main()
 
     condition_variable* inputCond = new condition_variable;
     condition_variable* outputCond = new condition_variable;
-    //test->addSource("urlHere");
+    rssIn.addSource("http://news.yandex.ru/security.rss");
 
-    //thread receiver2(testIn, inQueue, inputCond, inputMutex);
-    //thread receiver(rssIn, inQueue, inputCond, inputMutex);
+    thread receiver2(testIn, inQueue, inputCond, inputMutex);
+    thread receiver(rssIn, inQueue, inputCond, inputMutex);
 
-    //thread disp(dispatcher, inQueue, inputCond, inputMutex,
-    //                        outQueue, outputCond, outputMutex);
-    //thread sender(testOut, outQueue, outputCond, outputMutex);
+    thread disp(dispatcher, inQueue, inputCond, inputMutex,
+                            outQueue, outputCond, outputMutex);
+    thread sender(testOut, outQueue, outputCond, outputMutex);
 
-    //receiver.join();
+    receiver2.join();
 
-    log(INFO, "test");
+    // testSequence();
 
     return 0;
 }
