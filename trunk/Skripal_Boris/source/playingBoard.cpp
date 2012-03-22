@@ -148,3 +148,25 @@ void Desk::putFigure(Type typeFigure, const bool white, int x, int y)
 	desk[x][y].type=typeFigure;
 	desk[x][y].steps=0;
 }
+
+bool Desk::checkKingsShah(const bool whitePlayerTurn)
+{
+	int kingCoordinateX, kingCoordinateY;
+	for(int i=0;i<8;i++)
+	{
+		for(int k=0;k<8;k++)
+			if(desk[i][k].type==king && desk[i][k].whiteFigure==whitePlayerTurn)
+			{
+				kingCoordinateX=i;
+				kingCoordinateY=k;
+				cout<<kingCoordinateX+1<<" "<<kingCoordinateY+1<<endl;
+				break;
+			}
+	}
+	for(int i=0;i<8;i++)
+		for(int k=0;k<8;k++)
+			if(desk[i][k].type!=emptyCell && desk[i][k].whiteFigure!=whitePlayerTurn)
+				if(canFigureTurn(i, k, kingCoordinateX, kingCoordinateY,whitePlayerTurn)==true)
+					return true;
+	return false;
+}

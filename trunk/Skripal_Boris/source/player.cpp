@@ -36,20 +36,29 @@ bool Player::canTurn(const int startX,const int startY,const int finishX,const i
 
 bool Player::makeTurn(const int startX,const int startY,const int finishX,const int finishY)
 {
+	if(board.checkKingsShah(whitePlayerTurn)==true)
+		cout<<"Shah"<<endl;
 	if(makeÑastling(startX,startY,finishX,finishY)==true)
 	{
 		if(whitePlayerTurn==true)
 		whitePlayerTurn=false;
 	else
 		whitePlayerTurn=true;
+	if(board.checkKingsShah(whitePlayerTurn)==true)
+		return false;
 		return true;
 	}
 	if(canTurn(startX,startY,finishX,finishY)==false)
 		return false;
-	board.desk[finishX][finishY].type=board.desk[startX][startY].type;
-	board.desk[finishX][finishY].whiteFigure=board.desk[startX][startY].whiteFigure;
-	board.desk[finishX][finishY].steps=board.desk[startX][startY].steps;
+	Figure a = board.desk[finishX][finishY];
+	board.desk[finishX][finishY]=board.desk[startX][startY];
 	board.desk[startX][startY].type=emptyCell;
+	if(board.checkKingsShah(whitePlayerTurn)==true)
+	{
+		board.desk[startX][startY] = board.desk[finishX][finishY];
+		board.desk[finishX][finishY] = a;
+		return false;
+	}
 	board.desk[finishX][finishY].steps++;
 	board.desk[startX][startY].steps=0;
 	//checkWinner();

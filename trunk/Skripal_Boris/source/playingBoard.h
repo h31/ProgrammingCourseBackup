@@ -9,8 +9,7 @@ class Desk
 	void createNewPlayingBoard();
 	//проверка на мат
 	bool checkKingsMat(const bool whitePlayerTurn);
-	//проверка на шах
-	bool checkKingsShah(const bool whitePlayerTurn);
+	
 public:
 	//игровая доска
 	Figure **desk;
@@ -24,6 +23,8 @@ public:
 	void putFigure(Type typeFigure,const bool white, int x, int y);
 	//может ли фигура сходить
 	bool canFigureTurn(const int startX, const int startY, const int finishX, const int finishY, const bool whitePlayerTurn);
+	//проверка на шах
+	bool checkKingsShah(const bool whitePlayerTurn);
 };
 
 #endif
