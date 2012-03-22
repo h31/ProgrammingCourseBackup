@@ -43,6 +43,8 @@ public:
 	int steps;
 	//конструктор
 	Figure();
+	//оператор присваивания
+	Figure& operator = (const Figure& figure);
 
 	friend class Desk;
 };

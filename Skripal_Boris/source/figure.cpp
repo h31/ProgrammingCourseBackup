@@ -149,3 +149,12 @@ bool Figure::canElephantTurn(Figure ** desk,const int startX,const int startY,co
 	return false;
 }
 
+Figure& Figure::operator = (const Figure& figure)
+{
+	if(this==&figure)
+		return *this;
+
+	type=figure.type;
+	whiteFigure=figure.whiteFigure;
+	steps=figure.steps;
+}
