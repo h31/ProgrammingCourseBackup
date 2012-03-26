@@ -132,20 +132,20 @@ string RSSReceiver::downloadSource(const string url)
 
 HTTPRecord RSSReceiver::parseHTTP(const string responce)
 {
-    const int prefixLen = strlen("HTTP/1.1");
+    const int prefixLen = strlen("HTTP");
     HTTPRecord record;
 
     // Пример:
     // HTTP/1.1 200 Ok
 
-    if (responce.substr(0, prefixLen) != "HTTP/1.1")
+    if (responce.substr(0, prefixLen) != "HTTP")
     {
         record.code = INVALID_DATA;
         return record;
     }
 
     // Проверяем код состояния
-    switch (responce[prefixLen+1]) {
+    switch (responce[prefixLen+5]) {
     case '1':
         record.code = NOT_IMPLEMENTED;
         return record;
