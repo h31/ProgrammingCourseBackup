@@ -20,7 +20,6 @@
 #include "pugixml.hpp"
 #include "receivers.h"
 #include "shared.h"
-#include "logger.h"
 
 using namespace std;
 
@@ -145,7 +144,7 @@ HTTPRecord RSSReceiver::parseHTTP(const string responce)
     }
 
     // Проверяем код состояния
-    switch (responce[prefixLen+5]) {
+    switch (responce[prefixLen+strlen("/1.1 ")]) {
     case '1':
         record.code = NOT_IMPLEMENTED;
         return record;

@@ -10,16 +10,15 @@ SOURCES += main.cpp \
     dispatcher.cpp \
     test_sender.cpp \
     pugixml.cpp \
-    logger.cpp \
     tests.cpp \
-    shared.cpp
+    shared.cpp \
+    remote_control.cpp
 
 HEADERS += \
     receivers.h \
     dispatcher.h \
     remote_control.h \
     senders.h \
-    logger.h \
     tests.h \
     shared.h
 

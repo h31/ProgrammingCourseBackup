@@ -4,7 +4,6 @@
 #include <mutex>
 
 #include "tests.h"
-#include "logger.h"
 #include "shared.h"
 
 string TestRSSReceiver::downloadSource(const string url)
@@ -33,10 +32,11 @@ void testSequence()
 {
     runTest(test1, "test1 (Ошибки HTTP - случайные данные)");
     runTest(test2, "test2 (Ошибки HTTP - ошибка сервера)");
-    runTest(test3, "test3 (Ошибки разбора XML - некорректный XML)");
+//    runTest(test3, "test3 (Ошибки разбора XML - некорректный XML)");
     runTest(test4, "test4 (Ошибки разбора XML - некорректный RSS №1)");
     runTest(test5, "test5 (Ошибки разбора XML - некорректный RSS №2)");
     runTest(test6, "test6 (Ошибки разбора XML - образцовый RSS)");
+    runTest(test7, "test7 (Ошибка сети - IPv6)");
 }
 
 bool test1()
@@ -152,13 +152,31 @@ bool test6()
         testObj(pipe, inCond, m);
         InRecord test_record = pipe->front();
         if (reference_record.data == test_record.data &&
-            reference_record.link == test_record.link &
+            reference_record.link == test_record.link &&
             reference_record.title == test_record.title)
             return true;
         else
             return false;
     }
     catch (XMLParserException& e)
+    {
+        return false;
+    }
+}
+
+bool test7()
+{
+    RSSReceiver testObj;
+    testObj.addSource("http://www.ipv6.mx/index.php?format=feed&type=rss");
+    queue<InRecord>* pipe = new queue<InRecord>;
+    condition_variable* inCond = new condition_variable;
+    mutex* m = new mutex;
+    try
+    {
+        testObj(pipe, inCond, m);
+        return true;
+    }
+    catch (HTTPClientException& e)
     {
         return false;
     }

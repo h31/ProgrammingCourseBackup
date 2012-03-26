@@ -4,8 +4,8 @@
 #include <mutex>
 
 #include "dispatcher.h"
-#include "logger.h"
 #include "tests.h"
+#include "remote_control.h"
 
 const bool TESTING = true;
 
@@ -15,7 +15,11 @@ int main()
 {
     if (TESTING)
     {
-        testSequence();
+        //testSequence();
+        condition_variable* inputCond = new condition_variable;
+        mutex* inputMutex = new mutex;
+        RemoteControl r;
+        r(inputCond, inputMutex);
     }
     else
     {
