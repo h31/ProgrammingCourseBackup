@@ -33,7 +33,7 @@ int main()
 
         condition_variable* inputCond = new condition_variable;
         condition_variable* outputCond = new condition_variable;
-        rssIn.addSource("http://news.yandex.ru/security.rss");
+        rssIn.addSource("http://127.0.0.1/security.rss");
 
         thread receiver2(testIn, inQueue, inputCond, inputMutex);
         thread receiver(rssIn, inQueue, inputCond, inputMutex);
