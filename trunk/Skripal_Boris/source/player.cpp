@@ -1,118 +1,37 @@
 #include "player.h"
 
-#include <iostream>
-
-using namespace std;
-
 Player::Player()
 {
 	winner = nobody;
-	whitePlayerTurn = true;
+	whitePlayerTurnNow = true;
 }
 
-bool Player::canTurn(const int startX,const int startY,const int finishX,const int finishY)
+bool Player::makeTurn(int startX, int startY,int finishX, int finishY)
 {
-	if(startX<0 || startX>7 || finishX< 0 || finishX>7)
-	{
-		cout<<"Uncorrectly coordinates"<<endl;
-		return false;
-	}
-	if(startY<0 || startY>7 || finishY< 0 || finishY>7)
-	{
-		cout<<"Uncorrectly coordinates"<<endl;
-		return false;
-	}
-	if(board.desk[startX][startY].type==emptyCell)
-		return false;
-	if(board.desk[startX][startY].whiteFigure!=whitePlayerTurn)
-		return false;
-	if(board.desk[finishX][finishY].whiteFigure == whitePlayerTurn && board.desk[finishX][finishY].type!=emptyCell)
-		return false;
-	if(board.canFigureTurn(startX,startY,finishX,finishY,whitePlayerTurn)==true)
-		return true;
-
-	return false;
-}
-
-bool Player::makeTurn(const int startX,const int startY,const int finishX,const int finishY)
-{
-	if(board.checkKingsShah(whitePlayerTurn)==true)
-		cout<<"Shah"<<endl;
-	if(make—astling(startX,startY,finishX,finishY)==true)
-	{
-		if(whitePlayerTurn==true)
-		whitePlayerTurn=false;
-	else
-		whitePlayerTurn=true;
-	if(board.checkKingsShah(whitePlayerTurn)==true)
-		return false;
-		return true;
-	}
-	if(canTurn(startX,startY,finishX,finishY)==false)
-		return false;
-	Figure a = board.desk[finishX][finishY];
-	board.desk[finishX][finishY]=board.desk[startX][startY];
-	board.desk[startX][startY].type=emptyCell;
-	if(board.checkKingsShah(whitePlayerTurn)==true)
-	{
-		board.desk[startX][startY] = board.desk[finishX][finishY];
-		board.desk[finishX][finishY] = a;
-		return false;
-	}
-	board.desk[finishX][finishY].steps++;
-	board.desk[startX][startY].steps=0;
 	//checkWinner();
-	if(whitePlayerTurn==true)
-		whitePlayerTurn=false;
-	else
-		whitePlayerTurn=true;
-	return true;
-}
 
-bool Player::haveWinner()
-{
-	if(winner!=nobody)
-		return true;
-	else
+	/*if(desk.checkShah(whitePlayerTurnNow)==true)
+		cout<<"Shah"<<endl;*/
+	int numberOfFigure= -1;
+	for(int i=0;i<32;i++)
+		if(desk.figure[i]->coordinateX==startX && desk.figure[i]->coordinateY==startY)
+			numberOfFigure=i;
+	if(numberOfFigure ==-1)
 		return false;
-}
-
-bool Player::whitePlayerTurnNow()
-{
-	if(whitePlayerTurn==true)
-		return true;
-	else
+	if(desk.figure[numberOfFigure]->whiteColour!=whitePlayerTurnNow)
 		return false;
-}
 
-bool Player::make—astling(const int startX,const int startY,const int finishX,const int finishY)
-{
-	int startRookCoordinatesX, startRookCoordinatesY,finishRookCoordinatesX,finishRookCoordinatesY;
-	if(board.desk[startX][startY].type==king)
-		if((startY-finishY)==0&&abs(finishX-startX)==2)
-			if(board.desk[startX][startY].steps==0)
-			{
-				cout<<"If you want make castling please enter cootdinates of rook. Else please enter coordinates of other figures"<<endl;
-				cin>>startRookCoordinatesX>>startRookCoordinatesY;
-				startRookCoordinatesX--;
-				startRookCoordinatesY--;
-				finishRookCoordinatesY=startRookCoordinatesY;
-				finishRookCoordinatesX=startX-(startX-startRookCoordinatesX)/abs(startX-startRookCoordinatesX);
-				if(board.desk[startRookCoordinatesX][startRookCoordinatesY].type==rook)
-					if(board.desk[startRookCoordinatesX][startRookCoordinatesY].whiteFigure==whitePlayerTurn)
-						if(board.desk[startRookCoordinatesX][startRookCoordinatesY].steps==0)
-							if(board.canFigureTurn(startRookCoordinatesX,startRookCoordinatesY,finishRookCoordinatesX,finishRookCoordinatesY,whitePlayerTurn)==true)
-							{
-								board.desk[startX-2*(startX-startRookCoordinatesX)/abs(startX-startRookCoordinatesX)][startY]=board.desk[startX][startY];
-								board.desk[finishRookCoordinatesX][finishRookCoordinatesY]=board.desk[startRookCoordinatesX][startRookCoordinatesY];
-								board.desk[startX-2*(startX-startRookCoordinatesX)/abs(startX-startRookCoordinatesX)][startY].steps++;
-								board.desk[startRookCoordinatesX][startRookCoordinatesY].steps++;
-								board.desk[startRookCoordinatesX][startRookCoordinatesY].type=emptyCell;
-								board.desk[startX][startY].type=emptyCell;
-								cout<<"Sucsess castling"<<endl;
-								return true;
-							}
-			}
+	if(desk.figure[numberOfFigure]->canFigureTurn(finishX,finishY,desk.figure)==false)
+		return false;
+	else
+	{
+		for(int i=0;i<32;i++)
+			if(desk.figure[i]->coordinateX == finishX &&  desk.figure[i]->coordinateY== finishY && desk.figure[i]->isFigureEat==false)
+				desk.figure[numberOfFigure]->eatFigure(finishX,finishY,desk.figure);
+			else
+				desk.figure[numberOfFigure]->putFigure(finishX,finishY);
+		return true;
+	}
+
 	return false;
-
 }

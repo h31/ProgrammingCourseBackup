@@ -1,52 +1,27 @@
 #ifndef _figure_h_
 #define _figure_h_
 
-enum Type
-{
-	emptyCell,//Пустая клетка
-	elephant,//слон
-	horse,//конь
-	king,//король
-	pawn,//пешка
-	queen,//ферзь
-	rook//ладья
-};
+#include <iostream>
 
-enum CellType
-{
-	blackCell,//чёрная клетка
-	whiteCell//Белая клетка
-};
+//#include "playingBoard.h"
+using namespace std;
+
+class Desk;
 
 class Figure
 {
-	//возможность хода пешки
-	bool canPawnTurn(Figure ** desk,const int startX,const int startY,const int finishX,const int finishY, const bool whitePlayer);
-	//возможность хода короля
-	bool canKingTurn(Figure ** desk,const int startX,const int startY,const int finishX,const int finishY);
-	//возможность хода ладьи
-	bool canRookTurn(Figure ** desk,const int startX,const int startY,const int finishX,const int finishY);
-	//возможность хода ферзя
-	bool canQueenTurn(Figure ** desk,const int startX,const int startY,const int finishX,const int finishY);
-	//возможность хода коня
-	bool canHourseTurn(Figure ** desk,const int startX,const int startY,const int finishX,const int finishY);
-	//возможность хода слона
-	bool canElephantTurn(Figure ** desk,const int startX,const int startY,const int finishX,const int finishY);
 public:
-	//цвет фигуры
-	bool whiteFigure;
-	//цвет клетки
-	CellType cellType;
-	//тип фигуры
-	Type type;
-	//количество ходов, сделанных фигурой
+	int coordinateX;
+	int coordinateY;
 	int steps;
-	//конструктор
-	Figure();
-	//оператор присваивания
-	Figure& operator = (const Figure& figure);
+	bool whiteColour;
+	bool isFigureEat;
 
-	friend class Desk;
+	virtual bool canFigureTurn(int,int, Figure **)=0;
+
+	bool isFinishCellTrue(int xCoordinate,int yCoordinate, Figure ** figure);
+	void putFigure(int xCoordinate,int yCoordinate);
+	void eatFigure(int xCoordinate,int yCoordinate, Figure **figure);
 };
 
 #endif
