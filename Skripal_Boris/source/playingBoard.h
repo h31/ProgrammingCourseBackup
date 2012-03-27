@@ -1,30 +1,32 @@
-#include "figure.h"
+#pragma once
 
 #ifndef _playingBoard_h_
 #define _playingBoard_h_
+#include "figure.h"
+
+#include "elephant.h"
+#include "horse.h"
+#include "king.h"
+#include "pawn.h"
+#include "queen.h"
+#include "rook.h"
+
 
 class Desk
 {
-	//очистка доски
-	void createNewPlayingBoard();
-	//проверка на мат
-	bool checkKingsMat(const bool whitePlayerTurn);
-	
 public:
-	//игровая доска
-	Figure **desk;
-	//конструктор
+	Figure **figure;
+
 	Desk();
-	//деструктор
+	void createNewDesk();
+	/*bool getFigure(int x, int y, bool whiteColour);
+	bool getFigure(int x, int y);*/
+	bool setFigure(int x, int y, bool whiteColour);
+	bool checkMat(bool whitePlayer);
+	bool checkShah(bool whitePlayer);
+	bool Castling(int xCoordinate,int yCoordinate);
+	void makeTurn(int number, int finishX, int finishY);
 	~Desk();
-	//распечатка доски
-	void printBoard();
-	//постановка отдельной фигуры
-	void putFigure(Type typeFigure,const bool white, int x, int y);
-	//может ли фигура сходить
-	bool canFigureTurn(const int startX, const int startY, const int finishX, const int finishY, const bool whitePlayerTurn);
-	//проверка на шах
-	bool checkKingsShah(const bool whitePlayerTurn);
 };
 
 #endif
