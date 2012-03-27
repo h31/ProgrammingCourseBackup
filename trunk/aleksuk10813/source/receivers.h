@@ -38,17 +38,21 @@ template <class T>
 class Receiver
 {
 public:
-    void addSource(const string src, int interval=15);
-    void removeSource(const string src);
-    void operator()(queue<T>* pipe, condition_variable* inCond, mutex* m);
-protected:
-    set<string> sources;
+//    void addSource(const string src, int interval=15);
+//    void removeSource(const string src);
+    void operator()(queue<T>* pipe,
+                    set<string>& sources,
+                    condition_variable* inCond,
+                    mutex* m);
 };
 
 class RSSReceiver : public Receiver <InRecord>
 {
 public:
-    void operator()(queue<InRecord>* pipe, condition_variable* inCond, mutex* m);
+    void operator()(queue<InRecord>& pipe,
+                    set<string>& sources,
+                    condition_variable& inCond,
+                    mutex& m);
 protected:
     set<string> guids;
 

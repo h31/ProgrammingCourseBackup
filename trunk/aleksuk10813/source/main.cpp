@@ -16,10 +16,13 @@ int main()
     if (TESTING)
     {
         //testSequence();
-        condition_variable* inputCond = new condition_variable;
-        mutex* inputMutex = new mutex;
+        condition_variable inputCond;
+        mutex inputMutex;
+        set<string> sources;
+        sources.insert("123");
+        sources.insert("234");
         RemoteControl r;
-        r(inputCond, inputMutex);
+        r(sources, inputCond, inputMutex);
     }
     else
     {
@@ -29,6 +32,7 @@ int main()
         TestReceiver testIn;
         Dispatcher dispatcher;
         TestSender testOut;
+        set<string> sources;
 
         RSSReceiver rssIn;
 
@@ -37,15 +41,15 @@ int main()
 
         condition_variable* inputCond = new condition_variable;
         condition_variable* outputCond = new condition_variable;
-        rssIn.addSource("http://127.0.0.1/security.rss");
+        //rssIn.addSource("http://127.0.0.1/security.rss");
 
-        thread receiver2(testIn, inQueue, inputCond, inputMutex);
-        thread receiver(rssIn, inQueue, inputCond, inputMutex);
+//        thread receiver2(testIn, inQueue, inputCond, inputMutex);
+//        thread receiver(rssIn, sources, inQueue, inputCond, inputMutex);
 
-        thread disp(dispatcher, inQueue, inputCond, inputMutex,
-                    outQueue, outputCond, outputMutex);
-        thread sender(testOut, outQueue, outputCond, outputMutex);
-        receiver2.join();
+//        thread disp(dispatcher, inQueue, inputCond, inputMutex,
+//                    outQueue, outputCond, outputMutex);
+//        thread sender(testOut, outQueue, outputCond, outputMutex);
+//        receiver2.join();
     }
 
     return 0;
