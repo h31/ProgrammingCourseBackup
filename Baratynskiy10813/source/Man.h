@@ -4,12 +4,13 @@
 using namespace std;
 class Man
 {
+	void createMan();
+	void drawMan();
 public:
 	char man[6];
 	int maxMisses;
 	int curMisses;
 	Man();
-	void createMan();
-	void drawMan();
+	void makeMan();
 };
 #endif

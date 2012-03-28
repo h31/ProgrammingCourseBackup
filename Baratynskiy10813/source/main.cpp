@@ -1,6 +1,5 @@
 #include <iostream>
 #include "Man.h"
-#include "Word.h"
 #include "Game.h"
 #include <locale.h>
 

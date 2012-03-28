@@ -2,15 +2,18 @@
 #define LIBRARY_H
 #include <fstream>
 #include "Man.h"
-#include "Word.h"
+#include "BasicWord.h"
 #include <time.h>
 
 class Library
 {
 	int randNum;
 	int var;
+	BasicWord word;
+	int numberOfWords(ifstream &in);
+	BasicWord takeWord(ifstream &in);
 public:
-	string takeWord();
+	BasicWord takeWordOfLang();
 	int chooseTheme();
 };
 

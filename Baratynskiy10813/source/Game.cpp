@@ -1,45 +1,23 @@
 #include "Game.h"
-bool Game:: checkLetter()
+Game::Game()
 {
-	bool curStatus = false;
-	for (int i=0;i<word.word.length();i++)
-		if (word.word[i]==word.letter)
-			curStatus = true;
-	return curStatus;
+	bword = new BasicWord;
+	man = new Man;
 };
-void Game:: enterLetter()
+Game::~Game()
 {
-	bool status = false;
-	cout<<"Enter the letter: ";
-	cin>>word.letter;
-	for (int i=0;i<man.maxMisses;i++)
-		if (word.letter==word.mistakes[i])
-			status = true;
-	if (status == true)
-	{
-		cout<<"You've entered this letter before! "<<endl;
-		enterLetter();
-	}
-};
-void Game:: putLetter()
-{
-	for (int i=0;i<word.word.length();i++)
-	{
-		if (word.letter==word.word[i])
-		{
-			word.mask[i] = word.letter;
-		}
-	}
+	delete[] bword;
+	delete[] man;
 };
 bool Game::isWon()
 {
-	if (word.mask == word.word)
+	if (bword->mask == bword->word)
 		return true;
 	else return false;
 };
 bool Game::isLose()
 {
-	if (man.curMisses==man.maxMisses)
+	if (man->curMisses==man->maxMisses)
 		return true;
 	else return false;
 };
@@ -48,7 +26,7 @@ bool Game::playAgain()
 	char choice = 'y';
 	do 
 	{
-		cout<<"Do you want to play again? Enter 'y' or 'n': ";
+		cout<<"Хотите ли Вы сыграть еще раз? Введите 'y' или 'n': ";
         cin>>choice;
     } 
 	while (choice != 'n' && choice != 'N' && choice != 'y' && choice != 'Y');
@@ -56,18 +34,18 @@ bool Game::playAgain()
 };
 void Game::reset()
 {
-	man.curMisses=0;
-	for (int i=0;i<=man.maxMisses;i++)
+	man->curMisses=0;
+	for (int i=0;i<=man->maxMisses;i++)
 	{
-		man.man[i] = ' ';
-		word.mistakes[i] = ' ';
+		man->man[i] = ' ';
+		bword->mistakes[i] = ' ';
 	}
 };
 int Game::chooseHowToPlay()
 {
 	int var;
-	cout<<"Do you want to put your own word(1), or do you want to load it from file(2)?\n"<<
-		"Put 1 or 2: ";
+	cout<<"Вы хотите ввести собственное слово(1), или хотите, чтобы оно загрузилось из файла(2)?\n"<<
+		"Введите 1 или 2: ";
 	cin>>var;
 	return var;
 };
@@ -75,33 +53,35 @@ int Game::play()
 {
 	if (chooseHowToPlay() == 1)
 	{
-		cout<<"Enter the word:"<<endl;
-	    cin>>word.word;
+		uword.enterWord();
+		bword = &uword;
 	}
-	else word.word = lib.takeWord();
-	man.drawMan();
-	word.makeMask();
-	cout<<word.mask<<endl;
-	while (man.curMisses<man.maxMisses)
+	else 
 	{
-		enterLetter();
-		if (checkLetter() == true)
-			putLetter();
+		dword.takeTheWord();
+		bword = &dword;
+	}
+	man->makeMan();
+	bword->makeMask();
+	cout<<bword->mask<<endl;
+	while (man->curMisses<man->maxMisses)
+	{
+		if (bword->checkLetter() == true)
+			bword->putLetter();
 		else
 		{
-			cout<<"There is no such letter! "<<endl;
-			man.curMisses++;
-			word.putMistake(man.curMisses);
+			cout<<"Такой буквы нет! "<<endl;
+			man->curMisses++;
+			bword->putMistake(man->curMisses);
 		}
-		cout<<word.mask<<endl;
-		cout<<"These letters were used: ";
-		for (int i=0;i<man.maxMisses;i++)
-			cout<<word.mistakes[i]<<" ";
-		man.createMan();
-		man.drawMan();
+		cout<<bword->mask<<endl;
+		cout<<"Буквы, введенные раньше: ";
+		for (int i=0;i<man->maxMisses;i++)
+			cout<<bword->mistakes[i]<<" ";
+		man->makeMan();
 		if (isWon())
 		{
-			cout<<"Congratulations! You win!"<<endl;
+			cout<<"Вы выиграли!"<<endl;
 			if (playAgain() == true)
 			{
 				reset();
@@ -111,8 +91,8 @@ int Game::play()
 		}
 		if (isLose())
 		{
-			cout<<"Loser! You lost!"<<endl;
-			cout<<"The word was "<<word.word<<endl;
+			cout<<"Вы проиграли!"<<endl;
+			cout<<"Загаданное слово: "<<bword->word<<endl;
 			if (playAgain() == true)
 			{
 				reset();

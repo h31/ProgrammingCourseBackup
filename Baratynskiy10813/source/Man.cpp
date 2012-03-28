@@ -43,3 +43,8 @@ void Man:: drawMan()
 	cout<<"  |"<<endl;
 	cout<<"  |_______"<<endl;
 };
+void Man::makeMan()
+{
+	createMan();
+	drawMan();
+};
