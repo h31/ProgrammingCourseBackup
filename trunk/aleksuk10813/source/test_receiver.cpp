@@ -7,7 +7,7 @@
 
 using namespace std;
 
-void TestReceiver::operator()(queue<InRecord>* pipe, condition_variable* cond, mutex* m)
+void TestReceiver::operator()(queue<InRecord>* pipe, set<string>* sources, condition_variable* cond, mutex* m)
 {
     for (int i=0; i<10; i++)
     {

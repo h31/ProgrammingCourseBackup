@@ -12,11 +12,11 @@ protected:
 void runTest( bool (*test)(), const char *name = "" );
 void testSequence();
 bool test1();
-//bool test2();
-//bool test3();
-//bool test4();
-//bool test5();
-//bool test6();
-//bool test7();
+bool test2();
+bool test3();
+bool test4();
+bool test5();
+bool test6();
+bool test7();
 
 #endif // TESTS_H

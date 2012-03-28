@@ -207,9 +207,9 @@ void RSSReceiver::parseFeed(const string rssContent, vector<InRecord>& itemArray
     }
 }
 
-void RSSReceiver::operator()(queue<InRecord>& pipe, set<string>& sources, condition_variable& cond, mutex& m)
+void RSSReceiver::operator()(queue<InRecord>* pipe, set<string>* sources, condition_variable* cond, mutex* m)
 {
-    for(set<string>::const_iterator it = sources.begin(); it != sources.end(); it++)
+    for(set<string>::const_iterator it = sources->begin(); it != sources->end(); it++)
     {
         const string responce = downloadSource(*it);
         HTTPRecord record = parseHTTP(responce);
@@ -221,13 +221,13 @@ void RSSReceiver::operator()(queue<InRecord>& pipe, set<string>& sources, condit
         vector<InRecord> itemArray;
         parseFeed(record.data, itemArray);
 
-        unique_lock<mutex> lk(m);
+        unique_lock<mutex> lk(*m);
         // lk.try_lock();
 
         for (vector<InRecord>::iterator it = itemArray.begin(); it!=itemArray.end(); ++it)
-            pipe.push(*it);
+            pipe->push(*it);
 
         lk.unlock();
-        cond.notify_one();
+        cond->notify_one();
     }
 }
