@@ -5,8 +5,15 @@
 
 //#include "playingBoard.h"
 using namespace std;
-
-class Desk;
+enum TypeOfFigure
+{
+	pawn,
+	king,
+	queen,
+	rook,
+	knight,
+	bishop
+};
 
 class Figure
 {
@@ -16,6 +23,7 @@ public:
 	int steps;
 	bool whiteColour;
 	bool isFigureEat;
+	TypeOfFigure typeOfFigure;
 
 	virtual bool canFigureTurn(int,int, Figure **)=0;
 

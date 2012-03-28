@@ -7,6 +7,7 @@ Pawn::Pawn(int xCoordinate, int yCoordinate, bool whiteFigure)
 	steps =0;
 	whiteColour = whiteFigure;
 	isFigureEat = false;
+	typeOfFigure = pawn;
 }
 
 bool Pawn::canFigureTurn(int xCoordinate,int yCoordinate, Figure **figure)
