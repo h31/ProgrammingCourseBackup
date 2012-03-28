@@ -46,7 +46,7 @@ void RemoteControl::operator()(set<string>* sources, condition_variable* cond, m
 #endif
 
     local.sin_family = AF_INET;
-    local.sin_port = htons(9864);
+    local.sin_port = htons(9863);
     //local.sin_addr.s_addr = inet_addr("127.0.0.1");
     local.sin_addr.s_addr = htonl( INADDR_ANY );
 
@@ -97,10 +97,11 @@ void RemoteControl::operator()(set<string>* sources, condition_variable* cond, m
         // TODO
 
         pugi::xml_document doc;
+        pugi::xml_node root = doc.append_child("data");
         unique_lock<mutex> lk(*m);
         for (set<string>::iterator it = sources->begin(); it != sources->end(); it++)
         {
-            pugi::xml_node source = doc.append_child("source");
+            pugi::xml_node source = root.append_child("source");
             pugi::xml_attribute attr = source.append_attribute("address");
             attr.set_name("address");
             attr.set_value(it->c_str() );
