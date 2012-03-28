@@ -15,41 +15,41 @@ int main()
 {
     if (TESTING)
     {
-        //testSequence();
-        condition_variable inputCond;
-        mutex inputMutex;
-        set<string> sources;
-        sources.insert("123");
-        sources.insert("234");
-        RemoteControl r;
-        r(sources, inputCond, inputMutex);
+        testSequence();
     }
     else
     {
         queue<InRecord>* inQueue = new queue<InRecord>;
         queue<OutRecord>* outQueue = new queue<OutRecord>;
 
-        TestReceiver testIn;
-        Dispatcher dispatcher;
-        TestSender testOut;
-        set<string> sources;
-
-        RSSReceiver rssIn;
+        set<string>* sources = new set<string>;
 
         mutex* inputMutex = new mutex;
         mutex* outputMutex = new mutex;
 
         condition_variable* inputCond = new condition_variable;
         condition_variable* outputCond = new condition_variable;
-        //rssIn.addSource("http://127.0.0.1/security.rss");
 
-//        thread receiver2(testIn, inQueue, inputCond, inputMutex);
-//        thread receiver(rssIn, sources, inQueue, inputCond, inputMutex);
+        TestReceiver testIn;
+        RSSReceiver rssIn;
+        Dispatcher dispatcher;
+        TestSender testOut;
 
-//        thread disp(dispatcher, inQueue, inputCond, inputMutex,
-//                    outQueue, outputCond, outputMutex);
-//        thread sender(testOut, outQueue, outputCond, outputMutex);
-//        receiver2.join();
+        RemoteControl remoteControl;
+
+        //sources->insert("http://127.0.0.1/security.rss");
+        sources->insert("http://news.yandex.ru/security.rss");
+
+        thread receiver2(testIn, inQueue, sources, inputCond, inputMutex);
+        thread receiver(rssIn, inQueue, sources, inputCond, inputMutex);
+
+        thread disp(dispatcher, inQueue, inputCond, inputMutex,
+                                outQueue, outputCond, outputMutex);
+
+        thread sender(testOut, outQueue, outputCond, outputMutex);
+
+        thread remote(remoteControl, sources, inputCond, inputMutex);
+        receiver2.join();
     }
 
     return 0;

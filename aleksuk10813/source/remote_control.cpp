@@ -16,11 +16,8 @@
 #include "pugixml.hpp"
 #include <sstream>
 
-void RemoteControl::operator()(set<string>& sources, condition_variable& cond, mutex& m)
+void RemoteControl::operator()(set<string>* sources, condition_variable* cond, mutex* m)
 {
-    //unique_lock<mutex> outLock(*m);
-    //cond->wait(outLock);
-
     int self_sock;
     int sock;
     int bindStatus;
@@ -31,11 +28,7 @@ void RemoteControl::operator()(set<string>& sources, condition_variable& cond, m
     int pathEnd;
 
     struct sockaddr_in local;
-    //        struct addrinfo *gaiResult;
     char buf[1280];
-    //        string address;
-    //        string path;
-    //        int port;
     string request;
     string responce;
     const char* unit_name = "HTTPClient";
@@ -53,14 +46,14 @@ void RemoteControl::operator()(set<string>& sources, condition_variable& cond, m
 #endif
 
     local.sin_family = AF_INET;
-    local.sin_port = htons(9867);
+    local.sin_port = htons(9864);
     //local.sin_addr.s_addr = inet_addr("127.0.0.1");
     local.sin_addr.s_addr = htonl( INADDR_ANY );
 
     self_sock = socket(AF_INET, SOCK_STREAM, 0);
     if (self_sock < 0)
     {
-        log(ERROR, unit_name, "socket error");
+        log(ERROR, unit_name, "server socket error");
         throw HTTPServerException();
     }
 
@@ -70,22 +63,23 @@ void RemoteControl::operator()(set<string>& sources, condition_variable& cond, m
         log(ERROR, unit_name, "connect error");
         throw HTTPServerException();
     }
+
     listenStatus = listen(self_sock, 2);
-    //while (1)
-    //{
+    while (1)
+    {
         sock = accept(self_sock, NULL, NULL);
-        // TODO: Log
+        if (sock < 0)
+        {
+            log(ERROR, unit_name, "client socket error");
+            throw HTTPServerException();
+        }
 
         request = "";
-        //do {
+        do {
         recvStatus = recv(sock, buf, sizeof(buf), 0);
         request.append(buf, recvStatus);
         // TODO: проверка на зависание
-        //} while (recvStatus > 0);
-
-        // Пример:
-        // GET / HTTP/1.1
-        // Host: ya.ru
+        } while (recvStatus > sizeof(buf) );
 
         // Пример:
         // GET / HTTP/1.1
@@ -103,15 +97,15 @@ void RemoteControl::operator()(set<string>& sources, condition_variable& cond, m
         // TODO
 
         pugi::xml_document doc;
-        for (set<string>::iterator it = sources.begin(); it != sources.end(); it++)
+        unique_lock<mutex> lk(*m);
+        for (set<string>::iterator it = sources->begin(); it != sources->end(); it++)
         {
             pugi::xml_node source = doc.append_child("source");
             pugi::xml_attribute attr = source.append_attribute("address");
             attr.set_name("address");
             attr.set_value(it->c_str() );
         }
-//
-//        pugi::xml_node sender = receiver.append_child("sender");
+        lk.unlock();
 
         stringstream payload;
         doc.save(payload);
@@ -130,5 +124,5 @@ void RemoteControl::operator()(set<string>& sources, condition_variable& cond, m
         }
 
         close(sock);
-    //}
+    }
 }
