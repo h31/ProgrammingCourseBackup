@@ -7,6 +7,7 @@ Queen::Queen(int xCoordinate, int yCoordinate, bool whiteFigure)
 	steps =0;
 	whiteColour = whiteFigure;
 	isFigureEat = false;
+	typeOfFigure = queen;
 }
 
 bool Queen::canFigureTurn(int xCoordinate,int yCoordinate, Figure **figure)

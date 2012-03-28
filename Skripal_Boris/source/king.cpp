@@ -7,6 +7,7 @@ King::King(int xCoordinate, int yCoordinate, bool whiteFigure)
 	steps =0;
 	whiteColour = whiteFigure;
 	isFigureEat = false;
+	typeOfFigure = king;
 }
 
 bool King::canFigureTurn(int xCoordinate,int yCoordinate, Figure **figure)

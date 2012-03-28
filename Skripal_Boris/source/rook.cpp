@@ -7,6 +7,7 @@ Rook::Rook(int xCoordinate, int yCoordinate, bool whiteFigure)
 	steps =0;
 	whiteColour = whiteFigure;
 	isFigureEat = false;
+	typeOfFigure = rook;
 }
 
 bool Rook::canFigureTurn(int xCoordinate,int yCoordinate, Figure **figure)
