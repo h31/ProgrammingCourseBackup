@@ -2,26 +2,27 @@
 #define GAME_H
 #include <iostream>
 #include "Man.h"
-#include "Word.h"
+#include "BasicWord.h"
+#include "DictionaryWord.h"
+#include "UserWord.h"
 #include "Library.h"
 
 using namespace std;
 
 class Game
 {
-	Word word;
-	Man man;
-	Library lib;
+	BasicWord *bword;
+	Man *man;
+	DictionaryWord dword;
+	UserWord uword;
 	int chooseHowToPlay();
-	void putLetter();
-	bool checkLetter();
 	bool isWon();
 	bool isLose();
-	void enterLetter();
-	void clearScreen();
 	bool playAgain();
 	void reset();
+	~Game();
 public:
+	Game();
 	int play();
 };
 #endif

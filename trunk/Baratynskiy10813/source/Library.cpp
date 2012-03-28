@@ -1,32 +1,46 @@
 #include "Library.h"
-int Library::chooseTheme()
+#include <ctime>
+int Library::numberOfWords(ifstream &in)
 {
-	cout<<" You can choose one of these themes(press 1,2 or 3):"<<endl;
-	cout<<"1. All words(without any theme)\n"<<"2. Sport\n"<<"3.Contries\n"<<endl;
-	cin>>var;
-	return var;
+		in.seekg(0, ios::end);
+        const int numOfWords = in.tellg();
+		in.seekg(0, ios::beg);
+		return numOfWords;
 };
-string Library::takeWord()
+BasicWord Library::takeWord(ifstream &in)
 {
-	srand(time(NULL));
-	string word;
-	ifstream in("C:\\all_words.txt");
 	if (in.fail())
 	{
-		cout << "No such file or directory" << endl;
+		cout << "Такого файла не существует!" << endl;
     }
 	else
 	{
-		in.seekg(0, ios::end);
-        const int lengthOfFile = in.tellg();
-		in.seekg(0, ios::beg);
-		randNum = rand() % lengthOfFile;
+		srand(time(NULL));
+		int numOfWords = numberOfWords(in);
+		randNum = rand() % numOfWords;
 		int i = 0;
 		while (i != randNum)
 		{
-			in>>word;
+			in>>word.word;
 		    i++;
 		}
      }
+	return word;
+};
+BasicWord Library::takeWordOfLang()
+{
+	int choice;
+	cout<<"Выберите язык(1. русский 2. english)"<<endl;
+	cin>>choice;
+	if (choice == 1)
+	{
+		ifstream in1("C:\\rus_words.txt");
+		word=takeWord(in1);
+	}
+	else
+	{
+		ifstream in2("C:\\eng_words.txt");
+		word=takeWord(in2);
+	}
 	return word;
 };
