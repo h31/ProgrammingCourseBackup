@@ -30,16 +30,17 @@ void runTest(bool (*test)(), const char *name)
 
 void testSequence()
 {
-    runTest(test1, "test1 (Ошибки HTTP - случайные данные)");
-    runTest(test2, "test2 (Ошибки HTTP - ошибка сервера)");
-    runTest(test3, "test3 (Ошибки разбора XML - некорректный XML)");
-    runTest(test4, "test4 (Ошибки разбора XML - некорректный RSS №1)");
-    runTest(test5, "test5 (Ошибки разбора XML - некорректный RSS №2)");
-    runTest(test6, "test6 (Ошибки разбора XML - образцовый RSS)");
-    runTest(test7, "test7 (Ошибка сети - IPv6)");
+    runTest(RSSReceiverTest1, "RSSReceiver, test1 (Ошибки HTTP - случайные данные)");
+    runTest(RSSReceiverTest2, "RSSReceiver, test2 (Ошибки HTTP - ошибка сервера)");
+    runTest(RSSReceiverTest3, "RSSReceiver, test3 (Ошибки разбора XML - некорректный XML)");
+    runTest(RSSReceiverTest4, "RSSReceiver, test4 (Ошибки разбора XML - некорректный RSS №1)");
+    runTest(RSSReceiverTest5, "RSSReceiver, test5 (Ошибки разбора XML - некорректный RSS №2)");
+    runTest(RSSReceiverTest6, "RSSReceiver, test6 (Ошибки разбора XML - образцовый RSS)");
+    runTest(RSSReceiverTest7, "RSSReceiver, test7 (Ошибка сети - IPv6)");
+    runTest(RemoteControlTest1, "RemoteControl, test1 (образцовый XML)");
 }
 
-bool test1()
+bool RSSReceiverTest1()
 {
     TestRSSReceiver testObj;
     set<string>* sources = new set<string>;
@@ -59,7 +60,7 @@ bool test1()
     }
 }
 
-bool test2()
+bool RSSReceiverTest2()
 {
     TestRSSReceiver testObj;
     set<string>* sources = new set<string>;
@@ -79,7 +80,7 @@ bool test2()
     }
 }
 
-bool test3()
+bool RSSReceiverTest3()
 {
     TestRSSReceiver testObj;
     set<string>* sources = new set<string>;
@@ -99,7 +100,7 @@ bool test3()
     }
 }
 
-bool test4()
+bool RSSReceiverTest4()
 {
     TestRSSReceiver testObj;
     set<string>* sources = new set<string>;
@@ -119,7 +120,7 @@ bool test4()
     }
 }
 
-bool test5()
+bool RSSReceiverTest5()
 {
     TestRSSReceiver testObj;
     set<string>* sources = new set<string>;
@@ -139,7 +140,7 @@ bool test5()
     }
 }
 
-bool test6()
+bool RSSReceiverTest6()
 {
     TestRSSReceiver testObj;
     ifstream test_xml("test_xml.txt");
@@ -175,7 +176,7 @@ bool test6()
     }
 }
 
-bool test7()
+bool RSSReceiverTest7()
 {
     RSSReceiver testObj;
     set<string>* sources = new set<string>;
@@ -193,4 +194,9 @@ bool test7()
     {
         return false;
     }
+}
+
+bool RemoteControlTest1()
+{
+ return false;
 }
