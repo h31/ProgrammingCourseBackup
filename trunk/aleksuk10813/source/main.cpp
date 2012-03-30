@@ -49,7 +49,7 @@ int main()
 
         thread sender(testOut, outQueue, outputCond, outputMutex);
 
-        thread remote(remoteControl, sources, inputCond, inputMutex);
+        thread remote(remoteControl, sources, inputMutex);
         receiver2.join();
     }
 
