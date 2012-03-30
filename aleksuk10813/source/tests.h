@@ -2,6 +2,7 @@
 #define TESTS_H
 
 #include "dispatcher.h"
+#include "remote_control.h"
 
 class TestRSSReceiver : public RSSReceiver
 {
@@ -11,12 +12,13 @@ protected:
 
 void runTest( bool (*test)(), const char *name = "" );
 void testSequence();
-bool test1();
-bool test2();
-bool test3();
-bool test4();
-bool test5();
-bool test6();
-bool test7();
+bool RSSReceiverTest1();
+bool RSSReceiverTest2();
+bool RSSReceiverTest3();
+bool RSSReceiverTest4();
+bool RSSReceiverTest5();
+bool RSSReceiverTest6();
+bool RSSReceiverTest7();
+bool RemoteControlTest1();
 
 #endif // TESTS_H
