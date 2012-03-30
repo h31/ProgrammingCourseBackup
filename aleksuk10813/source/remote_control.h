@@ -12,8 +12,26 @@ class RemoteControl
 {
 public:
     void operator()(set<string>* sources,
-                    condition_variable* cond,
                     mutex* m);
+private:
+    int serverSock;
+    int clientSock;
+    static const char* unitName;
+    string path;
+    string request;
+
+    void establishServerSocket();
+    void establishClientSocket();
+
+    string getPath(string request);
+    string generateXML(set<string> sources);
+    void sendResponce(string payload);
+
+    string receiveRequest();
+    void runSocket();
+    void runBind();
+    void runListen();
+
 };
 
 #endif // REMOTE_CONTROL_H
