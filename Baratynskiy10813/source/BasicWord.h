@@ -5,9 +5,14 @@
 using namespace std;
 class BasicWord
 {
-	void enterLetter();
 public:
+	friend class Game;
+	friend class UserWord;
+	friend class DictionaryWord;
+	friend class Library;
+private:
 	BasicWord();
+	void enterLetter();
 	string word;
 	string mask;
 	char letter;
