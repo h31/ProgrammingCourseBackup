@@ -1,5 +1,6 @@
 #include "widget.h"
 #include <QHBoxLayout>
+#include <QToolButton>
 #include <iostream>
 
 Widget::Widget(QWidget *parent)
@@ -7,15 +8,22 @@ Widget::Widget(QWidget *parent)
 {
     setWindowTitle("GUI");
 
+    // TODO: Объединить в блок
     QHBoxLayout* lists = new QHBoxLayout;
+    QVBoxLayout* sourceListBlock = new QVBoxLayout;
+    QVBoxLayout* destinationListBlock = new QVBoxLayout;
+    QHBoxLayout* sourceButtons = new QHBoxLayout;
+    QHBoxLayout* destinationButtons = new QHBoxLayout;
     QHBoxLayout* globalLayout = new QHBoxLayout;
+
 
     sources = new QTableWidget;
     destinations = new QTableWidget;
-    l = new QLabel;
-    QStringList headers;
 
+    QStringList headers;
     headers << "Protocol" << "Address";
+
+    // TODO: много дублирования кода
 
     sources->setColumnCount(2);
     destinations->setColumnCount(2);
@@ -23,8 +31,33 @@ Widget::Widget(QWidget *parent)
     sources->setHorizontalHeaderLabels(headers);
     destinations->setHorizontalHeaderLabels(headers);
 
-    lists->addWidget(sources);
-    lists->addWidget(destinations);
+    l = new QLabel;
+
+    QToolButton* addSource = new QToolButton;
+    QToolButton* removeSource = new QToolButton;
+    addSource->setIcon(QIcon::fromTheme("list-add"));
+    removeSource->setIcon(QIcon::fromTheme("list-remove"));
+
+    QToolButton* addDestination = new QToolButton;
+    QToolButton* removeDestination = new QToolButton;
+    addDestination->setIcon(QIcon::fromTheme("list-add"));
+    removeDestination->setIcon(QIcon::fromTheme("list-remove"));
+
+    sourceButtons->addWidget(addSource);
+    sourceButtons->addWidget(removeSource);
+    sourceButtons->addStretch(0);
+    sourceListBlock->addWidget(sources);
+    sourceListBlock->addLayout(sourceButtons);
+
+    destinationButtons->addWidget(addDestination);
+    destinationButtons->addWidget(removeDestination);
+    destinationButtons->addStretch(0);
+    destinationButtons->setAlignment(Qt::AlignRight); // TODO: не работает
+    destinationListBlock->addWidget(destinations);
+    destinationListBlock->addLayout(destinationButtons);
+
+    lists->addLayout(sourceListBlock);
+    lists->addLayout(destinationListBlock);
     lists->addWidget(l);
     globalLayout->addLayout(lists);
     setLayout(globalLayout);
