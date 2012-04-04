@@ -1,17 +1,26 @@
 #include "Game.h"
-Game::Game (int Polesize, int Zmx, int Zmy, int Zmnapx, int Zmnapy, int numberFr) 
+#include "iostream"
+using namespace std;
+Game::Game ()
 {
-	Zmei = new Zmeika (Zmx, Zmy, Zmnapx, Zmnapy);
-	Fruits = new Fructs (numberFr);
-	Fruits-> add (Polesize,Polesize);
-	p = new Pole (Polesize,Polesize, Fruits, Zmei ); 
+    Cycle=1;
+    Time=0;
+    Sc1=new Scenario1();
 };
 
+Game::~Game()
+{
+};
 void Game::Upd()
 {
-	system ("cls");
-	//cout << '\r';
-	p->show();
-	_sleep(200);
-	
+    //system("cls");
+    Sc1->Run(Cycle);
+    cout<<Sc1->ScenZmeika->Headx<<"\t"<<Sc1->ScenZmeika->Heady<<endl;
+    //cout<<Sc1->ScenZmeika->napx<<endl;
+    //cout<<Sc1->ScenZmeika->Heady<<endl;
+    //cout<<Sc1->ScenZmeika->napy<<endl<<endl;
+    _sleep(2000);
+    Time+=200;
+    Cycle++;
+
 }
