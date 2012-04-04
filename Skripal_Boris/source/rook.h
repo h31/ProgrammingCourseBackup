@@ -1,14 +1,16 @@
 #pragma once
-#include "figure.h"
 
 #ifndef _rook_h_
 #define _rook_h_
 
+#include "figure.h"
+#include "desk.h"
+
 class Rook: virtual public Figure
 {
 public:
-	Rook(int xCoordinate, int yCoordinate, bool whiteFigure);
-	virtual bool canFigureTurn(int xCoordinate,int yCoordinate, Figure **figure);
+	Rook(const int xCoordinate,const  int yCoordinate,const  bool whiteFigure);
+	virtual bool canFigureTurn(const int xCoordinate,const int yCoordinate,const Desk & desk);
 };
 
 #endif 

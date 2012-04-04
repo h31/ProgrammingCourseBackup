@@ -1,6 +1,6 @@
 #include "rook.h"
 
-Rook::Rook(int xCoordinate, int yCoordinate, bool whiteFigure)
+Rook::Rook(const int xCoordinate,const  int yCoordinate,const  bool whiteFigure)
 {
 	coordinateX = xCoordinate;
 	coordinateY = yCoordinate;
@@ -10,9 +10,9 @@ Rook::Rook(int xCoordinate, int yCoordinate, bool whiteFigure)
 	typeOfFigure = rook;
 }
 
-bool Rook::canFigureTurn(int xCoordinate,int yCoordinate, Figure **figure)
+bool Rook::canFigureTurn(const int xCoordinate,const int yCoordinate,const Desk &desk)
 {
-	if(isFinishCellTrue(xCoordinate,yCoordinate,figure)==false)
+	if(isFinishCellTrue(xCoordinate,yCoordinate, desk)==false)
 		return false;
 	if((xCoordinate - coordinateX)!=0 && (yCoordinate - coordinateY)!=0)
 		return false;
@@ -32,8 +32,8 @@ bool Rook::canFigureTurn(int xCoordinate,int yCoordinate, Figure **figure)
 		{
 			startX+=stepOfRook;
 			for(int i=0;i<32;i++)
-				if(figure[i]->isFigureEat==false)
-					if(figure[i]->coordinateX == startX && figure[i]->coordinateY==coordinateY)
+				if(desk.figure[i]->isEat()==false)
+					if(desk.figure[i]->getX() == startX && desk.figure[i]->getY()==coordinateY)
 						lineIsClear=false;
 		}
 
@@ -42,8 +42,8 @@ bool Rook::canFigureTurn(int xCoordinate,int yCoordinate, Figure **figure)
 		{
 			startY+=stepOfRook;
 			for(int i=0;i<32;i++)
-				if(figure[i]->isFigureEat==false)
-					if(figure[i]->coordinateX == startX && figure[i]->coordinateY==coordinateY)
+				if(desk.figure[i]->isEat()==false)
+					if(desk.figure[i]->getX() == startX && desk.figure[i]->getY()==coordinateY)
 						lineIsClear=false;
 		}
 

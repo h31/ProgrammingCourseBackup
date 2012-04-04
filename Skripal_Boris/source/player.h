@@ -13,16 +13,15 @@ enum Winner
 };
 class Player
 {
-public:
-	Desk desk;
+private:
 	Winner winner;
 	bool whitePlayerTurnNow;
+	bool checkWinner();
+public:
+	Desk desk;
 
 	Player();
-	bool makeTurn(int startX, int startY,int finishX, int finishY);
-	bool checkWinner();
-
-	
+	bool makeTurn(const int startX,const int startY,const int finishX,const int finishY);
 };
 
 #endif

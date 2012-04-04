@@ -1,6 +1,6 @@
 #include "queen.h"
 
-Queen::Queen(int xCoordinate, int yCoordinate, bool whiteFigure)
+Queen::Queen(const int xCoordinate, const int yCoordinate, const bool whiteFigure)
 {
 	coordinateX = xCoordinate;
 	coordinateY = yCoordinate;
@@ -10,9 +10,9 @@ Queen::Queen(int xCoordinate, int yCoordinate, bool whiteFigure)
 	typeOfFigure = queen;
 }
 
-bool Queen::canFigureTurn(int xCoordinate,int yCoordinate, Figure **figure)
+bool Queen::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk &desk)
 {
-	if(isFinishCellTrue(xCoordinate,yCoordinate,figure)==false)
+	if(isFinishCellTrue(xCoordinate,yCoordinate,desk)==false)
 		return false;
 	if(abs(xCoordinate - coordinateX)!=0 && abs(yCoordinate - coordinateY)!=0 && abs(coordinateX - xCoordinate)!=abs(coordinateY- yCoordinate))
 		return false;
@@ -27,8 +27,8 @@ bool Queen::canFigureTurn(int xCoordinate,int yCoordinate, Figure **figure)
 		startX+=stepX;
 		startY+=stepY;
 		for(int i=0;i<32;i++)
-			if(figure[i]->isFigureEat==false)
-				if(figure[i]->coordinateX==startX && figure[i]->coordinateY == startY)
+			if(desk.figure[i]->isEat()==false)
+				if(desk.figure[i]->getX()==startX && desk.figure[i]->getY() == startY)
 					return false;
 	}
 	cout<<"queen"<<xCoordinate<<yCoordinate<<endl;
