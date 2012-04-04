@@ -1,15 +1,15 @@
-#include "Field.h"
+#ifndef _Game_h_
+#define _Game_h_
+#include "Scenario.h"
 
-class Game {
+class Game { //только она консольная, все остальное-нет.
 public:
-	int ZmeyaStartX;
-	int ZmeyaStartY;
-	int size;
-	Game (int Polesize, int Zmx, int Zmy, int Zmnapx, int Zmnapy, int numberFr);
-	Game ();
-	Zmeika*Zmei;
-	Pole *p;
-	Fructs *Fruits;
-	void Upd ();
-	int Time;
+    Game ();
+    ~Game();
+    void Upd ();
+    int Time; //для груши
+    int Cycle; //для змейки
+    Scenario1 *Sc1;
 };
+
+#endif
