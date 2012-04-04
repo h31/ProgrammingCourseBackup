@@ -13,12 +13,14 @@ class Fruct { //единичный фрукт, абстрактый базовый класс
 public:
     int x, y;
     Fruct (int X, int Y);
+    ~Fruct();
     virtual int enumfunc ( )=0;
 };
 
 class Apple: public Fruct { //производный класс
 public:
     Apple (int X, int Y);
+    ~Apple();
     int enumfunc ();
 };
 
@@ -26,6 +28,7 @@ class Grusha: public Fruct { //производный класс
 public:
     int time;
     Grusha (int t, int X, int Y);
+    ~Grusha();
     int enumfunc ( );
 };
 
