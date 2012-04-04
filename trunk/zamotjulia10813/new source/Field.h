@@ -8,17 +8,23 @@ using namespace std;
 #include "Fructs.h"
 #include "Snake.h"
 
-class Pole {
-public:
+class Field {
+private:
     int** p;
+    char intToChar (int Code); //служебная функция для норм.отрисовки поля
+public:
     int w,h;
 public:
-    Pole (int W, int H, Fructs* Fruits, Zmeika*Zmeia);
-    Pole ();
-    void init (Fructs* Fruits, Zmeika*Zmeia);
+    Field (int W, int H);
+    Field ();
+    ~Field ();
+    bool setp (int x, int y, int new_value); //для изменения ясчейки поля
+    int getp (int x, int y); //получить ячейку
+    bool createField ();
+    void init ();
     void show ();
-    bool createPole ();
-    char intToChar (int Code);
+
+
 };
 
 #endif
