@@ -1,14 +1,16 @@
 #pragma once
-#include "figure.h"
 
 #ifndef _pawn_h_
 #define _pawn_h_
 
+#include "figure.h"
+#include "desk.h"
+
 class Pawn: virtual public Figure
 {
 public:
-	Pawn(int xCoordinate, int yCoordinate, bool whiteFigure);
-	virtual bool canFigureTurn(int xCoordinate,int yCoordinate, Figure **figure);
+	Pawn(const int xCoordinate,const  int yCoordinate,const  bool whiteFigure);
+	virtual bool canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk &desk);
 };
 
 #endif

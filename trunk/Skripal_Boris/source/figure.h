@@ -3,8 +3,8 @@
 
 #include <iostream>
 
-//#include "playingBoard.h"
 using namespace std;
+
 enum TypeOfFigure
 {
 	pawn,
@@ -15,21 +15,35 @@ enum TypeOfFigure
 	bishop
 };
 
+class Desk;
+
 class Figure
 {
-public:
+protected:
 	int coordinateX;
 	int coordinateY;
 	int steps;
 	bool whiteColour;
 	bool isFigureEat;
 	TypeOfFigure typeOfFigure;
+public:
+	int getX();
+	int getY();
+	int getStep();
+	TypeOfFigure getType();
+	bool getColour();
+	bool isEat();
 
-	virtual bool canFigureTurn(int,int, Figure **)=0;
+	void setX(int x);
+	void setY(int y);
+	void increaceSteps();
+	void eatFigure();
 
-	bool isFinishCellTrue(int xCoordinate,int yCoordinate, Figure ** figure);
-	void putFigure(int xCoordinate,int yCoordinate);
-	void eatFigure(int xCoordinate,int yCoordinate, Figure **figure);
+	virtual bool canFigureTurn(const int,const int,const Desk &)=0;
+
+	bool isFinishCellTrue(const int xCoordinate,const int yCoordinate,const Desk& desk);
+	void putFigure(const int xCoordinate,const int yCoordinate);
+	void eatFigure(const int xCoordinate,const int yCoordinate, Desk &desk);
 };
 
 #endif

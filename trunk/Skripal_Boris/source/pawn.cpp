@@ -1,6 +1,6 @@
 #include "pawn.h"
 
-Pawn::Pawn(int xCoordinate, int yCoordinate, bool whiteFigure)
+Pawn::Pawn(const int xCoordinate,const  int yCoordinate,const  bool whiteFigure)
 {
 	coordinateX = xCoordinate;
 	coordinateY = yCoordinate;
@@ -10,24 +10,24 @@ Pawn::Pawn(int xCoordinate, int yCoordinate, bool whiteFigure)
 	typeOfFigure = pawn;
 }
 
-bool Pawn::canFigureTurn(int xCoordinate,int yCoordinate, Figure **figure)
+bool Pawn::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk &desk)
 {
-	if(isFinishCellTrue(xCoordinate,yCoordinate,figure)==false)
+	if(isFinishCellTrue(xCoordinate,yCoordinate,desk)==false)
 		return false;
 	if(abs(yCoordinate - coordinateY)>2)
 		return false;
 	bool pawnEat = false;
 	for(int i=0;i<32;i++)
-		if(figure[i]->isFigureEat!=true)
-			if(figure[i]->coordinateX == xCoordinate)
-				if(figure[i]->coordinateY == yCoordinate)
-					if(figure[i]->whiteColour!=whiteColour)
+		if(desk.figure[i]->isEat()!=true)
+			if(desk.figure[i]->getX() == xCoordinate)
+				if(desk.figure[i]->getY() == yCoordinate)
+					if(desk.figure[i]->getColour()!=whiteColour)
 						pawnEat=true;
 	if(pawnEat==false)
 		for(int i=0;i<32;i++)
-			if(figure[i]->isFigureEat==false)
-				if(figure[i]->coordinateX==coordinateX)
-					if(figure[i]->coordinateY==coordinateY+(abs(coordinateY-yCoordinate)/(yCoordinate-coordinateY)))
+			if(desk.figure[i]->isEat()==false)
+				if(desk.figure[i]->getX()==coordinateX)
+					if(desk.figure[i]->getY()==coordinateY+(abs(coordinateY-yCoordinate)/(yCoordinate-coordinateY)))
 						return false;
 
 	if(pawnEat==false)

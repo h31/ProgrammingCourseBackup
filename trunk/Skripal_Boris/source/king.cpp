@@ -1,6 +1,6 @@
 #include "king.h"
 
-King::King(int xCoordinate, int yCoordinate, bool whiteFigure)
+King::King(const int xCoordinate,const  int yCoordinate,const  bool whiteFigure)
 {
 	coordinateX = xCoordinate;
 	coordinateY = yCoordinate;
@@ -10,9 +10,9 @@ King::King(int xCoordinate, int yCoordinate, bool whiteFigure)
 	typeOfFigure = king;
 }
 
-bool King::canFigureTurn(int xCoordinate,int yCoordinate, Figure **figure)
+bool King::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk &desk)
 {
-	if(isFinishCellTrue(xCoordinate,yCoordinate,figure)==false)
+	if(isFinishCellTrue(xCoordinate,yCoordinate,desk)==false)
 		return false;
 	if(abs(xCoordinate - coordinateX)>1 || abs(yCoordinate - coordinateY)>1)
 		return false;
