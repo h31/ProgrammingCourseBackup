@@ -1,15 +1,20 @@
 #include "Field.h"
 
-Pole::Pole (int W, int H, Fructs* Fruits, Zmeika*Zmeia)
+Field::Field (int W, int H)
 {
     w=W; h=H;
-    createPole();
-    init (Fruits, Zmeia);
+    createField();
 };
-
-bool Pole::createPole()
+Field:: ~Field ()
 {
-    p= new int *[h]; //поле состоит из символов
+    for (int i=0; i<h; i++)
+        delete p[i];
+    delete [] p;
+}
+
+bool Field::createField()
+{
+    p= new int *[h];
 
         for (int i=0; i<h; i++)
         {
@@ -18,37 +23,15 @@ bool Pole::createPole()
         return true;
 };
 
-void Pole::init( Fructs *Fruits, Zmeika *Zmeia ) {
+void Field::init() {
 
         //началный вывод, там где ничего нет - будут 8
         for (int i=0; i<h; i++)
              for (int g=0; g<w; g++)
                  p[i][g]=8;
-
-        int x,y;
-        for (int i=0; i<Fruits->getNfructs(); i++)
-        {
-            x= Fruits->fruct[i]->x;
-            y= Fruits->fruct[i]->y;
-            p[x][y]= Fruits->fruct[i]->enumfunc ();
-
-        }
-        //голова змеи
-        x= Zmeia->Headx;
-        y= Zmeia->Heady;
-        p[x][y]= Zmeia->enumHead();
-
-        //хвост
-        for (int i=0; i<2; i++)
-        {
-            x=Zmeia->Tail[i].getx();
-            y=Zmeia->Tail[i].gety();
-            p[x][y]= Zmeia->enumTail();
-        }
-
     };
 
-void Pole::show() {
+void Field::show() {
             // вывод массива поля
                 for (int i=0; i<h; i++)
                 {
@@ -58,7 +41,7 @@ void Pole::show() {
                 }
 };
 
-char Pole::intToChar (int Code)
+char Field::intToChar (int Code)
 {
     switch(Code)
     {
@@ -82,5 +65,16 @@ char Pole::intToChar (int Code)
         break;
     }
 }
+
+bool Field::setp (int x, int y, int new_value)
+{ p[x][y] = new_value;
+return true;
+}
+
+int Field::getp (int x, int y) {
+    return p[x][y];}
+
+
+
 
 
