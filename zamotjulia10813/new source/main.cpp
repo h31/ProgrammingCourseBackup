@@ -1,21 +1,17 @@
-#include <iostream>
-#include <stdlib.h>
-using namespace std;
+#include <QtGui/QApplication>
+#include <QtGui/QPainter>
+#include<QtGui/QImage>
+#include "mainwindow.h"
 
-#include "Field.h"
-#include "Fruct.h"
-#include "Snake.h"
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    MainWindow w;
+    QPainter painter();
+    QImage img ("Green.png");
+    painter.drawImage(50,50,img);
+    w.show();
 
-#include "Game.h"
-
-void main() {
-    system("title Snake");
-    Game * G1=new Game (25,12,12,1,0,15);
-
-    while(1)
-    {
-        G1->Upd();
-    }
-    system("pause");
-
+    
+    return a.exec();
 }
