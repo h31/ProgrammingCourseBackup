@@ -17,6 +17,8 @@ private:
 	Winner winner;
 	bool whitePlayerTurnNow;
 	bool checkWinner();
+	void printWinner();
+	void newGame();
 
 	Desk desk;
 public:

@@ -4,6 +4,7 @@ Player::Player()
 {
 	winner = nobody;
 	whitePlayerTurnNow = true;
+
 }
 
 bool Player::makeTurn(const int startX,const int startY,const int finishX,const int finishY)
@@ -11,7 +12,10 @@ bool Player::makeTurn(const int startX,const int startY,const int finishX,const 
 	//checkWinner();
 
 	if(desk.checkShah(whitePlayerTurnNow)==true)
+	{
+		checkWinner();
 		cout<<"Shah"<<endl;
+	}
 	if(desk.castling(startX,startY,finishX,finishY,whitePlayerTurnNow)==true)
 	{
 		cout<<"Castling is true"<<endl;
@@ -47,7 +51,43 @@ bool Player::makeTurn(const int startX,const int startY,const int finishX,const 
 	return false;
 }
 
-//Desk Player::getDesk()
-//{
-//	return desk;
-//}
+bool Player::checkWinner()
+{
+	if(desk.checkMat(whitePlayerTurnNow)==true)
+	{
+		if(whitePlayerTurnNow==true)
+			winner = black;
+		else
+			winner = white;
+		return true;
+	}
+	for(int i=0;i<32;i++)
+		if(desk.figure[i]->getType()!=king && desk.figure[i]->isEat() == true)
+			return false;
+		else
+		{
+			winner = twoWinner;
+			return true;
+		}
+
+	return false;
+}
+
+void Player::printWinner()
+{
+	if(winner==white)
+		cout<<"white Player win"<<endl;
+	if(winner==black)
+		cout<<"black Player win"<<endl;
+	if(winner == twoWinner)
+		cout<<"black Player win"<<endl;
+	newGame();
+	return;
+}
+
+void Player::newGame()
+{
+	winner = nobody;
+	desk.createNewDesk();
+	return;
+}
