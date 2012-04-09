@@ -17,6 +17,11 @@ bool Player::makeTurn(const int startX,const int startY,const int finishX,const 
 		cout<<"Castling is true"<<endl;
 		return true;
 	}
+	if(desk.enPassant(startX,startY,finishX,finishY,whitePlayerTurnNow)==true)
+	{
+		cout<<"en passant is true"<<endl;
+		return true;
+	}
 	int numberOfFigure= -1;
 	for(int i=0;i<32;i++)
 		if(desk.figure[i]->getX()==startX && desk.figure[i]->getY()==startY)
@@ -41,3 +46,8 @@ bool Player::makeTurn(const int startX,const int startY,const int finishX,const 
 
 	return false;
 }
+
+//Desk Player::getDesk()
+//{
+//	return desk;
+//}

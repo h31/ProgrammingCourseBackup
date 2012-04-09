@@ -17,9 +17,11 @@ private:
 	Winner winner;
 	bool whitePlayerTurnNow;
 	bool checkWinner();
-public:
-	Desk desk;
 
+	Desk desk;
+public:
+	
+	//Desk getDesk();
 	Player();
 	bool makeTurn(const int startX,const int startY,const int finishX,const int finishY);
 };
