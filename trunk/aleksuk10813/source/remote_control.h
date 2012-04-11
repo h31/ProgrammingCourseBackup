@@ -23,7 +23,7 @@ private:
     void establishServerSocket();
     void establishClientSocket();
 
-    string getPath(string request);
+    string getRequestedPath(string request);
     string generateXML(set<string> sources);
     void sendResponce(string payload);
 

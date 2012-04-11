@@ -8,6 +8,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
+#include <unistd.h>
 #endif
 
 #include "shared.h"
@@ -39,7 +40,7 @@ void RemoteControl::operator()(set<string>* sources, mutex* m)
         establishClientSocket();
         request = receiveRequest();
 
-        path = getPath(request);
+        path = getRequestedPath(request);
 
         if (path == "sources")
         {
@@ -63,7 +64,7 @@ void RemoteControl::establishServerSocket()
     runListen();
 }
 
-string RemoteControl::getPath(string request)
+string RemoteControl::getRequestedPath(string request)
 {
     // Пример:
     // GET / HTTP/1.1

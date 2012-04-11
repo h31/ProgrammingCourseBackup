@@ -139,41 +139,23 @@ HTTPRecord RSSReceiver::parseHTTP(const string responce)
 
     if (responce.substr(0, prefixLen) != "HTTP")
     {
-        record.code = INVALID_DATA;
+        record.statusCode = INVALID_DATA;
         return record;
     }
 
     // Проверяем код состояния
-    switch (responce[prefixLen+strlen("/1.1 ")]) {
-    case '1':
-        record.code = NOT_IMPLEMENTED;
-        return record;
-    case '2':
-        record.code = OK;
-        break;
-    case '3': // перенаправление
-        record.code = NOT_IMPLEMENTED;
-        return record;
-    case '4':
-        record.code = CLIENT_ERROR;
-        return record;
-    case '5':
-        record.code = SERVER_ERROR;
-        return record;
-    default:
-        record.code = INVALID_DATA;
-        return record;
-    }
-
-    int dataStart = responce.find("\r\n\r\n", prefixLen) + strlen("\r\n\r\n");
-    if (dataStart == -1)
+    record.statusCode = getStatusCode(responce[ prefixLen + strlen("/1.1 ") ] );
+    if (record.statusCode == OK)
     {
-        log(ERROR, "HTTPClient", "invalid HTTP responce");
-        throw HTTPClientException();
+        int dataStart = responce.find("\r\n\r\n", prefixLen) + strlen("\r\n\r\n");
+        if (dataStart == -1)
+        {
+            log(ERROR, "HTTPClient", "invalid HTTP responce");
+            throw HTTPClientException();
+        }
+        record.data = responce.substr(dataStart);
     }
-    record.data = responce.substr(dataStart);
     return record;
-
 }
 
 void RSSReceiver::parseFeed(const string rssContent, vector<InRecord>& itemArray)
@@ -207,24 +189,46 @@ void RSSReceiver::parseFeed(const string rssContent, vector<InRecord>& itemArray
     }
 }
 
+enum ReceiverStatusCode RSSReceiver::getStatusCode(const char responce)
+{
+    // Проверяем код состояния
+    switch (responce) {
+    case '1':
+        return NOT_IMPLEMENTED;
+    case '2':
+        return OK;
+    case '3': // перенаправление
+        return NOT_IMPLEMENTED;
+    case '4':
+        return CLIENT_ERROR;
+    case '5':
+        return SERVER_ERROR;
+    default:
+        return INVALID_DATA;
+    }
+}
+
 void RSSReceiver::operator()(queue<InRecord>* pipe, set<string>* sources, condition_variable* cond, mutex* m)
 {
     for(set<string>::const_iterator it = sources->begin(); it != sources->end(); it++)
     {
-        const string responce = downloadSource(*it);
-        HTTPRecord record = parseHTTP(responce);
-        if (record.code != OK)
+        const string rawResponce = downloadSource(*it);
+        HTTPRecord ParsedResponce = parseHTTP(rawResponce);
+        if (ParsedResponce.statusCode != OK)
         {
             log(ERROR, "HTTPClient", "bad HTTP status code");
             throw HTTPClientException();
         }
-        vector<InRecord> itemArray;
-        parseFeed(record.data, itemArray);
+        vector<InRecord> receivedItems;
+        parseFeed(ParsedResponce.data, receivedItems);
+        // TODO: не использовать передачу через аргументы
 
         unique_lock<mutex> lk(*m);
         // lk.try_lock();
 
-        for (vector<InRecord>::iterator it = itemArray.begin(); it!=itemArray.end(); ++it)
+        for (vector<InRecord>::iterator it = receivedItems.begin();
+             it != receivedItems.end();
+             ++it)
             pipe->push(*it);
 
         lk.unlock();

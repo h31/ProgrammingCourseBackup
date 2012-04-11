@@ -12,7 +12,8 @@ SOURCES += main.cpp \
     pugixml.cpp \
     tests.cpp \
     shared.cpp \
-    remote_control.cpp
+    remote_control.cpp \
+    smtp_sender.cpp
 
 HEADERS += \
     receivers.h \

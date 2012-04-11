@@ -29,7 +29,7 @@ struct InRecord
 
 struct HTTPRecord
 {
-    enum ReceiverStatusCode code;
+    enum ReceiverStatusCode statusCode;
     string data;
 };
 
@@ -57,6 +57,8 @@ protected:
     void parseFeed(const string rssContent, vector<InRecord> &itemArray);
     bool parseUrl(const string url, string& address, int& port, string& path);
     virtual string downloadSource(const string url);
+
+    enum ReceiverStatusCode getStatusCode(const char responce);
 };
 
 class TestReceiver : public Receiver <InRecord>
