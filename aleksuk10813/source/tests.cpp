@@ -37,7 +37,12 @@ void testSequence()
     runTest(RSSReceiverTest5, "RSSReceiver, test5 (Ошибки разбора XML - некорректный RSS №2)");
     runTest(RSSReceiverTest6, "RSSReceiver, test6 (Ошибки разбора XML - образцовый RSS)");
     runTest(RSSReceiverTest7, "RSSReceiver, test7 (Ошибка сети - IPv6)");
+
     runTest(RemoteControlTest1, "RemoteControl, test1 (образцовый XML)");
+
+    runTest(SMTPSenderTest1, "SMTPSender, test1 (обработка точек нужна)");
+    runTest(SMTPSenderTest2, "SMTPSender, test2 (обработка точек не нужна)");
+    runTest(SMTPSenderTest3, "SMTPSender, test3 (генерация e-mail)");
 }
 
 bool RSSReceiverTest1()
@@ -198,5 +203,41 @@ bool RSSReceiverTest7()
 
 bool RemoteControlTest1()
 {
- return false;
+ return false; // TODO
+}
+
+bool SMTPSenderTest1()
+{
+    SMTPSender testObj;
+    string input = "some text\r\n.text\r\n";
+    string reference_output = "some text\r\n..text\r\n";
+    string test_output;
+
+    test_output = testObj.escapeDots(input);
+    return test_output == reference_output;
+}
+
+bool SMTPSenderTest2()
+{
+    SMTPSender testObj;
+    string input = "some text\r\ntext\r\n";
+    string reference_output = "some text\r\ntext\r\n";
+    string test_output;
+
+    test_output = testObj.escapeDots(input);
+    return test_output == reference_output;
+}
+
+bool SMTPSenderTest3()
+{
+    SMTPSender testObj;
+    OutRecord input;
+    input.subject = "Subject";
+    input.to = "example@example.com";
+    input.text = "Text";
+    string reference_output = "From: sender@sender.com\r\nTo: example@example.com\r\nSubject: Subject\r\n\r\nText\r\n.\r\n";
+    string test_output;
+
+    test_output = testObj.genEmail(input);
+    return test_output == reference_output;
 }

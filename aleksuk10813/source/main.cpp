@@ -23,6 +23,7 @@ int main()
         queue<OutRecord>* outQueue = new queue<OutRecord>;
 
         set<string>* sources = new set<string>;
+        set<string>* destinations = new set<string>;
 
         mutex* inputMutex = new mutex;
         mutex* outputMutex = new mutex;
@@ -47,7 +48,7 @@ int main()
         thread disp(dispatcher, inQueue, inputCond, inputMutex,
                                 outQueue, outputCond, outputMutex);
 
-        thread sender(testOut, outQueue, outputCond, outputMutex);
+        thread sender(testOut, outQueue, destinations, outputCond, outputMutex);
 
         thread remote(remoteControl, sources, inputMutex);
         receiver2.join();

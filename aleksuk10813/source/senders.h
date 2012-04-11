@@ -21,29 +21,38 @@ template <class T>
 class Sender
 {
 public:
-    bool addDestination(string dest);
-    bool removeDestination(string dest);
-    void operator()(queue<T>* pipe, condition_variable* cond, mutex* m);
-protected:
-    set<string> destinations;
+    void operator()(queue<T>* pipe,
+                    set<string>* destinations,
+                    condition_variable* cond,
+                    mutex* m);
 };
 
 class SMTPSender : protected Sender <OutRecord>
 {
 public:
-    void operator()(queue<OutRecord>* pipe, condition_variable* cond, mutex* m);
-private:
+    void operator()(queue<OutRecord>* pipe,
+                    set<string>* destinations,
+                    condition_variable* cond,
+                    mutex* m);
+// protected: // TODO: Решить
+    int clientSock;
+    static const char* unitName;
+
     string genEmail(OutRecord input);
-    bool sendEmail(string email,
-                   string from,
-                   string to);
+    bool addressesCorrectness(OutRecord input);
+    bool sendEmail(OutRecord addresses, string payload);
+    void establishClientSocket();
+    string escapeDots(const string data);
 
 };
 
 class TestSender : protected Sender <OutRecord>
 {
 public:
-    void operator()(queue<OutRecord>* pipe, condition_variable* cond, mutex* m);
+    void operator ()(queue<OutRecord> *pipe,
+                     set<string> *destinations,
+                     condition_variable *cond,
+                     mutex *m);
 };
 
 #endif // SENDERS_H
