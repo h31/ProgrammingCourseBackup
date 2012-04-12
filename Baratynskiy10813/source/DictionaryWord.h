@@ -3,13 +3,11 @@
 #include <iostream>
 #include <string>
 #include "BasicWord.h"
-#include "Library.h"
 using namespace std;
 class DictionaryWord : public BasicWord
 {
-	Library lib;
 public:
 	DictionaryWord();
-	void takeTheWord();
+	void setWord(string dword);
 };
 #endif
