@@ -139,8 +139,9 @@ HTTPRecord RSSReceiver::parseHTTP(const string responce)
 
     if (responce.substr(0, prefixLen) != "HTTP")
     {
-        record.statusCode = INVALID_DATA;
-        return record;
+        // TODO: объединить с другой проверкой
+        log(ERROR, "HTTPClient", "bad HTTP status code");
+        throw HTTPClientException();
     }
 
     // Проверяем код состояния
@@ -155,6 +156,12 @@ HTTPRecord RSSReceiver::parseHTTP(const string responce)
         }
         record.data = responce.substr(dataStart);
     }
+    else
+    {
+        log(ERROR, "HTTPClient", "bad HTTP status code");
+        throw HTTPClientException();
+    }
+
     return record;
 }
 
@@ -213,12 +220,8 @@ void RSSReceiver::operator()(queue<InRecord>* pipe, set<string>* sources, condit
     for(set<string>::const_iterator it = sources->begin(); it != sources->end(); it++)
     {
         const string rawResponce = downloadSource(*it);
+        // TODO: Парсер HTTP должен сам обрабатывать ошибки
         HTTPRecord ParsedResponce = parseHTTP(rawResponce);
-        if (ParsedResponce.statusCode != OK)
-        {
-            log(ERROR, "HTTPClient", "bad HTTP status code");
-            throw HTTPClientException();
-        }
         vector<InRecord> receivedItems;
         parseFeed(ParsedResponce.data, receivedItems);
         // TODO: не использовать передачу через аргументы

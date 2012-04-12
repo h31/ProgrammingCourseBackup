@@ -10,6 +10,8 @@ class HTTPClientException {};
 class HTTPServerException {};
 class XMLParserException {};
 
+class AddressCorrectnessException {};
+
 enum Importance
 {
     ERROR = 1,
