@@ -140,7 +140,7 @@ HTTPRecord RSSReceiver::parseHTTP(const string responce)
     if (responce.substr(0, prefixLen) != "HTTP")
     {
         // TODO: объединить с другой проверкой
-        log(ERROR, "HTTPClient", "bad HTTP status code");
+        log(ERROR, "HTTPClient", "Not an HTTP responce");
         throw HTTPClientException();
     }
 
