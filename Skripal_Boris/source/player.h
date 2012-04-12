@@ -19,10 +19,10 @@ private:
 	bool checkWinner();
 	void printWinner();
 	void newGame();
-
-	Desk desk;
-public:
+	void cancelTurn(int coordinateX, int coordinateY, int number);
 	
+public:
+	Desk desk;
 	//Desk getDesk();
 	Player();
 	bool makeTurn(const int startX,const int startY,const int finishX,const int finishY);

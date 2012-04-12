@@ -12,7 +12,8 @@ enum TypeOfFigure
 	queen,
 	rook,
 	knight,
-	bishop
+	bishop,
+	none
 };
 
 class Desk;
@@ -36,8 +37,8 @@ public:
 
 	void setX(int x);
 	void setY(int y);
-	void increaceSteps();
-	void eatFigure();
+	void increaceSteps(bool plus);
+	void eatFigure(bool eat);
 
 	virtual bool canFigureTurn(const int,const int,const Desk &)=0;
 

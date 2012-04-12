@@ -10,6 +10,16 @@ Player::Player()
 bool Player::makeTurn(const int startX,const int startY,const int finishX,const int finishY)
 {
 	//checkWinner();
+	int numberOfFirstFigure= -1;
+	int numberOfSecondFigure =-1;
+	for(int i=0;i<32;i++)
+		if(desk.getFigure(i)->getX()==startX && desk.getFigure(i)->getY()==startY)
+			numberOfFirstFigure=i;
+	if(numberOfFirstFigure ==-1)
+		return false;
+	for(int i=0;i<32;i++)
+		if(desk.getFigure(i)->getX()==startX && desk.getFigure(i)->getY()==startY)
+			numberOfSecondFigure=i;
 
 	if(desk.checkShah(whitePlayerTurnNow)==true)
 	{
@@ -18,32 +28,46 @@ bool Player::makeTurn(const int startX,const int startY,const int finishX,const 
 	}
 	if(desk.castling(startX,startY,finishX,finishY,whitePlayerTurnNow)==true)
 	{
+		if(desk.checkShah(whitePlayerTurnNow)==true)
+		{
+			cancelTurn(startX,startY,numberOfFirstFigure);
+			cancelTurn(finishX,finishY,numberOfSecondFigure);
+			return false;
+		}
 		cout<<"Castling is true"<<endl;
 		return true;
 	}
 	if(desk.enPassant(startX,startY,finishX,finishY,whitePlayerTurnNow)==true)
 	{
+		if(desk.checkShah(whitePlayerTurnNow)==true)
+		{
+			cancelTurn(startX,startY,numberOfFirstFigure);
+			cancelTurn(finishX,finishY,numberOfSecondFigure);
+			return false;
+		}
 		cout<<"en passant is true"<<endl;
 		return true;
 	}
-	int numberOfFigure= -1;
-	for(int i=0;i<32;i++)
-		if(desk.figure[i]->getX()==startX && desk.figure[i]->getY()==startY)
-			numberOfFigure=i;
-	if(numberOfFigure ==-1)
-		return false;
-	if(desk.figure[numberOfFigure]->getColour()!=whitePlayerTurnNow)
+	
+	
+	if(desk.getFigure(numberOfFirstFigure)->getColour()!=whitePlayerTurnNow)
 		return false;
 
-	if(desk.figure[numberOfFigure]->canFigureTurn(finishX,finishY,desk)==false)
+	if(desk.getFigure(numberOfFirstFigure)->canFigureTurn(finishX,finishY,desk)==false)
 		return false;
 	else
 	{
 		for(int i=0;i<32;i++)
-			if(desk.figure[i]->getX() == finishX &&  desk.figure[i]->getY()== finishY && desk.figure[i]->isEat()==false)
-				desk.figure[numberOfFigure]->eatFigure(finishX,finishY,desk);
+			if(desk.getFigure(i)->getX() == finishX &&  desk.getFigure(i)->getY()== finishY && desk.getFigure(i)->isEat()==false)
+				desk.getFigure(numberOfFirstFigure)->eatFigure(finishX,finishY,desk);
 			else
-				desk.figure[numberOfFigure]->putFigure(finishX,finishY);
+				desk.getFigure(numberOfFirstFigure)->putFigure(finishX,finishY);
+		if(desk.checkShah(whitePlayerTurnNow)==true)
+		{
+			cancelTurn(startX,startY,numberOfFirstFigure);
+			cancelTurn(finishX,finishY,numberOfSecondFigure);
+			return false;
+		}
 		desk.chanchePawn(whitePlayerTurnNow);
 		return true;
 	}
@@ -62,7 +86,7 @@ bool Player::checkWinner()
 		return true;
 	}
 	for(int i=0;i<32;i++)
-		if(desk.figure[i]->getType()!=king && desk.figure[i]->isEat() == true)
+		if(desk.getFigure(i)->getType()!=king && desk.getFigure(i)->isEat() == true)
 			return false;
 		else
 		{
@@ -89,5 +113,15 @@ void Player::newGame()
 {
 	winner = nobody;
 	desk.createNewDesk();
+	return;
+}
+
+void Player::cancelTurn(int coordinateX, int coordinateY, int number)
+{
+	if(number==-1)
+		return;
+	desk.getFigure(number)->setX(coordinateX);
+	desk.getFigure(number)->setY(coordinateY);
+	desk.getFigure(number)->eatFigure(false);
 	return;
 }
