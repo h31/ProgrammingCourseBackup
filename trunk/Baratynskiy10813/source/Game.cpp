@@ -1,17 +1,21 @@
 #include "Game.h"
 Game::Game()
 {
-	bword = new BasicWord;
 	man = new Man;
+	dword = new DictionaryWord;
+	uword = new UserWord;
+	lib = new Library;
 };
 Game::~Game()
 {
-	delete[] bword;
 	delete[] man;
+	delete[] dword;
+	delete[] uword;
+	delete[] lib;
 };
 bool Game::isWon()
 {
-	if (bword->mask == bword->word)
+	if (uword->getWord() == dword->getWord())
 		return true;
 	else return false;
 };
@@ -38,46 +42,29 @@ void Game::reset()
 	for (int i=0;i<=man->maxMisses;i++)
 	{
 		man->man[i] = ' ';
-		bword->mistakes[i] = ' ';
+		uword->mistakes[i] = ' ';
 	}
-};
-int Game::chooseHowToPlay()
-{
-	int var;
-	cout<<"Вы хотите ввести собственное слово(1), или хотите, чтобы оно загрузилось из файла(2)?\n"<<
-		"Введите 1 или 2: ";
-	cin>>var;
-	return var;
 };
 int Game::play()
 {
-	if (chooseHowToPlay() == 1)
-	{
-		uword.enterWord();
-		bword = &uword;
-	}
-	else 
-	{
-		dword.takeTheWord();
-		bword = &dword;
-	}
+	dword->setWord(lib->takeWordOfLang()->getWord());
 	man->makeMan();
-	bword->makeMask();
-	cout<<bword->mask<<endl;
+	uword->makeUserWord(*dword);
+	cout<<uword->getWord()<<endl;
 	while (man->curMisses<man->maxMisses)
 	{
-		if (bword->checkLetter() == true)
-			bword->putLetter();
+		if (uword->checkLetter(*dword) == true)
+			uword->putLetter(*dword);
 		else
 		{
 			cout<<"Такой буквы нет! "<<endl;
 			man->curMisses++;
-			bword->putMistake(man->curMisses);
+			uword->putMistake(man->curMisses);
 		}
-		cout<<bword->mask<<endl;
+		cout<<uword->getWord()<<endl;
 		cout<<"Буквы, введенные раньше: ";
 		for (int i=0;i<man->maxMisses;i++)
-			cout<<bword->mistakes[i]<<" ";
+			cout<<uword->mistakes[i]<<" ";
 		man->makeMan();
 		if (isWon())
 		{
@@ -92,7 +79,7 @@ int Game::play()
 		if (isLose())
 		{
 			cout<<"Вы проиграли!"<<endl;
-			cout<<"Загаданное слово: "<<bword->word<<endl;
+			cout<<"Загаданное слово: "<<dword->getWord()<<endl;
 			if (playAgain() == true)
 			{
 				reset();

@@ -1,20 +1,20 @@
 #ifndef LIBRARY_H
 #define LIBRARY_H
 #include <fstream>
-#include "Man.h"
-#include "BasicWord.h"
+#include "DictionaryWord.h"
 #include <time.h>
 
 class Library
 {
 	int randNum;
 	int var;
-	BasicWord word;
+	DictionaryWord *word;
 	int numberOfWords(ifstream &in);
-	BasicWord takeWord(ifstream &in);
+	DictionaryWord* takeWord(ifstream &in);
 public:
-	BasicWord takeWordOfLang();
+	Library();
+	~Library();
+	DictionaryWord* takeWordOfLang();
 	int chooseTheme();
 };
-
 #endif

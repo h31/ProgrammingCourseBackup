@@ -4,8 +4,7 @@ DictionaryWord::DictionaryWord()
 	for (int i=0;i<6;i++)
 		mistakes[i] = ' ';
 };
-
-void DictionaryWord::takeTheWord()
+void DictionaryWord::setWord(string dword)
 {
-	word = lib.takeWordOfLang().word;
+	word = dword;
 };

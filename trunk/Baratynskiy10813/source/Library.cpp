@@ -1,5 +1,13 @@
 #include "Library.h"
 #include <ctime>
+Library::Library()
+{
+	word = new DictionaryWord;
+};
+Library::~Library()
+{
+	delete [] word;
+};
 int Library::numberOfWords(ifstream &in)
 {
 		in.seekg(0, ios::end);
@@ -7,7 +15,7 @@ int Library::numberOfWords(ifstream &in)
 		in.seekg(0, ios::beg);
 		return numOfWords;
 };
-BasicWord Library::takeWord(ifstream &in)
+DictionaryWord* Library::takeWord(ifstream &in)
 {
 	if (in.fail())
 	{
@@ -21,13 +29,13 @@ BasicWord Library::takeWord(ifstream &in)
 		int i = 0;
 		while (i != randNum)
 		{
-			in>>word.word;
+			in>>word->word;
 		    i++;
 		}
      }
 	return word;
 };
-BasicWord Library::takeWordOfLang()
+DictionaryWord* Library::takeWordOfLang()
 {
 	int choice;
 	cout<<"Выберите язык(1. русский 2. english)"<<endl;

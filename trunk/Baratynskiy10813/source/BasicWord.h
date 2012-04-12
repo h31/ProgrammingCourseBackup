@@ -5,21 +5,13 @@
 using namespace std;
 class BasicWord
 {
-public:
-	friend class Game;
-	friend class UserWord;
-	friend class DictionaryWord;
-	friend class Library;
-private:
-	BasicWord();
-	void enterLetter();
-	string word;
-	string mask;
+protected:
 	char letter;
+	string word;
+public:
+	BasicWord();
 	char mistakes[6];
-	void makeMask();
-	void putMistake(int curMisses);
-	bool checkLetter();
-	void putLetter();
+	string getWord();
+	friend class Library;
 };
 #endif
