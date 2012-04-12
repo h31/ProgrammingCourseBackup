@@ -27,6 +27,13 @@ struct InRecord
     string pubDate;
 };
 
+struct PartsOfURL
+{
+    string address;
+    int port;
+    string path;
+};
+
 struct HTTPRecord
 {
     enum ReceiverStatusCode statusCode;
@@ -42,11 +49,17 @@ public:
                     mutex* m);
 protected:
     set<string> guids;
+    int sock;
+    static const char* unitName;
+    void windowsSocketStart();
+    void sendRequest(PartsOfURL partsOfURL);
+    string receiveResponce();
 
     HTTPRecord parseHTTP(const string responce);
     void parseFeed(const string rssContent, vector<InRecord> &itemArray);
-    bool parseUrl(const string url, string& address, int& port, string& path);
+    PartsOfURL parseUrl(const string url);
     virtual string downloadSource(const string url);
+    void establishClientSocket(PartsOfURL url);
 
     enum ReceiverStatusCode getStatusCode(const char responce);
 };
