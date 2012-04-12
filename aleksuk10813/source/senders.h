@@ -27,7 +27,7 @@ public:
                     mutex* m);
 };
 
-class SMTPSender : protected Sender <OutRecord>
+class SMTPSender : public Sender <OutRecord>
 {
 public:
     void operator()(queue<OutRecord>* pipe,

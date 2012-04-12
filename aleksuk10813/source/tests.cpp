@@ -209,8 +209,10 @@ bool RemoteControlTest1()
 bool SMTPSenderTest1()
 {
     SMTPSender testObj;
-    string input = "some text\r\n.text\r\n";
-    string reference_output = "some text\r\n..text\r\n";
+    string input = "some text\r\n"
+                   ".text\r\n";
+    string reference_output = "some text\r\n"
+                              "..text\r\n";
     string test_output;
 
     test_output = testObj.escapeDots(input);
@@ -220,8 +222,10 @@ bool SMTPSenderTest1()
 bool SMTPSenderTest2()
 {
     SMTPSender testObj;
-    string input = "some text\r\ntext\r\n";
-    string reference_output = "some text\r\ntext\r\n";
+    string input = "some text\r\n"
+                   "text\r\n";
+    string reference_output = "some text\r\n"
+                              "text\r\n";
     string test_output;
 
     test_output = testObj.escapeDots(input);
@@ -235,7 +239,11 @@ bool SMTPSenderTest3()
     input.subject = "Subject";
     input.to = "example@example.com";
     input.text = "Text";
-    string reference_output = "From: sender@sender.com\r\nTo: example@example.com\r\nSubject: Subject\r\n\r\nText";
+    string reference_output = "From: sender@sender.com\r\n"
+                              "To: example@example.com\r\n"
+                              "Subject: Subject\r\n"
+                              "\r\n"
+                              "Text";
     string test_output;
 
     test_output = testObj.generateEmail(input);
