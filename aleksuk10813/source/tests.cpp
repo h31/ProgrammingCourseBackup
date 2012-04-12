@@ -235,9 +235,9 @@ bool SMTPSenderTest3()
     input.subject = "Subject";
     input.to = "example@example.com";
     input.text = "Text";
-    string reference_output = "From: sender@sender.com\r\nTo: example@example.com\r\nSubject: Subject\r\n\r\nText\r\n.\r\n";
+    string reference_output = "From: sender@sender.com\r\nTo: example@example.com\r\nSubject: Subject\r\n\r\nText";
     string test_output;
 
-    test_output = testObj.genEmail(input);
+    test_output = testObj.generateEmail(input);
     return test_output == reference_output;
 }

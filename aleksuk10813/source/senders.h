@@ -38,9 +38,9 @@ public:
     int clientSock;
     static const char* unitName;
 
-    string genEmail(OutRecord input);
+    string generateEmail(OutRecord input);
     bool addressesCorrectness(OutRecord input);
-    bool sendEmail(OutRecord addresses, string payload);
+    void sendEmail(OutRecord addresses, string payload);
     void establishClientSocket();
     string escapeDots(const string data);
 
