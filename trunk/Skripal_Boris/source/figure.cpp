@@ -9,10 +9,10 @@ bool Figure::isFinishCellTrue(const int xCoordinate,const int yCoordinate,const 
 		return false;
 
 	for(int i=0;i<32;i++)
-		if(desk.figure[i]!=this)
-			if(desk.figure[i]->isFigureEat==false)
-				if(desk.figure[i]->coordinateX == xCoordinate && desk.figure[i]->coordinateY == yCoordinate)
-					if(desk.figure[i]->whiteColour==whiteColour)
+		if(desk.getFigure(i)!=this)
+			if(desk.getFigure(i)->isFigureEat==false)
+				if(desk.getFigure(i)->coordinateX == xCoordinate && desk.getFigure(i)->coordinateY == yCoordinate)
+					if(desk.getFigure(i)->whiteColour==whiteColour)
 						return false;
 	return true;
 }
@@ -26,11 +26,11 @@ void Figure::putFigure(const int xCoordinate,const int yCoordinate)
 void Figure::eatFigure(const int xCoordinate,const int yCoordinate,Desk &desk)
 {
 	for(int i=0;i<32;i++)
-		if(desk.figure[i]->coordinateX==xCoordinate && desk.figure[i]->coordinateY==yCoordinate && desk.figure[i]->isFigureEat==false)
+		if(desk.getFigure(i)->coordinateX==xCoordinate && desk.getFigure(i)->coordinateY==yCoordinate && desk.getFigure(i)->isFigureEat==false)
 		{
-			desk.figure[i]->isFigureEat=true;
-			coordinateX=desk.figure[i]->coordinateX;
-			coordinateY=desk.figure[i]->coordinateY;
+			desk.getFigure(i)->isFigureEat=true;
+			coordinateX=desk.getFigure(i)->coordinateX;
+			coordinateY=desk.getFigure(i)->coordinateY;
 			steps++;
 			return;
 		}
@@ -76,13 +76,19 @@ void Figure::eatFigure(const int xCoordinate,const int yCoordinate,Desk &desk)
 		coordinateY=y;
 		return;
 	}
-	void Figure::increaceSteps()
+	void Figure::increaceSteps(bool plus)
 	{
-		steps++;
+		if(plus==true)
+			steps++;
+		else
+			steps--;
 		return;
 	}
-	void Figure::eatFigure()
+	void Figure::eatFigure(bool eat)
 	{
-		isFigureEat=true;
+		if (eat == true)
+			isFigureEat=true;
+		else
+			isFigureEat=false;
 		return;
 	}

@@ -18,16 +18,16 @@ bool Pawn::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk
 		return false;
 	bool pawnEat = false;
 	for(int i=0;i<32;i++)
-		if(desk.figure[i]->isEat()!=true)
-			if(desk.figure[i]->getX() == xCoordinate)
-				if(desk.figure[i]->getY() == yCoordinate)
-					if(desk.figure[i]->getColour()!=whiteColour)
+		if(desk.getFigure(i)->isEat()!=true)
+			if(desk.getFigure(i)->getX() == xCoordinate)
+				if(desk.getFigure(i)->getY() == yCoordinate)
+					if(desk.getFigure(i)->getColour()!=whiteColour)
 						pawnEat=true;
 	if(pawnEat==false)
 		for(int i=0;i<32;i++)
-			if(desk.figure[i]->isEat()==false)
-				if(desk.figure[i]->getX()==coordinateX)
-					if(desk.figure[i]->getY()==coordinateY+(abs(coordinateY-yCoordinate)/(yCoordinate-coordinateY)))
+			if(desk.getFigure(i)->isEat()==false)
+				if(desk.getFigure(i)->getX()==coordinateX)
+					if(desk.getFigure(i)->getY()==coordinateY+(abs(coordinateY-yCoordinate)/(yCoordinate-coordinateY)))
 						return false;
 
 	if(pawnEat==false)

@@ -27,8 +27,8 @@ bool Queen::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Des
 		startX+=stepX;
 		startY+=stepY;
 		for(int i=0;i<32;i++)
-			if(desk.figure[i]->isEat()==false)
-				if(desk.figure[i]->getX()==startX && desk.figure[i]->getY() == startY)
+			if(desk.getFigure(i)->isEat()==false)
+				if(desk.getFigure(i)->getX()==startX && desk.getFigure(i)->getY() == startY)
 					return false;
 	}
 	cout<<"queen"<<xCoordinate<<yCoordinate<<endl;
