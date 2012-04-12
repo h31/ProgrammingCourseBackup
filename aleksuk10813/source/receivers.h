@@ -33,17 +33,7 @@ struct HTTPRecord
     string data;
 };
 
-template <class T>
-class Receiver
-{
-public:
-    void operator()(queue<T>* pipe,
-                    set<string>* sources,
-                    condition_variable* inCond,
-                    mutex* m);
-};
-
-class RSSReceiver : public Receiver <InRecord>
+class RSSReceiver
 {
 public:
     void operator()(queue<InRecord>* pipe,
@@ -61,7 +51,7 @@ protected:
     enum ReceiverStatusCode getStatusCode(const char responce);
 };
 
-class TestReceiver : public Receiver <InRecord>
+class TestReceiver
 {
 public:
     void operator()(queue<InRecord>* pipe,

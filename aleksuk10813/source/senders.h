@@ -17,17 +17,7 @@ struct OutRecord
     string text;
 };
 
-template <class T>
-class Sender
-{
-public:
-    void operator()(queue<T>* pipe,
-                    set<string>* destinations,
-                    condition_variable* cond,
-                    mutex* m);
-};
-
-class SMTPSender : public Sender <OutRecord>
+class SMTPSender
 {
 public:
     void operator()(queue<OutRecord>* pipe,
@@ -46,7 +36,7 @@ public:
 
 };
 
-class TestSender : protected Sender <OutRecord>
+class TestSender
 {
 public:
     void operator ()(queue<OutRecord> *pipe,
