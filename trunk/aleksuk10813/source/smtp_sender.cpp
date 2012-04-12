@@ -11,7 +11,7 @@ void SMTPSender::sendEmail(OutRecord addresses, string payload)
 string SMTPSender::generateEmail(OutRecord input)
 {
     string formedEmail = "";
-    formedEmail += "From: " + string("sender@sender.com") + "\r\n";
+    formedEmail += "From: " + string("sender@sender.com") + "\r\n"; // TODO
     formedEmail += "To: " + input.to + "\r\n";
     formedEmail += "Subject: " + input.subject + "\r\n";
     formedEmail += "\r\n";

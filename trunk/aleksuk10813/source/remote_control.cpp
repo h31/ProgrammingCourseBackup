@@ -17,22 +17,11 @@
 #include "pugixml.hpp"
 #include <sstream>
 
-const char* RemoteControl::unitName = "HTTPClient";
+const char* RemoteControl::unitName = "HTTPServer";
 
 void RemoteControl::operator()(set<string>* sources, mutex* m)
 {
-#ifdef __MINGW32__
-    WSADATA wsaData;
-    int iResult;
-
-    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
-    if (iResult != 0)
-    {
-        log(ERROR, unit_name, "WSAStartup error");
-        throw HTTPServerException;
-    }
-#endif
-
+    windowsSocketStart();
     establishServerSocket();
 
     while (1)
@@ -179,4 +168,19 @@ void RemoteControl::runListen()
         log(ERROR, unitName, "listen error");
         throw HTTPServerException();
     }
+}
+
+void RemoteControl::windowsSocketStart()
+{
+#ifdef __MINGW32__
+    WSADATA wsaData;
+    int iResult;
+
+    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+    if (iResult != 0)
+    {
+        log(ERROR, unit_name, "WSAStartup error");
+        throw HTTPServerException;
+    }
+#endif
 }

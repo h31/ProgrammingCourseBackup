@@ -23,107 +23,43 @@
 
 using namespace std;
 
-bool RSSReceiver::parseUrl(const string url, string& address, int& port, string& path)
+const char* RSSReceiver::unitName = "HTTPClient";
+
+void RSSReceiver::operator()(queue<InRecord>* pipe, set<string>* sources, condition_variable* cond, mutex* m)
 {
-    const int prefixLen = strlen("http://");
-    int slashPos = url.find('/', prefixLen); // ищём разделитель между адресом и путём
-    if (slashPos == -1)
+    for(set<string>::const_iterator it = sources->begin(); it != sources->end(); it++)
     {
-        log(ERROR, "HTTPClient", "invalid URL");
-        throw HTTPClientException();
+        const string rawResponce = downloadSource(*it);
+        // TODO: Парсер HTTP должен сам обрабатывать ошибки
+        HTTPRecord ParsedResponce = parseHTTP(rawResponce);
+        vector<InRecord> receivedItems;
+        parseFeed(ParsedResponce.data, receivedItems);
+        // TODO: не использовать передачу через аргументы
+
+        unique_lock<mutex> lk(*m);
+        // lk.try_lock();
+
+        for (vector<InRecord>::iterator it = receivedItems.begin();
+             it != receivedItems.end();
+             ++it)
+            pipe->push(*it);
+
+        lk.unlock();
+        cond->notify_one();
     }
-
-    if (url.substr(0, prefixLen) != "http://")
-        return false;
-
-    address = url.substr(prefixLen, slashPos-prefixLen);
-    port = 80; //TODO
-    path = url.substr(slashPos);
-
-    return true;
 }
 
 string RSSReceiver::downloadSource(const string url)
 {
-
-    int sock;
-    int sockStatus;
-    int sendStatus;
-    int recvStatus;
-    int gaiStatus;
-
-    struct sockaddr_in peer;
-    struct addrinfo *gaiResult;
-    struct sockaddr_in *sockaddr_ipv4;
-    char buf[1280];
-    string address;
-    string path;
-    int port;
-    string request;
     string responce;
     const char* unit_name = "HTTPClient";
+    PartsOfURL partsOfURL;
 
-#ifdef __MINGW32__
-    WSADATA wsaData;
-    int iResult;
+    partsOfURL = parseUrl(url);
+    establishClientSocket(partsOfURL);
+    sendRequest(partsOfURL);
+    responce = receiveResponce();
 
-    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
-    if (iResult != 0)
-    {
-        log(ERROR, unit_name, "WSAStartup error");
-        throw HTTPClientException;
-    }
-#endif
-
-    parseUrl(url, address, port, path);
-
-    gaiStatus = getaddrinfo(address.c_str(), NULL, NULL, &gaiResult);
-    if (gaiStatus != 0)
-    {
-        log(ERROR, unit_name, "getaddrinfo error");
-        throw HTTPClientException();
-    }
-
-    peer.sin_family = gaiResult->ai_family;
-    peer.sin_port = htons(80);
-    sockaddr_ipv4 = (struct sockaddr_in *) gaiResult->ai_addr;
-    peer.sin_addr = sockaddr_ipv4->sin_addr;
-
-    sock = socket(AF_INET, SOCK_STREAM, 0);
-    if (sock < 0)
-    {
-        log(ERROR, unit_name, "socket error");
-        throw HTTPClientException();
-    }
-
-    sockStatus = connect(sock, (struct sockaddr *)&peer, sizeof(peer) );
-    if (sockStatus)
-    {
-        log(ERROR, unit_name, "connect error");
-        throw HTTPClientException();
-    }
-
-    // Пример:
-    // GET / HTTP/1.1
-    // Host: ya.ru
-
-    request = "GET " + path + " HTTP/1.0\r\n";
-    request += "Host: " + address + "\r\n";
-    request += "\r\n";
-    sendStatus = send(sock, request.c_str(), request.length(), 0);
-    if ( sendStatus <= 0 )
-    {
-        log(ERROR, unit_name, "send error");
-        throw HTTPClientException();
-    }
-
-    do {
-        recvStatus = recv(sock, buf, sizeof(buf), 0);
-        responce.append(buf, recvStatus);
-        // TODO: проверка на зависание
-    } while (recvStatus > 0);
-
-    delete gaiResult;
     // delete sockaddr_ipv4;
 
     return responce;
@@ -215,26 +151,109 @@ enum ReceiverStatusCode RSSReceiver::getStatusCode(const char responce)
     }
 }
 
-void RSSReceiver::operator()(queue<InRecord>* pipe, set<string>* sources, condition_variable* cond, mutex* m)
+void RSSReceiver::sendRequest(PartsOfURL partsOfURL)
 {
-    for(set<string>::const_iterator it = sources->begin(); it != sources->end(); it++)
+    // Пример:
+    // GET / HTTP/1.1
+    // Host: ya.ru
+
+    string request;
+    request = "GET " + partsOfURL.path + " HTTP/1.0\r\n";
+    request += "Host: " + partsOfURL.address + "\r\n";
+    request += "\r\n";
+
+    int sendStatus;
+    sendStatus = send(sock, request.c_str(), request.length(), 0);
+    if ( sendStatus <= 0 )
     {
-        const string rawResponce = downloadSource(*it);
-        // TODO: Парсер HTTP должен сам обрабатывать ошибки
-        HTTPRecord ParsedResponce = parseHTTP(rawResponce);
-        vector<InRecord> receivedItems;
-        parseFeed(ParsedResponce.data, receivedItems);
-        // TODO: не использовать передачу через аргументы
-
-        unique_lock<mutex> lk(*m);
-        // lk.try_lock();
-
-        for (vector<InRecord>::iterator it = receivedItems.begin();
-             it != receivedItems.end();
-             ++it)
-            pipe->push(*it);
-
-        lk.unlock();
-        cond->notify_one();
+        log(ERROR, unitName, "send error");
+        throw HTTPClientException();
     }
+}
+
+string RSSReceiver::receiveResponce()
+{
+    string responce = "";
+    string recvStatus;
+    char buf[1280];
+    do {
+        recvStatus = recv(sock, buf, sizeof(buf), 0);
+        responce.append(buf, recvStatus);
+        // TODO: проверка на зависание
+    } while (recvStatus > 0);
+    return responce;
+}
+
+void RSSReceiver::establishClientSocket(PartsOfURL url)
+{
+    int sockStatus;
+    int gaiStatus;
+    struct sockaddr_in peer;
+    struct addrinfo *gaiResult;
+    struct sockaddr_in *sockaddr_ipv4;
+
+    gaiStatus = getaddrinfo(url.address.c_str(), NULL, NULL, &gaiResult);
+    if (gaiStatus != 0)
+    {
+        log(ERROR, unitName, "getaddrinfo error");
+        throw HTTPClientException();
+    }
+
+    peer.sin_family = gaiResult->ai_family;
+    peer.sin_port = htons(80);
+    sockaddr_ipv4 = (struct sockaddr_in *) gaiResult->ai_addr;
+    peer.sin_addr = sockaddr_ipv4->sin_addr;
+
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock < 0)
+    {
+        log(ERROR, unitName, "socket error");
+        throw HTTPClientException();
+    }
+
+    sockStatus = connect(sock, (struct sockaddr *)&peer, sizeof(peer) );
+    if (sockStatus)
+    {
+        log(ERROR, unitName, "connect error");
+        throw HTTPClientException();
+    }
+
+    delete gaiResult;
+    delete sockaddr_ipv4;
+}
+
+PartsOfURL RSSReceiver::parseUrl(const string url)
+{
+    PartsOfURL result;
+    const int prefixLen = strlen("http://");
+    int slashPos = url.find('/', prefixLen); // ищём разделитель между адресом и путём
+    if (slashPos == -1)
+    {
+        log(ERROR, "HTTPClient", "invalid URL");
+        throw HTTPClientException();
+    }
+
+    if (url.substr(0, prefixLen) != "http://")
+        // TODO: Exception
+
+    result.address = url.substr(prefixLen, slashPos-prefixLen);
+    result.port = 80; //TODO
+    result.path = url.substr(slashPos);
+
+    return result;
+}
+
+void RSSReceiver::windowsSocketStart()
+{
+#ifdef __MINGW32__
+    WSADATA wsaData;
+    int iResult;
+
+    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+    if (iResult != 0)
+    {
+        log(ERROR, unit_name, "WSAStartup error");
+        throw HTTPClientException;
+    }
+#endif
 }
