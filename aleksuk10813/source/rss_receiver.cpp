@@ -17,7 +17,7 @@
 #include <thread>
 #include <iostream>
 
-#include "pugixml.hpp"
+#include "3rdparty/pugixml.hpp"
 #include "receivers.h"
 #include "shared.h"
 
@@ -56,9 +56,9 @@ string RSSReceiver::downloadSource(const string url)
     PartsOfURL partsOfURL;
 
     partsOfURL = parseUrl(url);
-    establishClientSocket(partsOfURL);
+    sock = connect_helper(partsOfURL);
     sendRequest(partsOfURL);
-    responce = receiveResponce();
+    responce = receive_helper(sock);
 
     // delete sockaddr_ipv4;
 
@@ -162,79 +162,26 @@ void RSSReceiver::sendRequest(PartsOfURL partsOfURL)
     request += "Host: " + partsOfURL.address + "\r\n";
     request += "\r\n";
 
-    int sendStatus;
-    sendStatus = send(sock, request.c_str(), request.length(), 0);
-    if ( sendStatus <= 0 )
-    {
-        log(ERROR, unitName, "send error");
-        throw HTTPClientException();
-    }
-}
-
-string RSSReceiver::receiveResponce()
-{
-    string responce = "";
-    string recvStatus;
-    char buf[1280];
-    do {
-        recvStatus = recv(sock, buf, sizeof(buf), 0);
-        responce.append(buf, recvStatus);
-        // TODO: проверка на зависание
-    } while (recvStatus > 0);
-    return responce;
-}
-
-void RSSReceiver::establishClientSocket(PartsOfURL url)
-{
-    int sockStatus;
-    int gaiStatus;
-    struct sockaddr_in peer;
-    struct addrinfo *gaiResult;
-    struct sockaddr_in *sockaddr_ipv4;
-
-    gaiStatus = getaddrinfo(url.address.c_str(), NULL, NULL, &gaiResult);
-    if (gaiStatus != 0)
-    {
-        log(ERROR, unitName, "getaddrinfo error");
-        throw HTTPClientException();
-    }
-
-    peer.sin_family = gaiResult->ai_family;
-    peer.sin_port = htons(80);
-    sockaddr_ipv4 = (struct sockaddr_in *) gaiResult->ai_addr;
-    peer.sin_addr = sockaddr_ipv4->sin_addr;
-
-    sock = socket(AF_INET, SOCK_STREAM, 0);
-    if (sock < 0)
-    {
-        log(ERROR, unitName, "socket error");
-        throw HTTPClientException();
-    }
-
-    sockStatus = connect(sock, (struct sockaddr *)&peer, sizeof(peer) );
-    if (sockStatus)
-    {
-        log(ERROR, unitName, "connect error");
-        throw HTTPClientException();
-    }
-
-    delete gaiResult;
-    delete sockaddr_ipv4;
+    send_helper(sock, request);
 }
 
 PartsOfURL RSSReceiver::parseUrl(const string url)
 {
     PartsOfURL result;
     const int prefixLen = strlen("http://");
+
+    if (url.substr(0, prefixLen) != "http://")
+    {
+        // TODO: Exception
+    }
+
+
     int slashPos = url.find('/', prefixLen); // ищём разделитель между адресом и путём
     if (slashPos == -1)
     {
         log(ERROR, "HTTPClient", "invalid URL");
         throw HTTPClientException();
     }
-
-    if (url.substr(0, prefixLen) != "http://")
-        // TODO: Exception
 
     result.address = url.substr(prefixLen, slashPos-prefixLen);
     result.port = 80; //TODO
