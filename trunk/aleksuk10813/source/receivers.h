@@ -5,6 +5,9 @@
 #include <queue>
 #include <set>
 #include <condition_variable>
+
+#include "shared.h"
+
 using namespace std;
 
 enum ReceiverStatusCode
@@ -25,13 +28,6 @@ struct InRecord
     string link;
     string guid;
     string pubDate;
-};
-
-struct PartsOfURL
-{
-    string address;
-    int port;
-    string path;
 };
 
 struct HTTPRecord
@@ -59,7 +55,6 @@ protected:
     void parseFeed(const string rssContent, vector<InRecord> &itemArray);
     PartsOfURL parseUrl(const string url);
     virtual string downloadSource(const string url);
-    void establishClientSocket(PartsOfURL url);
 
     enum ReceiverStatusCode getStatusCode(const char responce);
 };

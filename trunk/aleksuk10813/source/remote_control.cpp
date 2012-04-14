@@ -14,7 +14,7 @@
 #include "shared.h"
 #include <string.h>
 #include "remote_control.h"
-#include "pugixml.hpp"
+#include "3rdparty/pugixml.hpp"
 #include <sstream>
 
 const char* RemoteControl::unitName = "HTTPServer";

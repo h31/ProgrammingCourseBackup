@@ -9,11 +9,12 @@ SOURCES += main.cpp \
     rss_receiver.cpp \
     dispatcher.cpp \
     test_sender.cpp \
-    pugixml.cpp \
     tests.cpp \
     shared.cpp \
     remote_control.cpp \
-    smtp_sender.cpp
+    smtp_sender.cpp \
+    3rdparty/base64.cpp \
+    3rdparty/pugixml.cpp
 
 HEADERS += \
     receivers.h \
@@ -21,7 +22,9 @@ HEADERS += \
     remote_control.h \
     senders.h \
     tests.h \
-    shared.h
+    shared.h \
+    3rdparty/base64.h \
+    3rdparty/pugixml.hpp
 
 OTHER_FILES += \
     test_xml.txt

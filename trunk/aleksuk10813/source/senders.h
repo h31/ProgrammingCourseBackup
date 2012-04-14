@@ -6,6 +6,7 @@
 #include <queue>
 #include <set>
 #include <condition_variable>
+#include "3rdparty/base64.h"
 
 using namespace std;
 
@@ -25,7 +26,7 @@ public:
                     condition_variable* cond,
                     mutex* m);
 // protected: // TODO: Решить
-    int clientSock;
+    int clientSocket;
     static const char* unitName;
 
     string generateEmail(OutRecord input);
@@ -34,6 +35,11 @@ public:
     void establishClientSocket();
     string escapeDots(const string data);
 
+    void connect_wrapper(PartsOfURL url);
+    string receive_wrapper();
+    void send_wrapper(string data);
+    string base64_encode_wrapper(string data);
+    string base64_decode_wrapper(string data);
 };
 
 class TestSender
