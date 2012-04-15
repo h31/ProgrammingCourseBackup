@@ -88,7 +88,6 @@ HTTPRecord RSSReceiver::parseHTTP(const string responce)
     }
     else
         throw RSSReceiverException(ERROR, "bad HTTP status code");
-
     return record;
 }
 
@@ -140,8 +139,9 @@ void RSSReceiver::sendRequest(PartsOfURL partsOfURL)
     // Host: ya.ru
 
     string request;
-    request = "GET " + partsOfURL.path + " HTTP/1.0\r\n";
+    request  = "GET " + partsOfURL.path + " HTTP/1.0\r\n";
     request += "Host: " + partsOfURL.address + "\r\n";
+    request += "Connection: close\r\n";
     request += "\r\n";
 
     send_helper(sock, request);

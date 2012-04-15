@@ -32,18 +32,18 @@ void RemoteControl::operator()(set<string>* sources, mutex* m)
         method = getMethodOfRequest(request);
         path = getRequestedPath(request);
 
-        if (mathod == "GET" && path == "sources")
+        if (method == "GET" && path == "sources")
         {
             unique_lock<mutex> lk(*m);
                 string xml = generateXMLForSources(*sources);
             lk.unlock();
             sendResponce(xml);
         }
-        else if (mathod == "POST" && path == "sources")
+        else if (method == "POST" && path == "sources")
         {
             // TODO
         }
-        else if (mathod == "POST" && path == "opml")
+        else if (method == "POST" && path == "opml")
         {
             payload = getPayloadOfPOST(request);
             unique_lock<mutex> lk(*m);
@@ -85,7 +85,7 @@ string RemoteControl::getRequestedPath(string request)
 
 string RemoteControl::getPayloadOfPOST(string request)
 {
-    int dataStart = responce.find("\r\n\r\n", prefixLen) + strlen("\r\n\r\n");
+    int dataStart = request.find("\r\n\r\n") + strlen("\r\n\r\n");
     if (dataStart == -1)
         throw RemoteControlException(ERROR, "invalid POST request");
     return request.substr(dataStart);
