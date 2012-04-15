@@ -7,7 +7,7 @@
 #include "tests.h"
 #include "remote_control.h"
 
-const bool TESTING = false;
+const bool TESTING = true;
 
 using namespace std;
 

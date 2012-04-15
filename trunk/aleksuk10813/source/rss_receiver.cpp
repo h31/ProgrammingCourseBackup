@@ -74,11 +74,8 @@ HTTPRecord RSSReceiver::parseHTTP(const string responce)
     // HTTP/1.1 200 Ok
 
     if (responce.substr(0, prefixLen) != "HTTP")
-    {
         // TODO: объединить с другой проверкой
-        log(ERROR, "HTTPClient", "Not an HTTP responce");
-        throw HTTPClientException();
-    }
+        throw RSSReceiverException(ERROR, "Not an HTTP responce");
 
     // Проверяем код состояния
     record.statusCode = getStatusCode(responce[ prefixLen + strlen("/1.1 ") ] );
@@ -86,17 +83,11 @@ HTTPRecord RSSReceiver::parseHTTP(const string responce)
     {
         int dataStart = responce.find("\r\n\r\n", prefixLen) + strlen("\r\n\r\n");
         if (dataStart == -1)
-        {
-            log(ERROR, "HTTPClient", "invalid HTTP responce");
-            throw HTTPClientException();
-        }
+            throw RSSReceiverException(ERROR, "invalid HTTP responce");
         record.data = responce.substr(dataStart);
     }
     else
-    {
-        log(ERROR, "HTTPClient", "bad HTTP status code");
-        throw HTTPClientException();
-    }
+        throw RSSReceiverException(ERROR, "bad HTTP status code");
 
     return record;
 }
@@ -106,21 +97,12 @@ void RSSReceiver::parseFeed(const string rssContent, vector<InRecord>& itemArray
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_buffer(rssContent.c_str(), rssContent.length());
     if (result.status != pugi::status_ok)
-    {
-        log(ERROR, "XMLParser", "Bad XML syntax");
-        throw XMLParserException();
-    }
+        throw RSSReceiverException(ERROR, "Bad XML syntax");
     pugi::xml_node itemRoot = doc.child("rss").child("channel");
     if (itemRoot == NULL)
-    {
-        log(ERROR, "XMLParser", "No rss or channel nodes");
-        throw XMLParserException();
-    }
+        throw RSSReceiverException(ERROR, "No rss or channel nodes");
     if (itemRoot.child("item") == NULL)
-    {
-        log(ERROR, "XMLParser", "No item node");
-        throw XMLParserException();
-    }
+        throw RSSReceiverException(ERROR, "No item node");
     for (pugi::xml_node item = itemRoot.child("item"); item; item = item.next_sibling("item") )
     {
         InRecord record;
@@ -179,8 +161,7 @@ PartsOfURL RSSReceiver::parseUrl(const string url)
     int slashPos = url.find('/', prefixLen); // ищём разделитель между адресом и путём
     if (slashPos == -1)
     {
-        log(ERROR, "HTTPClient", "invalid URL");
-        throw HTTPClientException();
+        throw RSSReceiverException(ERROR, "invalid URL");
     }
 
     result.address = url.substr(prefixLen, slashPos-prefixLen);

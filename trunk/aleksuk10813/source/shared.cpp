@@ -12,6 +12,16 @@
 #include <stdio.h>
 #endif
 
+RSSReceiverException::RSSReceiverException(Importance importance, const char *message)
+{
+    log(importance, message);
+}
+
+RemoteControlException::RemoteControlException(Importance importance, const char *message)
+{
+    log(importance, message);
+}
+
 string enum2string(enum Importance in)
 {
     switch (in) {
@@ -24,7 +34,7 @@ string enum2string(enum Importance in)
     }
 }
 
-void log(enum Importance importance, const char* unit_name, const char* message)
+void log(enum Importance importance, const char* message)
 {
     time_t rawtime;
     struct tm* timeinfo;
@@ -35,7 +45,6 @@ void log(enum Importance importance, const char* unit_name, const char* message)
            timeinfo->tm_hour,
            timeinfo->tm_min,
            timeinfo->tm_sec,
-           unit_name,
            enum2string(importance).c_str(),
            message);
 }
@@ -61,10 +70,7 @@ void send_helper(int clientSocket, string data)
 
     sendStatus = send(clientSocket, data.c_str(), data.length(), 0);
     if ( sendStatus <= 0 )
-    {
-        //log(ERROR, unitName, "send error");
-        throw HTTPServerException();
-    }
+        throw RemoteControlException(ERROR, "send error");
 }
 
 int connect_helper(PartsOfURL url)
@@ -79,10 +85,7 @@ int connect_helper(PartsOfURL url)
 
     gaiStatus = getaddrinfo(url.address.c_str(), NULL, NULL, &gaiResult);
     if (gaiStatus != 0)
-    {
-        // log(ERROR, unitName, "getaddrinfo error");
-        throw HTTPClientException();
-    }
+        throw RSSReceiverException(ERROR, "getaddrinfo error");
 
     do
     {
@@ -93,10 +96,7 @@ int connect_helper(PartsOfURL url)
 
         clientSocket = socket(AF_INET, SOCK_STREAM, 0);
         if (clientSocket < 0)
-        {
-            //log(ERROR, unitName, "socket error");
-            throw HTTPClientException();
-        }
+            throw RSSReceiverException(ERROR, "socket error");
 
         sockStatus = connect(clientSocket, (struct sockaddr *)&peer, sizeof(peer) );
         if (sockStatus == 0)
@@ -108,8 +108,7 @@ int connect_helper(PartsOfURL url)
     } while (gaiResult->ai_next != NULL);
     if (sockStatus)
     {
-        //log(ERROR, unitName, "connect error");
-        throw HTTPClientException();
+        throw RSSReceiverException(ERROR, "connect error");
     }
 
     delete gaiResult;

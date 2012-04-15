@@ -19,9 +19,23 @@
 
 using namespace std;
 
-class HTTPClientException {};
-class HTTPServerException {};
-class XMLParserException {};
+enum Importance
+{
+    ERROR = 1,
+    INFO = 2,
+    DEBUG = 3
+};
+
+class RSSReceiverException
+{
+public:
+    RSSReceiverException(enum Importance importance, const char *message);
+};
+class RemoteControlException
+{
+public:
+    RemoteControlException(enum Importance importance, const char *message);
+};
 
 class AddressCorrectnessException {};
 
@@ -32,14 +46,7 @@ struct PartsOfURL
     string path;
 };
 
-enum Importance
-{
-    ERROR = 1,
-    INFO = 2,
-    DEBUG = 3
-};
-
-void log(enum Importance importance, const char *unit_name, const char *message);
+void log(enum Importance importance, const char *message);
 string receive_helper(int socket);
 void send_helper(int clientSocket, string data);
 int connect_helper(PartsOfURL url);

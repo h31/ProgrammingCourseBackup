@@ -29,18 +29,30 @@ void RemoteControl::operator()(set<string>* sources, mutex* m)
         establishClientSocket();
         request = receiveRequest();
 
+        method = getMethodOfRequest(request);
         path = getRequestedPath(request);
 
-        if (path == "sources")
+        if (mathod == "GET" && path == "sources")
         {
             unique_lock<mutex> lk(*m);
-                string xml = generateXML(*sources);
+                string xml = generateXMLForSources(*sources);
             lk.unlock();
             sendResponce(xml);
         }
+        else if (mathod == "POST" && path == "sources")
+        {
+            // TODO
+        }
+        else if (mathod == "POST" && path == "opml")
+        {
+            payload = getPayloadOfPOST(request);
+            unique_lock<mutex> lk(*m);
+                importOPML(payload, sources);
+            lk.unlock();
+        }
         // TODO: остальные варианты
         else
-            throw HTTPServerException();
+            throw RemoteControlException(ERROR, "Invalid URL");
 
         close(clientSock);
     }
@@ -53,23 +65,33 @@ void RemoteControl::establishServerSocket()
     runListen();
 }
 
+string RemoteControl::getMethodOfRequest(string request)
+{
+    string method = request.substr(0, request.find(" ") );
+    if (method != "GET" && method != "POST")
+        throw RemoteControlException(ERROR, "Bad request");
+    return method;
+}
+
 string RemoteControl::getRequestedPath(string request)
 {
     // Пример:
-    // GET / HTTP/1.1
-
-    if (request.substr(0, strlen("GET") ) != "GET")
-    {
-        log(ERROR, unitName, "Bad request");
-        throw HTTPServerException();
-    }
+    // GET /path HTTP/1.1
 
     int pathEnd = request.find("HTTP") - 2;
     string path(request, strlen("GET /"), pathEnd - strlen("GET "));
     return path; // TODO: упростить
 }
 
-string RemoteControl::generateXML(set<string> sources)
+string RemoteControl::getPayloadOfPOST(string request)
+{
+    int dataStart = responce.find("\r\n\r\n", prefixLen) + strlen("\r\n\r\n");
+    if (dataStart == -1)
+        throw RemoteControlException(ERROR, "invalid POST request");
+    return request.substr(dataStart);
+}
+
+string RemoteControl::generateXMLForSources(set<string> sources)
 {
     pugi::xml_document doc;
     pugi::xml_node root = doc.append_child("data");
@@ -87,6 +109,13 @@ string RemoteControl::generateXML(set<string> sources)
     return payload.str();
 }
 
+void RemoteControl::importOPML(string opml, set<string> *sources)
+{
+    pugi::xml_document doc;
+    stringstream stream;
+    doc.load(stream);
+}
+
 void RemoteControl::sendResponce(string payload)
 {
     string responce = "";
@@ -101,8 +130,7 @@ void RemoteControl::sendResponce(string payload)
     sendStatus = send(clientSock, responce.c_str(), responce.length(), 0);
     if ( sendStatus <= 0 )
     {
-        log(ERROR, unitName, "send error");
-        throw HTTPServerException();
+        throw RemoteControlException(ERROR, "send error");
     }
 }
 
@@ -111,8 +139,7 @@ void RemoteControl::establishClientSocket()
     clientSock = accept(serverSock, NULL, NULL);
     if (clientSock < 0)
     {
-        log(ERROR, unitName, "client socket error");
-        throw HTTPServerException();
+        throw RemoteControlException(ERROR, "client socket error");
     }
 }
 
@@ -134,10 +161,7 @@ void RemoteControl::runSocket()
 {
     serverSock = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSock < 0)
-    {
-        log(ERROR, unitName, "server socket error");
-        throw HTTPServerException();
-    }
+        throw RemoteControlException(ERROR, "server socket error");
 }
 
 void RemoteControl::runBind()
@@ -153,8 +177,7 @@ void RemoteControl::runBind()
     bindStatus = ::bind(serverSock, (struct sockaddr *)&local, sizeof(local) );
     if (bindStatus < 0)
     {
-        log(ERROR, unitName, "connect error");
-        throw HTTPServerException();
+        throw RemoteControlException(ERROR, "connect error");
     }
 }
 
@@ -164,10 +187,7 @@ void RemoteControl::runListen()
 
     listenStatus = listen(serverSock, 2);
     if (listenStatus != 0)
-    {
-        log(ERROR, unitName, "listen error");
-        throw HTTPServerException();
-    }
+        throw RemoteControlException(ERROR, "listen error");
 }
 
 void RemoteControl::windowsSocketStart()
