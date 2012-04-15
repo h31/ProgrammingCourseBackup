@@ -41,7 +41,7 @@ void log(enum Importance importance, const char* message)
 
     time(&rawtime);
     timeinfo = localtime(&rawtime);
-    printf("%d:%.2d:%.2d %s %s: %s\n",
+    printf("%d:%.2d:%.2d %s: %s\n",
            timeinfo->tm_hour,
            timeinfo->tm_min,
            timeinfo->tm_sec,
@@ -59,8 +59,8 @@ string receive_helper(int clientSocket)
         recvStatus = recv(clientSocket, buf, sizeof(buf), 0);
         request.append(buf, recvStatus);
         // TODO: проверка на зависание
-    } while (recvStatus == sizeof(buf));
-    // Если значение меньше sizeof(buf), то все данные уже получены, иначе нужно продолжать
+    } while (recvStatus > 0);
+    //recvStatus == sizeof(buf)  Если значение меньше sizeof(buf), то все данные уже получены, иначе нужно продолжать
     return request;
 }
 
