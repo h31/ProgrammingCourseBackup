@@ -18,14 +18,14 @@ string TestRSSReceiver::downloadSource(const string url)
 
 void runTest(bool (*test)(), const char *name)
 {
-    string out = name;
+    string out = "Tester" + string(name);
     out.append(": ");
 
     if (true == test() )
         out.append("Ok");
     else
         out.append("FAILED");
-    log(INFO, "Tester", out.c_str() );
+    log(INFO, out.c_str() );
 }
 
 void testSequence()
@@ -39,6 +39,7 @@ void testSequence()
     runTest(RSSReceiverTest7, "RSSReceiver, test7 (Ошибка сети - IPv6)");
 
     runTest(RemoteControlTest1, "RemoteControl, test1 (образцовый XML)");
+    runTest(RemoteControlTest2, "RemoteControl, test2 (getMethodOfRequest)");
 
     runTest(SMTPSenderTest1, "SMTPSender, test1 (обработка точек нужна)");
     runTest(SMTPSenderTest2, "SMTPSender, test2 (обработка точек не нужна)");
@@ -59,7 +60,7 @@ bool RSSReceiverTest1()
         testObj(pipe, sources, inCond, m);
         return false;
     }
-    catch (HTTPClientException& e)
+    catch (RSSReceiverException& e)
     {
         return true;
     }
@@ -79,7 +80,7 @@ bool RSSReceiverTest2()
         testObj(pipe, sources, inCond, m);
         return false;
     }
-    catch (HTTPClientException& e)
+    catch (RSSReceiverException& e)
     {
         return true;
     }
@@ -99,7 +100,7 @@ bool RSSReceiverTest3()
         testObj(pipe, sources, inCond, m);
         return false;
     }
-    catch (XMLParserException& e)
+    catch (RSSReceiverException& e)
     {
         return true;
     }
@@ -119,7 +120,7 @@ bool RSSReceiverTest4()
         testObj(pipe, sources, inCond, m);
         return false;
     }
-    catch (XMLParserException& e)
+    catch (RSSReceiverException& e)
     {
         return true;
     }
@@ -139,7 +140,7 @@ bool RSSReceiverTest5()
         testObj(pipe, sources, inCond, m);
         return false;
     }
-    catch (XMLParserException& e)
+    catch (RSSReceiverException& e)
     {
         return true;
     }
@@ -175,7 +176,7 @@ bool RSSReceiverTest6()
         else
             return false;
     }
-    catch (XMLParserException& e)
+    catch (RSSReceiverException& e)
     {
         return false;
     }
@@ -195,7 +196,7 @@ bool RSSReceiverTest7()
         testObj(pipe, sources, inCond, m);
         return true;
     }
-    catch (HTTPClientException& e)
+    catch (RSSReceiverException& e)
     {
         return false;
     }
@@ -203,7 +204,15 @@ bool RSSReceiverTest7()
 
 bool RemoteControlTest1()
 {
- return false; // TODO
+    return false; // TODO
+}
+
+bool RemoteControlTest2()
+{
+    RemoteControl testObj;
+    if (testObj.getMethodOfRequest("GET /path HTTP/1.1") == "GET")
+        return true;
+    else return true;
 }
 
 bool SMTPSenderTest1()

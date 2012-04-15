@@ -5,6 +5,7 @@
 #include <mutex>
 #include <string>
 #include <set>
+#include "tests.h"
 
 using namespace std;
 
@@ -18,13 +19,18 @@ private:
     int clientSock;
     static const char* unitName;
     string path;
+    string method;
     string request;
+    string payload;
 
     void establishServerSocket();
     void establishClientSocket();
 
     string getRequestedPath(string request);
-    string generateXML(set<string> sources);
+    string getMethodOfRequest(string request);
+    string getPayloadOfPOST(string request);
+    string generateXMLForSources(set<string> sources);
+    void importOPML(string opml, set<string>* sources);
     void sendResponce(string payload);
 
     string receiveRequest();
@@ -32,7 +38,7 @@ private:
     void runBind();
     void runListen();
     void windowsSocketStart();
-
+    friend bool RemoteControlTest2();
 };
 
 #endif // REMOTE_CONTROL_H
