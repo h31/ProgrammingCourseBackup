@@ -5,14 +5,10 @@
 using namespace std;
 Field::Field(void)
 {
-	srand((unsigned)time(0));
-	int chislo = rand()%9+1;
 	GameField = new int *[ 9 ];
 	for (int i = 0; i < 9; i++)
 		GameField[ i ] = new int [ 9 ];
 	InitField();
-	Generation(chislo);
-	Fill_Zero();
 }
 //Заполнение массива готовым образцом
 void Field::InitField()
@@ -44,20 +40,42 @@ void Field::Generation(int chislo)
 		}
 	}
 }
-//Заполнение пропусками
-void Field::Fill_Zero()
+//Определение количества пропусков
+int Field::CountZero()
 {
-	srand((unsigned)time(0));
-	int count = 56;
-	do
+	int count = 0;
+	for (int ixRow = 0; ixRow < 9; ixRow++)
 	{
-		int ixRow = rand()%9+1;
-		int ixCol = rand()%9+1;
-		ixRow--;
-		ixCol--;
+		for (int ixCol = 0; ixCol < 9; ixCol++)
+		{
+			if (GameField[ ixRow ][ ixCol ] == 0)
+				count++;
+		}
+	}
+	return count;
+}
+//Заполнение пропусками
+void Field::Fill_Zero(int NumberOfZero)
+{
+	Fill_Zero_Square(0, 0, NumberOfZero);
+	Fill_Zero_Square(0, 3, NumberOfZero);
+	Fill_Zero_Square(0, 6, NumberOfZero);
+	Fill_Zero_Square(3, 0, NumberOfZero);
+	Fill_Zero_Square(3, 3, NumberOfZero);
+	Fill_Zero_Square(3, 6, NumberOfZero);
+	Fill_Zero_Square(6, 0, NumberOfZero);
+	Fill_Zero_Square(6, 3, NumberOfZero);
+	Fill_Zero_Square(6, 6, NumberOfZero);
+}
+//Заполнение каждого отдельного квадрата 3 на 3 пропусками
+void Field::Fill_Zero_Square(int a, int b, int NumberOfZero)
+{
+	for (int i = 0; i < NumberOfZero; i++)
+	{
+		int ixRow = rand()%3+a;
+		int ixCol = rand()%3+b;
 		GameField[ ixRow ][ ixCol ] = 0;
-		count--;
-	} while(count != 0);
+	}
 }
 //Проверка по квадрату
 int Field::IsSq(int ixRow, int ixCol, int chislo)
@@ -110,6 +128,48 @@ int Field::GetCell(int ixRow, int ixCol)
 void Field::OutOfCell(int ixRow, int ixCol)
 {
 	cout << " " << GameField[ ixRow ][ ixCol ] << " ";
+}
+//Определение победы игрока
+int Field::Define_Victory(char name[])
+{
+	int count = 0;
+	FieldVictory = new int* [ 9 ];
+	for (int i = 0; i < 9; i++)
+		FieldVictory[ i ] = new int [ 9 ];
+	ifstream in;
+	in.open(name);
+	int ixRow = 0;
+	int ixCol = 0;
+	while (!in.eof())
+	{
+		if (ixCol == 9)
+		{
+			ixRow++;
+			ixCol = 0;
+		}
+		in >> FieldVictory[ ixRow ][ ixCol ];
+		ixCol++;
+	}
+	for (ixRow = 0; ixRow < 9; ixRow++)
+	{
+		for (ixCol = 0; ixCol < 9; ixCol++)
+		{
+			if (GameField[ ixRow ][ ixCol ] != FieldVictory[ ixRow ][ ixCol ])
+			{
+				cout << "Есть ошибка в клетке с координатами: " << ixRow+1 << ixCol+1 << "\n";
+				count++;
+			}
+		}
+	}
+	if (count == 0)
+	{
+		cout << "Вы выиграли!\n";
+		return 0;
+	}
+	else
+	{
+		return count;
+	}
 }
 Field::~Field(void)
 {
