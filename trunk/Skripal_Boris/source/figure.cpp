@@ -66,17 +66,17 @@ void Figure::eatFigure(const int xCoordinate,const int yCoordinate,Desk &desk)
 		return isFigureEat;
 	}
 
-	void Figure::setX(int x)
+	void Figure::setX(const int x)
 	{
 		coordinateX=x;
 		return;
 	}
-	void Figure::setY(int y)
+	void Figure::setY(const int y)
 	{
 		coordinateY=y;
 		return;
 	}
-	void Figure::increaceSteps(bool plus)
+	void Figure::increaceSteps(const bool plus)
 	{
 		if(plus==true)
 			steps++;
@@ -84,7 +84,7 @@ void Figure::eatFigure(const int xCoordinate,const int yCoordinate,Desk &desk)
 			steps--;
 		return;
 	}
-	void Figure::eatFigure(bool eat)
+	void Figure::eatFigure(const bool eat)
 	{
 		if (eat == true)
 			isFigureEat=true;

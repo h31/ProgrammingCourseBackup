@@ -8,6 +8,8 @@ Bishop::Bishop(const int xCoordinate,const  int yCoordinate,const  bool whiteFig
 	whiteColour = whiteFigure;
 	isFigureEat = false;
 	typeOfFigure = bishop;
+
+	symbol='E';
 }
 
 bool Bishop::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk &desk)

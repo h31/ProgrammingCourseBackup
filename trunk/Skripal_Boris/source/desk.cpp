@@ -25,6 +25,7 @@ Desk::Desk()
 	for(int i=0;i<32;i++)
 		if(figure[i]->getX()==5 && figure[i]->getY()==8 && figure[i]->getColour()==false)
 			bKing = figure[i];
+	refreshPlayingBoard();
 }
 
 void Desk::createNewDesk()
@@ -75,29 +76,9 @@ void Desk::createNewDesk()
 	
 	return;
 }
-//проверка на совпадение цветов фигур, при совпадении или отсутствии -
-//bool Desk::getFigure(int x, int y, bool whiteColour)
-//{
-//	for(int i=0;i<32;i++)
-//		if(figure[i]->isWigureEat==false)
-//			if(figure[i]->whiteColour != whiteColour)
-//				if(figure[i]->coordinateX == x)
-//					if(figure[i]->coordinateY ==y)
-//						return true;
-//	return false;
-//}
-////проверка на наличие фигуры, при наличие +
-//bool Desk::getFigure(int x, int y)
-//{
-//	for(int i=0;i<32;i++)
-//		if(figure[i]->isWigureEat==false)
-//			if(figure[i]->coordinateX == x)
-//				if(figure[i]->coordinateY ==y)
-//					return true;
-//	return false;
-//}
 
-void Desk::refreshDesk()
+
+void Desk::refreshPlayingBoard()
 {
 	for(int i=0;i<8;i++)
 		for(int k=0; k<8;k++)
@@ -105,9 +86,9 @@ void Desk::refreshDesk()
 
 	for(int i=0;i<32;i++)
 	{
-		playingBoard[figure[i]->getX()][figure[i]->getY()].figuresType=figure[i]->getType();
-		playingBoard[figure[i]->getX()][figure[i]->getY()].isFigureWhite=figure[i]->getColour();
-		playingBoard[figure[i]->getX()][figure[i]->getY()].figureOnCell=figure[i];
+		playingBoard[figure[i]->getX()-1][figure[i]->getY()-1].figuresType=figure[i]->getType();
+		playingBoard[figure[i]->getX()-1][figure[i]->getY()-1].isFigureWhite=figure[i]->getColour();
+		playingBoard[figure[i]->getX()-1][figure[i]->getY()-1].figureOnCell=figure[i];
 	}
 	return;
 }
@@ -143,7 +124,7 @@ void Desk::chanchePawn(const bool whiteColour)
 			}while(type>4);
 			setFigure(i,type);
 		}
-	refreshDesk();
+	refreshPlayingBoard();
 	return;
 }
 
@@ -263,7 +244,7 @@ bool Desk::castling(const int startX, const int startY,const int finishX,const i
 			{
 				rook->setX((finishX-startX)/2);
 				king->setX(finishX);
-				refreshDesk();
+				refreshPlayingBoard();
 				return true;
 			}
 		}
@@ -293,7 +274,7 @@ bool Desk::enPassant(const int startX, const int startY, const int finishX,const
 					figure[i]->setX(finishX);
 					figure[i]->setY(finishY);
 					figure[i]->increaceSteps(true);
-					refreshDesk();
+					refreshPlayingBoard();
 					return true;
 				}
 		}
@@ -304,4 +285,114 @@ bool Desk::enPassant(const int startX, const int startY, const int finishX,const
 Figure* Desk::getFigure(const int number) const
 {
 	return figure[number];
+}
+
+void Desk::printPlayingBoard()
+{
+	refreshPlayingBoard();
+	for(int i=0;i<8;i++)
+	{
+		for(int k=0;k<8;k++)
+		{
+			if(playingBoard[k][i].figureOnCell!=NULL)
+			{
+				if(playingBoard[k][i].isFigureWhite==true)
+					cout<<"w"<<playingBoard[k][i].figureOnCell->symbol<<" ";
+				if(playingBoard[k][i].isFigureWhite==false)
+					cout<<"b"<<playingBoard[k][i].figureOnCell->symbol<<" ";
+			}
+			if(playingBoard[k][i].figureOnCell==NULL)
+			{
+				if(playingBoard[k][i].isCellWhite==true)
+					cout<<" 0 ";
+				else
+					cout<<" * ";
+			}
+		}
+		cout<<endl;
+	}
+}
+
+bool Desk::makeFigureTurn(const int startX,const int startY,const int finishX,const int finishY, const bool whitePlayerTurnNow)
+{
+	int numberOfFirstFigure= -1;
+	int numberOfSecondFigure =-1;
+
+	
+
+	for(int i=0;i<32;i++)
+		if(getFigure(i)->getX()==startX && getFigure(i)->getY()==startY)
+		{
+			numberOfFirstFigure=i;
+			break;
+		}
+	if(numberOfFirstFigure ==-1)
+		return false;
+
+	for(int i=0;i<32;i++)
+		if(getFigure(i)->getX()==finishX && getFigure(i)->getY()==finishY)
+		{
+			numberOfSecondFigure=i;
+			break;
+		}
+
+	if(getFigure(numberOfFirstFigure)->getColour()!=whitePlayerTurnNow)
+		return false;
+	if(numberOfSecondFigure!=-1 && getFigure(numberOfSecondFigure)->getColour()==whitePlayerTurnNow)
+		return false;
+
+	if(castling(startX,startY,finishX,finishY,whitePlayerTurnNow)==true)
+	{
+		if(checkShah(whitePlayerTurnNow)==true)
+		{
+			cancelTurn(startX,startY,numberOfFirstFigure);
+			cancelTurn(finishX,finishY,numberOfSecondFigure);
+			return false;
+		}
+		cout<<"Castling is true"<<endl;
+		return true;
+	}
+	if(enPassant(startX,startY,finishX,finishY,whitePlayerTurnNow)==true)
+	{
+		if(checkShah(whitePlayerTurnNow)==true)
+		{
+			cancelTurn(startX,startY,numberOfFirstFigure);
+			cancelTurn(finishX,finishY,numberOfSecondFigure);
+			return false;
+		}
+		cout<<"en passant is true"<<endl;
+		return true;
+	}
+
+	if(getFigure(numberOfFirstFigure)->canFigureTurn(finishX,finishY,*this)==false)
+		return false;
+	else
+	{
+		if(numberOfSecondFigure!=-1)
+			getFigure(numberOfFirstFigure)->eatFigure(finishX,finishY,*this);
+		else
+			getFigure(numberOfFirstFigure)->putFigure(finishX,finishY);
+
+		if(checkShah(whitePlayerTurnNow)==true)
+		{
+			cancelTurn(startX,startY,numberOfFirstFigure);
+			cancelTurn(finishX,finishY,numberOfSecondFigure);
+			return false;
+		}
+
+		chanchePawn(whitePlayerTurnNow);
+		refreshPlayingBoard();
+		return true;
+	}
+
+}
+
+void Desk::cancelTurn(const int coordinateX, const int coordinateY, const int number)
+{
+	if(number==-1)
+		return;
+	getFigure(number)->setX(coordinateX);
+	getFigure(number)->setY(coordinateY);
+	getFigure(number)->eatFigure(false);
+	return;
 }
