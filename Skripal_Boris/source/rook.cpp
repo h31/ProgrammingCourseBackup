@@ -8,6 +8,8 @@ Rook::Rook(const int xCoordinate,const  int yCoordinate,const  bool whiteFigure)
 	whiteColour = whiteFigure;
 	isFigureEat = false;
 	typeOfFigure = rook;
+
+	symbol ='R';
 }
 
 bool Rook::canFigureTurn(const int xCoordinate,const int yCoordinate,const Desk &desk)

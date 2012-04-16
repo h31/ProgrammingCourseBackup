@@ -18,14 +18,12 @@ private:
 	bool whitePlayerTurnNow;
 	bool checkWinner();
 	void printWinner();
-	void newGame();
-	void cancelTurn(int coordinateX, int coordinateY, int number);
-	
+	void newGame();	
 public:
 	Desk desk;
 	//Desk getDesk();
 	Player();
-	bool makeTurn(const int startX,const int startY,const int finishX,const int finishY);
+	bool makeGame();
 };
 
 #endif

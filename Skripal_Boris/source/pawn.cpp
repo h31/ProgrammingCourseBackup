@@ -8,6 +8,8 @@ Pawn::Pawn(const int xCoordinate,const  int yCoordinate,const  bool whiteFigure)
 	whiteColour = whiteFigure;
 	isFigureEat = false;
 	typeOfFigure = pawn;
+
+	symbol='P';
 }
 
 bool Pawn::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk &desk)
@@ -33,15 +35,15 @@ bool Pawn::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk
 	if(pawnEat==false)
 		if(xCoordinate == coordinateX)
 		{
-			if(whiteColour==true && (coordinateY - yCoordinate)==2 )
+			if(whiteColour==true && (coordinateY - yCoordinate)==-2 )
 				if(steps==0)
 					return true;
-			if(whiteColour==false && (coordinateY - yCoordinate)==-2)
+			if(whiteColour==false && (coordinateY - yCoordinate)==2)
 				if(steps==0)
 					return true;
-			if(whiteColour==true && (coordinateY - yCoordinate)==1 )
+			if(whiteColour==true && abs(coordinateY - yCoordinate)==-1 )
 					return true;
-			if(whiteColour==false && (coordinateY - yCoordinate)==-1)
+			if(whiteColour==false && (coordinateY - yCoordinate)==1)
 					return true;
 		}
 	if(pawnEat==true)

@@ -8,6 +8,8 @@ Knight::Knight(const int xCoordinate,const  int yCoordinate,const  bool whiteFig
 	whiteColour = whiteFigure;
 	isFigureEat = false;
 	typeOfFigure = knight;
+
+	symbol='H';
 }
 
 bool Knight::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk &desk)

@@ -8,6 +8,8 @@ King::King(const int xCoordinate,const  int yCoordinate,const  bool whiteFigure)
 	whiteColour = whiteFigure;
 	isFigureEat = false;
 	typeOfFigure = king;
+
+	symbol='K';
 }
 
 bool King::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk &desk)

@@ -27,7 +27,10 @@ protected:
 	bool whiteColour;
 	bool isFigureEat;
 	TypeOfFigure typeOfFigure;
+	
 public:
+	char symbol;
+
 	int getX();
 	int getY();
 	int getStep();
@@ -35,10 +38,10 @@ public:
 	bool getColour();
 	bool isEat();
 
-	void setX(int x);
-	void setY(int y);
-	void increaceSteps(bool plus);
-	void eatFigure(bool eat);
+	void setX(const int x);
+	void setY(const int y);
+	void increaceSteps(const bool plus);
+	void eatFigure(const bool eat);
 
 	virtual bool canFigureTurn(const int,const int,const Desk &)=0;
 

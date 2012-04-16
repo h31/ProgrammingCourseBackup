@@ -8,6 +8,8 @@ Queen::Queen(const int xCoordinate, const int yCoordinate, const bool whiteFigur
 	whiteColour = whiteFigure;
 	isFigureEat = false;
 	typeOfFigure = queen;
+
+	symbol='Q';
 }
 
 bool Queen::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk &desk)
