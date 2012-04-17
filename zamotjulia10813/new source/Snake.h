@@ -4,32 +4,46 @@
 #include "Snakelem.h"
 #include <vector>
 
-enum Zmlist { Snakehead=2, Snaketail=3 };
+enum zmlist { snakehead=2, snaketail=3 };
 
 class Zmeika { //состоит из головы и хвоста
+private:
+    int headx, heady;
+    int napx, napy;
 public:
-    //Game * Game1;
     Zmeika(int X, int Y, int Napx, int Napy);
-    Zmeika(int X, int Y, int Napx, int Napy,int LTail);
+    Zmeika(int X, int Y, int Napx, int Napy, int LTail);
+
+    int get_headx();
+    int get_heady();
+    bool set_headx (int new_x);
+    bool set_heady (int new_y);
+    int get_napx();
+    int get_napy();
+    bool set_napx (int new_napx);
+    bool set_napy (int new_napy);
+
     std::vector<ZmElement*>Tail2;
     Zmeika();
     ~Zmeika();
-    int Headx, Heady;
-    int napx, napy;
+
     int dlintail;
     //жива ли змейка
     bool Alive;
-    ZmElement* Tail;
-    int enumHead ();
-    int enumTail ();
+    ZmElement* tail;
+    int enumerateHead ();
+    int enumerateTail ();
 
-    bool RotateUp();
-    bool RotateDown();
-    bool RotateLeft();
-    bool RotateRight();
-    bool Move();
+    bool rotateUp();
+    bool rotateDown();
+    bool rotateLeft();
+    bool rotateRight();
+    bool move();
 
-    void Shift();
-    bool Check();
+    void shift();
+    bool check1();
+	bool check2();
+	bool check3();
+
     };
 #endif

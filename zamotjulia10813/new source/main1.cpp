@@ -5,16 +5,18 @@ using namespace std;
 #include "Field.h"
 #include "Fruct.h"
 #include "Snake.h"
-#include <vector>
+
 #include "Game.h"
 
-void main() {  
-	system("title Snake");
-	Game *G1=new Game();
-	while(1)
-	{
-		G1->Upd();
-	}
-	system("pause");
-	
+
+void main() {
+    system("title Snake");
+    Game * G1=new Game();
+
+    while(1)
+    {
+        G1->update();
+    }
+    system("pause");
+
 }

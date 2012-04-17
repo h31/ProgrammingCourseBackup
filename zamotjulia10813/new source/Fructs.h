@@ -7,19 +7,18 @@
 
 class Fructs { //Фрукты, состоящие из фруктов
 private:
-    //vector <Fruct> Fructs2;
-
-    int Nfructs; //число фруктов
+    int numberfructs; //число фруктов
 public:
     Fruct** fruct;
-    std::vector<Apple>Apples;
-    std::vector<Grusha>Grushes;
+    std::vector<Fruct*>Apples;
+    std::vector<Fruct*>Grushes;
     Fructs (int len);
-    void add (int Size1,int Size2); //
-    void addApple(Apple new_apple);//вручную
-    void addGrusha(Grusha new_grusha);
-    bool setNfructs (int new_N);
-    int getNfructs ();
+    bool set_numberfructs (int new_numberfructs);
+    int get_numberfructs ();
+    void add (int size1,int size2); //
+    void addApple(Apple *new_apple);//вручную
+    void addPear(Pear *new_pear);
+
 };
 
 #endif

@@ -2,14 +2,26 @@
 #define _Game_h_
 #include "Scenario.h"
 
-class Game { //только она консольная, все остальное-нет.
+class Game { //консольный класс, все остальные - к консоли не привязаны
+private:
+    int time_pear;
+    int cycle_snake;
 public:
     Game ();
     ~Game();
-    void Upd ();
-    int Time; //для груши
-    int Cycle; //для змейки
-    Scenario1 *Sc1;
+    Scenario1 *scenario1;
+	Scenario2 *scenario2;
+	Scenario3 *scenario3;
+    int gettime_pear();
+    bool settime_pear(int newtime_pear);
+    int getcycle_snake();
+    bool setcycle_snake(int newcycle_snake);
+    void update();
+	void printField(Scenario*currentscenario);
+	void updateField(Scenario*currentscenario);
+	static char intToChar (int Code); //служебная функция для норм.отрисовки поля
+
 };
 
 #endif
+

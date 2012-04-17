@@ -4,17 +4,19 @@
 class ZmElement {
 private:
 int x, y;
+int napx, napy;
 public:
     ZmElement ();
     ZmElement (int X, int Y);
     ~ZmElement();
-    int napx;
-    int napy;
     int getx();
     int gety();
     bool setx (int new_x);
     bool sety (int new_y);
-
+    int getnapx();
+    int getnapy();
+    bool set_napx(int new_napx );
+    bool set_napy(int new_napy);
 };
 
 #endif

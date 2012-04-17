@@ -1,51 +1,56 @@
 #include "Fructs.h"
 
 Fructs::Fructs (int len) {
-        Nfructs=len;
+        numberfructs=len;
 
-        fruct = new Fruct*[Nfructs];
+        fruct = new Fruct*[numberfructs];
 
         // инициализация массива
-        for (int i=0; i<Nfructs; i++)
+        for (int i=0; i<numberfructs; i++)
         {
             fruct [i] = 0;
         }
-    };
+    }
 
 //добавить фрукты в массив
-void Fructs::add (int Size1,int Size2) {
+void Fructs::add (int size1,int size2) {
 
-        for(int i=0; i<Nfructs; i++)
+        for(int i=0; i<numberfructs; i++)
         {
-        int r=rand() %2+1;
-        int x=rand() %Size1; //чтобы не вылететь за пределы поля
-        int y=rand() %Size2;
-        Apple*Ap= new Apple (x,y);
-        Grusha*Gr= new Grusha (Grtime,x,y);
-        switch (r) {
+        int random=rand() %2+1;
+        int x=rand() %size1; //чтобы не вылететь за пределы поля
+        int y=rand() %size2;
+        Apple*ap= new Apple (x,y);
+        Pear*pear= new Pear (peartime,x,y);
+        switch (random) {
             case 1:
-                    fruct[i]=Ap;
+                    fruct [i]=ap;
                     break;
             case 2:
-                    fruct[i]=Gr;
+                    fruct [i]=pear;
                     break;
         }
         }
-    };
+    }
 
-    bool Fructs::setNfructs (int new_N)
+    bool Fructs::set_numberfructs (int new_numberfructs)
     {
-        if(new_N<0)
+        if(new_numberfructs<0)
         {
             return false;
         }
         else
         {
-            Nfructs=new_N;
+            numberfructs=new_numberfructs;
             return true;
         }
-    };
-    int Fructs::getNfructs()
+    }
+    int Fructs::get_numberfructs()
     {
-        return Nfructs;
-    };
+        return numberfructs;
+    }
+
+    void Fructs::addApple(Apple *new_apple)
+    {
+        //Apples.push_back(new_apple);
+    }
