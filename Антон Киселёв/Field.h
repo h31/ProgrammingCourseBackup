@@ -2,15 +2,15 @@
 
 class Field
 {
-	int* *FieldVictory;//Поле для проверки на ошибки
 	void InitField();
+	void Generation(int chislo);
 	int IsSq(int ixRow, int ixCol, int chislo);
 	int IsVer(int ixRow, int chislo);
 	int IsHor(int ixCol, int chislo);
 public:
+	int* *FieldVictory;//Поле для проверки на ошибки
 	int* *GameField;
-	Field(void);
-	void Generation(int chislo);
+	Field(int chislo, char name[]);
 	int CountZero();
 	void OutOfField();
 	void Fill_Zero(int NumberOfZero);
