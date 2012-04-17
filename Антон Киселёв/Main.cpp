@@ -3,6 +3,7 @@
 #include <locale.h>
 #include <time.h>
 #include "Field.h"
+#include "Cell.h"
 #include "SavedGames.h"
 using namespace std;
 void main(void)
@@ -13,7 +14,22 @@ void main(void)
 
 	setlocale(LC_ALL, "Russian");
 	SavedGames SG;
-	Field GameField;
+	Field GameField = Field(chislo, name);
+	GameField.OutOfField();
+	//Проверка взятия конкретной клетки
+	int ixRow = 0;
+	int ixCol = 0;
+	for (int ixRow = 0; ixRow < 9; ixRow++)
+	{
+		for (int ixCol = 0; ixCol < 9; ixCol++)
+		{
+			Cell cell = Cell(GameField, ixRow, ixCol);
+			cell.GetCell();
+			cout << " ";
+		}
+		cout << "\n\n";
+	}
+
 	int level = 0;//Уровень сложности
 	int NumberOfZero = 0;//Количество пропусков для каждого уровня сложности
 	cout << "Выберете уровень сложности: \n";
@@ -28,8 +44,6 @@ void main(void)
 	else if (level == 3)
 		NumberOfZero = 5;
 
-	GameField.Generation(chislo);
-	SG.SaveField(GameField, name);
 	GameField.Fill_Zero(NumberOfZero);
 	int num = GameField.CountZero();
 	GameField.OutOfField();
@@ -63,16 +77,4 @@ void main(void)
 
 	SG.LoadRequest(GameField);
 	GameField.OutOfField();
-
-	//Проверка взятия конкретной клетки
-	int ixRow = 0;
-	int ixCol = 0;
-	for (int ixRow = 0; ixRow < 9; ixRow++)
-	{
-		for (int ixCol = 0; ixCol < 9; ixCol++)
-		{
-			GameField.OutOfCell(ixRow, ixCol);
-		}
-		cout << "\n\n";
-	}
 }
