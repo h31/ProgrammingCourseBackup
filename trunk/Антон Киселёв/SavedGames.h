@@ -7,13 +7,14 @@ class SavedGames
 	int Number;
 	char Name[ 100 ];
 	int Array[ 9 ][ 9 ];
+	void RecordData(char name[], Field GameField);
+	void RecordField(char name[], int** GameField);
+	void SaveGame();
+	void LoadGame(char name[], Field GameField);
 public:
 	SavedGames(void);
-	void SaveField(Field GameField, char name[]);
+	void SaveField(int** GameField, char name[]);
 	bool SaveRequest(Field GameField);
-	void RecordData(char name[], Field GameField);
-	void SaveGame();
 	void LoadRequest(Field GameField);
-	void LoadGame(char name[], Field GameField);
 	~SavedGames(void);
 };
