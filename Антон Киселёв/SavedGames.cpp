@@ -7,9 +7,9 @@ SavedGames::SavedGames()
 {
 }
 //Сохранение сгенерированного поля
-void SavedGames::SaveField(Field GameField, char name[])
+void SavedGames::SaveField(int** GameField, char name[])
 {
-	RecordData(name, GameField);
+	RecordField(name, GameField);
 	SaveGame();
 }
 //Запрос на сохранения игры
@@ -33,6 +33,15 @@ bool SavedGames::SaveRequest(Field GameField)
 	{
 		return false;
 	}
+}
+//Запись готового поля в файл
+void SavedGames::RecordField(char name[], int** GameField)
+{
+	for (int ixRow = 0; ixRow < 100; ixRow++)
+		Name[ ixRow ] = name[ ixRow ];
+	for (int ixRow = 0; ixRow < 9; ixRow++)
+		for (int ixCol = 0; ixCol < 9; ixCol++)
+			Array[ ixRow ][ ixCol ] = GameField[ ixRow ][ ixCol ];
 }
 //Запись текущей игры
 void SavedGames::RecordData(char name[], Field GameField)
