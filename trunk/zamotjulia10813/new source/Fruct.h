@@ -5,31 +5,36 @@
 #include <stdlib.h>
 using namespace std;
 
-const int Grtime=20;
+const int peartime=20;
 
-enum FructTipe { App=0, Grr=1 };
+enum fructType { app=0, pear=1 };
 
 class Fruct { //единичный фрукт, абстрактый базовый класс
-public:
+private:
     int x, y;
+public:
     Fruct (int X, int Y);
     ~Fruct();
-    virtual int enumfunc ( )=0;
+    int getx();
+    int gety();
+    bool setx (int new_x);
+    bool sety (int new_y);
+    virtual int fructenumerate ( )=0;
 };
 
 class Apple: public Fruct { //производный класс
 public:
     Apple (int X, int Y);
     ~Apple();
-    int enumfunc ();
+    int fructenumerate ();
 };
 
-class Grusha: public Fruct { //производный класс
+class Pear: public Fruct { //производный класс
 public:
     int time;
-    Grusha (int t, int X, int Y);
-    ~Grusha();
-    int enumfunc ( );
+    Pear (int t, int X, int Y);
+    ~Pear();
+    int fructenumerate ();
 };
 
 #endif
