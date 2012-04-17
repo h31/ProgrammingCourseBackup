@@ -1,14 +1,18 @@
 #include "Field.h"
+#include "SavedGames.h"
 #include <iostream>
 #include <fstream>
 #include <time.h>
 using namespace std;
-Field::Field(void)
+Field::Field(int chislo, char name[])
 {
 	GameField = new int *[ 9 ];
 	for (int i = 0; i < 9; i++)
 		GameField[ i ] = new int [ 9 ];
 	InitField();
+	Generation(chislo);
+	SavedGames SG;
+	SG.SaveField(GameField, name);
 }
 //Заполнение массива готовым образцом
 void Field::InitField()
@@ -26,8 +30,11 @@ void Field::Generation(int chislo)
 		{
 				int count = 9;
 				for (int var = 1; var < 10; ++var)
+				{
+
 					if (IsSq(ixRow, ixCol, var) || IsHor(ixCol, var) || IsVer(ixRow, var))
 						--count;
+				}
 				if (!count)
 				{
 					InitField();
@@ -118,16 +125,6 @@ void Field::OutOfField()
 	for (int ixRow = 0; ixRow < 9; ixRow++)
 		cout << "(" << ixRow+1 << ")";
 	cout << "\n";
-}
-//Взятие клетки
-int Field::GetCell(int ixRow, int ixCol)
-{
-	return GameField[ ixRow ][ ixCol ];
-}
-//Вывод клетки
-void Field::OutOfCell(int ixRow, int ixCol)
-{
-	cout << " " << GameField[ ixRow ][ ixCol ] << " ";
 }
 //Определение победы игрока
 int Field::Define_Victory(char name[])
