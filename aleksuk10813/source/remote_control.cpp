@@ -32,23 +32,30 @@ void RemoteControl::operator()(set<string>* sources, mutex* m)
         method = getMethodOfRequest(request);
         path = getRequestedPath(request);
 
-        if (method == "GET" && path == "sources")
+        if (getTypeOfRequest() == GET_SOURCES)
         {
             unique_lock<mutex> lk(*m);
                 string xml = generateXMLForSources(*sources);
             lk.unlock();
             sendResponce(xml);
         }
-        else if (method == "POST" && path == "sources")
+        else if (getTypeOfRequest() == SET_SOURCES)
         {
-            // TODO
+            payload = getPayloadOfPOST(request);
+            unique_lock<mutex> lk(*m);
+                importSources(payload, sources);
+            sendResponce("");
         }
-        else if (method == "POST" && path == "opml")
+        else if (getTypeOfRequest() == IMPORT_OPML)
         {
             payload = getPayloadOfPOST(request);
             unique_lock<mutex> lk(*m);
                 importOPML(payload, sources);
             lk.unlock();
+        }
+        else if (getTypeOfRequest() == EXPORT_OPML)
+        {
+            // TODO
         }
         // TODO: остальные варианты
         else
@@ -91,6 +98,28 @@ string RemoteControl::getPayloadOfPOST(string request)
     return request.substr(dataStart);
 }
 
+TypeOfRequest RemoteControl::getTypeOfRequest()
+{
+    if (method == "GET" && path == "sources")
+    {
+        return GET_SOURCES;
+    }
+    else if (method == "POST" && path == "sources")
+    {
+        return SET_SOURCES;
+    }
+
+    else if (method == "GET" && path == "opml")
+    {
+        return EXPORT_OPML;
+    }
+    else if (method == "POST" && path == "opml")
+    {
+        return IMPORT_OPML;
+    }
+    else throw RemoteControlException(ERROR, "Unknown type of request");
+}
+
 string RemoteControl::generateXMLForSources(set<string> sources)
 {
     pugi::xml_document doc;
@@ -99,9 +128,14 @@ string RemoteControl::generateXMLForSources(set<string> sources)
     for (set<string>::iterator it = sources.begin(); it != sources.end(); it++)
     {
         pugi::xml_node source = root.append_child("source");
-        pugi::xml_attribute attr = source.append_attribute("address");
-        attr.set_name("address");
-        attr.set_value(it->c_str() );
+
+        pugi::xml_attribute addressAttribute = source.append_attribute("address");
+        addressAttribute.set_name("address");
+        addressAttribute.set_value(it->c_str() );
+
+        pugi::xml_attribute protocolAttribute = source.append_attribute("protocol");
+        protocolAttribute.set_name("protocol");
+        protocolAttribute.set_value("rss"); // TODO
     }
 
     stringstream payload;
@@ -111,9 +145,33 @@ string RemoteControl::generateXMLForSources(set<string> sources)
 
 void RemoteControl::importOPML(string opml, set<string> *sources)
 {
+//    pugi::xml_document doc;
+//    stringstream stream;
+//    doc.load(stream);
+}
+
+void RemoteControl::importSources(string requestPayload, set<string> *sources)
+{
+    sources->clear();
     pugi::xml_document doc;
-    stringstream stream;
-    doc.load(stream);
+    pugi::xml_parse_result result = doc.load_buffer(requestPayload.c_str(), requestPayload.length());
+
+    if (result.status != pugi::status_ok)
+        throw RemoteControlException(ERROR, "Bad XML syntax");
+
+    pugi::xml_node root = doc.child("data");
+    if (root == NULL)
+        throw RSSReceiverException(ERROR, "No rss or channel nodes");
+
+    if (root.child("source") == NULL)
+        throw RSSReceiverException(ERROR, "No source nodes");
+    for (pugi::xml_node item = root.child("source"); item; item = item.next_sibling("item") )
+    {
+        pugi::xml_attribute attr = item.attribute("address");
+        if (attr == NULL)
+            throw RSSReceiverException(ERROR, "No address attribute");
+        sources->insert(attr.value() );
+    }
 }
 
 void RemoteControl::sendResponce(string payload)
