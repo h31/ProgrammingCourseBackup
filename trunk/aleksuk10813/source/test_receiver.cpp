@@ -33,5 +33,5 @@ void TestReceiver::operator()(queue<InRecord>* pipe, set<string>* sources, condi
     // Workaround того, что после завершения потока Receiver программа падает
     // реальная реализация Receiver работает постоянно, поэтому проблема
     // касается только TestReceiver.
-    this_thread::sleep_for(chrono::minutes(10));
+    this_thread::sleep_for(chrono::minutes(30));
 }

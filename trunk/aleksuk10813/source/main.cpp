@@ -43,7 +43,7 @@ int main()
 
         //sources->insert("http://127.0.0.1/security.rss");
         sources->insert("http://news.yandex.ru/security.rss");
-        //sources->insert("http://feeds.newsru.com/com/www/news/top");
+        sources->insert("http://feeds.newsru.com/com/www/news/top");
 
         thread receiver2(testIn, inQueue, sources, inputCond, inputMutex);
         thread receiver(rssIn, inQueue, sources, inputCond, inputMutex);

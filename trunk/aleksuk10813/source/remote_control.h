@@ -9,6 +9,15 @@
 
 using namespace std;
 
+enum TypeOfRequest
+{
+    GET_SOURCES,
+    SET_SOURCES,
+
+    EXPORT_OPML,
+    IMPORT_OPML
+};
+
 class RemoteControl
 {
 public:
@@ -26,11 +35,13 @@ private:
     void establishServerSocket();
     void establishClientSocket();
 
+    enum TypeOfRequest getTypeOfRequest();
     string getRequestedPath(string request);
     string getMethodOfRequest(string request);
     string getPayloadOfPOST(string request);
     string generateXMLForSources(set<string> sources);
     void importOPML(string opml, set<string>* sources);
+    void importSources(string requestPayload, set<string>* sources);
     void sendResponce(string payload);
 
     string receiveRequest();
