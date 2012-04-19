@@ -3,7 +3,7 @@
 
 bool Figure::isFinishCellTrue(const int xCoordinate,const int yCoordinate,const Desk& desk)
 {
-	if(xCoordinate>7 || xCoordinate<0 || yCoordinate>7 || yCoordinate<0)
+	if(xCoordinate>8 || xCoordinate<0 || yCoordinate>8 || yCoordinate<0)
 		return false;
 	if(xCoordinate == coordinateX && yCoordinate == coordinateY)
 		return false;

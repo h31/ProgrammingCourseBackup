@@ -16,15 +16,23 @@ bool Queen::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Des
 {
 	if(isFinishCellTrue(xCoordinate,yCoordinate,desk)==false)
 		return false;
-	if(abs(xCoordinate - coordinateX)!=0 && abs(yCoordinate - coordinateY)!=0 && abs(coordinateX - xCoordinate)!=abs(coordinateY- yCoordinate))
-		return false;
-	int stepY=abs(yCoordinate-coordinateY)/(yCoordinate-coordinateY);
-	int stepX=abs(xCoordinate-coordinateX)/(xCoordinate-coordinateX);
+	if(abs(coordinateX - xCoordinate)!=abs(coordinateY-yCoordinate))
+		if(abs(coordinateX-xCoordinate)!=0 && (coordinateY-yCoordinate)!=0)
+			return false;
+	int stepX,stepY;
+	if(yCoordinate==coordinateY)
+		stepY=0;
+	else
+		stepY=(yCoordinate-coordinateY)/abs(yCoordinate-coordinateY);
+	if(xCoordinate==coordinateX)
+		stepX=0;
+	else
+		stepX=(xCoordinate-coordinateX)/abs(xCoordinate-coordinateX);
 
 	int startX = coordinateX;
 	int startY = coordinateY;
 
-	while(abs(startX-xCoordinate)>1)
+	while(abs(startX-xCoordinate)>1 || abs(startY-yCoordinate)>1)
 	{
 		startX+=stepX;
 		startY+=stepY;
@@ -34,5 +42,5 @@ bool Queen::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Des
 					return false;
 	}
 	cout<<"queen"<<xCoordinate<<yCoordinate<<endl;
-	return false;
+	return true;
 }

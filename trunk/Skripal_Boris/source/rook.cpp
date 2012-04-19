@@ -36,7 +36,10 @@ bool Rook::canFigureTurn(const int xCoordinate,const int yCoordinate,const Desk 
 			for(int i=0;i<32;i++)
 				if(desk.getFigure(i)->isEat()==false)     
 					if(desk.getFigure(i)->getX() == startX && desk.getFigure(i)->getY()==coordinateY)
+					{
 						lineIsClear=false;
+						break;
+					}
 		}
 
 	if((yCoordinate - coordinateY)!=0)
@@ -45,8 +48,11 @@ bool Rook::canFigureTurn(const int xCoordinate,const int yCoordinate,const Desk 
 			startY+=stepOfRook;
 			for(int i=0;i<32;i++)
 				if(desk.getFigure(i)->isEat()==false)
-					if(desk.getFigure(i)->getX() == startX && desk.getFigure(i)->getY()==coordinateY)
+					if(desk.getFigure(i)->getX() == coordinateX && desk.getFigure(i)->getY()==startY)
+					{
 						lineIsClear=false;
+						break;
+					}
 		}
 
 	if(lineIsClear == true)
