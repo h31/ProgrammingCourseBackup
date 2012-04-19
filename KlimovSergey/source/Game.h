@@ -10,7 +10,7 @@ public:
 	int number;
 	Game();
 	~Game();
-	bool Start(Field field, char* arg, Player player);
+	bool Start(Field &field, char* arg, Player &player);
 };
 
 #endif

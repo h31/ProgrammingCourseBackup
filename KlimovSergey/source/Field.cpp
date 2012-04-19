@@ -43,10 +43,6 @@ bool Field::loadField(char* arg)
 		//cout<<endl;
 		}
 		ver = vertmp;
-		//cout<<hor_row<<" "<<ver_row<<" "
-		//	<<hor_col<<" "<<ver_col<<" "
-		//	/*<<k*/<<endl;
-		//cout<<height<<" "<< width<<endl;
 		return true;
 	}
 
@@ -104,8 +100,6 @@ bool Field::loadComplete(char* arg)
 				fin >> tmp[i][j].status;
 				tmp[i][j].s.x = i;
 				tmp[i][j].s.y = j;
-				//cout << map[i][j].status<<" ";
-				//cout << map[i][j].s.x<<" "<<map[i][j].s.y<<" ";
 			}
 		//cout<<endl;
 		}

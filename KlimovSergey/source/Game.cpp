@@ -6,7 +6,7 @@ Game::Game()
 Game::~Game()
 {}
 
-bool Game::Start(Field field, char* arg, Player player)
+bool Game::Start(Field &field, char* arg, Player &player)
 {
 	field.loadField(arg);
 	Square **tmp = new Square*[field.height];
@@ -20,12 +20,9 @@ bool Game::Start(Field field, char* arg, Player player)
 				tmp[i][j].s.x = i;
 				tmp[i][j].s.y = j;
 				//cout << tmp[i][j].status<<" ";
-				//cout << map[i][j].s.x<<" "<<map[i][j].s.y<<" ";
 			}
 		//cout<<endl;
 		}
 	field.map = tmp;
-	//field.show();
-	cout<<field.height<<endl;
 	return true;
 }
