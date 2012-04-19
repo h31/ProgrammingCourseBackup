@@ -23,6 +23,9 @@ bool RSSReceiverTest7();
 
 bool RemoteControlTest1();
 bool RemoteControlTest2();
+bool RemoteControlTest3();
+bool RemoteControlTest4();
+bool RemoteControlTest5();
 
 bool SMTPSenderTest1();
 bool SMTPSenderTest2();
