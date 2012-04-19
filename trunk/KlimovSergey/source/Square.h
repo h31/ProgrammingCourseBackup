@@ -15,12 +15,10 @@ class Square
 {
 public:
 	Point s;
-	//bool painted, marked, empty;
-	int status;
+	int status;//0-empty;1-painted;2-marked
 	int getStat();
 	Square();
 	~Square();
-	//friend ifstream& operator >>(ifstream& in, Square& sq);
 	friend ostream& operator <<(ostream& out, const Square& sq);
 	friend istream& operator >>(istream& in, Square& sq);
 };

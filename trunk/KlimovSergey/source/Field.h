@@ -2,8 +2,6 @@
 #define _FIELD_H
 
 #include"Square.h"
-//#include <fstream>
-//#include <iostream>
 
 using namespace std;
 

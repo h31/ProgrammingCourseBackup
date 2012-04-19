@@ -10,8 +10,8 @@ class Player
 public:
 	Player();
 	~Player();
-	int ChangeStat(int st,Square square);
-	bool ChangeStat(int st,Field field, int x, int y);
+	int ChangeStat(int st,Square &square);
+	bool ChangeStat(int st,Field &field, int x, int y);
 };
 
 #endif
