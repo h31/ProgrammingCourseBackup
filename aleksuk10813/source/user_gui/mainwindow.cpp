@@ -64,6 +64,11 @@ void MainWindow::dataReceived(QNetworkReply* reply)
 
 }
 
+void MainWindow::dataSended(QNetworkReply *reply)
+{
+
+}
+
 void MainWindow::on_addSource_clicked()
 {
     AddDialog* addDialog = new AddDialog;
@@ -73,5 +78,22 @@ void MainWindow::on_addSource_clicked()
 
 void MainWindow::on_buttonBox_accepted()
 {
+    QDomDocument doc;
+    QDomElement root = doc.createElement("data");
+    doc.appendChild(root);
+    for (int i=0; i < ui->sourceTable->rowCount(); i++)
+    {
+        QDomElement source = doc.createElement("source");
+        source.setAttribute("protocol", ui->sourceTable->item(i, 0)->text() );
+        source.setAttribute("address", ui->sourceTable->item(i, 1)->text() );
+        root.appendChild(source);
+    }
+    ui->textEdit->setPlainText(doc.toString().toUtf8() );
+//    ui->sourceTable->item(0, 0)->data()
+    //elem.setAttribute("src", "myimage.png");
 
+    QNetworkAccessManager* postData = new QNetworkAccessManager;
+    connect(postData, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(dataSended(QNetworkReply*)));
+    postData->post(QNetworkRequest(QUrl("http://localhost:9863/sources")), doc.toString().toUtf8() );
 }

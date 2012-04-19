@@ -40,6 +40,9 @@ void testSequence()
 
     runTest(RemoteControlTest1, "RemoteControl, test1 (образцовый XML)");
     runTest(RemoteControlTest2, "RemoteControl, test2 (getMethodOfRequest)");
+    runTest(RemoteControlTest3, "RemoteControl, test3 (getMethodOfRequest)");
+    runTest(RemoteControlTest4, "RemoteControl, test4 (getRequestedPath)");
+    runTest(RemoteControlTest5, "RemoteControl, test5 (getRequestedPath)");
 
     runTest(SMTPSenderTest1, "SMTPSender, test1 (обработка точек нужна)");
     runTest(SMTPSenderTest2, "SMTPSender, test2 (обработка точек не нужна)");
@@ -211,6 +214,30 @@ bool RemoteControlTest2()
 {
     RemoteControl testObj;
     if (testObj.getMethodOfRequest("GET /path HTTP/1.1") == "GET")
+        return true;
+    else return true;
+}
+
+bool RemoteControlTest3()
+{
+    RemoteControl testObj;
+    if (testObj.getMethodOfRequest("POST /path HTTP/1.1") == "POST")
+        return true;
+    else return true;
+}
+
+bool RemoteControlTest4()
+{
+    RemoteControl testObj;
+    if (testObj.getRequestedPath("GET /path HTTP/1.1") == "path")
+        return true;
+    else return true;
+}
+
+bool RemoteControlTest5()
+{
+    RemoteControl testObj;
+    if (testObj.getRequestedPath("POST /path HTTP/1.1") == "path")
         return true;
     else return true;
 }

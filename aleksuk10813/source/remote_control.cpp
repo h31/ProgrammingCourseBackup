@@ -85,8 +85,9 @@ string RemoteControl::getRequestedPath(string request)
     // Пример:
     // GET /path HTTP/1.1
 
-    int pathEnd = request.find("HTTP") - 2;
-    string path(request, strlen("GET /"), pathEnd - strlen("GET "));
+    int pathEnd = request.find("HTTP") - 1;
+    int pathStart = request.find(" /") + strlen(" /");
+    string path(request, pathStart, pathEnd - pathStart);
     return path; // TODO: упростить
 }
 

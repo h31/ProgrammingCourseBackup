@@ -49,7 +49,11 @@ private:
     void runBind();
     void runListen();
     void windowsSocketStart();
+
     friend bool RemoteControlTest2();
+    friend bool RemoteControlTest3();
+    friend bool RemoteControlTest4();
+    friend bool RemoteControlTest5();
 };
 
 #endif // REMOTE_CONTROL_H
