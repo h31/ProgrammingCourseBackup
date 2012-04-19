@@ -26,29 +26,25 @@ private:
 	Figure *bKing;
 	
 	PlayingBoard **playingBoard;
-
 	Figure **figure;
+
 	void cancelTurn(const int coordinateX, const int coordinateY, const int number);
 
-	
 	void refreshPlayingBoard();
 	void chanchePawn(const bool whiteColour);
 	void setFigure(const int numberOfFigure,const  int type);
 	bool castling(const int startX, const int startY,const int finishX,const  int finishY,const  bool whitePlayer);
 	bool enPassant(const int startX,const  int startY,const int finishX, const int finishY,const  bool whitePlayer);
 public:
-	Figure* getFigure(const int number) const;
-
 	Desk();
-	
+
+	Figure* getFigure(const int number) const;	
 	void createNewDesk();
-	
 	bool checkMat(const bool whitePlayer);
 	bool checkShah(const bool whitePlayer);
-
-	void printPlayingBoard();
-
 	bool makeFigureTurn(const int startX,const int startY,const int finishX,const int finishY, const bool whitePlayerTurn);
+
+	void printPlayingBoard();\
 	~Desk();
 };
 

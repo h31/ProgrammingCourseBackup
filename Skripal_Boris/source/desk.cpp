@@ -85,11 +85,12 @@ void Desk::refreshPlayingBoard()
 			playingBoard[i][k].figureOnCell=NULL;
 
 	for(int i=0;i<32;i++)
-	{
+		if(figure[i]->isEat()==false)
+		{
 		playingBoard[figure[i]->getX()-1][figure[i]->getY()-1].figuresType=figure[i]->getType();
 		playingBoard[figure[i]->getX()-1][figure[i]->getY()-1].isFigureWhite=figure[i]->getColour();
 		playingBoard[figure[i]->getX()-1][figure[i]->getY()-1].figureOnCell=figure[i];
-	}
+		}
 	return;
 }
 Desk::~Desk()
@@ -257,9 +258,9 @@ bool Desk::enPassant(const int startX, const int startY, const int finishX,const
 		return false;
 	if(abs(startY-finishY)!=1)
 		return false;
-	if(finishY<startY && whitePlayer==false)
+	if(finishY>startY && whitePlayer==false)
 		return false;
-	if(finishY>startY && whitePlayer==true)
+	if(finishY<startY && whitePlayer==true)
 		return false;
 	for(int i=0;i<32;i++)
 		if(figure[i]->getX()==startX && figure [i]->getY()==startY && figure[i]->getType()==pawn && figure[i]->getColour()==whitePlayer && figure[i]->isEat()==false)
@@ -294,7 +295,7 @@ void Desk::printPlayingBoard()
 	{
 		for(int k=0;k<8;k++)
 		{
-			if(playingBoard[k][i].figureOnCell!=NULL)
+			if(playingBoard[k][i].figureOnCell!=NULL&&playingBoard[k][i].figureOnCell->isEat()==false)
 			{
 				if(playingBoard[k][i].isFigureWhite==true)
 					cout<<"w"<<playingBoard[k][i].figureOnCell->symbol<<" ";
@@ -336,30 +337,30 @@ bool Desk::makeFigureTurn(const int startX,const int startY,const int finishX,co
 			break;
 		}
 
-	if(getFigure(numberOfFirstFigure)->getColour()!=whitePlayerTurnNow)
+	if(getFigure(numberOfFirstFigure)->getColour()!=whitePlayerTurnNow || getFigure(numberOfFirstFigure)->isEat()==true)
 		return false;
-	if(numberOfSecondFigure!=-1 && getFigure(numberOfSecondFigure)->getColour()==whitePlayerTurnNow)
+	if(numberOfSecondFigure!=-1 && getFigure(numberOfSecondFigure)->getColour()==whitePlayerTurnNow && getFigure(numberOfSecondFigure)->isEat()==true)
 		return false;
 
 	if(castling(startX,startY,finishX,finishY,whitePlayerTurnNow)==true)
 	{
-		if(checkShah(whitePlayerTurnNow)==true)
+		/*if(checkShah(whitePlayerTurnNow)==true)
 		{
 			cancelTurn(startX,startY,numberOfFirstFigure);
 			cancelTurn(finishX,finishY,numberOfSecondFigure);
 			return false;
-		}
+		}*/
 		cout<<"Castling is true"<<endl;
 		return true;
 	}
 	if(enPassant(startX,startY,finishX,finishY,whitePlayerTurnNow)==true)
 	{
-		if(checkShah(whitePlayerTurnNow)==true)
+		/*if(checkShah(whitePlayerTurnNow)==true)
 		{
 			cancelTurn(startX,startY,numberOfFirstFigure);
 			cancelTurn(finishX,finishY,numberOfSecondFigure);
 			return false;
-		}
+		}*/
 		cout<<"en passant is true"<<endl;
 		return true;
 	}
@@ -373,12 +374,12 @@ bool Desk::makeFigureTurn(const int startX,const int startY,const int finishX,co
 		else
 			getFigure(numberOfFirstFigure)->putFigure(finishX,finishY);
 
-		if(checkShah(whitePlayerTurnNow)==true)
+		/*if(checkShah(whitePlayerTurnNow)==true)
 		{
 			cancelTurn(startX,startY,numberOfFirstFigure);
 			cancelTurn(finishX,finishY,numberOfSecondFigure);
 			return false;
-		}
+		}*/
 
 		chanchePawn(whitePlayerTurnNow);
 		refreshPlayingBoard();

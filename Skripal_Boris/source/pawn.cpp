@@ -24,7 +24,10 @@ bool Pawn::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk
 			if(desk.getFigure(i)->getX() == xCoordinate)
 				if(desk.getFigure(i)->getY() == yCoordinate)
 					if(desk.getFigure(i)->getColour()!=whiteColour)
+					{
 						pawnEat=true;
+						break;
+					}
 	if(pawnEat==false)
 		for(int i=0;i<32;i++)
 			if(desk.getFigure(i)->isEat()==false)
@@ -41,7 +44,7 @@ bool Pawn::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk
 			if(whiteColour==false && (coordinateY - yCoordinate)==2)
 				if(steps==0)
 					return true;
-			if(whiteColour==true && abs(coordinateY - yCoordinate)==-1 )
+			if(whiteColour==true && (coordinateY - yCoordinate)==-1 )
 					return true;
 			if(whiteColour==false && (coordinateY - yCoordinate)==1)
 					return true;
@@ -49,9 +52,9 @@ bool Pawn::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk
 	if(pawnEat==true)
 		if(abs(xCoordinate - coordinateX)==1)
 		{
-			if(whiteColour==true && (coordinateY - yCoordinate)==1 )
+			if(whiteColour==true && (coordinateY - yCoordinate)==-1 )
 					return true;
-			if(whiteColour==false && (coordinateY - yCoordinate)==-1)
+			if(whiteColour==false && (coordinateY - yCoordinate)==1)
 					return true;
 		}
 	cout<<"pawn"<<xCoordinate<<yCoordinate<<endl;

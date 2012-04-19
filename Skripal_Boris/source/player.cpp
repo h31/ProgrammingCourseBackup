@@ -10,14 +10,18 @@ Player::Player()
 bool Player::makeGame()
 {
 	int startX,startY,finishX,finishY;
-
+	desk.printPlayingBoard();
 	while(winner == nobody)
 	{
-		if(desk.checkShah(whitePlayerTurnNow)==true)
+		/*if(desk.checkShah(whitePlayerTurnNow)==true)
 		{
 			checkWinner();
 			cout<<"Shah"<<endl;
-		}
+		}*/
+		if(whitePlayerTurnNow==true)
+			cout<<"Whie player turn now"<<endl;
+		else
+			cout<<"Black player turn now"<<endl;
 
 		cin>>startX>>startY>>finishX>>finishY;
 

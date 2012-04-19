@@ -16,7 +16,7 @@ bool Bishop::canFigureTurn(const int xCoordinate,const int yCoordinate,const  De
 {
 	if(isFinishCellTrue(xCoordinate,yCoordinate,desk)==false)
 		return false;
-	if(abs(xCoordinate - coordinateX)!=(yCoordinate - coordinateY))
+	if(abs(xCoordinate - coordinateX)!=abs(yCoordinate - coordinateY))
 		return false;
 
 	int xStep = (xCoordinate - coordinateX)/(abs(xCoordinate - coordinateX));
@@ -25,13 +25,13 @@ bool Bishop::canFigureTurn(const int xCoordinate,const int yCoordinate,const  De
 	int startY = coordinateY;
 	bool lineIsClear = true;
 
-	while(abs(xCoordinate - coordinateX)>0)
+	while((xCoordinate - startX)!=0)
 	{
 		startX+=xStep;
 		startY+=yStep;
 
 		for(int i=0;i<32;i++)
-			if(desk.getFigure(i)->isEat()!=true)
+			if(desk.getFigure(i)->isEat()==false)
 				if(desk.getFigure(i)->getX()==startX)
 					if(desk.getFigure(i)->getY() == startY)
 						return false;
