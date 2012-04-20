@@ -1,24 +1,33 @@
 #include "Fruct.h"
 
-Fruct::Fruct (int X, int Y) {
-        x=X; y=Y;};
+int Fruct::getx() {return x;}
+bool Fruct::setx (int new_x)
+{	x=new_x;
+    return true;
+}
 
-Fruct::~Fruct(){}
+int Fruct::gety() {return y;}
+bool Fruct::sety (int new_y)
+{	y=new_y;
+    return true;
+}
+
+Fruct::Fruct (int X, int Y) {
+        x=X; y=Y;}
+Fruct::~Fruct() { }
 
 Apple::Apple (int X, int Y) : Fruct(X,Y) {};
 Apple::~Apple () {};
-
-int Apple::enumfunc ()
+int Apple::fructenumerate ()
 {
-    return App;
-};
+    return app;
+}
 
-Grusha::Grusha (int t, int X, int Y): Fruct( X,Y) {
+Pear::Pear (int t, int X, int Y): Fruct( X,Y) {
         time=t;
     }
-Grusha::~Grusha () {};
-
-int Grusha::enumfunc ( )
+Pear::~Pear () {}
+int Pear::fructenumerate ( )
 {
-    return Grr;
-};
+    return pear;
+}
