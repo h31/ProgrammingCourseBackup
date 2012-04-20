@@ -1,30 +1,29 @@
 #ifndef _Field_h_
 #define _Field_h_
 
-#include <iostream>
 #include <stdlib.h>
-using namespace std;
 
 #include "Fructs.h"
 #include "Snake.h"
 
 class Field {
 private:
-    int** p;
-    char intToChar (int Code); //служебная функция для норм.отрисовки поля
-public:
-    int w,h;
+    int** field;
+    
+    int width, height;
 public:
     Field (int W, int H);
     Field ();
     ~Field ();
-    bool setp (int x, int y, int new_value); //для изменения ясчейки поля
-    int getp (int x, int y); //получить ячейку
+    bool set_field (int x, int y, int new_value); //для изменения ясчейки поля
+    int get_field (int x, int y); //получить ячейку
+    int get_width ();
+    bool set_width (int new_width);
+    int get_height();
+    bool set_height (int new_height);
     bool createField ();
     void init ();
-    void show ();
-
-
+    bool resize(int size1, int size2);
 };
 
 #endif
