@@ -5,6 +5,8 @@
 #include <queue>
 #include <set>
 #include <condition_variable>
+#include <list>
+#include <map>
 
 #include "shared.h"
 
@@ -40,21 +42,30 @@ class RSSReceiver
 {
 public:
     void operator()(queue<InRecord>* pipe,
-                    set<string>* sources,
+                    list<string>* sources,
                     condition_variable* inCond,
                     mutex* m);
 protected:
-    set<string> guids;
-    int sock;
     static const char* unitName;
+    static const int updateIntervalInSeconds;
+
+    string rawResponce;
+    HTTPRecord ParsedResponce;
+    list<InRecord> receivedItems;
+    string responce;
+    PartsOfURL partsOfURL;
+    map<string, set<string> > guids;
+    int sock;
+
     void windowsSocketStart();
     void sendRequest(PartsOfURL partsOfURL);
     string receiveResponce();
 
     HTTPRecord parseHTTP(const string responce);
-    void parseFeed(const string rssContent, vector<InRecord> &itemArray);
+    list<InRecord> parseFeed(const string rssContent);
+    void leaveOnlyNewItems(const string sourceAddress);
     PartsOfURL parseUrl(const string url);
-    virtual string downloadSource(const string url);
+    virtual void downloadSource(const string url);
 
     enum ReceiverStatusCode getStatusCode(const char responce);
 };
@@ -63,7 +74,7 @@ class TestReceiver
 {
 public:
     void operator()(queue<InRecord>* pipe,
-                    set<string>* sources,
+                    list<string>* sources,
                     condition_variable* inCond,
                     mutex* m);
 };

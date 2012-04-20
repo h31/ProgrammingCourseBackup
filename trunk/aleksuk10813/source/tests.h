@@ -7,7 +7,7 @@
 class TestRSSReceiver : public RSSReceiver
 {
 protected:
-    string downloadSource(const string url);
+    void downloadSource(const string url);
 };
 
 void runTest( bool (*test)(), const char *name = "" );

@@ -22,8 +22,8 @@ int main()
         queue<InRecord>* inQueue = new queue<InRecord>;
         queue<OutRecord>* outQueue = new queue<OutRecord>;
 
-        set<string>* sources = new set<string>;
-        set<string>* destinations = new set<string>;
+        list<string>* sources = new list<string>;
+        list<string>* destinations = new list<string>;
 
         mutex* inputMutex = new mutex;
         mutex* outputMutex = new mutex;
@@ -42,8 +42,9 @@ int main()
         RemoteControl remoteControl;
 
         //sources->insert("http://127.0.0.1/security.rss");
-        sources->insert("http://news.yandex.ru/security.rss");
-        sources->insert("http://feeds.newsru.com/com/www/news/top");
+        //sources->push_back("http://news.yandex.ru/security.rss");
+        //sources->push_back("http://feeds.newsru.com/com/www/news/top");
+        sources->push_back("http://identi.ca/api/statuses/user_timeline/188782.rss");
 
         thread receiver2(testIn, inQueue, sources, inputCond, inputMutex);
         thread receiver(rssIn, inQueue, sources, inputCond, inputMutex);
