@@ -2,79 +2,78 @@
 
 Field::Field (int W, int H)
 {
-    w=W; h=H;
-    createField();
-};
+    width=W; height=H;
+    createField ();
+    init();
+}
+
 Field:: ~Field ()
 {
-    for (int i=0; i<h; i++)
-        delete p[i];
-    delete [] p;
+    for (int i=0; i<height; i++)
+        delete field [i];
+    delete [ ] field;
+}
+
+bool Field::set_field (int x, int y, int new_value)
+{ field [x][y] = new_value;
+return true;
+}
+
+int Field::get_field (int x, int y) {
+    return field [x][y]; }
+
+int Field::get_width () { return width;}
+
+bool Field::set_width (int new_width) {
+    if (new_width<0) return false;
+    else
+    {
+        width=new_width;
+        return true;
+    }
+}
+
+int Field::get_height ()  {return height;}
+
+bool Field::set_height (int new_height) {
+    if (new_height<0) return false;
+    else
+    {
+        height=new_height;
+        return true;
+    }
 }
 
 bool Field::createField()
 {
-    p= new int *[h];
+    field = new int *[height];
 
-        for (int i=0; i<h; i++)
+        for (int i=0; i<height; i++)
         {
-            p[i]= new int[w];
+            field [i]= new int [width];
         }
         return true;
-};
+}
 
-void Field::init() {
+void Field::init () {
 
         //началный вывод, там где ничего нет - будут 8
-        for (int i=0; i<h; i++)
-             for (int g=0; g<w; g++)
-                 p[i][g]=8;
-    };
-
-void Field::show() {
-            // вывод массива поля
-                for (int i=0; i<h; i++)
-                {
-                    for (int g=0; g<w; g++)
-                    cout<<intToChar(p[i][g]);
-                    cout<<endl;
-                }
-};
-
-char Field::intToChar (int Code)
-{
-    switch(Code)
-    {
-    case App:
-        return 'a';
-        break;
-    case Grr:
-        return 'g';
-        break;
-    case Snakehead:
-        return '@';
-        break;
-    case Snaketail:
-        return '#';
-        break;
-    case 8:
-        return '_';
-        break;
-    default:
-        return '_';
-        break;
+        for (int i=0; i<height; i++)
+             for (int g=0; g<width; g++)
+                 field [i][g]=8;
     }
+
+
+bool Field::resize(int size1, int size2) {
+    if (size1<=0 || size2<=0)
+        return false;
+
+    width=size1;
+    height=size2;
+    for(int i=0; i<height;i++)
+        delete field [i];
+    delete field;
+    createField();
+    return true;
 }
-
-bool Field::setp (int x, int y, int new_value)
-{ p[x][y] = new_value;
-return true;
-}
-
-int Field::getp (int x, int y) {
-    return p[x][y];}
-
-
-
-
 
