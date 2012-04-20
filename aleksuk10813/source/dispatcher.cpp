@@ -23,7 +23,7 @@ void Dispatcher::operator()(queue<InRecord>* inQueue, condition_variable* inputC
             OutRecord out;
             out.subject = temp.title;
             out.text = temp.data;
-            out.to = temp.link;
+            out.to = "artem@h31.ishere.ru";
             outQueue->push(out);
             outLock.unlock();
             outputCond->notify_one();

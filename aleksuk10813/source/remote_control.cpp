@@ -19,7 +19,7 @@
 
 const char* RemoteControl::unitName = "HTTPServer";
 
-void RemoteControl::operator()(set<string>* sources, mutex* m)
+void RemoteControl::operator()(list<string>* sources, mutex* m)
 {
     windowsSocketStart();
     establishServerSocket();
@@ -121,12 +121,12 @@ TypeOfRequest RemoteControl::getTypeOfRequest()
     else throw RemoteControlException(ERROR, "Unknown type of request");
 }
 
-string RemoteControl::generateXMLForSources(set<string> sources)
+string RemoteControl::generateXMLForSources(list<string> sources)
 {
     pugi::xml_document doc;
     pugi::xml_node root = doc.append_child("data");
 
-    for (set<string>::iterator it = sources.begin(); it != sources.end(); it++)
+    for (list<string>::iterator it = sources.begin(); it != sources.end(); it++)
     {
         pugi::xml_node source = root.append_child("source");
 
@@ -144,14 +144,14 @@ string RemoteControl::generateXMLForSources(set<string> sources)
     return payload.str();
 }
 
-void RemoteControl::importOPML(string opml, set<string> *sources)
+void RemoteControl::importOPML(string opml, list<string> *sources)
 {
 //    pugi::xml_document doc;
 //    stringstream stream;
 //    doc.load(stream);
 }
 
-void RemoteControl::importSources(string requestPayload, set<string> *sources)
+void RemoteControl::importSources(string requestPayload, list<string> *sources)
 {
     sources->clear();
     pugi::xml_document doc;
@@ -171,7 +171,7 @@ void RemoteControl::importSources(string requestPayload, set<string> *sources)
         pugi::xml_attribute attr = item.attribute("address");
         if (attr == NULL)
             throw RSSReceiverException(ERROR, "No address attribute");
-        sources->insert(attr.value() );
+        sources->push_back(attr.value() );
     }
 }
 
@@ -182,6 +182,7 @@ void RemoteControl::sendResponce(string payload)
 
     responce  = "HTTP/1.1 200 OK\r\n";
     responce += "Content-Type: text/plain; charset=utf-8\r\n";
+    responce += "Content-Length: " + payload.size() + string("\r\n");
     responce += "Connection: close\r\n";
     responce += "\r\n";
     responce += payload;

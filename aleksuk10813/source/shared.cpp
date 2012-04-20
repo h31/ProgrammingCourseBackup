@@ -12,12 +12,12 @@
 #include <stdio.h>
 #endif
 
-RSSReceiverException::RSSReceiverException(Importance importance, const char *message)
+RSSReceiverException::RSSReceiverException(Importance importance, string message)
 {
     log(importance, message);
 }
 
-RemoteControlException::RemoteControlException(Importance importance, const char *message)
+RemoteControlException::RemoteControlException(Importance importance, string message)
 {
     log(importance, message);
 }
@@ -34,7 +34,7 @@ string enum2string(enum Importance in)
     }
 }
 
-void log(enum Importance importance, const char* message)
+void log(enum Importance importance, string message)
 {
     time_t rawtime;
     struct tm* timeinfo;
@@ -46,7 +46,7 @@ void log(enum Importance importance, const char* message)
            timeinfo->tm_min,
            timeinfo->tm_sec,
            enum2string(importance).c_str(),
-           message);
+           message.c_str() );
 }
 
 string receive_helper(int clientSocket)
@@ -60,6 +60,7 @@ string receive_helper(int clientSocket)
         request.append(buf, recvStatus);
         // TODO: проверка на зависание
     } while (recvStatus > 0);
+    // delete buf; // TODO
     //recvStatus == sizeof(buf)  Если значение меньше sizeof(buf), то все данные уже получены, иначе нужно продолжать
     return request;
 }
@@ -79,8 +80,8 @@ int connect_helper(PartsOfURL url)
     int gaiStatus;
     int clientSocket;
     struct sockaddr_in peer;
-    struct addrinfo *gaiResult;
-    struct sockaddr_in *sockaddr_ipv4;
+    struct addrinfo* gaiResult;
+    struct sockaddr_in* sockaddr_ipv4;
     extern int errno;
 
     gaiStatus = getaddrinfo(url.address.c_str(), NULL, NULL, &gaiResult);
@@ -105,14 +106,14 @@ int connect_helper(PartsOfURL url)
         }
         char* t = strerror(errno);
         gaiResult = gaiResult->ai_next;
+        delete[] sockaddr_ipv4; // TODO
     } while (gaiResult->ai_next != NULL);
     if (sockStatus)
     {
-        throw RSSReceiverException(ERROR, "connect error");
+        throw RSSReceiverException(ERROR, string("connect error:") + string(strerror(errno)));
     }
 
-    delete gaiResult;
-    //delete sockaddr_ipv4; // TODO
+    delete[] gaiResult;
 
     return clientSocket;
 }

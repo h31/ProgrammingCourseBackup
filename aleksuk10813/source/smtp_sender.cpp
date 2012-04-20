@@ -61,7 +61,7 @@ bool SMTPSender::addressesCorrectness(OutRecord input)
 }
 
 void SMTPSender::operator()(queue<OutRecord>* pipe,
-                set<string>* destinations,
+                list<string>* destinations,
                 condition_variable* cond,
                 mutex* m)
 {

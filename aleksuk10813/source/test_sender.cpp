@@ -27,7 +27,7 @@ string mingwCodepageFix(const string u8string)
     return w;
 }
 
-void TestSender::operator()(queue<OutRecord>* pipe, set<string>* destinations, condition_variable* cond, mutex* m)
+void TestSender::operator()(queue<OutRecord>* pipe, list<string>* destinations, condition_variable* cond, mutex* m)
 {
     while (1)
     {

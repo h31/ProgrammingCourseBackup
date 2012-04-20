@@ -29,12 +29,12 @@ enum Importance
 class RSSReceiverException
 {
 public:
-    RSSReceiverException(enum Importance importance, const char *message);
+    RSSReceiverException(enum Importance importance, string message);
 };
 class RemoteControlException
 {
 public:
-    RemoteControlException(enum Importance importance, const char *message);
+    RemoteControlException(enum Importance importance, string message);
 };
 
 class AddressCorrectnessException {};
@@ -46,7 +46,7 @@ struct PartsOfURL
     string path;
 };
 
-void log(enum Importance importance, const char *message);
+void log(enum Importance importance, string message);
 string receive_helper(int socket);
 void send_helper(int clientSocket, string data);
 int connect_helper(PartsOfURL url);

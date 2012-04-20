@@ -24,45 +24,40 @@
 using namespace std;
 
 const char* RSSReceiver::unitName = "HTTPClient";
+const int RSSReceiver::updateIntervalInSeconds = 1; // TODO: сделать динамическим
 
-void RSSReceiver::operator()(queue<InRecord>* pipe, set<string>* sources, condition_variable* cond, mutex* m)
+void RSSReceiver::operator()(queue<InRecord>* pipe, list<string>* sources, condition_variable* cond, mutex* m)
 {
-    for(set<string>::const_iterator it = sources->begin(); it != sources->end(); it++)
+    while (1)
     {
-        const string rawResponce = downloadSource(*it);
-        // TODO: Парсер HTTP должен сам обрабатывать ошибки
-        HTTPRecord ParsedResponce = parseHTTP(rawResponce);
-        vector<InRecord> receivedItems;
-        parseFeed(ParsedResponce.data, receivedItems);
-        // TODO: не использовать передачу через аргументы
+        for(list<string>::const_iterator it = sources->begin(); it != sources->end(); it++)
+        {
+            downloadSource(*it);
+            ParsedResponce = parseHTTP(rawResponce);
+            receivedItems = parseFeed(ParsedResponce.data);
+            leaveOnlyNewItems(*it);
 
-        unique_lock<mutex> lk(*m);
-        // lk.try_lock();
+            unique_lock<mutex> lk(*m);
+            // lk.try_lock();
 
-        for (vector<InRecord>::iterator it = receivedItems.begin();
-             it != receivedItems.end();
-             ++it)
-            pipe->push(*it);
+            for (list<InRecord>::iterator it = receivedItems.begin();
+                 it != receivedItems.end();
+                 ++it)
+                pipe->push(*it);
 
-        lk.unlock();
-        cond->notify_one();
+            lk.unlock();
+            cond->notify_one();
+        }
+        this_thread::sleep_for(chrono::seconds(updateIntervalInSeconds));
     }
 }
 
-string RSSReceiver::downloadSource(const string url)
+void RSSReceiver::downloadSource(const string url)
 {
-    string responce;
-    const char* unit_name = "HTTPClient";
-    PartsOfURL partsOfURL;
-
     partsOfURL = parseUrl(url);
     sock = connect_helper(partsOfURL);
     sendRequest(partsOfURL);
-    responce = receive_helper(sock);
-
-    // delete sockaddr_ipv4;
-
-    return responce;
+    rawResponce = receive_helper(sock);
 }
 
 HTTPRecord RSSReceiver::parseHTTP(const string responce)
@@ -91,8 +86,9 @@ HTTPRecord RSSReceiver::parseHTTP(const string responce)
     return record;
 }
 
-void RSSReceiver::parseFeed(const string rssContent, vector<InRecord>& itemArray)
+list<InRecord> RSSReceiver::parseFeed(const string rssContent)
 {
+    list<InRecord> itemList;
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_buffer(rssContent.c_str(), rssContent.length());
     if (result.status != pugi::status_ok)
@@ -108,9 +104,32 @@ void RSSReceiver::parseFeed(const string rssContent, vector<InRecord>& itemArray
         record.title = item.child_value("title");
         record.data = item.child_value("description");
         record.link = item.child_value("link");
-        itemArray.push_back(record);
+        record.guid = item.child_value("guid");
+        itemList.push_back(record);
         // TODO: остальное
     }
+    return itemList;
+}
+
+void RSSReceiver::leaveOnlyNewItems(const string sourceAddress)
+{
+    set<string> sourceGuids = guids[sourceAddress];
+    list<InRecord> onlyNewItems;
+    for (list<InRecord>::iterator it = receivedItems.begin(); it != receivedItems.end(); ++it)
+    {
+        if (sourceGuids.find(it->guid) == sourceGuids.end() ) // новая запись
+        {
+            sourceGuids.insert(it->guid);
+            onlyNewItems.push_back(*it);
+        }
+        else // такая запись уже была
+        {
+
+        }
+    }
+
+    guids[sourceAddress] = sourceGuids;
+    receivedItems = onlyNewItems;
 }
 
 enum ReceiverStatusCode RSSReceiver::getStatusCode(const char responce)

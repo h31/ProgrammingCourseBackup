@@ -5,6 +5,12 @@
 #include "senders.h"
 #include <condition_variable>
 
+struct SourcesAndDestinations
+{
+    string source;
+    list<string> destination;
+};
+
 class Dispatcher
 {
 public:

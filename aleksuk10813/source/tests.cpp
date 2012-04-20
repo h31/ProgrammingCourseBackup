@@ -6,9 +6,9 @@
 #include "tests.h"
 #include "shared.h"
 
-string TestRSSReceiver::downloadSource(const string url)
+void TestRSSReceiver::downloadSource(const string url)
 {
-    return url;
+    rawResponce = url; // Хак
 }
 
 //template <class T> void Receiver<T>::addSource(const string src, int interval)
@@ -52,8 +52,8 @@ void testSequence()
 bool RSSReceiverTest1()
 {
     TestRSSReceiver testObj;
-    set<string>* sources = new set<string>;
-    sources->insert("dcrfcxfdrcxrfgc");
+    list<string>* sources = new list<string>;
+    sources->push_back("dcrfcxfdrcxrfgc");
     queue<InRecord>* pipe = new queue<InRecord>;
     condition_variable* inCond = new condition_variable;
     mutex* m = new mutex;
@@ -72,8 +72,8 @@ bool RSSReceiverTest1()
 bool RSSReceiverTest2()
 {
     TestRSSReceiver testObj;
-    set<string>* sources = new set<string>;
-    sources->insert("HTTP/1.1 502 Bad Gateway");
+    list<string>* sources = new list<string>;
+    sources->push_back("HTTP/1.1 502 Bad Gateway");
     queue<InRecord>* pipe = new queue<InRecord>;
     condition_variable* inCond = new condition_variable;
     mutex* m = new mutex;
@@ -92,8 +92,8 @@ bool RSSReceiverTest2()
 bool RSSReceiverTest3()
 {
     TestRSSReceiver testObj;
-    set<string>* sources = new set<string>;
-    sources->insert("HTTP/1.1 200 OK\r\n\r\n<node");
+    list<string>* sources = new list<string>;
+    sources->push_back("HTTP/1.1 200 OK\r\n\r\n<node");
     queue<InRecord>* pipe = new queue<InRecord>;
     condition_variable* inCond = new condition_variable;
     mutex* m = new mutex;
@@ -112,8 +112,8 @@ bool RSSReceiverTest3()
 bool RSSReceiverTest4()
 {
     TestRSSReceiver testObj;
-    set<string>* sources = new set<string>;
-    sources->insert("HTTP/1.1 200 OK\r\n\r\n<node></node>");
+    list<string>* sources = new list<string>;
+    sources->push_back("HTTP/1.1 200 OK\r\n\r\n<node></node>");
     queue<InRecord>* pipe = new queue<InRecord>;
     condition_variable* inCond = new condition_variable;
     mutex* m = new mutex;
@@ -132,8 +132,8 @@ bool RSSReceiverTest4()
 bool RSSReceiverTest5()
 {
     TestRSSReceiver testObj;
-    set<string>* sources = new set<string>;
-    sources->insert("HTTP/1.1 200 OK\r\n\r\n<rss><channel></channel></rss>");
+    list<string>* sources = new list<string>;
+    sources->push_back("HTTP/1.1 200 OK\r\n\r\n<rss><channel></channel></rss>");
     queue<InRecord>* pipe = new queue<InRecord>;
     condition_variable* inCond = new condition_variable;
     mutex* m = new mutex;
@@ -157,8 +157,8 @@ bool RSSReceiverTest6()
     getline(test_xml, test_str, '\0');
     test_str = "HTTP/1.1 200 OK\r\n\r\n" + test_str;
 
-    set<string>* sources = new set<string>;
-    sources->insert(test_str);
+    list<string>* sources = new list<string>;
+    sources->push_back(test_str);
     queue<InRecord>* pipe = new queue<InRecord>;
     condition_variable* inCond = new condition_variable;
     mutex* m = new mutex;
@@ -188,8 +188,8 @@ bool RSSReceiverTest6()
 bool RSSReceiverTest7()
 {
     RSSReceiver testObj;
-    set<string>* sources = new set<string>;
-    sources->insert("http://www.ipv6.mx/index.php?format=feed&type=rss");
+    list<string>* sources = new list<string>;
+    sources->push_back("http://www.ipv6.mx/index.php?format=feed&type=rss");
     queue<InRecord>* pipe = new queue<InRecord>;
     condition_variable* inCond = new condition_variable;
     mutex* m = new mutex;
