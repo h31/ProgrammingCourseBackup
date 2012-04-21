@@ -19,7 +19,7 @@
 
 const char* RemoteControl::unitName = "HTTPServer";
 
-void RemoteControl::operator()(list<string>* sources, mutex* m)
+void RemoteControl::operator()(map<string, list<string> >* adresses, mutex* m)
 {
     windowsSocketStart();
     establishServerSocket();
@@ -35,7 +35,7 @@ void RemoteControl::operator()(list<string>* sources, mutex* m)
         if (getTypeOfRequest() == GET_SOURCES)
         {
             unique_lock<mutex> lk(*m);
-                string xml = generateXMLForSources(*sources);
+                string xml = generateXMLForSources();
             lk.unlock();
             sendResponce(xml);
         }
@@ -43,14 +43,14 @@ void RemoteControl::operator()(list<string>* sources, mutex* m)
         {
             payload = getPayloadOfPOST(request);
             unique_lock<mutex> lk(*m);
-                importSources(payload, sources);
+                importSources(payload);
             sendResponce("");
         }
         else if (getTypeOfRequest() == IMPORT_OPML)
         {
             payload = getPayloadOfPOST(request);
             unique_lock<mutex> lk(*m);
-                importOPML(payload, sources);
+                importOPML(payload);
             lk.unlock();
         }
         else if (getTypeOfRequest() == EXPORT_OPML)
@@ -121,22 +121,36 @@ TypeOfRequest RemoteControl::getTypeOfRequest()
     else throw RemoteControlException(ERROR, "Unknown type of request");
 }
 
-string RemoteControl::generateXMLForSources(list<string> sources)
+string RemoteControl::generateXMLForSources()
 {
     pugi::xml_document doc;
     pugi::xml_node root = doc.append_child("data");
 
-    for (list<string>::iterator it = sources.begin(); it != sources.end(); it++)
+    for (map<string, list<string> >::iterator sourceIt = adresses->begin(); sourceIt != adresses->end(); sourceIt++)
     {
         pugi::xml_node source = root.append_child("source");
 
         pugi::xml_attribute addressAttribute = source.append_attribute("address");
         addressAttribute.set_name("address");
-        addressAttribute.set_value(it->c_str() );
+        addressAttribute.set_value(sourceIt->first.c_str() );
 
         pugi::xml_attribute protocolAttribute = source.append_attribute("protocol");
         protocolAttribute.set_name("protocol");
         protocolAttribute.set_value("rss"); // TODO
+
+        for (list<string>::iterator destinationIt = sourceIt->second.begin();
+             destinationIt != sourceIt->second.end(); destinationIt++)
+        {
+            pugi::xml_node destination = source.append_child("destination");
+
+            pugi::xml_attribute addressAttribute = destination.append_attribute("address");
+            addressAttribute.set_name("address");
+            addressAttribute.set_value(destinationIt->c_str() );
+
+            pugi::xml_attribute protocolAttribute = destination.append_attribute("protocol");
+            protocolAttribute.set_name("protocol");
+            protocolAttribute.set_value("smtp"); // TODO
+        }
     }
 
     stringstream payload;
@@ -144,16 +158,16 @@ string RemoteControl::generateXMLForSources(list<string> sources)
     return payload.str();
 }
 
-void RemoteControl::importOPML(string opml, list<string> *sources)
+void RemoteControl::importOPML(string opml)
 {
 //    pugi::xml_document doc;
 //    stringstream stream;
 //    doc.load(stream);
 }
 
-void RemoteControl::importSources(string requestPayload, list<string> *sources)
+void RemoteControl::importSources(string requestPayload)
 {
-    sources->clear();
+    adresses->clear();
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_buffer(requestPayload.c_str(), requestPayload.length());
 
@@ -166,12 +180,24 @@ void RemoteControl::importSources(string requestPayload, list<string> *sources)
 
     if (root.child("source") == NULL)
         throw RSSReceiverException(ERROR, "No source nodes");
-    for (pugi::xml_node item = root.child("source"); item; item = item.next_sibling("item") )
+    for (pugi::xml_node sourceItem = root.child("source"); sourceItem; sourceItem = sourceItem.next_sibling("source") )
     {
-        pugi::xml_attribute attr = item.attribute("address");
-        if (attr == NULL)
+        pugi::xml_attribute sourceAttr = sourceItem.attribute("address");
+        if (sourceAttr == NULL)
             throw RSSReceiverException(ERROR, "No address attribute");
-        sources->push_back(attr.value() );
+        list<string> destinations;
+
+        for (pugi::xml_node destinationItem = root.child("destination");
+             destinationItem; destinationItem = destinationItem.next_sibling("destination") )
+        {
+            pugi::xml_attribute destinationAttr = destinationItem.attribute("address");
+            if (destinationAttr == NULL)
+                throw RSSReceiverException(ERROR, "No address attribute");
+            destinations.push_back(destinationAttr.value() );
+        }
+
+        pair<string, list<string> > p(sourceAttr.value(), destinations);
+        adresses->insert(p);
     }
 }
 

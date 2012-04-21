@@ -6,7 +6,8 @@
 using namespace std;
 
 void Dispatcher::operator()(queue<InRecord>* inQueue, condition_variable* inputCond, mutex* inputMutex,
-                            queue<OutRecord>* outQueue, condition_variable* outputCond, mutex* outputMutex)
+                            queue<OutRecord>* outQueue, condition_variable* outputCond, mutex* outputMutex,
+                            map<string, list<string> >* adresses)
 {
     while (1)
     {
@@ -15,18 +16,22 @@ void Dispatcher::operator()(queue<InRecord>* inQueue, condition_variable* inputC
 
         while (inQueue->size() > 0)
         {
-            InRecord temp = inQueue->front();
+            InRecord tempInRecord = inQueue->front();
             inQueue->pop();
 
-            // временно поломано
-            unique_lock<mutex> outLock(*outputMutex);
-            OutRecord out;
-            out.subject = temp.title;
-            out.text = temp.data;
-            out.to = "artem@h31.ishere.ru";
-            outQueue->push(out);
-            outLock.unlock();
-            outputCond->notify_one();
+            map<string, list<string> >::iterator destinations = adresses->find(tempInRecord.feedName);
+
+            for (list<string>::iterator it = destinations->second.begin(); it != destinations->second.end(); it++)
+            {
+                unique_lock<mutex> outLock(*outputMutex);
+                OutRecord tempOutRecord;
+                tempOutRecord.subject = tempInRecord.title;
+                tempOutRecord.text = tempInRecord.data;
+                tempOutRecord.to = (*it);
+                outQueue->push(tempOutRecord);
+                outLock.unlock();
+                outputCond->notify_one();
+            }
         }
     }
 }
