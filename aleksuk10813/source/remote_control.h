@@ -21,8 +21,7 @@ enum TypeOfRequest
 class RemoteControl
 {
 public:
-    void operator()(list<string>* sources,
-                    mutex* m);
+    void operator()(map<string, list<string> >* adresses, mutex* m);
 private:
     int serverSock;
     int clientSock;
@@ -31,6 +30,7 @@ private:
     string method;
     string request;
     string payload;
+    map<string, list<string> >* adresses;
 
     void establishServerSocket();
     void establishClientSocket();
@@ -39,9 +39,9 @@ private:
     string getRequestedPath(string request);
     string getMethodOfRequest(string request);
     string getPayloadOfPOST(string request);
-    string generateXMLForSources(list<string> sources);
-    void importOPML(string opml, list<string>* sources);
-    void importSources(string requestPayload, list<string>* sources);
+    string generateXMLForSources();
+    void importOPML(string opml);
+    void importSources(string requestPayload);
     void sendResponce(string payload);
 
     string receiveRequest();

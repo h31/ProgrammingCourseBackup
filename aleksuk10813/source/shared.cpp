@@ -60,7 +60,7 @@ string receive_helper(int clientSocket)
         request.append(buf, recvStatus);
         // TODO: проверка на зависание
     } while (recvStatus > 0);
-    // delete buf; // TODO
+    // delete uf; // TODO
     //recvStatus == sizeof(buf)  Если значение меньше sizeof(buf), то все данные уже получены, иначе нужно продолжать
     return request;
 }
@@ -106,7 +106,7 @@ int connect_helper(PartsOfURL url)
         }
         char* t = strerror(errno);
         gaiResult = gaiResult->ai_next;
-        delete[] sockaddr_ipv4; // TODO
+        // delete[] sockaddr_ipv4; // TODO
     } while (gaiResult->ai_next != NULL);
     if (sockStatus)
     {

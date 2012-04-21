@@ -5,17 +5,12 @@
 #include "senders.h"
 #include <condition_variable>
 
-struct SourcesAndDestinations
-{
-    string source;
-    list<string> destination;
-};
-
 class Dispatcher
 {
 public:
     void operator()(queue<InRecord>* inQueue, condition_variable* inputCond, mutex* inputMutex,
-                    queue<OutRecord>* outQueue, condition_variable* outputCond, mutex* outputMutex);
+                    queue<OutRecord>* outQueue, condition_variable* outputCond, mutex* outputMutex,
+                    map<string, list<string> >* adresses);
 private:
     string html2txt(string html);
 };

@@ -5,37 +5,31 @@
 
 void SMTPSender::sendEmail(OutRecord addresses, string payload)
 {
-    const string from = "artem@h31.ishere.ru"; // TODO
+    const string from = "aaa@h31.ishere.ru"; // TODO
     string login = "artem"; // TODO
     string password = "artem"; // TODO
-    string receivedData;
     string encodedAuthData;
     PartsOfURL addressForConnection;
     addressForConnection.address = "localhost"; // TODO
-    addressForConnection.port = 2558; // TODO
+    addressForConnection.port = 25; // TODO
 
     connect_wrapper(addressForConnection);
 
-    receivedData = receive_wrapper(); // Приветствие
-    send_wrapper("EHLO somehost\r\n");
-    receivedData = receive_wrapper(); // Функциональность сервера
+    receive_wrapper(); // Приветствие
+    send_command("EHLO somehost\r\n");
 
     encodedAuthData = base64_encode_wrapper(login + '\0' + login + '\0' + password);
     // AUTH PLAIN позволяет отправлять письма от чужого имени.
     // Нам это не нужно, просто отправляем логин дважды
-    send_wrapper("AUTH PLAIN " + encodedAuthData + "\r\n");
-    receivedData = receive_wrapper(); // Совершен ли вход TODO: проверять
+    send_command("AUTH PLAIN " + encodedAuthData + "\r\n");
 
-    send_wrapper("MAIL FROM:<" + from + ">\r\n"
-                 "RCPT TO:<" + addresses.to + ">\r\n"
-                 "DATA\r\n");
-    // TODO: работает только если сервер поддерживает pipelining
-    receivedData = receive_wrapper(); // Корректность адресов
+    send_command("MAIL FROM:<" + from + ">\r\n");
+    send_command("RCPT TO:<" + addresses.to + ">\r\n");
+    send_command("DATA\r\n");
 
-    send_wrapper(payload + "\r\n.\r\n");
-    receivedData = receive_wrapper(); // Корректность данных
+    send_command(payload + "\r\n.\r\n");
 
-    send_wrapper(payload + "QUIT\r\n");
+    send_command("QUIT\r\n");
     close(clientSocket);
 }
 
@@ -65,22 +59,27 @@ void SMTPSender::operator()(queue<OutRecord>* pipe,
                 condition_variable* cond,
                 mutex* m)
 {
-    string formedEmail;
-
-    // чтобы подолгу не блокировать очередь, сразу получаем из неё все элементы.
-    unique_lock<mutex> lk(*m);
-    queue<OutRecord> items(*pipe);
-    lk.unlock();
-
-    while (items.size() > 0)
+    while (1)
     {
-        OutRecord currentItem = items.front();
-        items.pop();
+        string formedEmail;
 
-        if (!addressesCorrectness(currentItem) )
-            throw AddressCorrectnessException();
-        formedEmail = generateEmail(currentItem);
-        sendEmail(currentItem, formedEmail);
+        // чтобы подолгу не блокировать очередь, сразу получаем из неё все элементы.
+        unique_lock<mutex> lk(*m);
+        cond->wait(lk);
+            queue<OutRecord>* items = new queue<OutRecord>;
+            swap(pipe, items);
+        lk.unlock();
+
+        while (items->size() > 0)
+        {
+            OutRecord currentItem = items->front();
+            items->pop();
+
+            if (!addressesCorrectness(currentItem) )
+                throw AddressCorrectnessException();
+            formedEmail = generateEmail(currentItem);
+            sendEmail(currentItem, formedEmail);
+        }
     }
 }
 
@@ -91,12 +90,26 @@ void SMTPSender::connect_wrapper(PartsOfURL url)
 
 string SMTPSender::receive_wrapper()
 {
-    return receive_helper(clientSocket);
+    string request = "";
+    int recvStatus;
+    char buf[1280];
+
+    do {
+        recvStatus = recv(clientSocket, buf, sizeof(buf), 0);
+        request.append(buf, recvStatus);
+        // TODO: проверка на зависание
+        int i = request.find('\n');
+    } while (request.find('\n') == string::npos);
+    // delete uf; // TODO
+    //recvStatus == sizeof(buf)  Если значение меньше sizeof(buf), то все данные уже получены, иначе нужно продолжать
+    return request;
 }
 
-void SMTPSender::send_wrapper(string data)
+int SMTPSender::send_command(string data)
 {
     send_helper(clientSocket, data);
+    string receivedData = receive_wrapper();
+    return receivedData[0] - '0';
 }
 
 string SMTPSender::base64_decode_wrapper(string data)

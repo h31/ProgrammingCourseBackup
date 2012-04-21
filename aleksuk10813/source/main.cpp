@@ -19,6 +19,8 @@ int main()
     }
     else
     {
+        map<string, list<string> >* adresses;
+
         queue<InRecord>* inQueue = new queue<InRecord>;
         queue<OutRecord>* outQueue = new queue<OutRecord>;
 
@@ -42,28 +44,22 @@ int main()
         RemoteControl remoteControl;
 
         //sources->insert("http://127.0.0.1/security.rss");
-        //sources->push_back("http://news.yandex.ru/security.rss");
-        //sources->push_back("http://feeds.newsru.com/com/www/news/top");
-        sources->push_back("http://identi.ca/api/statuses/user_timeline/188782.rss");
+        sources->push_back("http://news.yandex.ru/security.rss");
+        sources->push_back("http://feeds.newsru.com/com/www/news/top");
+        //sources->push_back("http://identi.ca/api/statuses/user_timeline/188782.rss");
 
         thread receiver2(testIn, inQueue, sources, inputCond, inputMutex);
         thread receiver(rssIn, inQueue, sources, inputCond, inputMutex);
 
         thread disp(dispatcher, inQueue, inputCond, inputMutex,
-                                outQueue, outputCond, outputMutex);
+                                outQueue, outputCond, outputMutex,
+                                adresses);
 
-        thread sender(testOut, outQueue, destinations, outputCond, outputMutex);
+        //thread sender(testOut, outQueue, destinations, outputCond, outputMutex);
+        thread sender(smtpOut, outQueue, destinations, outputCond, outputMutex);
 
-        thread remote(remoteControl, sources, inputMutex);
+        thread remote(remoteControl, adresses, inputMutex);
         receiver2.join();
-
-//        OutRecord testRecord;
-//        testRecord.subject = "Subject";
-//        testRecord.text = "Text";
-//        testRecord.to = "artem@h31.ishere.ru";
-//        outQueue->push(testRecord);
-//        thread sender(smtpOut, outQueue, destinations, outputCond, outputMutex);
-//        sender.join();
     }
 
     return 0;

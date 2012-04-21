@@ -8,6 +8,8 @@
 #include <condition_variable>
 #include "3rdparty/base64.h"
 
+
+
 using namespace std;
 
 struct OutRecord
@@ -37,7 +39,7 @@ public:
 
     void connect_wrapper(PartsOfURL url);
     string receive_wrapper();
-    void send_wrapper(string data);
+    int send_command(string data);
     string base64_encode_wrapper(string data);
     string base64_decode_wrapper(string data);
 };
