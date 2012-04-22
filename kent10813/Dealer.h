@@ -5,10 +5,7 @@
 class Dealer : public player
 	{
 	public:
-		
-		void EnterName ();
 		int MakeBets();
-		void show();
 	};
 
 
