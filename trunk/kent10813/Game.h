@@ -1,0 +1,28 @@
+#ifndef _GAME_H_
+#define _GAME_H_
+#include "RealPlayer.h"
+#include "Dealer.h"
+#include "Dialog.h"
+class Game
+{
+private:
+	RealPlayer plr;
+	Dealer dlr;
+	dialog dlg;
+	string name;
+	int Pscore, Dscore, cash;
+	string n;
+public:
+	void takeCards();
+	int playerScore();
+	int dealerScore();
+	void firstDispensation();
+	void dealerTakeCards();
+	void gameContinue();
+	int whoWon();
+	void setCash(int bet);
+};
+
+
+
+#endif
