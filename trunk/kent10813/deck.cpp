@@ -17,7 +17,7 @@ void deck::shuffle ()
 }
 card deck::pull_card ()
 {
-	card crd=Deck.front();
+	crd=Deck.front();
 	Deck.pop_front();
 	return crd;
 }

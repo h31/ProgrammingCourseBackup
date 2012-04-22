@@ -5,22 +5,20 @@
 class player
 	{
 	protected:
-		string name;
+		
 		deque <card> hand;
 		deck mydeck;
+		
 	public:
+		int score;
 		int bet;
 		player ();
 		
-		virtual void EnterName ();
 		
-		virtual int MakeBets ();
-		
+		virtual int makeBets ();
 		void takeCards ();
-		
 		virtual void show();
-		
-		void MoreOrStop ();
+		int countScore ();
 		
 	};
 
