@@ -2,16 +2,16 @@
 
 Field::Field(): rows(7), columns(8) 
 {
-	cells=new Cell *[columns];
-	for (unsigned i=0; i<columns; i++)
-		cells[i]=new Cell[rows];	
+	cells=new Cell *[rows];
+	for (unsigned i=0; i<rows; i++)
+		cells[i]=new Cell[columns];	
 }
 
 Field::Field(unsigned a, unsigned b): rows(a), columns(b) 
 {
-	cells=new Cell *[columns];
-	for (unsigned i=0; i<columns; i++)
-		cells[i]=new Cell[rows];
+	cells=new Cell *[rows];
+	for (unsigned i=0; i<rows; i++)
+		cells[i]=new Cell[columns];	
 }
 	
 Field::~Field() {}
