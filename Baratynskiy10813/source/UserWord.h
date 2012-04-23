@@ -7,8 +7,9 @@
 using namespace std;
 class UserWord : public BasicWord
 {
-	void enterLetter();
+	//void enterLetter();
 public:
+	void enterLetter();
 	UserWord();
 	void makeUserWord(DictionaryWord dword);
 	void putMistake(int curMisses);

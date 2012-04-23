@@ -8,7 +8,7 @@ void UserWord:: makeUserWord(DictionaryWord dword)
 {
 		word=dword.getWord();
 	    for (int i=0;i<dword.getWord().length();i++)
-		word[i] = '*';
+		word[i] = '-';
 };
 
 void UserWord::putMistake(int curMisses)
