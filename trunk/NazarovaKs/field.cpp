@@ -1,48 +1,37 @@
 #include "field.h"
 
-Field::Field():Cell()
+Field::Field(): rows(7), columns(8) 
 {
-	fx=7;
-	fy=8;
-
-	cells=new Cell *[fy];
-	for (int i=0; i<fy; i++)
-		cells[i]=new Cell[fx];
+	cells=new Cell *[columns];
+	for (unsigned i=0; i<columns; i++)
+		cells[i]=new Cell[rows];	
 }
 
-Field::Field(int xsize, int ysize):Cell()
+Field::Field(unsigned a, unsigned b): rows(a), columns(b) 
 {
-	fx=xsize;
-	fy=ysize;
-
-	cells=new Cell *[fy];
-	for (int i=0; i<fy; i++)
-		cells[i]=new Cell[fx];
+	cells=new Cell *[columns];
+	for (unsigned i=0; i<columns; i++)
+		cells[i]=new Cell[rows];
 }
-
+	
 Field::~Field() {}
 
-void Field::createField()
+ostream& operator << (ostream& out, const Field& field)
 {
-	for (int i=0; i<fx; i++)
-		for (int j=0; j<fy; j++)
-			cells[i][j]=1 + rand() %9; // ƒумаю, что можно обойтись без перегрузки, но не знаю, как можно исправить эту ошибку. —начала
-									   // создавала двумерный массив не €чеек, а целых чисел, но тогда возникали проблемы с добавлеием €чеек.
-}
-
-void Field::print(Field& f) 
-{
-	cout<<f;							// ѕока в отдельной функции
-}
-
-ostream& operator << (ostream& out, const Field&f)
-{
-	for (int i=0; i<f.fx; i++)
+	for (unsigned i=0; i<field.rows; i++)
 	{
-		for (int j=0; j<f.fy; j++)
-			out<<f.cells[i][j];
+		for(unsigned j=0; j<field.columns; j++)
+			out<<field.cells[i][j]<<" ";
 		cout<<endl;
 	}
 	cout<<endl;
 	return out;
 }
+
+void Field::createField()
+{
+	for (unsigned i=0; i<rows; i++)
+		for (unsigned j=0; j<columns; j++)
+			cells[i][j].createCell();
+}
+
