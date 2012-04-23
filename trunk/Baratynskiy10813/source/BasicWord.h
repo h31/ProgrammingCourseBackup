@@ -13,5 +13,6 @@ public:
 	char mistakes[6];
 	string getWord();
 	friend class Library;
+	friend class Test;
 };
 #endif

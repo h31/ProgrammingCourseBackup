@@ -22,5 +22,6 @@ class Game
 public:
 	Game();
 	int play();
+	friend class Test;
 };
 #endif
