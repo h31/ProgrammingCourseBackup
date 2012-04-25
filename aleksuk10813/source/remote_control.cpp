@@ -166,7 +166,7 @@ void RemoteControl::importOPML(string opml)
 }
 
 void RemoteControl::importSources(string requestPayload)
-{
+{ // TODO: выглядит ужасно. Что-то сделать с этим.
     adresses->clear();
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_buffer(requestPayload.c_str(), requestPayload.length());
@@ -175,12 +175,15 @@ void RemoteControl::importSources(string requestPayload)
         throw RemoteControlException(ERROR, "Bad XML syntax");
 
     pugi::xml_node root = doc.child("data");
+
     if (root == NULL)
         throw RSSReceiverException(ERROR, "No rss or channel nodes");
 
     if (root.child("source") == NULL)
         throw RSSReceiverException(ERROR, "No source nodes");
-    for (pugi::xml_node sourceItem = root.child("source"); sourceItem; sourceItem = sourceItem.next_sibling("source") )
+
+    for (pugi::xml_node sourceItem = root.child("source"); sourceItem;
+         sourceItem = sourceItem.next_sibling("source") )
     {
         pugi::xml_attribute sourceAttr = sourceItem.attribute("address");
         if (sourceAttr == NULL)
