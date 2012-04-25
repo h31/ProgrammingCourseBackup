@@ -195,6 +195,7 @@ bool Desk::checkMat(const bool whitePlayer)
 		king = wKing;
 	else
 		king = bKing;
+
 	for(int x=1;x<9;x++)
 		for(int y=1;y<9;y++)
 			for(int i=0;i<32;i++)
@@ -221,7 +222,7 @@ bool Desk::castling(const int startX, const int startY,const int finishX,const i
 			if(finishX>startX)
 			{
 				for(int i=0;i<32;i++)
-					if(figure[i]->getX()==8 && figure[i]->getY()==1)
+					if(figure[i]->getX()==8 && figure[i]->getY()==king->getY() && figure[i]->getStep()==0)
 					{
 						rook=figure[i];
 						haveRook = true;
@@ -230,7 +231,7 @@ bool Desk::castling(const int startX, const int startY,const int finishX,const i
 			else
 			{
 				for(int i=0;i<32;i++)
-					if(figure[i]->getX()==1 && figure[i]->getY()==1)
+					if(figure[i]->getX()==1 && figure[i]->getY()==king->getY() && figure[i]->getStep()==0)
 					{
 						haveRook = true;
 						rook=figure[i];
@@ -243,8 +244,10 @@ bool Desk::castling(const int startX, const int startY,const int finishX,const i
 				return false;
 			else
 			{
-				rook->setX((finishX-startX)/2);
+				rook->setX((finishX+startX)/2);
+				rook->increaceSteps(true);
 				king->setX(finishX);
+				king->increaceSteps(true);
 				refreshPlayingBoard();
 				return true;
 			}
@@ -322,7 +325,7 @@ bool Desk::makeFigureTurn(const int startX,const int startY,const int finishX,co
 	
 
 	for(int i=0;i<32;i++)
-		if(getFigure(i)->getX()==startX && getFigure(i)->getY()==startY)
+		if(getFigure(i)->getX()==startX && getFigure(i)->getY()==startY && getFigure(i)->isEat()==false)
 		{
 			numberOfFirstFigure=i;
 			break;
@@ -331,36 +334,38 @@ bool Desk::makeFigureTurn(const int startX,const int startY,const int finishX,co
 		return false;
 
 	for(int i=0;i<32;i++)
-		if(getFigure(i)->getX()==finishX && getFigure(i)->getY()==finishY)
+		if(getFigure(i)->getX()==finishX && getFigure(i)->getY()==finishY && getFigure(i)->isEat()==false)
 		{
 			numberOfSecondFigure=i;
 			break;
 		}
 
-	if(getFigure(numberOfFirstFigure)->getColour()!=whitePlayerTurnNow || getFigure(numberOfFirstFigure)->isEat()==true)
+	if(getFigure(numberOfFirstFigure)->getColour()!=whitePlayerTurnNow)
 		return false;
-	if(numberOfSecondFigure!=-1 && getFigure(numberOfSecondFigure)->getColour()==whitePlayerTurnNow && getFigure(numberOfSecondFigure)->isEat()==true)
+	if(numberOfSecondFigure!=-1 && getFigure(numberOfSecondFigure)->getColour()==whitePlayerTurnNow)
 		return false;
 
 	if(castling(startX,startY,finishX,finishY,whitePlayerTurnNow)==true)
 	{
-		/*if(checkShah(whitePlayerTurnNow)==true)
+		if(checkShah(whitePlayerTurnNow)==true)
 		{
 			cancelTurn(startX,startY,numberOfFirstFigure);
 			cancelTurn(finishX,finishY,numberOfSecondFigure);
+			cout<<"Shah!!! repeat turn"<<endl;
 			return false;
-		}*/
+		}
 		cout<<"Castling is true"<<endl;
 		return true;
 	}
 	if(enPassant(startX,startY,finishX,finishY,whitePlayerTurnNow)==true)
 	{
-		/*if(checkShah(whitePlayerTurnNow)==true)
+		if(checkShah(whitePlayerTurnNow)==true)
 		{
 			cancelTurn(startX,startY,numberOfFirstFigure);
 			cancelTurn(finishX,finishY,numberOfSecondFigure);
+			cout<<"Shah!!! repeat turn"<<endl;
 			return false;
-		}*/
+		}
 		cout<<"en passant is true"<<endl;
 		return true;
 	}
@@ -374,12 +379,13 @@ bool Desk::makeFigureTurn(const int startX,const int startY,const int finishX,co
 		else
 			getFigure(numberOfFirstFigure)->putFigure(finishX,finishY);
 
-		/*if(checkShah(whitePlayerTurnNow)==true)
+		if(checkShah(whitePlayerTurnNow)==true)
 		{
 			cancelTurn(startX,startY,numberOfFirstFigure);
 			cancelTurn(finishX,finishY,numberOfSecondFigure);
+			cout<<"Shah!!! repeat turn"<<endl;
 			return false;
-		}*/
+		}
 
 		chanchePawn(whitePlayerTurnNow);
 		refreshPlayingBoard();

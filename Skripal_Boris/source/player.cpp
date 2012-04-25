@@ -1,5 +1,7 @@
 #include "player.h"
 
+#include <fstream>
+
 Player::Player()
 {
 	winner = nobody;
@@ -9,21 +11,24 @@ Player::Player()
 
 bool Player::makeGame()
 {
+	//ofstream fout ("enPassant.txt");
+
 	int startX,startY,finishX,finishY;
 	desk.printPlayingBoard();
 	while(winner == nobody)
 	{
-		/*if(desk.checkShah(whitePlayerTurnNow)==true)
+		if(desk.checkShah(whitePlayerTurnNow)==true)
 		{
 			checkWinner();
 			cout<<"Shah"<<endl;
-		}*/
+		}
 		if(whitePlayerTurnNow==true)
 			cout<<"Whie player turn now"<<endl;
 		else
 			cout<<"Black player turn now"<<endl;
 
 		cin>>startX>>startY>>finishX>>finishY;
+		//fout<<startX<<" "<<startY<<" "<<finishX<<" "<<finishY<<endl;
 
 		bool isTurnTrue = desk.makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurnNow);
 

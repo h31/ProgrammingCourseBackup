@@ -1,6 +1,8 @@
 #pragma once
 #include "desk.h"
 
+#include "test.h"
+
 #ifndef _player_h_
 #define _player_h_
 
@@ -24,6 +26,8 @@ public:
 	//Desk getDesk();
 	Player();
 	bool makeGame();
+
+	friend class Test;
 };
 
 #endif
