@@ -11,56 +11,47 @@ void TestRSSReceiver::downloadSource(const string url)
     rawResponce = url; // Хак
 }
 
-//template <class T> void Receiver<T>::addSource(const string src, int interval)
-//{
-//    sources.insert(src);
-//}
-
-void runTest(bool (*test)(), const char *name)
+void Tester::runTest(bool (Tester::* test)(), const char *name)
 {
     string out = "Tester" + string(name);
     out.append(": ");
 
-    if (true == test() )
+    if (true == (this->*test)() )
         out.append("Ok");
     else
         out.append("FAILED");
     log(INFO, out.c_str() );
 }
 
-void testSequence()
+void Tester::testSequence()
 {
-    runTest(RSSReceiverTest1, "RSSReceiver, test1 (Ошибки HTTP - случайные данные)");
-    runTest(RSSReceiverTest2, "RSSReceiver, test2 (Ошибки HTTP - ошибка сервера)");
-    runTest(RSSReceiverTest3, "RSSReceiver, test3 (Ошибки разбора XML - некорректный XML)");
-    runTest(RSSReceiverTest4, "RSSReceiver, test4 (Ошибки разбора XML - некорректный RSS №1)");
-    runTest(RSSReceiverTest5, "RSSReceiver, test5 (Ошибки разбора XML - некорректный RSS №2)");
-    runTest(RSSReceiverTest6, "RSSReceiver, test6 (Ошибки разбора XML - образцовый RSS)");
-    runTest(RSSReceiverTest7, "RSSReceiver, test7 (Ошибка сети - IPv6)");
+    runTest(&Tester::RSSReceiverTest1, "RSSReceiver, test1 (Ошибки HTTP - случайные данные)");
+    runTest(&Tester::RSSReceiverTest2, "RSSReceiver, test2 (Ошибки HTTP - ошибка сервера)");
+    runTest(&Tester::RSSReceiverTest3, "RSSReceiver, test3 (Ошибки разбора XML - некорректный XML)");
+    runTest(&Tester::RSSReceiverTest4, "RSSReceiver, test4 (Ошибки разбора XML - некорректный RSS №1)");
+    runTest(&Tester::RSSReceiverTest5, "RSSReceiver, test5 (Ошибки разбора XML - некорректный RSS №2)");
+    runTest(&Tester::RSSReceiverTest6, "RSSReceiver, test6 (Ошибки разбора XML - образцовый RSS)");
+    runTest(&Tester::RSSReceiverTest7, "RSSReceiver, test7 (Ошибка сети - IPv6)");
 
-    runTest(RemoteControlTest1, "RemoteControl, test1 (образцовый XML)");
-    runTest(RemoteControlTest2, "RemoteControl, test2 (getMethodOfRequest)");
-    runTest(RemoteControlTest3, "RemoteControl, test3 (getMethodOfRequest)");
-    runTest(RemoteControlTest4, "RemoteControl, test4 (getRequestedPath)");
-    runTest(RemoteControlTest5, "RemoteControl, test5 (getRequestedPath)");
+    runTest(&Tester::RemoteControlTest1, "RemoteControl, test1 (образцовый XML)");
+    runTest(&Tester::RemoteControlTest2, "RemoteControl, test2 (getMethodOfRequest)");
+    runTest(&Tester::RemoteControlTest3, "RemoteControl, test3 (getMethodOfRequest)");
+    runTest(&Tester::RemoteControlTest4, "RemoteControl, test4 (getRequestedPath)");
+    runTest(&Tester::RemoteControlTest5, "RemoteControl, test5 (getRequestedPath)");
 
-    runTest(SMTPSenderTest1, "SMTPSender, test1 (обработка точек нужна)");
-    runTest(SMTPSenderTest2, "SMTPSender, test2 (обработка точек не нужна)");
-    runTest(SMTPSenderTest3, "SMTPSender, test3 (генерация e-mail)");
+    runTest(&Tester::SMTPSenderTest1, "SMTPSender, test1 (обработка точек нужна)");
+    runTest(&Tester::SMTPSenderTest2, "SMTPSender, test2 (обработка точек не нужна)");
+    runTest(&Tester::SMTPSenderTest3, "SMTPSender, test3 (генерация e-mail)");
 }
 
-bool RSSReceiverTest1()
+bool Tester::RSSReceiverTest1()
 {
     TestRSSReceiver testObj;
-    list<string>* sources = new list<string>;
-    sources->push_back("dcrfcxfdrcxrfgc");
-    queue<InRecord>* pipe = new queue<InRecord>;
-    condition_variable* inCond = new condition_variable;
-    mutex* m = new mutex;
+    inputArgs.sources = new list<string>(1, "dcrfcxfdrcxrfgc");
 
     try
     {
-        testObj(pipe, sources, inCond, m);
+        testObj(inputArgs);
         return false;
     }
     catch (RSSReceiverException& e)
@@ -69,18 +60,14 @@ bool RSSReceiverTest1()
     }
 }
 
-bool RSSReceiverTest2()
+bool Tester::RSSReceiverTest2()
 {
     TestRSSReceiver testObj;
-    list<string>* sources = new list<string>;
-    sources->push_back("HTTP/1.1 502 Bad Gateway");
-    queue<InRecord>* pipe = new queue<InRecord>;
-    condition_variable* inCond = new condition_variable;
-    mutex* m = new mutex;
+    inputArgs.sources = new list<string>(1, "HTTP/1.1 502 Bad Gateway");
 
     try
     {
-        testObj(pipe, sources, inCond, m);
+        testObj(inputArgs);
         return false;
     }
     catch (RSSReceiverException& e)
@@ -89,18 +76,14 @@ bool RSSReceiverTest2()
     }
 }
 
-bool RSSReceiverTest3()
+bool Tester::RSSReceiverTest3()
 {
     TestRSSReceiver testObj;
-    list<string>* sources = new list<string>;
-    sources->push_back("HTTP/1.1 200 OK\r\n\r\n<node");
-    queue<InRecord>* pipe = new queue<InRecord>;
-    condition_variable* inCond = new condition_variable;
-    mutex* m = new mutex;
+    list<string>* sources = new list<string>(1, "HTTP/1.1 200 OK\r\n\r\n<node");
 
     try
     {
-        testObj(pipe, sources, inCond, m);
+        testObj(inputArgs);
         return false;
     }
     catch (RSSReceiverException& e)
@@ -109,18 +92,14 @@ bool RSSReceiverTest3()
     }
 }
 
-bool RSSReceiverTest4()
+bool Tester::RSSReceiverTest4()
 {
     TestRSSReceiver testObj;
-    list<string>* sources = new list<string>;
-    sources->push_back("HTTP/1.1 200 OK\r\n\r\n<node></node>");
-    queue<InRecord>* pipe = new queue<InRecord>;
-    condition_variable* inCond = new condition_variable;
-    mutex* m = new mutex;
+    inputArgs.sources = new list<string>(1, "HTTP/1.1 200 OK\r\n\r\n<node></node>");
 
     try
     {
-        testObj(pipe, sources, inCond, m);
+        testObj(inputArgs);
         return false;
     }
     catch (RSSReceiverException& e)
@@ -129,18 +108,14 @@ bool RSSReceiverTest4()
     }
 }
 
-bool RSSReceiverTest5()
+bool Tester::RSSReceiverTest5()
 {
     TestRSSReceiver testObj;
-    list<string>* sources = new list<string>;
-    sources->push_back("HTTP/1.1 200 OK\r\n\r\n<rss><channel></channel></rss>");
-    queue<InRecord>* pipe = new queue<InRecord>;
-    condition_variable* inCond = new condition_variable;
-    mutex* m = new mutex;
+    inputArgs.sources = new list<string>(1, "HTTP/1.1 200 OK\r\n\r\n<rss><channel></channel></rss>");
 
     try
     {
-        testObj(pipe, sources, inCond, m);
+        testObj(inputArgs);
         return false;
     }
     catch (RSSReceiverException& e)
@@ -149,7 +124,7 @@ bool RSSReceiverTest5()
     }
 }
 
-bool RSSReceiverTest6()
+bool Tester::RSSReceiverTest6()
 {
     TestRSSReceiver testObj;
     ifstream test_xml("test_xml.txt");
@@ -157,11 +132,7 @@ bool RSSReceiverTest6()
     getline(test_xml, test_str, '\0');
     test_str = "HTTP/1.1 200 OK\r\n\r\n" + test_str;
 
-    list<string>* sources = new list<string>;
-    sources->push_back(test_str);
-    queue<InRecord>* pipe = new queue<InRecord>;
-    condition_variable* inCond = new condition_variable;
-    mutex* m = new mutex;
+    inputArgs.sources = new list<string>(1, test_str);
 
     InRecord reference_record;
     reference_record.data = "Here is some text containing an interesting description.";
@@ -170,8 +141,8 @@ bool RSSReceiverTest6()
 
     try
     {
-        testObj(pipe, sources, inCond, m);
-        InRecord test_record = pipe->front();
+        testObj(inputArgs);
+        InRecord test_record = inputArgs.itemsQueue->front();
         if (reference_record.data == test_record.data &&
             reference_record.link == test_record.link &&
             reference_record.title == test_record.title)
@@ -185,18 +156,14 @@ bool RSSReceiverTest6()
     }
 }
 
-bool RSSReceiverTest7()
+bool Tester::RSSReceiverTest7()
 {
     RSSReceiver testObj;
-    list<string>* sources = new list<string>;
-    sources->push_back("http://www.ipv6.mx/index.php?format=feed&type=rss");
-    queue<InRecord>* pipe = new queue<InRecord>;
-    condition_variable* inCond = new condition_variable;
-    mutex* m = new mutex;
+    inputArgs.sources = new list<string>(1, "http://www.ipv6.mx/index.php?format=feed&type=rss");
 
     try
     {
-        testObj(pipe, sources, inCond, m);
+        testObj(inputArgs);
         return true;
     }
     catch (RSSReceiverException& e)
@@ -205,12 +172,12 @@ bool RSSReceiverTest7()
     }
 }
 
-bool RemoteControlTest1()
+bool Tester::RemoteControlTest1()
 {
     return false; // TODO
 }
 
-bool RemoteControlTest2()
+bool Tester::RemoteControlTest2()
 {
     RemoteControl testObj;
     if (testObj.getMethodOfRequest("GET /path HTTP/1.1") == "GET")
@@ -218,7 +185,7 @@ bool RemoteControlTest2()
     else return true;
 }
 
-bool RemoteControlTest3()
+bool Tester::RemoteControlTest3()
 {
     RemoteControl testObj;
     if (testObj.getMethodOfRequest("POST /path HTTP/1.1") == "POST")
@@ -226,7 +193,7 @@ bool RemoteControlTest3()
     else return true;
 }
 
-bool RemoteControlTest4()
+bool Tester::RemoteControlTest4()
 {
     RemoteControl testObj;
     if (testObj.getRequestedPath("GET /path HTTP/1.1") == "path")
@@ -234,7 +201,7 @@ bool RemoteControlTest4()
     else return true;
 }
 
-bool RemoteControlTest5()
+bool Tester::RemoteControlTest5()
 {
     RemoteControl testObj;
     if (testObj.getRequestedPath("POST /path HTTP/1.1") == "path")
@@ -242,7 +209,7 @@ bool RemoteControlTest5()
     else return true;
 }
 
-bool SMTPSenderTest1()
+bool Tester::SMTPSenderTest1()
 {
     SMTPSender testObj;
     string input = "some text\r\n"
@@ -255,7 +222,7 @@ bool SMTPSenderTest1()
     return test_output == reference_output;
 }
 
-bool SMTPSenderTest2()
+bool Tester::SMTPSenderTest2()
 {
     SMTPSender testObj;
     string input = "some text\r\n"
@@ -268,7 +235,7 @@ bool SMTPSenderTest2()
     return test_output == reference_output;
 }
 
-bool SMTPSenderTest3()
+bool Tester::SMTPSenderTest3()
 {
     SMTPSender testObj;
     OutRecord input;
@@ -284,4 +251,21 @@ bool SMTPSenderTest3()
 
     test_output = testObj.generateEmail(input);
     return test_output == reference_output;
+}
+
+Tester::Tester()
+{
+    list<Directions>* directions = new list<Directions>;
+
+    inputArgs.itemsQueue= new queue<InRecord>;
+    outputArgs.itemsQueue = new queue<OutRecord>;
+
+    inputArgs.mutexVariable = new mutex;
+    outputArgs.mutexVariable = new mutex;
+
+    inputArgs.conditionalVariable = new condition_variable;
+    outputArgs.conditionalVariable = new condition_variable;
+
+    inputArgs.sources = new list<string>;
+    outputArgs.destinations = new list<string>;
 }

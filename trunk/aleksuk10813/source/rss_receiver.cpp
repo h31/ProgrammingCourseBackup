@@ -26,27 +26,28 @@ using namespace std;
 const char* RSSReceiver::unitName = "HTTPClient";
 const int RSSReceiver::updateIntervalInSeconds = 1; // TODO: сделать динамическим
 
-void RSSReceiver::operator()(queue<InRecord>* pipe, list<string>* sources, condition_variable* cond, mutex* m)
+void RSSReceiver::operator()(ReceiverArgs args)
 {
     while (1)
     {
-        for(list<string>::const_iterator it = sources->begin(); it != sources->end(); it++)
+        for(list<string>::iterator it = args.sources->begin(); it != args.sources->end(); it++)
         {
+            currentURL = *it;
             downloadSource(*it);
             ParsedResponce = parseHTTP(rawResponce);
             receivedItems = parseFeed(ParsedResponce.data);
             leaveOnlyNewItems(*it);
 
-            unique_lock<mutex> lk(*m);
+            unique_lock<mutex> lk(*args.mutexVariable);
             // lk.try_lock();
 
             for (list<InRecord>::iterator it = receivedItems.begin();
                  it != receivedItems.end();
                  ++it)
-                pipe->push(*it);
+                args.itemsQueue->push(*it);
 
             lk.unlock();
-            cond->notify_one();
+            args.conditionalVariable->notify_one();
         }
         this_thread::sleep_for(chrono::seconds(updateIntervalInSeconds));
     }
@@ -54,6 +55,7 @@ void RSSReceiver::operator()(queue<InRecord>* pipe, list<string>* sources, condi
 
 void RSSReceiver::downloadSource(const string url)
 {
+    // TODO: сделать без передачи параметра
     partsOfURL = parseUrl(url);
     sock = connect_helper(partsOfURL);
     sendRequest(partsOfURL);
@@ -105,6 +107,7 @@ list<InRecord> RSSReceiver::parseFeed(const string rssContent)
         record.data = item.child_value("description");
         record.link = item.child_value("link");
         record.guid = item.child_value("guid");
+        record.feedName = currentURL;
         itemList.push_back(record);
         // TODO: остальное
     }

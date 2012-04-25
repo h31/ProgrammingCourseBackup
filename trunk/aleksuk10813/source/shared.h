@@ -2,6 +2,11 @@
 #define SHARED_H
 
 #include <string>
+#include <list>
+#include <vector>
+#include <queue>
+#include <mutex>
+#include <condition_variable>
 #include <time.h>
 
 #ifdef __MINGW32__
@@ -18,6 +23,52 @@
 #endif
 
 using namespace std;
+
+struct InRecord
+{
+    string feedName;
+    string title;
+    string data;
+    string link;
+    string guid;
+    string pubDate;
+};
+
+struct OutRecord
+{
+    //enum ReceiverStatusCode code;
+    string to;
+    string subject;
+    string text;
+};
+
+struct AddressRecord
+{
+    string protocol;
+    string address;
+};
+
+struct Directions
+{
+    AddressRecord source;
+    list<AddressRecord> destinations;
+};
+
+struct ReceiverArgs // TODO: переименовать, т.к. не отражает суть
+{
+    queue<InRecord>* itemsQueue;
+    condition_variable* conditionalVariable;
+    mutex* mutexVariable;
+    list<string>* sources;
+};
+
+struct SenderArgs
+{
+    queue<OutRecord>* itemsQueue;
+    condition_variable* conditionalVariable;
+    mutex* mutexVariable;
+    list<string>* destinations;
+};
 
 enum Importance
 {

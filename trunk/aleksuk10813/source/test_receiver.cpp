@@ -7,12 +7,13 @@
 
 using namespace std;
 
-void TestReceiver::operator()(queue<InRecord>* pipe, list<string>* sources, condition_variable* cond, mutex* m)
+void TestReceiver::operator()(ReceiverArgs args)
 {
     for (int i=0; i<10; i++)
     {
         InRecord record;
         record.title = "Title";
+        record.feedName = "TestFeed";
 
         // преобразуем i как число в строку
         char temp_str[10];
@@ -20,13 +21,13 @@ void TestReceiver::operator()(queue<InRecord>* pipe, list<string>* sources, cond
         record.data = temp_str;
         //delete temp_str;
 
-        unique_lock<mutex> lk(*m);
+        unique_lock<mutex> lk(*args.mutexVariable);
         // lk.try_lock();
 
-        pipe->push(record);
+        args.itemsQueue->push(record);
 
         lk.unlock();
-        cond->notify_one();
+        args.conditionalVariable->notify_one();
 
         this_thread::sleep_for(chrono::seconds(1));
     }

@@ -27,22 +27,22 @@ string mingwCodepageFix(const string u8string)
     return w;
 }
 
-void TestSender::operator()(queue<OutRecord>* pipe, list<string>* destinations, condition_variable* cond, mutex* m)
+void TestSender::operator()(SenderArgs args)
 {
     while (1)
     {
-        unique_lock<mutex> outLock(*m);
-        cond->wait(outLock);
+        unique_lock<mutex> outLock(*args.mutexVariable);
+        args.conditionalVariable->wait(outLock);
 
-        while (pipe->size() > 0)
+        while (args.itemsQueue->size() > 0)
         {
-            cout << "Queue size: " << pipe->size() << endl;
-            OutRecord temp = pipe->front();
+            cout << "Queue size: " << args.itemsQueue->size() << endl;
+            OutRecord temp = args.itemsQueue->front();
             cout << "Subject: " << mingwCodepageFix(temp.subject) << endl;
             cout << "To: " << mingwCodepageFix(temp.to) << endl;
             cout << "Text: " << mingwCodepageFix(temp.text) << endl;
             cout << endl;
-            pipe->pop();
+            args.itemsQueue->pop();
         }
     }
 }

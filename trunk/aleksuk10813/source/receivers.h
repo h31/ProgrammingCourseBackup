@@ -9,6 +9,7 @@
 #include <map>
 
 #include "shared.h"
+#include "dispatcher.h"
 
 using namespace std;
 
@@ -22,16 +23,6 @@ enum ReceiverStatusCode
     SERVER_ERROR = 5
 };
 
-struct InRecord
-{
-    string feedName;
-    string title;
-    string data;
-    string link;
-    string guid;
-    string pubDate;
-};
-
 struct HTTPRecord
 {
     enum ReceiverStatusCode statusCode;
@@ -41,10 +32,7 @@ struct HTTPRecord
 class RSSReceiver
 {
 public:
-    void operator()(queue<InRecord>* pipe,
-                    list<string>* sources,
-                    condition_variable* inCond,
-                    mutex* m);
+    void operator()(ReceiverArgs args);
 protected:
     static const char* unitName;
     static const int updateIntervalInSeconds;
@@ -55,6 +43,7 @@ protected:
     string responce;
     PartsOfURL partsOfURL;
     map<string, set<string> > guids;
+    string currentURL;
     int sock;
 
     void windowsSocketStart();
@@ -73,10 +62,7 @@ protected:
 class TestReceiver
 {
 public:
-    void operator()(queue<InRecord>* pipe,
-                    list<string>* sources,
-                    condition_variable* inCond,
-                    mutex* m);
+    void operator()(ReceiverArgs args);
 };
 
 #endif // RECEIVERS_H

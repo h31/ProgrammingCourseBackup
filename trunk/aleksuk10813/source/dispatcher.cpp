@@ -5,33 +5,43 @@
 
 using namespace std;
 
-void Dispatcher::operator()(queue<InRecord>* inQueue, condition_variable* inputCond, mutex* inputMutex,
-                            queue<OutRecord>* outQueue, condition_variable* outputCond, mutex* outputMutex,
-                            map<string, list<string> >* adresses)
+void Dispatcher::operator()(ReceiverArgs input, SenderArgs output, list<Directions>* directions)
 {
+    for (list<Directions>::iterator it = directions->begin(); it != directions->end(); it++)
+        if (it->source.protocol == "RSS")
+            input.sources->push_back(it->source.address);
+
     while (1)
     {
-        unique_lock<mutex> inLock(*inputMutex);
-        inputCond->wait(inLock);
+        unique_lock<mutex> inLock(*input.mutexVariable);
+        input.conditionalVariable->wait(inLock);
 
-        while (inQueue->size() > 0)
+        while (input.itemsQueue->size() > 0)
         {
-            InRecord tempInRecord = inQueue->front();
-            inQueue->pop();
+            InRecord tempInRecord = input.itemsQueue->front();
+            input.itemsQueue->pop();
 
-            map<string, list<string> >::iterator destinations = adresses->find(tempInRecord.feedName);
+            Directions tempDirections;
+            for (list<Directions>::iterator it = directions->begin(); it != directions->end(); it++)
+                if (it->source.address == tempInRecord.feedName)
+                {
+                    tempDirections = *it;
+                    break;
+                }
 
-            for (list<string>::iterator it = destinations->second.begin(); it != destinations->second.end(); it++)
+            //list<Directions>::iterator destinations = find(directions->begin(), directions->end(), tempInRecord.feedName);
+
+            unique_lock<mutex> outLock(*output.mutexVariable);
+            for (list<AddressRecord>::iterator it = tempDirections.destinations.begin(); it != tempDirections.destinations.end(); it++)
             {
-                unique_lock<mutex> outLock(*outputMutex);
                 OutRecord tempOutRecord;
                 tempOutRecord.subject = tempInRecord.title;
                 tempOutRecord.text = tempInRecord.data;
-                tempOutRecord.to = (*it);
-                outQueue->push(tempOutRecord);
-                outLock.unlock();
-                outputCond->notify_one();
+                tempOutRecord.to = it->address;
+                output.itemsQueue->push(tempOutRecord);
             }
+            outLock.unlock();
+            output.conditionalVariable->notify_one();
         }
     }
 }

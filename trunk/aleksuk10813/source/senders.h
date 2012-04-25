@@ -12,21 +12,10 @@
 
 using namespace std;
 
-struct OutRecord
-{
-    //enum ReceiverStatusCode code;
-    string to;
-    string subject;
-    string text;
-};
-
 class SMTPSender
 {
 public:
-    void operator()(queue<OutRecord>* pipe,
-                    list<string>* destinations,
-                    condition_variable* cond,
-                    mutex* m);
+    void operator()(SenderArgs args);
 // protected: // TODO: Решить
     int clientSocket;
     static const char* unitName;
@@ -47,10 +36,7 @@ public:
 class TestSender
 {
 public:
-    void operator ()(queue<OutRecord> *pipe,
-                     list<string> *destinations,
-                     condition_variable *cond,
-                     mutex *m);
+    void operator ()(SenderArgs args);
 };
 
 #endif // SENDERS_H

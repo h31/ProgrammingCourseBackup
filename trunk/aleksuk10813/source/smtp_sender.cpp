@@ -5,7 +5,7 @@
 
 void SMTPSender::sendEmail(OutRecord addresses, string payload)
 {
-    const string from = "aaa@h31.ishere.ru"; // TODO
+    const string from = "artem@h31.ishere.ru"; // TODO
     string login = "artem"; // TODO
     string password = "artem"; // TODO
     string encodedAuthData;
@@ -54,20 +54,17 @@ bool SMTPSender::addressesCorrectness(OutRecord input)
     return true;
 }
 
-void SMTPSender::operator()(queue<OutRecord>* pipe,
-                list<string>* destinations,
-                condition_variable* cond,
-                mutex* m)
+void SMTPSender::operator()(SenderArgs args)
 {
     while (1)
     {
         string formedEmail;
 
         // чтобы подолгу не блокировать очередь, сразу получаем из неё все элементы.
-        unique_lock<mutex> lk(*m);
-        cond->wait(lk);
+        unique_lock<mutex> lk(*args.mutexVariable);
+        args.conditionalVariable->wait(lk);
             queue<OutRecord>* items = new queue<OutRecord>;
-            swap(pipe, items);
+            swap(args.itemsQueue, items);
         lk.unlock();
 
         while (items->size() > 0)

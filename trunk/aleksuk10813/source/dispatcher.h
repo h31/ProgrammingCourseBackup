@@ -1,16 +1,16 @@
 #ifndef DISPATCHER_H
 #define DISPATCHER_H
 
-#include "receivers.h"
-#include "senders.h"
 #include <condition_variable>
+#include <list>
+#include "shared.h"
+
+using namespace std;
 
 class Dispatcher
 {
 public:
-    void operator()(queue<InRecord>* inQueue, condition_variable* inputCond, mutex* inputMutex,
-                    queue<OutRecord>* outQueue, condition_variable* outputCond, mutex* outputMutex,
-                    map<string, list<string> >* adresses);
+    void operator()(ReceiverArgs input, SenderArgs output, list<Directions>* directions);
 private:
     string html2txt(string html);
 };
