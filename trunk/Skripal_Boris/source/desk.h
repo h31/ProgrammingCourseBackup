@@ -46,6 +46,8 @@ public:
 
 	void printPlayingBoard();\
 	~Desk();
+
+	friend class Test;
 };
 
 #endif
