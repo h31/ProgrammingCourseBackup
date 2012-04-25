@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 2.6)
 project(sem2)
 
 set (SOURCES dispatcher.h
-mingw_codecvt.h
 receivers.h
 remote_control.h
 senders.h
@@ -21,6 +20,6 @@ xmpp_sender.cpp
 3rdparty/base64.cpp
 3rdparty/pugixml.cpp)
 
-set (CMAKE_CXX_FLAGS "-std=c++11 -lpugixml -lgloox -lssl -lcrypto")
+set (CMAKE_CXX_FLAGS "-std=c++11 -lpthread -lpugixml")
 
 add_executable(sem2 ${SOURCES})

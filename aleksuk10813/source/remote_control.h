@@ -21,7 +21,7 @@ enum TypeOfRequest
 class RemoteControl
 {
 public:
-    void operator()(map<string, list<string> >* adresses, mutex* m);
+    void operator()(list<Directions>* directions, mutex* m);
 private:
     int serverSock;
     int clientSock;
@@ -30,7 +30,7 @@ private:
     string method;
     string request;
     string payload;
-    map<string, list<string> >* adresses;
+    list<Directions>* directions;
 
     void establishServerSocket();
     void establishClientSocket();
@@ -50,10 +50,7 @@ private:
     void runListen();
     void windowsSocketStart();
 
-    friend bool RemoteControlTest2();
-    friend bool RemoteControlTest3();
-    friend bool RemoteControlTest4();
-    friend bool RemoteControlTest5();
+    friend class Tester;
 };
 
 #endif // REMOTE_CONTROL_H

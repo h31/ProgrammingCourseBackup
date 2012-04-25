@@ -4,6 +4,7 @@
 #include <mutex>
 
 #include "dispatcher.h"
+#include "senders.h"
 #include "tests.h"
 #include "remote_control.h"
 
@@ -15,26 +16,31 @@ int main()
 {
     if (TESTING)
     {
-        testSequence();
+        Tester tester;
+        tester.testSequence();
     }
     else
     {
-        map<string, list<string> >* adresses;
+        ReceiverArgs inputArgs;
+        SenderArgs outputArgs;
 
-        queue<InRecord>* inQueue = new queue<InRecord>;
-        queue<OutRecord>* outQueue = new queue<OutRecord>;
+        list<Directions>* directions = new list<Directions>;
+        mutex* mutexVariable = new mutex;
 
-        list<string>* sources = new list<string>;
-        list<string>* destinations = new list<string>;
+        inputArgs.itemsQueue= new queue<InRecord>;
+        outputArgs.itemsQueue = new queue<OutRecord>;
 
-        mutex* inputMutex = new mutex;
-        mutex* outputMutex = new mutex;
+        inputArgs.mutexVariable = new mutex;
+        outputArgs.mutexVariable = new mutex;
 
-        condition_variable* inputCond = new condition_variable;
-        condition_variable* outputCond = new condition_variable;
+        inputArgs.conditionalVariable = new condition_variable;
+        outputArgs.conditionalVariable = new condition_variable;
 
-        TestReceiver testIn;
-        RSSReceiver rssIn;
+        inputArgs.sources = new list<string>;
+        outputArgs.destinations = new list<string>;
+
+        TestReceiver testReceiver;
+        RSSReceiver rssReceiver;
 
         Dispatcher dispatcher;
 
@@ -43,23 +49,36 @@ int main()
 
         RemoteControl remoteControl;
 
+        AddressRecord myAddress;
+        myAddress.address = "artem@h31.ishere.ru";
+
+        Directions inetFeed;
+        inetFeed.source.address = "http://news.yandex.ru/security.rss";
+        inetFeed.source.protocol = "RSS";
+        inetFeed.destinations.push_back(myAddress);
+        directions->push_back(inetFeed);
+
+        Directions testFeed;
+        testFeed.source.address = "TestFeed";
+        testFeed.source.protocol = "Test";
+        testFeed.destinations.push_back(myAddress);
+        directions->push_back(testFeed);
+
         //sources->insert("http://127.0.0.1/security.rss");
-        sources->push_back("http://news.yandex.ru/security.rss");
-        sources->push_back("http://feeds.newsru.com/com/www/news/top");
+        //sources->push_back("http://news.yandex.ru/security.rss");
+        //sources->push_back("http://feeds.newsru.com/com/www/news/top");
         //sources->push_back("http://identi.ca/api/statuses/user_timeline/188782.rss");
 
-        thread receiver2(testIn, inQueue, sources, inputCond, inputMutex);
-        thread receiver(rssIn, inQueue, sources, inputCond, inputMutex);
+        thread receiver2(testReceiver, inputArgs);
+        thread receiver(rssReceiver, inputArgs);
 
-        thread disp(dispatcher, inQueue, inputCond, inputMutex,
-                                outQueue, outputCond, outputMutex,
-                                adresses);
+        thread disp(dispatcher, inputArgs, outputArgs, directions);
 
-        //thread sender(testOut, outQueue, destinations, outputCond, outputMutex);
-        thread sender(smtpOut, outQueue, destinations, outputCond, outputMutex);
+        //thread sender(testOut, outputArgs);
+        thread sender(smtpOut, outputArgs);
 
-        thread remote(remoteControl, adresses, inputMutex);
-        receiver2.join();
+        thread remote(remoteControl, directions, mutexVariable);
+        remote.join();
     }
 
     return 0;
