@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void Dispatcher::operator()(ReceiverArgs input, SenderArgs output, list<Directions>* directions)
+void Dispatcher::operator()(ReceiverArgs input, SenderArgs output, list<Directions>* directions, mutex* mutexVariable)
 {
     for (list<Directions>::iterator it = directions->begin(); it != directions->end(); it++)
         if (it->source.protocol == "RSS")
@@ -22,14 +22,14 @@ void Dispatcher::operator()(ReceiverArgs input, SenderArgs output, list<Directio
             input.itemsQueue->pop();
 
             Directions tempDirections;
+            unique_lock<mutex> directionsLock(*mutexVariable);
             for (list<Directions>::iterator it = directions->begin(); it != directions->end(); it++)
                 if (it->source.address == tempInRecord.feedName)
                 {
                     tempDirections = *it;
                     break;
                 }
-
-            //list<Directions>::iterator destinations = find(directions->begin(), directions->end(), tempInRecord.feedName);
+            directionsLock.unlock();
 
             unique_lock<mutex> outLock(*output.mutexVariable);
             for (list<AddressRecord>::iterator it = tempDirections.destinations.begin(); it != tempDirections.destinations.end(); it++)

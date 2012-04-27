@@ -50,10 +50,16 @@ int main()
         RemoteControl remoteControl;
 
         AddressRecord myAddress;
-        myAddress.address = "artem@h31.ishere.ru";
+        myAddress.address = "aaa@h31.ishere.ru";
+
+//        Directions inetFeed;
+//        inetFeed.source.address = "http://news.yandex.ru/security.rss";
+//        inetFeed.source.protocol = "RSS";
+//        inetFeed.destinations.push_back(myAddress);
+//        directions->push_back(inetFeed);
 
         Directions inetFeed;
-        inetFeed.source.address = "http://news.yandex.ru/security.rss";
+        inetFeed.source.address = "http://127.0.0.1/security.rss";
         inetFeed.source.protocol = "RSS";
         inetFeed.destinations.push_back(myAddress);
         directions->push_back(inetFeed);
@@ -72,7 +78,7 @@ int main()
         thread receiver2(testReceiver, inputArgs);
         thread receiver(rssReceiver, inputArgs);
 
-        thread disp(dispatcher, inputArgs, outputArgs, directions);
+        thread disp(dispatcher, inputArgs, outputArgs, directions, mutexVariable);
 
         //thread sender(testOut, outputArgs);
         thread sender(smtpOut, outputArgs);

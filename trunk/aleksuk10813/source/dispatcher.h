@@ -10,7 +10,7 @@ using namespace std;
 class Dispatcher
 {
 public:
-    void operator()(ReceiverArgs input, SenderArgs output, list<Directions>* directions);
+    void operator()(ReceiverArgs input, SenderArgs output, list<Directions>* directions, mutex* mutexVariable);
 private:
     string html2txt(string html);
 };

@@ -11,8 +11,8 @@ using namespace std;
 
 enum TypeOfRequest
 {
-    GET_SOURCES,
-    SET_SOURCES,
+    GET_DIRECTIONS,
+    SET_DIRECTIONS,
 
     EXPORT_OPML,
     IMPORT_OPML
@@ -30,7 +30,6 @@ private:
     string method;
     string request;
     string payload;
-    list<Directions>* directions;
 
     void establishServerSocket();
     void establishClientSocket();
@@ -39,7 +38,7 @@ private:
     string getRequestedPath(string request);
     string getMethodOfRequest(string request);
     string getPayloadOfPOST(string request);
-    string generateXMLForSources();
+    string generateXMLForDirections(list<Directions>* directions);
     void importOPML(string opml);
     void importSources(string requestPayload);
     void sendResponce(string payload);
