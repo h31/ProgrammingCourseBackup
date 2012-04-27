@@ -5,7 +5,7 @@
 
 void SMTPSender::sendEmail(OutRecord addresses, string payload)
 {
-    const string from = "artem@h31.ishere.ru"; // TODO
+    const string from = "aaa@h31.ishere.ru"; // TODO
     string login = "artem"; // TODO
     string password = "artem"; // TODO
     string encodedAuthData;

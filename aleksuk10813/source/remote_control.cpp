@@ -32,14 +32,14 @@ void RemoteControl::operator()(list<Directions>* directions, mutex* m)
         method = getMethodOfRequest(request);
         path = getRequestedPath(request);
 
-        if (getTypeOfRequest() == GET_SOURCES)
+        if (getTypeOfRequest() == GET_DIRECTIONS)
         {
             unique_lock<mutex> lk(*m);
-                string xml = generateXMLForSources();
+                string xml = generateXMLForDirections(directions);
             lk.unlock();
             sendResponce(xml);
         }
-        else if (getTypeOfRequest() == SET_SOURCES)
+        else if (getTypeOfRequest() == SET_DIRECTIONS)
         {
             payload = getPayloadOfPOST(request);
             unique_lock<mutex> lk(*m);
@@ -101,13 +101,13 @@ string RemoteControl::getPayloadOfPOST(string request)
 
 TypeOfRequest RemoteControl::getTypeOfRequest()
 {
-    if (method == "GET" && path == "sources")
+    if (method == "GET" && path == "directions")
     {
-        return GET_SOURCES;
+        return GET_DIRECTIONS;
     }
-    else if (method == "POST" && path == "sources")
+    else if (method == "POST" && path == "directions")
     {
-        return SET_SOURCES;
+        return SET_DIRECTIONS;
     }
 
     else if (method == "GET" && path == "opml")
@@ -121,41 +121,43 @@ TypeOfRequest RemoteControl::getTypeOfRequest()
     else throw RemoteControlException(ERROR, "Unknown type of request");
 }
 
-string RemoteControl::generateXMLForSources()
+string RemoteControl::generateXMLForDirections(list<Directions> *directions)
 {
-//    pugi::xml_document doc;
-//    pugi::xml_node root = doc.append_child("data");
+    pugi::xml_document doc;
+    pugi::xml_node root = doc.append_child("data");
 
-//    for (map<string, list<string> >::iterator sourceIt = adresses->begin(); sourceIt != adresses->end(); sourceIt++)
-//    {
-//        pugi::xml_node source = root.append_child("source");
+    for (list<Directions>::iterator sourceIt = directions->begin(); sourceIt != directions->end(); sourceIt++)
+    {
+        pugi::xml_node source = root.append_child("source");
 
-//        pugi::xml_attribute addressAttribute = source.append_attribute("address");
-//        addressAttribute.set_name("address");
-//        addressAttribute.set_value(sourceIt->first.c_str() );
+        pugi::xml_attribute addressAttribute = source.append_attribute("address");
+        addressAttribute.set_name("address");
+//        AddressRecord t = sourceIt->source;
+//        addressAttribute.set_value(t.address.c_str() );
+        addressAttribute.set_value(sourceIt->source.address.c_str() );
 
-//        pugi::xml_attribute protocolAttribute = source.append_attribute("protocol");
-//        protocolAttribute.set_name("protocol");
-//        protocolAttribute.set_value("rss"); // TODO
+        pugi::xml_attribute protocolAttribute = source.append_attribute("protocol");
+        protocolAttribute.set_name("protocol");
+        protocolAttribute.set_value("rss"); // TODO
 
-//        for (list<string>::iterator destinationIt = sourceIt->second.begin();
-//             destinationIt != sourceIt->second.end(); destinationIt++)
-//        {
-//            pugi::xml_node destination = source.append_child("destination");
+        for (list<AddressRecord>::iterator destinationIt = sourceIt->destinations.begin();
+             destinationIt != sourceIt->destinations.end(); destinationIt++)
+        {
+            pugi::xml_node destination = source.append_child("destination");
 
-//            pugi::xml_attribute addressAttribute = destination.append_attribute("address");
-//            addressAttribute.set_name("address");
-//            addressAttribute.set_value(destinationIt->c_str() );
+            pugi::xml_attribute addressAttribute = destination.append_attribute("address");
+            addressAttribute.set_name("address");
+            addressAttribute.set_value(destinationIt->address.c_str() );
 
-//            pugi::xml_attribute protocolAttribute = destination.append_attribute("protocol");
-//            protocolAttribute.set_name("protocol");
-//            protocolAttribute.set_value("smtp"); // TODO
-//        }
-//    }
+            pugi::xml_attribute protocolAttribute = destination.append_attribute("protocol");
+            protocolAttribute.set_name("protocol");
+            protocolAttribute.set_value("smtp"); // TODO
+        }
+    }
 
-//    stringstream payload;
-//    doc.save(payload);
-//    return payload.str();
+    stringstream payload;
+    doc.save(payload);
+    return payload.str();
 }
 
 void RemoteControl::importOPML(string opml)
@@ -259,7 +261,7 @@ void RemoteControl::runBind()
     int bindStatus;
 
     local.sin_family = AF_INET;
-    local.sin_port = htons(9863);
+    local.sin_port = htons(9862);
     //local.sin_addr.s_addr = inet_addr("127.0.0.1"); - не работает, TODO
     local.sin_addr.s_addr = htonl( INADDR_ANY );
 

@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QNetworkAccessManager* getData = new QNetworkAccessManager;
     connect(getData, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(dataReceived(QNetworkReply*)));
-    getData->get(QNetworkRequest(QUrl("http://localhost:9863/sources")));
+    getData->get(QNetworkRequest(QUrl("http://localhost:9862/directions")));
 }
 
 MainWindow::~MainWindow()
@@ -36,32 +36,18 @@ void MainWindow::addRow(QTableWidget *table, QString protocol, QString address)
 void MainWindow::dataReceived(QNetworkReply* reply)
 {
     QByteArray payload = reply->read(65535); // TODO
-    QString data(payload);
-    ui->textEdit->insertPlainText(data);
-    //l->setText(data);
-    QDomDocument doc;
-    doc.setContent(payload);
-    //QDomNodeList elements = doc.elementsByTagName("source");
-    QDomElement root = doc.firstChildElement("data");
-    int i=0;
+    ui->textEdit->insertPlainText(QString(payload));
+
+    receivedXML = new QDomDocument;
+    receivedXML->setContent(payload);
+    QDomElement root = receivedXML->firstChildElement("data");
+
     for (QDomElement elem = root.firstChildElement("source");
          !elem.isNull();
          elem = elem.nextSiblingElement("source"))
     {
-        //l->setText(elem.attribute("address"));
-        //QString t = elem.attribute("address");
-        ui->sourceTable->setRowCount(ui->sourceTable->rowCount() + 1);
-
-        QTableWidgetItem* addressCell = new QTableWidgetItem;
-        addressCell->setText(elem.attribute("address") );
-        ui->sourceTable->setItem(i, 1, addressCell);
-
-        QTableWidgetItem* protocolCell = new QTableWidgetItem;
-        protocolCell->setText(elem.attribute("protocol") );
-        ui->sourceTable->setItem(i, 0, protocolCell);
-        i++;
+        addRow(ui->sourceTable, elem.attribute("protocol"), elem.attribute("address"));
     }
-
 }
 
 void MainWindow::dataSended(QNetworkReply *reply)
@@ -81,6 +67,7 @@ void MainWindow::on_buttonBox_accepted()
     QDomDocument doc;
     QDomElement root = doc.createElement("data");
     doc.appendChild(root);
+
     for (int i=0; i < ui->sourceTable->rowCount(); i++)
     {
         QDomElement source = doc.createElement("source");
@@ -95,5 +82,29 @@ void MainWindow::on_buttonBox_accepted()
     QNetworkAccessManager* postData = new QNetworkAccessManager;
     connect(postData, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(dataSended(QNetworkReply*)));
-    postData->post(QNetworkRequest(QUrl("http://localhost:9863/sources")), doc.toString().toUtf8() );
+    postData->post(QNetworkRequest(QUrl("http://localhost:9862/directions")), doc.toString().toUtf8() );
+}
+
+void MainWindow::on_sourceTable_itemActivated(QTableWidgetItem *item)
+{
+    ui->destinationsTable->clearContents();
+    ui->destinationsTable->setRowCount(0);
+
+    QDomElement root = receivedXML->firstChildElement("data");
+
+    for (QDomElement sourceElem = root.firstChildElement("source");
+         !sourceElem.isNull();
+         sourceElem = sourceElem.nextSiblingElement("source"))
+    {
+        if (sourceElem.attribute("address") == item->text())
+        {
+            for (QDomElement destinationElem = sourceElem.firstChildElement("destination");
+                 !destinationElem.isNull();
+                 destinationElem = destinationElem.nextSiblingElement("destination"))
+            {
+                addRow(ui->destinationsTable, destinationElem.attribute("protocol"), destinationElem.attribute("address"));
+            }
+            break;
+        }
+    }
 }
