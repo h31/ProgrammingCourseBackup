@@ -28,15 +28,16 @@ const int RSSReceiver::updateIntervalInSeconds = 1; // TODO: сделать ди
 
 void RSSReceiver::operator()(ReceiverArgs args)
 {
-    while (1)
-    {
+//    while (1)
+//    {
+    this_thread::sleep_for(chrono::seconds(2));
         for(list<string>::iterator it = args.sources->begin(); it != args.sources->end(); it++)
         {
             currentURL = *it;
             downloadSource(*it);
             ParsedResponce = parseHTTP(rawResponce);
             receivedItems = parseFeed(ParsedResponce.data);
-            leaveOnlyNewItems(*it);
+            leaveOnlyNewItems(*it, args.guids);
 
             unique_lock<mutex> lk(*args.mutexVariable);
             // lk.try_lock();
@@ -50,7 +51,7 @@ void RSSReceiver::operator()(ReceiverArgs args)
             args.conditionalVariable->notify_one();
         }
         this_thread::sleep_for(chrono::seconds(updateIntervalInSeconds));
-    }
+//    }
 }
 
 void RSSReceiver::downloadSource(const string url)
@@ -114,9 +115,9 @@ list<InRecord> RSSReceiver::parseFeed(const string rssContent)
     return itemList;
 }
 
-void RSSReceiver::leaveOnlyNewItems(const string sourceAddress)
+void RSSReceiver::leaveOnlyNewItems(const string sourceAddress, map<string, set<string> > *guids)
 {
-    set<string> sourceGuids = guids[sourceAddress];
+    set<string> sourceGuids = (*guids)[sourceAddress];
     list<InRecord> onlyNewItems;
     for (list<InRecord>::iterator it = receivedItems.begin(); it != receivedItems.end(); ++it)
     {
@@ -131,7 +132,7 @@ void RSSReceiver::leaveOnlyNewItems(const string sourceAddress)
         }
     }
 
-    guids[sourceAddress] = sourceGuids;
+    guids->at(sourceAddress) = sourceGuids;
     receivedItems = onlyNewItems;
 }
 

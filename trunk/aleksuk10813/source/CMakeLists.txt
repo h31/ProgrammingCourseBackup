@@ -7,6 +7,7 @@ remote_control.h
 senders.h
 shared.h
 tests.h
+config_handler.h
 dispatcher.cpp
 main.cpp
 remote_control.cpp
@@ -17,6 +18,7 @@ test_receiver.cpp
 test_sender.cpp
 tests.cpp
 xmpp_sender.cpp
+config_handler.cpp
 3rdparty/base64.cpp
 3rdparty/pugixml.cpp)
 

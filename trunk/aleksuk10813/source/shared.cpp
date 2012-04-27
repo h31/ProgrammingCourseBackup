@@ -22,6 +22,11 @@ RemoteControlException::RemoteControlException(Importance importance, string mes
     log(importance, message);
 }
 
+ConfigHandlerException::ConfigHandlerException(Importance importance, string message)
+{
+    log(importance, message);
+}
+
 string enum2string(enum Importance in)
 {
     switch (in) {
