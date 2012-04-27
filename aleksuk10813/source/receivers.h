@@ -42,7 +42,6 @@ protected:
     list<InRecord> receivedItems;
     string responce;
     PartsOfURL partsOfURL;
-    map<string, set<string> > guids;
     string currentURL;
     int sock;
 
@@ -52,7 +51,7 @@ protected:
 
     HTTPRecord parseHTTP(const string responce);
     list<InRecord> parseFeed(const string rssContent);
-    void leaveOnlyNewItems(const string sourceAddress);
+    void leaveOnlyNewItems(const string sourceAddress, map<string, set<string> >* guids);
     PartsOfURL parseUrl(const string url);
     virtual void downloadSource(const string url);
 

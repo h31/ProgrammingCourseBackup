@@ -7,6 +7,8 @@
 #include <queue>
 #include <mutex>
 #include <condition_variable>
+#include <map>
+#include <set>
 #include <time.h>
 
 #ifdef __MINGW32__
@@ -54,12 +56,13 @@ struct Directions
     list<AddressRecord> destinations;
 };
 
-struct ReceiverArgs // TODO: переименовать, т.к. не отражает суть
+struct ReceiverArgs
 {
     queue<InRecord>* itemsQueue;
     condition_variable* conditionalVariable;
     mutex* mutexVariable;
     list<string>* sources;
+    map<string, set<string> >* guids;
 };
 
 struct SenderArgs
@@ -68,6 +71,20 @@ struct SenderArgs
     condition_variable* conditionalVariable;
     mutex* mutexVariable;
     list<string>* destinations;
+};
+
+struct SMTPSettings
+{
+    string username;
+    string password;
+    string serverAddress;
+};
+
+struct ConfigHandlerArgs
+{
+ int argc;
+ char **argv;
+ map<string, set<string> >* guids;
 };
 
 enum Importance
@@ -82,10 +99,17 @@ class RSSReceiverException
 public:
     RSSReceiverException(enum Importance importance, string message);
 };
+
 class RemoteControlException
 {
 public:
     RemoteControlException(enum Importance importance, string message);
+};
+
+class ConfigHandlerException
+{
+public:
+    ConfigHandlerException(enum Importance importance, string message);
 };
 
 class AddressCorrectnessException {};
