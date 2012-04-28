@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<guids>
+	<source address="http://news.yandex.ru/security.rss">
+		<guid value="http://news.yandex.ru/yandsearch?cl4url=12" />
+		<guid value="http://news.yandex.ru/yandsearch?cl4url=ht" />
+	</source>
+</guids>
