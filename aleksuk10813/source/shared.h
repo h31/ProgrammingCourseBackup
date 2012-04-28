@@ -42,6 +42,7 @@ struct OutRecord
     string to;
     string subject;
     string text;
+    string senderProtocol;
 };
 
 struct AddressRecord
@@ -54,6 +55,13 @@ struct Directions
 {
     AddressRecord source;
     list<AddressRecord> destinations;
+};
+
+struct SMTPSettings
+{
+    string username;
+    string password;
+    string server;
 };
 
 struct ReceiverArgs
@@ -71,13 +79,7 @@ struct SenderArgs
     condition_variable* conditionalVariable;
     mutex* mutexVariable;
     list<string>* destinations;
-};
-
-struct SMTPSettings
-{
-    string username;
-    string password;
-    string serverAddress;
+    SMTPSettings* smtpSettings;
 };
 
 struct ConfigHandlerArgs
@@ -85,6 +87,8 @@ struct ConfigHandlerArgs
  int argc;
  char **argv;
  map<string, set<string> >* guids;
+ list<Directions>* directions;
+ SMTPSettings* smtpSettings;
 };
 
 enum Importance
@@ -125,5 +129,8 @@ void log(enum Importance importance, string message);
 string receive_helper(int socket);
 void send_helper(int clientSocket, string data);
 int connect_helper(PartsOfURL url);
+
+string generateXMLForDirections(list<Directions> directions);
+list<Directions>* importDirectionsFromXML(string requestPayload);
 
 #endif // SHARED_H

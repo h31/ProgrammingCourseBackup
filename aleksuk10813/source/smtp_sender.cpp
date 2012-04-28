@@ -5,12 +5,10 @@
 
 void SMTPSender::sendEmail(OutRecord addresses, string payload)
 {
-    const string from = "aaa@h31.ishere.ru"; // TODO
-    string login = "artem"; // TODO
-    string password = "artem"; // TODO
+    const string from = smtpSettings->username + "@" + smtpSettings->password; // TODO
     string encodedAuthData;
     PartsOfURL addressForConnection;
-    addressForConnection.address = "localhost"; // TODO
+    addressForConnection.address = smtpSettings->server;
     addressForConnection.port = 25; // TODO
 
     connect_wrapper(addressForConnection);
@@ -18,7 +16,9 @@ void SMTPSender::sendEmail(OutRecord addresses, string payload)
     receive_wrapper(); // Приветствие
     send_command("EHLO somehost\r\n");
 
-    encodedAuthData = base64_encode_wrapper(login + '\0' + login + '\0' + password);
+    encodedAuthData = base64_encode_wrapper(smtpSettings->username + '\0'
+                                            + smtpSettings->username + '\0'
+                                            + smtpSettings->password);
     // AUTH PLAIN позволяет отправлять письма от чужого имени.
     // Нам это не нужно, просто отправляем логин дважды
     send_command("AUTH PLAIN " + encodedAuthData + "\r\n");
@@ -49,16 +49,12 @@ string SMTPSender::escapeDots(const string data)
     return "";
 }
 
-bool SMTPSender::addressesCorrectness(OutRecord input)
-{
-    return true;
-}
-
 void SMTPSender::operator()(SenderArgs args)
 {
     while (1)
     {
         string formedEmail;
+        smtpSettings = args.smtpSettings;
 
         // чтобы подолгу не блокировать очередь, сразу получаем из неё все элементы.
         unique_lock<mutex> lk(*args.mutexVariable);
@@ -72,8 +68,8 @@ void SMTPSender::operator()(SenderArgs args)
             OutRecord currentItem = items->front();
             items->pop();
 
-            if (!addressesCorrectness(currentItem) )
-                throw AddressCorrectnessException();
+            if (currentItem.senderProtocol != "smtp")
+                continue;
             formedEmail = generateEmail(currentItem);
             sendEmail(currentItem, formedEmail);
         }
