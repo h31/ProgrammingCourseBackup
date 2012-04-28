@@ -42,6 +42,9 @@ void Tester::testSequence()
     runTest(&Tester::SMTPSenderTest1, "SMTPSender, test1 (обработка точек нужна)");
     runTest(&Tester::SMTPSenderTest2, "SMTPSender, test2 (обработка точек не нужна)");
     runTest(&Tester::SMTPSenderTest3, "SMTPSender, test3 (генерация e-mail)");
+
+    runTest(&Tester::ConfigHandlerTest1, "ConfigHandler, test1 (чтение и запись GUID)");
+    runTest(&Tester::ConfigHandlerTest2, "ConfigHandler, test2 (чтение и запись Directions)");
 }
 
 bool Tester::RSSReceiverTest1()
@@ -253,6 +256,94 @@ bool Tester::SMTPSenderTest3()
     return test_output == reference_output;
 }
 
+bool Tester::ConfigHandlerTest1()
+{
+    ConfigHandler testObj;
+    testObj.guids = new map<string, set<string> >;
+    try
+    {
+        testObj.guidsFilePath = "guids_reference.xml";
+        testObj.readGuidsFile();
+        testObj.guidsFilePath = "guids_test_result.xml";
+        testObj.writeGuidsFile();
+    }
+    catch(...)
+    {
+        return false;
+    }
+    return filesAreEqual("guids_reference.xml", "guids_test_result.xml");
+}
+
+bool Tester::ConfigHandlerTest2()
+{
+    ConfigHandler testObj;
+    testObj.directions = new list<Directions>;
+    try
+    {
+        testObj.DirectionsFilePath = "directions_reference.xml";
+        testObj.readDirectionsFile();
+        testObj.DirectionsFilePath = "directions_test_result.xml";
+        testObj.writeDirectionsFile();
+    }
+    catch(...)
+    {
+        return false;
+    }
+    return filesAreEqual("directions_reference.xml", "directions_test_result.xml");
+}
+
+bool Tester::filesAreEqual(const char *referenceFilename, const char *testResultFilename)
+{
+    // некогда написанный тестировщик для третьего практикума
+    FILE* referenceResult;
+    FILE* programResult;
+
+    int referenceEOF;
+    int programEOF;
+
+    bool filesAreEqual = 0;
+
+    referenceResult = fopen(referenceFilename, "r");
+    programResult = fopen(testResultFilename, "r");
+
+    if (referenceResult == NULL || programResult == NULL)
+        filesAreEqual = 0;
+
+    while (1)
+    {
+        referenceEOF = feof(referenceResult);
+        programEOF = feof(programResult);
+        if ( referenceEOF && programEOF )
+        {
+            // И там, и там конец файла, символы пока что совпадали - значит всё нормально
+            filesAreEqual = 1;
+            break;
+        }
+        else if ( (referenceEOF && !programEOF) || (!referenceEOF && programEOF) )
+        {
+            filesAreEqual = 0;
+            break;
+        }
+        else
+        {
+            if (getc(referenceResult) != getc(programResult) )
+            {
+                filesAreEqual = 0;
+                break;
+            }
+        }
+    }
+
+    fclose(referenceResult);
+    fclose(programResult);
+
+    if (filesAreEqual)
+        return true;
+    else
+        return false;
+
+}
+
 Tester::Tester()
 {
     list<Directions>* directions = new list<Directions>;
@@ -268,4 +359,6 @@ Tester::Tester()
 
     inputArgs.sources = new list<string>;
     outputArgs.destinations = new list<string>;
+
+    inputArgs.guids = new map<string, set<string> >;
 }

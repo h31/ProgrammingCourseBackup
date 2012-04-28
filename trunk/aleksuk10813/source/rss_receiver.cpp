@@ -28,9 +28,9 @@ const int RSSReceiver::updateIntervalInSeconds = 1; // TODO: сделать ди
 
 void RSSReceiver::operator()(ReceiverArgs args)
 {
-//    while (1)
-//    {
-    this_thread::sleep_for(chrono::seconds(2));
+    while (1)
+    {
+//    this_thread::sleep_for(chrono::seconds(2));
         for(list<string>::iterator it = args.sources->begin(); it != args.sources->end(); it++)
         {
             currentURL = *it;
@@ -51,7 +51,7 @@ void RSSReceiver::operator()(ReceiverArgs args)
             args.conditionalVariable->notify_one();
         }
         this_thread::sleep_for(chrono::seconds(updateIntervalInSeconds));
-//    }
+    }
 }
 
 void RSSReceiver::downloadSource(const string url)

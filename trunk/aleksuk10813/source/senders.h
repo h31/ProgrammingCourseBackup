@@ -3,6 +3,7 @@
 
 #include <string>
 #include "receivers.h"
+#include "tests.h"
 #include <queue>
 #include <set>
 #include <condition_variable>
@@ -18,10 +19,10 @@ public:
     void operator()(SenderArgs args);
 // protected: // TODO: Решить
     int clientSocket;
+    SMTPSettings* smtpSettings;
     static const char* unitName;
 
     string generateEmail(OutRecord input);
-    bool addressesCorrectness(OutRecord input);
     void sendEmail(OutRecord addresses, string payload);
     void establishClientSocket();
     string escapeDots(const string data);
@@ -31,6 +32,8 @@ public:
     int send_command(string data);
     string base64_encode_wrapper(string data);
     string base64_decode_wrapper(string data);
+
+    friend class Tester;
 };
 
 class TestSender

@@ -46,6 +46,8 @@ int main(int argc, char **argv)
         configHandlerArgs.argc = argc;
         configHandlerArgs.argv = argv;
         configHandlerArgs.guids = inputArgs.guids;
+        configHandlerArgs.directions = new list<Directions>;
+        configHandlerArgs.smtpSettings = new SMTPSettings;
 
         TestReceiver testReceiver;
         RSSReceiver rssReceiver;
@@ -55,17 +57,23 @@ int main(int argc, char **argv)
         TestSender testOut;
         SMTPSender smtpOut;
 
-        RemoteControl remoteControl;
-        ConfigHandler configHandler(configHandlerArgs);
-
         AddressRecord myAddress;
         myAddress.address = "aaa@h31.ishere.ru";
 
-        Directions inetFeed;
-        inetFeed.source.address = "http://news.yandex.ru/security.rss";
-        inetFeed.source.protocol = "RSS";
-        inetFeed.destinations.push_back(myAddress);
-        directions->push_back(inetFeed);
+//        Directions inetFeed;
+//        inetFeed.source.address = "http://news.yandex.ru/security.rss";
+//        inetFeed.source.protocol = "RSS";
+//        inetFeed.destinations.push_back(myAddress);
+//        directions->push_back(inetFeed);
+
+        RemoteControl remoteControl;
+        ConfigHandler configHandler(configHandlerArgs);
+
+//        Directions inetFeed;
+//        inetFeed.source.address = "http://news.yandex.ru/security.rss";
+//        inetFeed.source.protocol = "RSS";
+//        inetFeed.destinations.push_back(myAddress);
+//        directions->push_back(inetFeed);
 
 //        Directions inetFeed;
 //        inetFeed.source.address = "http://127.0.0.1/security.rss";
@@ -73,23 +81,24 @@ int main(int argc, char **argv)
 //        inetFeed.destinations.push_back(myAddress);
 //        directions->push_back(inetFeed);
 
-        Directions testFeed;
-        testFeed.source.address = "TestFeed";
-        testFeed.source.protocol = "Test";
-        testFeed.destinations.push_back(myAddress);
-        directions->push_back(testFeed);
+//        Directions testFeed;
+//        testFeed.source.address = "TestFeed";
+//        testFeed.source.protocol = "Test";
+//        testFeed.destinations.push_back(myAddress);
+//        directions->push_back(testFeed);
 
         thread receiver2(testReceiver, inputArgs);
-        thread receiver(rssReceiver, inputArgs);
+//        thread receiver(rssReceiver, inputArgs);
 
         thread disp(dispatcher, inputArgs, outputArgs, directions, mutexVariable);
 
-        //thread sender(testOut, outputArgs);
-        //thread sender(smtpOut, outputArgs);
+        thread sender2(testOut, outputArgs);
+        thread sender(smtpOut, outputArgs);
 
         thread remote(remoteControl, directions, mutexVariable);
-        receiver.join();
-        configHandler.saveConfig(1);
+        //receiver.join();
+        sender.join();
+        //configHandler.saveConfig(1);
     }
 
     return 0;

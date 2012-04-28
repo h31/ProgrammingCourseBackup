@@ -4,6 +4,7 @@
 #include "receivers.h"
 #include "remote_control.h"
 #include "senders.h"
+#include "config_handler.h"
 
 class TestRSSReceiver : public RSSReceiver
 {
@@ -17,7 +18,7 @@ public:
     Tester();
     void testSequence();
 private:
-     void runTest( bool (Tester::*test)(), const char *name = "" );
+    void runTest( bool (Tester::*test)(), const char *name = "" );
 
     bool RSSReceiverTest1();
     bool RSSReceiverTest2();
@@ -36,6 +37,11 @@ private:
     bool SMTPSenderTest1();
     bool SMTPSenderTest2();
     bool SMTPSenderTest3();
+
+    bool ConfigHandlerTest1();
+    bool ConfigHandlerTest2();
+
+    bool filesAreEqual(const char* referenceFilename, const char* testResultFilename);
 
     ReceiverArgs inputArgs;
     SenderArgs outputArgs;

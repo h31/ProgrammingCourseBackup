@@ -43,7 +43,8 @@ void RemoteControl::operator()(list<Directions>* directions, mutex* m)
         {
             payload = getPayloadOfPOST(request);
             unique_lock<mutex> lk(*m);
-                importSources(payload);
+                delete[] directions;
+                directions = importDirectionsFromXML(payload);
             sendResponce("");
         }
         else if (getTypeOfRequest() == IMPORT_OPML)
@@ -132,8 +133,6 @@ string RemoteControl::generateXMLForDirections(list<Directions> *directions)
 
         pugi::xml_attribute addressAttribute = source.append_attribute("address");
         addressAttribute.set_name("address");
-//        AddressRecord t = sourceIt->source;
-//        addressAttribute.set_value(t.address.c_str() );
         addressAttribute.set_value(sourceIt->source.address.c_str() );
 
         pugi::xml_attribute protocolAttribute = source.append_attribute("protocol");

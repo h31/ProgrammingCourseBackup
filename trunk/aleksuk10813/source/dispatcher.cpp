@@ -23,6 +23,7 @@ void Dispatcher::operator()(ReceiverArgs input, SenderArgs output, list<Directio
 
             Directions tempDirections;
             unique_lock<mutex> directionsLock(*mutexVariable);
+            // Находим нужный tempDirections на основании имени ленты из directions
             for (list<Directions>::iterator it = directions->begin(); it != directions->end(); it++)
                 if (it->source.address == tempInRecord.feedName)
                 {
@@ -38,6 +39,7 @@ void Dispatcher::operator()(ReceiverArgs input, SenderArgs output, list<Directio
                 tempOutRecord.subject = tempInRecord.title;
                 tempOutRecord.text = tempInRecord.data;
                 tempOutRecord.to = it->address;
+                tempOutRecord.senderProtocol = it->protocol;
                 output.itemsQueue->push(tempOutRecord);
             }
             outLock.unlock();

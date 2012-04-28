@@ -1,25 +1,53 @@
 #include "config_handler.h"
 #include <fstream>
-#include <iostream>
+#include <sstream>
+
+ConfigHandler::ConfigHandler()
+{
+    // Для тестирования
+}
 
 ConfigHandler::ConfigHandler(ConfigHandlerArgs args)
 {
     parseArgs(args.argc, args.argv);
     guids = args.guids;
-    readGuidsFile();
+    directions = args.directions;
+    smtpSettings = args.smtpSettings;
+    // readConfigFile();
+    try
+    {
+        readGuidsFile();
+    }
+    catch(...) {}
+
+    try
+    {
+        readDirectionsFile();
+    }
+    catch(...) {}
 }
 
 void ConfigHandler::parseArgs(int argc, char **argv)
 {
     configFilePath = "config.xml";
     guidsFilePath = "guids.xml";
-    feedsListFilePath = "feed_list.xml";
+    DirectionsFilePath = "directions.xml";
     // TODO
 }
 
 void ConfigHandler::saveConfig(int signal)
 {
-    writeGuidsFile();
+    try
+    {
+        writeGuidsFile();
+    }
+    catch(...) {}
+
+    try
+    {
+        writeDirectionsFile();
+    }
+    catch(...) {}
 }
 
 void ConfigHandler::readConfigFile()
@@ -30,9 +58,9 @@ void ConfigHandler::readConfigFile()
     if (smtp == NULL)
         throw ConfigHandlerException(ERROR, "No smtp node");
 
-    smtpSettings.username = smtp.child_value("username");
-    smtpSettings.password = smtp.child_value("password");
-    smtpSettings.serverAddress = smtp.child_value("server");
+    smtpSettings->username = smtp.child_value("username");
+    smtpSettings->password = smtp.child_value("password");
+    smtpSettings->server = smtp.child_value("server");
 }
 
 void ConfigHandler::readGuidsFile()
@@ -52,12 +80,17 @@ void ConfigHandler::readGuidsFile()
 
 void ConfigHandler::readDirectionsFile()
 {
-    // TODO
+    ifstream file(DirectionsFilePath);
+    stringstream buffer;
+    // Перекидываем содержимое ifstream в stringstream
+    buffer << file.rdbuf();
+    directions = importDirectionsFromXML(buffer.str() );
 }
 
 void ConfigHandler::writeGuidsFile()
 {
     ofstream file(guidsFilePath);
+
     pugi::xml_document doc;
     pugi::xml_node root = doc.append_child("guids");
 
@@ -78,9 +111,22 @@ void ConfigHandler::writeGuidsFile()
     file.close();
 }
 
+void ConfigHandler::writeDirectionsFile()
+{
+    ofstream file(DirectionsFilePath);
+    file << generateXMLForDirections(*directions);
+    file.close();
+}
+
 pugi::xml_node ConfigHandler::initializeFile(string filename, string rootItemName)
 {
     ifstream file(filename);
+    if (file.fail() ) // похоже, файл нужно создать
+    {
+        ofstream createFile(filename);
+        createFile.close();
+        throw ConfigHandlerException(INFO, string("Creating "+filename) );
+    }
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load(file);
 
