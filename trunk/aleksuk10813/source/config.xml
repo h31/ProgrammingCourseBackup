@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config>
+  <smtp>
+    <username>aaa</username>
+    <password>aaa</password>
+    <server>h31.ishere.ru</server>
+  </smtp>
+</config>
