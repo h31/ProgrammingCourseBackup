@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<data>
+	<source address="http://news.yandex.ru/security.rss" protocol="rss">
+		<destination address="bbb@example.com" protocol="smtp" />
+	</source>
+	<source address="TestFeed" protocol="test">
+		<destination address="aaa@example.com" protocol="smtp" />
+	</source>
+</data>
