@@ -7,21 +7,19 @@ using namespace std;
 
 void Dispatcher::operator()(ReceiverArgs input, SenderArgs output, list<Directions>* directions, mutex* mutexVariable)
 {
-    for (list<Directions>::iterator it = directions->begin(); it != directions->end(); it++)
-        if (it->source.protocol == "RSS")
-            input.sources->push_back(it->source.address);
-
     while (1)
     {
-        unique_lock<mutex> inLock(*input.mutexVariable);
-        input.conditionalVariable->wait(inLock);
+        unique_lock<mutex> inLock(*input.mutexForQueue);
+        // Если очередь пустая, то ждем наполнения
+        if (input.itemsQueue->size() == 0)
+            input.conditionalVariableForQueue->wait(inLock);
 
         while (input.itemsQueue->size() > 0)
         {
             InRecord tempInRecord = input.itemsQueue->front();
             input.itemsQueue->pop();
-
             Directions tempDirections;
+
             unique_lock<mutex> directionsLock(*mutexVariable);
             // Находим нужный tempDirections на основании имени ленты из directions
             for (list<Directions>::iterator it = directions->begin(); it != directions->end(); it++)
@@ -43,7 +41,7 @@ void Dispatcher::operator()(ReceiverArgs input, SenderArgs output, list<Directio
                 output.itemsQueue->push(tempOutRecord);
             }
             outLock.unlock();
-            output.conditionalVariable->notify_one();
+            output.conditionalVariable->notify_all();
         }
         inLock.unlock();
     }

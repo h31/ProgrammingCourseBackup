@@ -13,7 +13,7 @@ public:
     ConfigHandler(ConfigHandlerArgs args);
     void parseArgs(int argc, char **argv);
     void saveConfig(int signal);
-private:
+//private:
     void readConfigFile();
     void readGuidsFile();
     void readDirectionsFile();
@@ -25,13 +25,14 @@ private:
     pugi::xml_node initializeFile(string filename, string rootItemName);
 
     string configFilePath;
-    string guidsFilePath;
-    string DirectionsFilePath;
+    static string guidsFilePath;
+    static string directionsFilePath;
 
     SMTPSettings* smtpSettings;
+    RSSSettings* rssSettings;
 
-    map<string, set<string> >* guids;
-    list<Directions>* directions;
+    static map<string, set<string> >* guids;
+    static list<Directions>* directions;
 
     friend class Tester;
 };

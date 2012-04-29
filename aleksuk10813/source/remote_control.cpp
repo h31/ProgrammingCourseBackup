@@ -17,8 +17,6 @@
 #include "3rdparty/pugixml.hpp"
 #include <sstream>
 
-const char* RemoteControl::unitName = "HTTPServer";
-
 void RemoteControl::operator()(list<Directions>* directions, mutex* m)
 {
     windowsSocketStart();
@@ -35,7 +33,7 @@ void RemoteControl::operator()(list<Directions>* directions, mutex* m)
         if (getTypeOfRequest() == GET_DIRECTIONS)
         {
             unique_lock<mutex> lk(*m);
-                string xml = generateXMLForDirections(directions);
+                string xml = generateXMLForDirections(*directions);
             lk.unlock();
             sendResponce(xml);
         }
@@ -43,8 +41,7 @@ void RemoteControl::operator()(list<Directions>* directions, mutex* m)
         {
             payload = getPayloadOfPOST(request);
             unique_lock<mutex> lk(*m);
-                delete[] directions;
-                directions = importDirectionsFromXML(payload);
+                importDirectionsFromXML(payload, directions);
             sendResponce("");
         }
         else if (getTypeOfRequest() == IMPORT_OPML)
@@ -58,7 +55,6 @@ void RemoteControl::operator()(list<Directions>* directions, mutex* m)
         {
             // TODO
         }
-        // TODO: остальные варианты
         else
             throw RemoteControlException(ERROR, "Invalid URL");
 
@@ -89,7 +85,7 @@ string RemoteControl::getRequestedPath(string request)
     int pathEnd = request.find("HTTP") - 1;
     int pathStart = request.find(" /") + strlen(" /");
     string path(request, pathStart, pathEnd - pathStart);
-    return path; // TODO: упростить
+    return path;
 }
 
 string RemoteControl::getPayloadOfPOST(string request)
@@ -122,87 +118,11 @@ TypeOfRequest RemoteControl::getTypeOfRequest()
     else throw RemoteControlException(ERROR, "Unknown type of request");
 }
 
-string RemoteControl::generateXMLForDirections(list<Directions> *directions)
-{
-    pugi::xml_document doc;
-    pugi::xml_node root = doc.append_child("data");
-
-    for (list<Directions>::iterator sourceIt = directions->begin(); sourceIt != directions->end(); sourceIt++)
-    {
-        pugi::xml_node source = root.append_child("source");
-
-        pugi::xml_attribute addressAttribute = source.append_attribute("address");
-        addressAttribute.set_name("address");
-        addressAttribute.set_value(sourceIt->source.address.c_str() );
-
-        pugi::xml_attribute protocolAttribute = source.append_attribute("protocol");
-        protocolAttribute.set_name("protocol");
-        protocolAttribute.set_value("rss"); // TODO
-
-        for (list<AddressRecord>::iterator destinationIt = sourceIt->destinations.begin();
-             destinationIt != sourceIt->destinations.end(); destinationIt++)
-        {
-            pugi::xml_node destination = source.append_child("destination");
-
-            pugi::xml_attribute addressAttribute = destination.append_attribute("address");
-            addressAttribute.set_name("address");
-            addressAttribute.set_value(destinationIt->address.c_str() );
-
-            pugi::xml_attribute protocolAttribute = destination.append_attribute("protocol");
-            protocolAttribute.set_name("protocol");
-            protocolAttribute.set_value("smtp"); // TODO
-        }
-    }
-
-    stringstream payload;
-    doc.save(payload);
-    return payload.str();
-}
-
 void RemoteControl::importOPML(string opml)
 {
 //    pugi::xml_document doc;
 //    stringstream stream;
 //    doc.load(stream);
-}
-
-void RemoteControl::importSources(string requestPayload)
-{ // TODO: выглядит ужасно. Что-то сделать с этим.
-//    adresses->clear();
-//    pugi::xml_document doc;
-//    pugi::xml_parse_result result = doc.load_buffer(requestPayload.c_str(), requestPayload.length());
-
-//    if (result.status != pugi::status_ok)
-//        throw RemoteControlException(ERROR, "Bad XML syntax");
-
-//    pugi::xml_node root = doc.child("data");
-
-//    if (root == NULL)
-//        throw RSSReceiverException(ERROR, "No rss or channel nodes");
-
-//    if (root.child("source") == NULL)
-//        throw RSSReceiverException(ERROR, "No source nodes");
-
-//    for (pugi::xml_node sourceItem = root.child("source"); sourceItem;
-//         sourceItem = sourceItem.next_sibling("source") )
-//    {
-//        pugi::xml_attribute sourceAttr = sourceItem.attribute("address");
-//        if (sourceAttr == NULL)
-//            throw RSSReceiverException(ERROR, "No address attribute");
-//        list<string> destinations;
-
-//        for (pugi::xml_node destinationItem = root.child("destination");
-//             destinationItem; destinationItem = destinationItem.next_sibling("destination") )
-//        {
-//            pugi::xml_attribute destinationAttr = destinationItem.attribute("address");
-//            if (destinationAttr == NULL)
-//                throw RSSReceiverException(ERROR, "No address attribute");
-//            destinations.push_back(destinationAttr.value() );
-//        }
-
-//        pair<string, list<string> > p(sourceAttr.value(), destinations);
-//        adresses->insert(p);
-//    }
 }
 
 void RemoteControl::sendResponce(string payload)
@@ -212,8 +132,8 @@ void RemoteControl::sendResponce(string payload)
 
     responce  = "HTTP/1.1 200 OK\r\n";
     responce += "Content-Type: text/plain; charset=utf-8\r\n";
-    responce += "Content-Length: " + payload.size() + string("\r\n");
     responce += "Connection: close\r\n";
+    responce += "Content-Length: " + payload.size() + string("\r\n");
     responce += "\r\n";
     responce += payload;
 

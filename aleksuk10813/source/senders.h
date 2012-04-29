@@ -20,16 +20,17 @@ public:
 // protected: // TODO: Решить
     int clientSocket;
     SMTPSettings* smtpSettings;
+    string from;
     static const char* unitName;
 
     string generateEmail(OutRecord input);
     void sendEmail(OutRecord addresses, string payload);
     void establishClientSocket();
-    string escapeDots(const string data);
+    string escapeDots(const string input_data);
 
     void connect_wrapper(PartsOfURL url);
     string receive_wrapper();
-    int send_command(string data);
+    void send_command(string data);
     string base64_encode_wrapper(string data);
     string base64_decode_wrapper(string data);
 

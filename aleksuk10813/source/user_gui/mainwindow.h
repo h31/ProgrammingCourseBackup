@@ -26,6 +26,7 @@ private:
     void addRow(QTableWidget *table, QString protocol, QString address);
 
     QDomDocument* receivedXML;
+    QDomElement* root;
 public slots:
     void dataReceived(QNetworkReply* reply);
     void dataSended(QNetworkReply* reply);
@@ -33,6 +34,10 @@ private slots:
     void on_addSource_clicked();
     void on_buttonBox_accepted();
     void on_sourceTable_itemActivated(QTableWidgetItem *item);
+    void on_buttonBox_rejected();
+    void on_addDestination_clicked();
+    void on_removeSource_clicked();
+    void on_removeDestination_clicked();
 };
 
 #endif // MAINWINDOW_H

@@ -14,11 +14,14 @@ class AddDialog : public QDialog
 public:
     explicit AddDialog(QWidget *parent = 0);
     ~AddDialog();
+    bool accepted;
     QString address;
     QString protocol;
     
 private slots:
     void on_buttonBox_accepted();
+
+    void on_buttonBox_rejected();
 
 private:
     Ui::AddDialog *ui;

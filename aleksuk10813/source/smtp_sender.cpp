@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <string.h>
 
 #include "senders.h"
 #include "shared.h"
@@ -9,27 +10,19 @@ void SMTPSender::operator()(SenderArgs args)
     {
         string formedEmail;
         smtpSettings = args.smtpSettings;
+        from = smtpSettings->username + "@" + smtpSettings->server;
 
-        // чтобы подолгу не блокировать очередь, сразу получаем из неё все элементы.
         unique_lock<mutex> lk(*args.mutexVariable);
-        args.conditionalVariable->wait(lk);
+        // Если очередь пустая, то ждем наполнения
+        if (args.itemsQueue->size() == 0)
+            args.conditionalVariable->wait(lk);
 
-        queue<OutRecord>* localItems = new queue<OutRecord>;
         while (args.itemsQueue->size() > 0)
         {
-            localItems->push(args.itemsQueue->front() );
-            args.itemsQueue->pop();
-        }
-
-        lk.unlock();
-
-        while (localItems->size() > 0)
-        {
-            OutRecord currentItem = localItems->front();
-            localItems->pop();
+            OutRecord currentItem = args.itemsQueue->front();
 
             if (currentItem.senderProtocol != "smtp")
-                continue;
+                break;
             try
             {
                 formedEmail = generateEmail(currentItem);
@@ -37,19 +30,21 @@ void SMTPSender::operator()(SenderArgs args)
             }
             catch(...)
             {
-                throw SMTPSenderException(ERROR, "Problems in SMTPSender");
+                log(ERROR, string("Problems in SMTPSender with e-mail to " + currentItem.to) );
             }
+            args.itemsQueue->pop();
         }
+
+        lk.unlock();
     }
 }
 
 void SMTPSender::sendEmail(OutRecord addresses, string payload)
 {
-    const string from = smtpSettings->username + "@" + smtpSettings->server; // TODO
     string encodedAuthData;
     PartsOfURL addressForConnection;
     addressForConnection.address = smtpSettings->server;
-    addressForConnection.port = 25; // TODO
+    addressForConnection.port = 25;
 
     connect_wrapper(addressForConnection);
 
@@ -59,7 +54,7 @@ void SMTPSender::sendEmail(OutRecord addresses, string payload)
     encodedAuthData = base64_encode_wrapper(smtpSettings->username + '\0'
                                             + smtpSettings->username + '\0'
                                             + smtpSettings->password);
-    // AUTH PLAIN позволяет отправлять письма от чужого имени.
+    // AUTH PLAIN позволяет отправлять письма от чужого имени (???).
     // Нам это не нужно, просто отправляем логин дважды
     send_command("AUTH PLAIN " + encodedAuthData + "\r\n");
 
@@ -76,17 +71,22 @@ void SMTPSender::sendEmail(OutRecord addresses, string payload)
 string SMTPSender::generateEmail(OutRecord input)
 {
     string formedEmail = "";
-    formedEmail += "From: " + string("artem@h31.ishere.ru") + "\r\n"; // TODO
+    formedEmail += "From: " + from + "\r\n";
     formedEmail += "To: " + input.to + "\r\n";
     formedEmail += "Subject: " + input.subject + "\r\n";
     formedEmail += "\r\n";
-    formedEmail += input.text;
+    formedEmail += escapeDots(input.text);
     return formedEmail;
 }
 
-string SMTPSender::escapeDots(const string data)
+string SMTPSender::escapeDots(const string input_data)
 {
-    return "";
+    string data(input_data);
+    size_t currentPosition = 0;
+    while ( (currentPosition = data.find("\r\n.", currentPosition) ) != string::npos &&
+           data[currentPosition + strlen("\r\n.")] != '.')
+        data.insert(currentPosition + strlen("\r\n."), ".");
+    return data;
 }
 
 void SMTPSender::connect_wrapper(PartsOfURL url)
@@ -106,16 +106,15 @@ string SMTPSender::receive_wrapper()
         // TODO: проверка на зависание
         int i = request.find('\n');
     } while (request.find('\n') == string::npos);
-    // delete uf; // TODO
-    //recvStatus == sizeof(buf)  Если значение меньше sizeof(buf), то все данные уже получены, иначе нужно продолжать
     return request;
 }
 
-int SMTPSender::send_command(string data)
+void SMTPSender::send_command(string data)
 {
     send_helper(clientSocket, data);
     string receivedData = receive_wrapper();
-    return receivedData[0] - '0';
+    if (receivedData[0] == '4' || receivedData[0] == '5')
+        throw SMTPSenderException(ERROR, string("SMTP error: " + receivedData) );
 }
 
 string SMTPSender::base64_decode_wrapper(string data)

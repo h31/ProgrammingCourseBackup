@@ -1,9 +1,10 @@
 #include "shared.h"
+#include "config_handler.h"
+
 #include "3rdparty/pugixml.hpp"
 #include <iostream>
 #include <sstream>
 #include <stdlib.h>
-
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -72,8 +73,6 @@ string receive_helper(int clientSocket)
         request.append(buf, recvStatus);
         // TODO: проверка на зависание
     } while (recvStatus > 0);
-    // delete uf; // TODO
-    //recvStatus == sizeof(buf)  Если значение меньше sizeof(buf), то все данные уже получены, иначе нужно продолжать
     return request;
 }
 
@@ -145,7 +144,7 @@ string generateXMLForDirections(list<Directions> directions)
 
         pugi::xml_attribute protocolAttribute = source.append_attribute("protocol");
         protocolAttribute.set_name("protocol");
-        protocolAttribute.set_value(sourceIt->source.protocol.c_str() ); // TODO
+        protocolAttribute.set_value(sourceIt->source.protocol.c_str() );
 
         for (list<AddressRecord>::iterator destinationIt = sourceIt->destinations.begin();
              destinationIt != sourceIt->destinations.end(); destinationIt++)
@@ -158,7 +157,7 @@ string generateXMLForDirections(list<Directions> directions)
 
             pugi::xml_attribute protocolAttribute = destination.append_attribute("protocol");
             protocolAttribute.set_name("protocol");
-            protocolAttribute.set_value(destinationIt->protocol.c_str() ); // TODO
+            protocolAttribute.set_value(destinationIt->protocol.c_str() );
         }
     }
 
@@ -167,9 +166,9 @@ string generateXMLForDirections(list<Directions> directions)
     return payload.str();
 }
 
-list<Directions>* importDirectionsFromXML(string requestPayload)
+void importDirectionsFromXML(string requestPayload, list<Directions>* directions)
 {
-    list<Directions>* directions = new list<Directions>;
+    directions->clear();
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_buffer(requestPayload.c_str(), requestPayload.length());
 
@@ -221,5 +220,11 @@ list<Directions>* importDirectionsFromXML(string requestPayload)
         currentDirection.destinations = destinations;
         directions->push_back(currentDirection);
     }
-    return directions;
+}
+
+void signalHandler(int signal)
+{
+    printf("Exiting...");
+    ConfigHandler configHandler;
+    configHandler.saveConfig(1);
 }

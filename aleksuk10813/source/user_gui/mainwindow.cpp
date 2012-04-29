@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "add_dialog.h"
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -40,9 +41,9 @@ void MainWindow::dataReceived(QNetworkReply* reply)
 
     receivedXML = new QDomDocument;
     receivedXML->setContent(payload);
-    QDomElement root = receivedXML->firstChildElement("data");
+    root = new QDomElement(receivedXML->firstChildElement("data") );
 
-    for (QDomElement elem = root.firstChildElement("source");
+    for (QDomElement elem = root->firstChildElement("source");
          !elem.isNull();
          elem = elem.nextSiblingElement("source"))
     {
@@ -59,30 +60,108 @@ void MainWindow::on_addSource_clicked()
 {
     AddDialog* addDialog = new AddDialog;
     addDialog->exec();
+    if (!addDialog->accepted)
+        return;
     addRow(ui->sourceTable, addDialog->protocol, addDialog->address);
+
+    QDomElement source = receivedXML->createElement("source");
+    source.setAttribute("protocol", addDialog->protocol);
+    source.setAttribute("address", addDialog->address);
+    root->appendChild(source);
+}
+
+void MainWindow::on_removeSource_clicked()
+{
+    if (ui->sourceTable->currentColumn() != 1)
+    {
+        QMessageBox::warning(this, "Warning", "Нужно выбрать адрес, а не протокол");
+        return;
+    }
+
+    QList<QTableWidgetItem*> selectedItems(ui->sourceTable->selectedItems() );
+    QTableWidgetItem* item = selectedItems.front();
+    for (QDomElement elem = root->firstChildElement("source");
+         !elem.isNull();
+         elem = elem.nextSiblingElement("source"))
+    {
+        if (elem.attribute("address") == item->text() )
+        {
+            ui->sourceTable->removeRow(ui->sourceTable->currentRow() );
+            root->removeChild(elem);
+            break;
+        }
+    }
+}
+
+void MainWindow::on_addDestination_clicked()
+{
+    AddDialog* addDialog = new AddDialog;
+    addDialog->exec();
+    if (!addDialog->accepted)
+        return;
+    addRow(ui->destinationsTable, addDialog->protocol, addDialog->address);
+
+    QList<QTableWidgetItem*> selectedItems(ui->sourceTable->selectedItems() );
+    QTableWidgetItem* item = selectedItems.front();
+    for (QDomElement elem = root->firstChildElement("source");
+         !elem.isNull();
+         elem = elem.nextSiblingElement("source"))
+    {
+        if (elem.attribute("address") == item->text() )
+        {
+            QDomElement destination = receivedXML->createElement("destination");
+            destination.setAttribute("protocol", addDialog->protocol);
+            destination.setAttribute("address", addDialog->address);
+            elem.appendChild(destination);
+            break;
+        }
+    }
+}
+
+void MainWindow::on_removeDestination_clicked()
+{
+    if (ui->destinationsTable->currentColumn() != 1)
+    {
+        QMessageBox::warning(this, "Warning", "Нужно выбрать адрес, а не протокол");
+        return;
+    }
+
+    QList<QTableWidgetItem*> selectedSourceItems(ui->sourceTable->selectedItems() );
+    QTableWidgetItem* sourceItem = selectedSourceItems.front();
+
+    QList<QTableWidgetItem*> selectedDestinationItems(ui->destinationsTable->selectedItems() );
+    QTableWidgetItem* destinationItem = selectedDestinationItems.front();
+
+    for (QDomElement sourceElem = root->firstChildElement("source");
+         !sourceElem.isNull();
+         sourceElem = sourceElem.nextSiblingElement("source"))
+    {
+        if (sourceElem.attribute("address") == sourceItem->text() )
+        {
+            for (QDomElement destinationElem = sourceElem.firstChildElement("destination");
+                 !destinationElem.isNull();
+                 destinationElem = destinationElem.nextSiblingElement("destination"))
+            {
+                if (destinationElem.attribute("address") == destinationItem->text() )
+                {
+                    ui->destinationsTable->removeRow(ui->destinationsTable->currentRow() );
+                    sourceElem.removeChild(destinationElem);
+                    break;
+                }
+            }
+            break;
+        }
+    }
 }
 
 void MainWindow::on_buttonBox_accepted()
 {
-    QDomDocument doc;
-    QDomElement root = doc.createElement("data");
-    doc.appendChild(root);
-
-    for (int i=0; i < ui->sourceTable->rowCount(); i++)
-    {
-        QDomElement source = doc.createElement("source");
-        source.setAttribute("protocol", ui->sourceTable->item(i, 0)->text() );
-        source.setAttribute("address", ui->sourceTable->item(i, 1)->text() );
-        root.appendChild(source);
-    }
-    ui->textEdit->setPlainText(doc.toString().toUtf8() );
-//    ui->sourceTable->item(0, 0)->data()
-    //elem.setAttribute("src", "myimage.png");
+    ui->textEdit->setPlainText(receivedXML->toString().toUtf8() );
 
     QNetworkAccessManager* postData = new QNetworkAccessManager;
-    connect(postData, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(dataSended(QNetworkReply*)));
-    postData->post(QNetworkRequest(QUrl("http://localhost:9862/directions")), doc.toString().toUtf8() );
+//    connect(postData, SIGNAL(finished(QNetworkReply*)),
+//            this, SLOT(dataSended(QNetworkReply*)));
+    postData->post(QNetworkRequest(QUrl("http://localhost:9862/directions")), receivedXML->toString().toUtf8() );
 }
 
 void MainWindow::on_sourceTable_itemActivated(QTableWidgetItem *item)
@@ -90,9 +169,7 @@ void MainWindow::on_sourceTable_itemActivated(QTableWidgetItem *item)
     ui->destinationsTable->clearContents();
     ui->destinationsTable->setRowCount(0);
 
-    QDomElement root = receivedXML->firstChildElement("data");
-
-    for (QDomElement sourceElem = root.firstChildElement("source");
+    for (QDomElement sourceElem = root->firstChildElement("source");
          !sourceElem.isNull();
          sourceElem = sourceElem.nextSiblingElement("source"))
     {
@@ -107,4 +184,9 @@ void MainWindow::on_sourceTable_itemActivated(QTableWidgetItem *item)
             break;
         }
     }
+}
+
+void MainWindow::on_buttonBox_rejected()
+{
+    exit(0);
 }

@@ -38,9 +38,7 @@ private:
     string getRequestedPath(string request);
     string getMethodOfRequest(string request);
     string getPayloadOfPOST(string request);
-    string generateXMLForDirections(list<Directions>* directions);
     void importOPML(string opml);
-    void importSources(string requestPayload);
     void sendResponce(string payload);
 
     string receiveRequest();

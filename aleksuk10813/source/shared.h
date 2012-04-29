@@ -64,12 +64,21 @@ struct SMTPSettings
     string server;
 };
 
+struct RSSSettings
+{
+    int updateInterval;
+};
+
 struct ReceiverArgs
 {
     queue<InRecord>* itemsQueue;
-    condition_variable* conditionalVariable;
-    mutex* mutexVariable;
-    list<string>* sources;
+    condition_variable* conditionalVariableForQueue;
+    mutex* mutexForQueue;
+
+    list<Directions>* directions;
+    mutex* mutexForDirections;
+
+    RSSSettings* rssSettings;
     map<string, set<string> >* guids;
 };
 
@@ -78,7 +87,7 @@ struct SenderArgs
     queue<OutRecord>* itemsQueue;
     condition_variable* conditionalVariable;
     mutex* mutexVariable;
-    list<string>* destinations;
+    // list<string>* destinations;
     SMTPSettings* smtpSettings;
 };
 
@@ -89,6 +98,7 @@ struct ConfigHandlerArgs
  map<string, set<string> >* guids;
  list<Directions>* directions;
  SMTPSettings* smtpSettings;
+ RSSSettings* rssSettings;
 };
 
 enum Importance
@@ -132,11 +142,12 @@ struct PartsOfURL
 };
 
 void log(enum Importance importance, string message);
+void signalHandler(int signal);
 string receive_helper(int socket);
 void send_helper(int clientSocket, string data);
 int connect_helper(PartsOfURL url);
 
 string generateXMLForDirections(list<Directions> directions);
-list<Directions>* importDirectionsFromXML(string requestPayload);
+void importDirectionsFromXML(string requestPayload, list<Directions>* directions);
 
 #endif // SHARED_H

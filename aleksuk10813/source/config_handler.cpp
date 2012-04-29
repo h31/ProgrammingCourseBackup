@@ -13,6 +13,7 @@ ConfigHandler::ConfigHandler(ConfigHandlerArgs args)
     guids = args.guids;
     directions = args.directions;
     smtpSettings = args.smtpSettings;
+    rssSettings = args.rssSettings;
 
     try
     {
@@ -37,7 +38,7 @@ void ConfigHandler::parseArgs(int argc, char **argv)
 {
     configFilePath = "config.xml";
     guidsFilePath = "guids.xml";
-    DirectionsFilePath = "directions.xml";
+    directionsFilePath = "directions.xml";
     // TODO
 }
 
@@ -67,6 +68,14 @@ void ConfigHandler::readConfigFile()
     smtpSettings->username = smtp.child_value("username");
     smtpSettings->password = smtp.child_value("password");
     smtpSettings->server = smtp.child_value("server");
+
+    pugi::xml_node rss = root.child("rss");
+
+    if (rss == NULL)
+        throw ConfigHandlerException(ERROR, "No rss node");
+
+    string s = rss.child_value("updateInterval");
+    rssSettings->updateInterval = atoi(rss.child_value("updateInterval") );
 }
 
 void ConfigHandler::readGuidsFile()
@@ -86,12 +95,11 @@ void ConfigHandler::readGuidsFile()
 
 void ConfigHandler::readDirectionsFile()
 {
-    ifstream file(DirectionsFilePath);
+    ifstream file(directionsFilePath);
     stringstream buffer;
     // Перекидываем содержимое ifstream в stringstream
     buffer << file.rdbuf();
-    delete directions;
-    directions = importDirectionsFromXML(buffer.str() );
+    importDirectionsFromXML(buffer.str(), directions);
 }
 
 void ConfigHandler::writeGuidsFile()
@@ -120,7 +128,7 @@ void ConfigHandler::writeGuidsFile()
 
 void ConfigHandler::writeDirectionsFile()
 {
-    ofstream file(DirectionsFilePath);
+    ofstream file(directionsFilePath);
     file << generateXMLForDirections(*directions);
     file.close();
 }
