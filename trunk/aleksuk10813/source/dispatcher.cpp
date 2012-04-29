@@ -45,5 +45,6 @@ void Dispatcher::operator()(ReceiverArgs input, SenderArgs output, list<Directio
             outLock.unlock();
             output.conditionalVariable->notify_one();
         }
+        inLock.unlock();
     }
 }
