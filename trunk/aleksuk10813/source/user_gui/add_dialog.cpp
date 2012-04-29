@@ -17,4 +17,10 @@ void AddDialog::on_buttonBox_accepted()
 {
     address = ui->address->text();
     protocol = ui->protocol->text();
+    accepted = true;
+}
+
+void AddDialog::on_buttonBox_rejected()
+{
+    accepted = false;
 }

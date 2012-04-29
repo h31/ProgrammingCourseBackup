@@ -43,6 +43,7 @@ protected:
     string responce;
     PartsOfURL partsOfURL;
     string currentURL;
+    list<Directions> directions;
     int sock;
 
     void windowsSocketStart();

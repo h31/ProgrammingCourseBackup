@@ -23,23 +23,26 @@
 
 using namespace std;
 
-const char* RSSReceiver::unitName = "HTTPClient";
-const int RSSReceiver::updateIntervalInSeconds = 1; // TODO: сделать динамическим
-
 void RSSReceiver::operator()(ReceiverArgs args)
 {
     while (1)
     {
-//    this_thread::sleep_for(chrono::seconds(2));
-        for(list<string>::iterator it = args.sources->begin(); it != args.sources->end(); it++)
+        // копируем себе, чтобы не задерживать RemoteControl
+        unique_lock<mutex> lk(*args.mutexForQueue);
+            directions = *args.directions;
+        lk.unlock();
+
+        for(list<Directions>::iterator it = directions.begin(); it != directions.end(); it++)
         {
-            currentURL = *it;
-            downloadSource(*it);
+            if (it->source.protocol != "rss")
+                continue;
+            currentURL = it->source.address;
+            downloadSource(currentURL);
             ParsedResponce = parseHTTP(rawResponce);
             receivedItems = parseFeed(ParsedResponce.data);
-            leaveOnlyNewItems(*it, args.guids);
+            leaveOnlyNewItems(currentURL, args.guids);
 
-            unique_lock<mutex> lk(*args.mutexVariable);
+            unique_lock<mutex> lk(*args.mutexForQueue);
             // lk.try_lock();
 
             for (list<InRecord>::iterator it = receivedItems.begin();
@@ -48,15 +51,14 @@ void RSSReceiver::operator()(ReceiverArgs args)
                 args.itemsQueue->push(*it);
 
             lk.unlock();
-            args.conditionalVariable->notify_one();
+            args.conditionalVariableForQueue->notify_one();
         }
-        this_thread::sleep_for(chrono::seconds(updateIntervalInSeconds));
+        this_thread::sleep_for(chrono::seconds(args.rssSettings->updateInterval));
     }
 }
 
 void RSSReceiver::downloadSource(const string url)
 {
-    // TODO: сделать без передачи параметра
     partsOfURL = parseUrl(url);
     sock = connect_helper(partsOfURL);
     sendRequest(partsOfURL);
@@ -72,7 +74,6 @@ HTTPRecord RSSReceiver::parseHTTP(const string responce)
     // HTTP/1.1 200 Ok
 
     if (responce.substr(0, prefixLen) != "HTTP")
-        // TODO: объединить с другой проверкой
         throw RSSReceiverException(ERROR, "Not an HTTP responce");
 
     // Проверяем код состояния
@@ -110,7 +111,6 @@ list<InRecord> RSSReceiver::parseFeed(const string rssContent)
         record.guid = item.child_value("guid");
         record.feedName = currentURL;
         itemList.push_back(record);
-        // TODO: остальное
     }
     return itemList;
 }
@@ -177,7 +177,7 @@ PartsOfURL RSSReceiver::parseUrl(const string url)
 
     if (url.substr(0, prefixLen) != "http://")
     {
-        // TODO: Exception
+        throw RSSReceiverException(ERROR, "not an address");
     }
 
 

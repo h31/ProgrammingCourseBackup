@@ -21,13 +21,13 @@ void TestReceiver::operator()(ReceiverArgs args)
         record.data = temp_str;
         //delete temp_str;
 
-        unique_lock<mutex> lk(*args.mutexVariable);
+        unique_lock<mutex> lk(*args.mutexForQueue);
         // lk.try_lock();
 
         args.itemsQueue->push(record);
 
         lk.unlock();
-        args.conditionalVariable->notify_one();
+        args.conditionalVariableForQueue->notify_one();
 
         this_thread::sleep_for(chrono::seconds(1));
     }

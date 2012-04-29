@@ -32,7 +32,6 @@ private:
     bool RemoteControlTest2();
     bool RemoteControlTest3();
     bool RemoteControlTest4();
-    bool RemoteControlTest5();
 
     bool SMTPSenderTest1();
     bool SMTPSenderTest2();
@@ -42,6 +41,7 @@ private:
     bool ConfigHandlerTest2();
 
     bool filesAreEqual(const char* referenceFilename, const char* testResultFilename);
+    list<Directions>* generateDirections(string source);
 
     ReceiverArgs inputArgs;
     SenderArgs outputArgs;

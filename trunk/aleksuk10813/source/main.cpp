@@ -2,6 +2,7 @@
 #include <pthread.h>
 #include <thread>
 #include <mutex>
+#include <signal.h>
 
 #include "dispatcher.h"
 #include "senders.h"
@@ -32,23 +33,23 @@ int main(int argc, char **argv)
         inputArgs.itemsQueue = new queue<InRecord>;
         outputArgs.itemsQueue = new queue<OutRecord>;
 
-        inputArgs.mutexVariable = new mutex;
+        inputArgs.mutexForQueue = new mutex;
         outputArgs.mutexVariable = new mutex;
 
-        inputArgs.conditionalVariable = new condition_variable;
+        inputArgs.conditionalVariableForQueue = new condition_variable;
         outputArgs.conditionalVariable = new condition_variable;
 
-        inputArgs.sources = new list<string>;
-        outputArgs.destinations = new list<string>;
-
         inputArgs.guids = new map<string, set<string> >;
+        inputArgs.directions = directions;
 
+        inputArgs.rssSettings = new RSSSettings;
         outputArgs.smtpSettings = new SMTPSettings;
 
         configHandlerArgs.argc = argc;
         configHandlerArgs.argv = argv;
         configHandlerArgs.guids = inputArgs.guids;
         configHandlerArgs.directions = directions;
+        configHandlerArgs.rssSettings = inputArgs.rssSettings;
         configHandlerArgs.smtpSettings = outputArgs.smtpSettings;
 
         TestReceiver testReceiver;
@@ -59,38 +60,11 @@ int main(int argc, char **argv)
         TestSender testOut;
         SMTPSender smtpOut;
 
-        AddressRecord myAddress;
-        myAddress.address = "aaa@h31.ishere.ru";
-
-        Directions inetFeed;
-        inetFeed.source.address = "http://news.yandex.ru/security.rss";
-        inetFeed.source.protocol = "RSS";
-        inetFeed.destinations.push_back(myAddress);
-        directions->push_back(inetFeed);
-
         RemoteControl remoteControl;
         ConfigHandler configHandler(configHandlerArgs);
 
-//        Directions inetFeed;
-//        inetFeed.source.address = "http://news.yandex.ru/security.rss";
-//        inetFeed.source.protocol = "RSS";
-//        inetFeed.destinations.push_back(myAddress);
-//        directions->push_back(inetFeed);
-
-//        Directions inetFeed;
-//        inetFeed.source.address = "http://127.0.0.1/security.rss";
-//        inetFeed.source.protocol = "RSS";
-//        inetFeed.destinations.push_back(myAddress);
-//        directions->push_back(inetFeed);
-
-//        Directions testFeed;
-//        testFeed.source.address = "TestFeed";
-//        testFeed.source.protocol = "Test";
-//        testFeed.destinations.push_back(myAddress);
-//        directions->push_back(testFeed);
-
         thread receiver2(testReceiver, inputArgs);
-//        thread receiver(rssReceiver, inputArgs);
+        thread receiver(rssReceiver, inputArgs);
 
         thread disp(dispatcher, inputArgs, outputArgs, directions, mutexVariable);
 
@@ -98,9 +72,16 @@ int main(int argc, char **argv)
         thread sender(smtpOut, outputArgs);
 
         thread remote(remoteControl, directions, mutexVariable);
-        //receiver.join();
+
+        // TODO: оно вообще не работает.
+//        struct sigaction sa;
+//        sa.sa_handler = signalHandler;
+//        sigaction(SIGTERM, &sa, 0);
+        //sigaction(SIGINT, &sa, 0);
+//        signal(SIGTERM, signalHandler);
+//        signal(SIGINT, signalHandler);
+
         disp.join();
-        //configHandler.saveConfig(1);
     }
 
     return 0;

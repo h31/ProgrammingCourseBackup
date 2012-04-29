@@ -8,7 +8,7 @@
 
 void TestRSSReceiver::downloadSource(const string url)
 {
-    rawResponce = url; // Хак
+    rawResponce = url; // Немного некрасивый, но эффектривный способ протестировать RSSReceiver
 }
 
 void Tester::runTest(bool (Tester::* test)(), const char *name)
@@ -33,11 +33,10 @@ void Tester::testSequence()
     runTest(&Tester::RSSReceiverTest6, "RSSReceiver, test6 (Ошибки разбора XML - образцовый RSS)");
     runTest(&Tester::RSSReceiverTest7, "RSSReceiver, test7 (Ошибка сети - IPv6)");
 
-    runTest(&Tester::RemoteControlTest1, "RemoteControl, test1 (образцовый XML)");
+    runTest(&Tester::RemoteControlTest1, "RemoteControl, test1 (getMethodOfRequest)");
     runTest(&Tester::RemoteControlTest2, "RemoteControl, test2 (getMethodOfRequest)");
-    runTest(&Tester::RemoteControlTest3, "RemoteControl, test3 (getMethodOfRequest)");
+    runTest(&Tester::RemoteControlTest3, "RemoteControl, test3 (getRequestedPath)");
     runTest(&Tester::RemoteControlTest4, "RemoteControl, test4 (getRequestedPath)");
-    runTest(&Tester::RemoteControlTest5, "RemoteControl, test5 (getRequestedPath)");
 
     runTest(&Tester::SMTPSenderTest1, "SMTPSender, test1 (обработка точек нужна)");
     runTest(&Tester::SMTPSenderTest2, "SMTPSender, test2 (обработка точек не нужна)");
@@ -50,7 +49,7 @@ void Tester::testSequence()
 bool Tester::RSSReceiverTest1()
 {
     TestRSSReceiver testObj;
-    inputArgs.sources = new list<string>(1, "dcrfcxfdrcxrfgc");
+    inputArgs.directions = generateDirections("dcrfcxfdrcxrfgc");
 
     try
     {
@@ -66,7 +65,7 @@ bool Tester::RSSReceiverTest1()
 bool Tester::RSSReceiverTest2()
 {
     TestRSSReceiver testObj;
-    inputArgs.sources = new list<string>(1, "HTTP/1.1 502 Bad Gateway");
+    inputArgs.directions = generateDirections("HTTP/1.1 502 Bad Gateway");
 
     try
     {
@@ -82,7 +81,7 @@ bool Tester::RSSReceiverTest2()
 bool Tester::RSSReceiverTest3()
 {
     TestRSSReceiver testObj;
-    list<string>* sources = new list<string>(1, "HTTP/1.1 200 OK\r\n\r\n<node");
+    inputArgs.directions = generateDirections("HTTP/1.1 200 OK\r\n\r\n<node");
 
     try
     {
@@ -98,7 +97,7 @@ bool Tester::RSSReceiverTest3()
 bool Tester::RSSReceiverTest4()
 {
     TestRSSReceiver testObj;
-    inputArgs.sources = new list<string>(1, "HTTP/1.1 200 OK\r\n\r\n<node></node>");
+    inputArgs.directions = generateDirections("HTTP/1.1 200 OK\r\n\r\n<node></node>");
 
     try
     {
@@ -114,7 +113,7 @@ bool Tester::RSSReceiverTest4()
 bool Tester::RSSReceiverTest5()
 {
     TestRSSReceiver testObj;
-    inputArgs.sources = new list<string>(1, "HTTP/1.1 200 OK\r\n\r\n<rss><channel></channel></rss>");
+    inputArgs.directions = generateDirections("HTTP/1.1 200 OK\r\n\r\n<rss><channel></channel></rss>");
 
     try
     {
@@ -135,7 +134,7 @@ bool Tester::RSSReceiverTest6()
     getline(test_xml, test_str, '\0');
     test_str = "HTTP/1.1 200 OK\r\n\r\n" + test_str;
 
-    inputArgs.sources = new list<string>(1, test_str);
+    inputArgs.directions = generateDirections(test_str);
 
     InRecord reference_record;
     reference_record.data = "Here is some text containing an interesting description.";
@@ -162,7 +161,7 @@ bool Tester::RSSReceiverTest6()
 bool Tester::RSSReceiverTest7()
 {
     RSSReceiver testObj;
-    inputArgs.sources = new list<string>(1, "http://www.ipv6.mx/index.php?format=feed&type=rss");
+    inputArgs.directions = generateDirections("http://www.ipv6.mx/index.php?format=feed&type=rss");
 
     try
     {
@@ -177,18 +176,13 @@ bool Tester::RSSReceiverTest7()
 
 bool Tester::RemoteControlTest1()
 {
-    return false; // TODO
-}
-
-bool Tester::RemoteControlTest2()
-{
     RemoteControl testObj;
     if (testObj.getMethodOfRequest("GET /path HTTP/1.1") == "GET")
         return true;
     else return true;
 }
 
-bool Tester::RemoteControlTest3()
+bool Tester::RemoteControlTest2()
 {
     RemoteControl testObj;
     if (testObj.getMethodOfRequest("POST /path HTTP/1.1") == "POST")
@@ -196,7 +190,7 @@ bool Tester::RemoteControlTest3()
     else return true;
 }
 
-bool Tester::RemoteControlTest4()
+bool Tester::RemoteControlTest3()
 {
     RemoteControl testObj;
     if (testObj.getRequestedPath("GET /path HTTP/1.1") == "path")
@@ -204,7 +198,7 @@ bool Tester::RemoteControlTest4()
     else return true;
 }
 
-bool Tester::RemoteControlTest5()
+bool Tester::RemoteControlTest4()
 {
     RemoteControl testObj;
     if (testObj.getRequestedPath("POST /path HTTP/1.1") == "path")
@@ -242,6 +236,7 @@ bool Tester::SMTPSenderTest3()
 {
     SMTPSender testObj;
     OutRecord input;
+    testObj.from = "sender@sender.com";
     input.subject = "Subject";
     input.to = "example@example.com";
     input.text = "Text";
@@ -255,6 +250,11 @@ bool Tester::SMTPSenderTest3()
     test_output = testObj.generateEmail(input);
     return test_output == reference_output;
 }
+
+map<string, set<string> >* ConfigHandler::guids = new map<string, set<string> >;
+list<Directions>* ConfigHandler::directions = new list<Directions>;
+string ConfigHandler::guidsFilePath = "";
+string ConfigHandler::directionsFilePath = "";
 
 bool Tester::ConfigHandlerTest1()
 {
@@ -280,9 +280,9 @@ bool Tester::ConfigHandlerTest2()
     testObj.directions = new list<Directions>;
     try
     {
-        testObj.DirectionsFilePath = "directions_reference.xml";
+        testObj.directionsFilePath = "directions_reference.xml";
         testObj.readDirectionsFile();
-        testObj.DirectionsFilePath = "directions_test_result.xml";
+        testObj.directionsFilePath = "directions_test_result.xml";
         testObj.writeDirectionsFile();
     }
     catch(...)
@@ -344,6 +344,15 @@ bool Tester::filesAreEqual(const char *referenceFilename, const char *testResult
 
 }
 
+list<Directions> *Tester::generateDirections(string source)
+{
+    list<Directions>* directions = new list<Directions>;
+    Directions testDirection;
+    testDirection.source.address = source;
+    testDirection.source.protocol = "rss";
+    directions->push_back(testDirection);
+}
+
 Tester::Tester()
 {
     list<Directions>* directions = new list<Directions>;
@@ -351,14 +360,12 @@ Tester::Tester()
     inputArgs.itemsQueue= new queue<InRecord>;
     outputArgs.itemsQueue = new queue<OutRecord>;
 
-    inputArgs.mutexVariable = new mutex;
+    inputArgs.mutexForQueue = new mutex;
     outputArgs.mutexVariable = new mutex;
 
-    inputArgs.conditionalVariable = new condition_variable;
+    inputArgs.conditionalVariableForQueue = new condition_variable;
     outputArgs.conditionalVariable = new condition_variable;
 
-    inputArgs.sources = new list<string>;
-    outputArgs.destinations = new list<string>;
-
+    inputArgs.directions = new list<Directions>;
     inputArgs.guids = new map<string, set<string> >;
 }

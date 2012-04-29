@@ -32,17 +32,22 @@ void TestSender::operator()(SenderArgs args)
     while (1)
     {
         unique_lock<mutex> outLock(*args.mutexVariable);
-        args.conditionalVariable->wait(outLock);
+        // Если очередь пустая, то ждем наполнения
+        if (args.itemsQueue->size() == 0)
+            args.conditionalVariable->wait(outLock);
 
         while (args.itemsQueue->size() > 0)
         {
-            cout << "Queue size: " << args.itemsQueue->size() << endl;
             OutRecord temp = args.itemsQueue->front();
+            if (temp.senderProtocol != "test")
+                break;
+            cout << "Queue size: " << args.itemsQueue->size() << endl;
             cout << "Subject: " << mingwCodepageFix(temp.subject) << endl;
             cout << "To: " << mingwCodepageFix(temp.to) << endl;
             cout << "Text: " << mingwCodepageFix(temp.text) << endl;
             cout << endl;
             args.itemsQueue->pop();
         }
+        outLock.unlock();
     }
 }
