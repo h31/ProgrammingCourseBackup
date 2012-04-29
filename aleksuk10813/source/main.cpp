@@ -73,13 +73,8 @@ int main(int argc, char **argv)
 
         thread remote(remoteControl, directions, mutexVariable);
 
-        // TODO: оно вообще не работает.
-//        struct sigaction sa;
-//        sa.sa_handler = signalHandler;
-//        sigaction(SIGTERM, &sa, 0);
-        //sigaction(SIGINT, &sa, 0);
-//        signal(SIGTERM, signalHandler);
-//        signal(SIGINT, signalHandler);
+        signal(SIGTERM, signalHandler);
+        signal(SIGINT, signalHandler);
 
         disp.join();
     }
