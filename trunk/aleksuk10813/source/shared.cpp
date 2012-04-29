@@ -226,5 +226,6 @@ void signalHandler(int signal)
 {
     printf("Exiting...");
     ConfigHandler configHandler;
-    configHandler.saveConfig(1);
+    configHandler.saveConfig(signal);
+    exit(0);
 }
