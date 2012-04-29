@@ -3,9 +3,49 @@
 #include "senders.h"
 #include "shared.h"
 
+void SMTPSender::operator()(SenderArgs args)
+{
+    while (1)
+    {
+        string formedEmail;
+        smtpSettings = args.smtpSettings;
+
+        // чтобы подолгу не блокировать очередь, сразу получаем из неё все элементы.
+        unique_lock<mutex> lk(*args.mutexVariable);
+        args.conditionalVariable->wait(lk);
+
+        queue<OutRecord>* localItems = new queue<OutRecord>;
+        while (args.itemsQueue->size() > 0)
+        {
+            localItems->push(args.itemsQueue->front() );
+            args.itemsQueue->pop();
+        }
+
+        lk.unlock();
+
+        while (localItems->size() > 0)
+        {
+            OutRecord currentItem = localItems->front();
+            localItems->pop();
+
+            if (currentItem.senderProtocol != "smtp")
+                continue;
+            try
+            {
+                formedEmail = generateEmail(currentItem);
+                sendEmail(currentItem, formedEmail);
+            }
+            catch(...)
+            {
+                throw SMTPSenderException(ERROR, "Problems in SMTPSender");
+            }
+        }
+    }
+}
+
 void SMTPSender::sendEmail(OutRecord addresses, string payload)
 {
-    const string from = smtpSettings->username + "@" + smtpSettings->password; // TODO
+    const string from = smtpSettings->username + "@" + smtpSettings->server; // TODO
     string encodedAuthData;
     PartsOfURL addressForConnection;
     addressForConnection.address = smtpSettings->server;
@@ -47,33 +87,6 @@ string SMTPSender::generateEmail(OutRecord input)
 string SMTPSender::escapeDots(const string data)
 {
     return "";
-}
-
-void SMTPSender::operator()(SenderArgs args)
-{
-    while (1)
-    {
-        string formedEmail;
-        smtpSettings = args.smtpSettings;
-
-        // чтобы подолгу не блокировать очередь, сразу получаем из неё все элементы.
-        unique_lock<mutex> lk(*args.mutexVariable);
-        args.conditionalVariable->wait(lk);
-            queue<OutRecord>* items = new queue<OutRecord>;
-            swap(args.itemsQueue, items);
-        lk.unlock();
-
-        while (items->size() > 0)
-        {
-            OutRecord currentItem = items->front();
-            items->pop();
-
-            if (currentItem.senderProtocol != "smtp")
-                continue;
-            formedEmail = generateEmail(currentItem);
-            sendEmail(currentItem, formedEmail);
-        }
-    }
 }
 
 void SMTPSender::connect_wrapper(PartsOfURL url)

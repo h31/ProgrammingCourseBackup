@@ -43,11 +43,13 @@ int main(int argc, char **argv)
 
         inputArgs.guids = new map<string, set<string> >;
 
+        outputArgs.smtpSettings = new SMTPSettings;
+
         configHandlerArgs.argc = argc;
         configHandlerArgs.argv = argv;
         configHandlerArgs.guids = inputArgs.guids;
-        configHandlerArgs.directions = new list<Directions>;
-        configHandlerArgs.smtpSettings = new SMTPSettings;
+        configHandlerArgs.directions = directions;
+        configHandlerArgs.smtpSettings = outputArgs.smtpSettings;
 
         TestReceiver testReceiver;
         RSSReceiver rssReceiver;
@@ -60,11 +62,11 @@ int main(int argc, char **argv)
         AddressRecord myAddress;
         myAddress.address = "aaa@h31.ishere.ru";
 
-//        Directions inetFeed;
-//        inetFeed.source.address = "http://news.yandex.ru/security.rss";
-//        inetFeed.source.protocol = "RSS";
-//        inetFeed.destinations.push_back(myAddress);
-//        directions->push_back(inetFeed);
+        Directions inetFeed;
+        inetFeed.source.address = "http://news.yandex.ru/security.rss";
+        inetFeed.source.protocol = "RSS";
+        inetFeed.destinations.push_back(myAddress);
+        directions->push_back(inetFeed);
 
         RemoteControl remoteControl;
         ConfigHandler configHandler(configHandlerArgs);
@@ -97,7 +99,7 @@ int main(int argc, char **argv)
 
         thread remote(remoteControl, directions, mutexVariable);
         //receiver.join();
-        sender.join();
+        disp.join();
         //configHandler.saveConfig(1);
     }
 

@@ -116,6 +116,12 @@ public:
     ConfigHandlerException(enum Importance importance, string message);
 };
 
+class SMTPSenderException
+{
+public:
+    SMTPSenderException(enum Importance importance, string message);
+};
+
 class AddressCorrectnessException {};
 
 struct PartsOfURL

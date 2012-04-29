@@ -13,7 +13,13 @@ ConfigHandler::ConfigHandler(ConfigHandlerArgs args)
     guids = args.guids;
     directions = args.directions;
     smtpSettings = args.smtpSettings;
-    // readConfigFile();
+
+    try
+    {
+        readConfigFile();
+    }
+    catch(...) {}
+
     try
     {
         readGuidsFile();
@@ -84,6 +90,7 @@ void ConfigHandler::readDirectionsFile()
     stringstream buffer;
     // Перекидываем содержимое ifstream в stringstream
     buffer << file.rdbuf();
+    delete directions;
     directions = importDirectionsFromXML(buffer.str() );
 }
 

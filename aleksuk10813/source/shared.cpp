@@ -29,6 +29,11 @@ ConfigHandlerException::ConfigHandlerException(Importance importance, string mes
     log(importance, message);
 }
 
+SMTPSenderException::SMTPSenderException(Importance importance, string message)
+{
+    log(importance, message);
+}
+
 string enum2string(enum Importance in)
 {
     switch (in) {
