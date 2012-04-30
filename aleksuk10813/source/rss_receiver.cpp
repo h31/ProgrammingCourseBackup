@@ -36,14 +36,22 @@ void RSSReceiver::operator()(ReceiverArgs args)
         {
             if (it->source.protocol != "rss")
                 continue;
+            //args.itemsQueue->pop();
             currentURL = it->source.address;
-            downloadSource(currentURL);
-            ParsedResponce = parseHTTP(rawResponce);
-            receivedItems = parseFeed(ParsedResponce.data);
-            leaveOnlyNewItems(currentURL, args.guids);
+
+            try
+            {
+                downloadSource(currentURL);
+                ParsedResponce = parseHTTP(rawResponce);
+                receivedItems = parseFeed(ParsedResponce.data);
+                leaveOnlyNewItems(currentURL, args.guids);
+            }
+            catch(...)
+            {
+                log(ERROR, string("Problems in RSSReceiver with feed " + currentURL) );
+            }
 
             unique_lock<mutex> lk(*args.mutexForQueue);
-            // lk.try_lock();
 
             for (list<InRecord>::iterator it = receivedItems.begin();
                  it != receivedItems.end();

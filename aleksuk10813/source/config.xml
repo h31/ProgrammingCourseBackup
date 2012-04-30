@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <config>
   <smtp>
-    <username>artem</username>
-    <password>artem</password>
+    <username>aaa</username>
+    <password>aaa</password>
     <server>h31.ishere.ru</server>
   </smtp>
   <rss>

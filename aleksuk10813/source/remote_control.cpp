@@ -25,38 +25,46 @@ void RemoteControl::operator()(list<Directions>* directions, mutex* m)
     while (1)
     {
         establishClientSocket();
-        request = receiveRequest();
+        try
+        {
+            request = receiveRequest();
 
-        method = getMethodOfRequest(request);
-        path = getRequestedPath(request);
+            method = getMethodOfRequest(request);
+            path = getRequestedPath(request);
 
-        if (getTypeOfRequest() == GET_DIRECTIONS)
-        {
-            unique_lock<mutex> lk(*m);
-                string xml = generateXMLForDirections(*directions);
-            lk.unlock();
-            sendResponce(xml);
+            if (getTypeOfRequest() == GET_DIRECTIONS)
+            {
+                unique_lock<mutex> lk(*m);
+                    string xml = generateXMLForDirections(*directions);
+                lk.unlock();
+                sendResponce(xml);
+            }
+            else if (getTypeOfRequest() == SET_DIRECTIONS)
+            {
+                payload = getPayloadOfPOST(request);
+                unique_lock<mutex> lk(*m);
+                    importDirectionsFromXML(payload, directions);
+                lk.unlock();
+                sendResponce("");
+            }
+            else if (getTypeOfRequest() == IMPORT_OPML)
+            {
+                payload = getPayloadOfPOST(request);
+                unique_lock<mutex> lk(*m);
+                    importOPML(payload);
+                lk.unlock();
+            }
+            else if (getTypeOfRequest() == EXPORT_OPML)
+            {
+                // TODO
+            }
+            else
+                throw RemoteControlException(ERROR, "Invalid URL");
         }
-        else if (getTypeOfRequest() == SET_DIRECTIONS)
+        catch(...)
         {
-            payload = getPayloadOfPOST(request);
-            unique_lock<mutex> lk(*m);
-                importDirectionsFromXML(payload, directions);
-            sendResponce("");
+            log(ERROR, "Problems in RemoteContol");
         }
-        else if (getTypeOfRequest() == IMPORT_OPML)
-        {
-            payload = getPayloadOfPOST(request);
-            unique_lock<mutex> lk(*m);
-                importOPML(payload);
-            lk.unlock();
-        }
-        else if (getTypeOfRequest() == EXPORT_OPML)
-        {
-            // TODO
-        }
-        else
-            throw RemoteControlException(ERROR, "Invalid URL");
 
         close(clientSock);
     }
@@ -162,8 +170,24 @@ string RemoteControl::receiveRequest()
     do {
         recvStatus = recv(clientSock, buf, sizeof(buf), 0);
         request.append(buf, recvStatus);
+        if (request.length() < 5) // 5 - с запасом
+            continue;
+        if (getMethodOfRequest(request) == "GET")
+        {
+            if (request.rfind("\r\n\r\n") != string::npos)
+                break;
+            else
+                continue;
+        }
+        if (getMethodOfRequest(request) == "POST")
+        {
+            if (request.rfind("</data>") != string::npos)
+                break;
+            else
+                continue;
+        }
         // TODO: проверка на зависание
-    } while (recvStatus == sizeof(buf) );
+    } while (1);
     return request;
 }
 

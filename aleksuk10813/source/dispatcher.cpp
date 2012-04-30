@@ -40,8 +40,8 @@ void Dispatcher::operator()(ReceiverArgs input, SenderArgs output, list<Directio
                 tempOutRecord.senderProtocol = it->protocol;
                 output.itemsQueue->push(tempOutRecord);
             }
-            outLock.unlock();
             output.conditionalVariable->notify_all();
+            outLock.unlock();
         }
         inLock.unlock();
     }

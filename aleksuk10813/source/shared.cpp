@@ -178,7 +178,7 @@ void importDirectionsFromXML(string requestPayload, list<Directions>* directions
     pugi::xml_node root = doc.child("data");
 
     if (root == NULL)
-        throw RSSReceiverException(ERROR, "No rss or channel nodes");
+        throw RSSReceiverException(ERROR, "No data node");
 
     if (root.child("source") == NULL)
         throw RSSReceiverException(ERROR, "No source nodes");
