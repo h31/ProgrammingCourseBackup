@@ -105,13 +105,14 @@ void Desk::chanchePawn(const bool whiteColour)
 	int type;
 
 	for(int i=0;i<32;i++)
-		if(figure[i]->getType() == pawn &&figure[i]->getY() == 7 && figure[i]->getColour() == true)
+		if(figure[i]->getType() == pawn &&figure[i]->getY() == 8 && figure[i]->getColour() == true)
 		{
 			do
 			{
 			cout<<"Enter type of figure: 1 queen, 2 rook, 3 knight, 4 bishop"<<endl;
 			cin>>type;
-			}while(type>4);
+			}
+			while(type>4);
 			setFigure(i,type);
 		}
 
@@ -122,7 +123,8 @@ void Desk::chanchePawn(const bool whiteColour)
 			{
 			cout<<"Enter type of figure: 1 queen, 2 rook, 3 knight, 4 bishop"<<endl;
 			cin>>type;
-			}while(type>4);
+			}
+			while(type>4);
 			setFigure(i,type);
 		}
 	refreshPlayingBoard();
@@ -138,7 +140,7 @@ void Desk::setFigure(const int numberOfFigure,const  int type)
 			Figure *bufFigure;
 			bufFigure = figure[numberOfFigure];
 			figure[numberOfFigure] = new Queen(bufFigure->getX(),bufFigure->getY(),bufFigure->getColour());
-			delete bufFigure;
+			//delete bufFigure;
 			break;
 		}
 	case 2:
@@ -146,7 +148,7 @@ void Desk::setFigure(const int numberOfFigure,const  int type)
 			Figure *bufFigure;
 			bufFigure = figure[numberOfFigure];
 			figure[numberOfFigure] = new Rook(bufFigure->getX(),bufFigure->getY(),bufFigure->getColour());
-			delete bufFigure;
+			//delete bufFigure;
 			break;
 		}
 	case 3:
@@ -154,7 +156,7 @@ void Desk::setFigure(const int numberOfFigure,const  int type)
 			Figure *bufFigure;
 			bufFigure = figure[numberOfFigure];
 			figure[numberOfFigure] = new Knight(bufFigure->getX(),bufFigure->getY(),bufFigure->getColour());
-			delete bufFigure;
+			//delete bufFigure;
 			break;
 		}
 	case 4:
@@ -162,7 +164,7 @@ void Desk::setFigure(const int numberOfFigure,const  int type)
 			Figure *bufFigure;
 			bufFigure = figure[numberOfFigure];
 			figure[numberOfFigure] = new Bishop(bufFigure->getX(),bufFigure->getY(),bufFigure->getColour());
-			delete bufFigure;
+			//delete bufFigure;
 			break;
 		}
 	default:
