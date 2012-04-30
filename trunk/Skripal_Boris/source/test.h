@@ -10,14 +10,15 @@
 using namespace std;
 class Test
 {
-public:
-	void printListOfFigures();
-	bool testFiguresTurn();
+	/*void printListOfFigures();
+	bool testFiguresTurn();*/
 	bool testEnPassant();
 	bool testCastling();
 	bool testChanchePawn();
 	bool testShah();
-	bool testMat();
+	//bool testMat();
+public:
+	bool tests();
 };
 
 #endif

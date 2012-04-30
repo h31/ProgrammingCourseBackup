@@ -11,7 +11,7 @@ Player::Player()
 
 bool Player::makeGame()
 {
-	//ofstream fout ("enPassant.txt");
+	ofstream fout ("mat.txt");
 
 	int startX,startY,finishX,finishY;
 	desk.printPlayingBoard();
@@ -23,12 +23,12 @@ bool Player::makeGame()
 			cout<<"Shah"<<endl;
 		}
 		if(whitePlayerTurnNow==true)
-			cout<<"Whie player turn now"<<endl;
+			cout<<"White player turn now"<<endl;
 		else
 			cout<<"Black player turn now"<<endl;
 
 		cin>>startX>>startY>>finishX>>finishY;
-		//fout<<startX<<" "<<startY<<" "<<finishX<<" "<<finishY<<endl;
+		fout<<startX<<" "<<startY<<" "<<finishX<<" "<<finishY<<endl;
 
 		bool isTurnTrue = desk.makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurnNow);
 

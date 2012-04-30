@@ -36,6 +36,6 @@ bool Bishop::canFigureTurn(const int xCoordinate,const int yCoordinate,const  De
 					if(desk.getFigure(i)->getY() == startY)
 						return false;
 	}
-	cout<<"bishop"<<xCoordinate<<yCoordinate<<endl;
+	//cout<<"bishop"<<xCoordinate<<yCoordinate<<endl;
 	return true;
 }

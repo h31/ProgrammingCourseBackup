@@ -57,6 +57,6 @@ bool Pawn::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk
 			if(whiteColour==false && (coordinateY - yCoordinate)==1)
 					return true;
 		}
-	cout<<"pawn"<<xCoordinate<<yCoordinate<<endl;
+	//cout<<"pawn"<<xCoordinate<<yCoordinate<<endl;
 	return false;
 }

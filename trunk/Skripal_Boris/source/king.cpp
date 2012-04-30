@@ -20,6 +20,6 @@ bool King::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk
 		return false;
 
 
-	cout<<"king"<<xCoordinate<<yCoordinate<<endl;
+	//cout<<"king"<<xCoordinate<<yCoordinate<<endl;
 	return false;
 }

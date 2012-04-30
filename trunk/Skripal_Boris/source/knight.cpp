@@ -20,6 +20,6 @@ bool Knight::canFigureTurn(const int xCoordinate,const int yCoordinate,const  De
 		return true;
 	if(abs(xCoordinate - coordinateX)==2 && abs(yCoordinate - coordinateY) ==1)
 		return true;
-	cout<<"knight"<<xCoordinate<<yCoordinate<<endl;
+	//cout<<"knight"<<xCoordinate<<yCoordinate<<endl;
 	return false;
 }
