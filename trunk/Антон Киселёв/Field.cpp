@@ -1,18 +1,14 @@
 #include "Field.h"
 #include "SavedGames.h"
-#include <iostream>
-#include <fstream>
 #include <time.h>
 using namespace std;
-Field::Field(int chislo, char name[])
+Field::Field(int chislo)
 {
 	GameField = new int *[ 9 ];
 	for (int i = 0; i < 9; i++)
 		GameField[ i ] = new int [ 9 ];
 	InitField();
 	Generation(chislo);
-	SavedGames SG;
-	SG.SaveField(GameField, name);
 }
 //Заполнение массива готовым образцом
 void Field::InitField()
@@ -31,7 +27,6 @@ void Field::Generation(int chislo)
 				int count = 9;
 				for (int var = 1; var < 10; ++var)
 				{
-
 					if (IsSq(ixRow, ixCol, var) || IsHor(ixCol, var) || IsVer(ixRow, var))
 						--count;
 				}
@@ -111,62 +106,52 @@ int Field::IsHor(int ixCol, int chislo)
 			return 1;
 	return 0;
 }
-//Вывод поля на экран
-void Field::OutOfField()
+//Подсчет количества ошибок в поле
+int Field::CountOfMistakes()
 {
+	int count = 0;
 	for (int ixRow = 0; ixRow < 9; ixRow++)
 	{
 		for (int ixCol = 0; ixCol < 9; ixCol++)
 		{
-			cout << " " << GameField[ ixRow ][ ixCol ] << " ";
-		}
-		cout << "(" << ixRow+1 << ")\n\n";
-	}
-	for (int ixRow = 0; ixRow < 9; ixRow++)
-		cout << "(" << ixRow+1 << ")";
-	cout << "\n";
-}
-//Определение победы игрока
-int Field::Define_Victory(char name[])
-{
-	int count = 0;
-	FieldVictory = new int* [ 9 ];
-	for (int i = 0; i < 9; i++)
-		FieldVictory[ i ] = new int [ 9 ];
-	ifstream in;
-	in.open(name);
-	int ixRow = 0;
-	int ixCol = 0;
-	while (!in.eof())
-	{
-		if (ixCol == 9)
-		{
-			ixRow++;
-			ixCol = 0;
-		}
-		in >> FieldVictory[ ixRow ][ ixCol ];
-		ixCol++;
-	}
-	for (ixRow = 0; ixRow < 9; ixRow++)
-	{
-		for (ixCol = 0; ixCol < 9; ixCol++)
-		{
 			if (GameField[ ixRow ][ ixCol ] != FieldVictory[ ixRow ][ ixCol ])
 			{
-				cout << "Есть ошибка в клетке с координатами: " << ixRow+1 << ixCol+1 << "\n";
 				count++;
 			}
 		}
 	}
+	return count;
+}
+//Проверка чисел
+int Field::ControlOfChisel()
+{
+	for (int ixRow = 0; ixRow < 9; ixRow++)
+		for (int ixCol = 0; ixCol < 9; ixCol++)
+			if (GameField[ ixRow ][ ixCol ] != FieldVictory[ ixRow ][ ixCol ])
+				return ixRow, ixCol;
+}
+//Определение победы игрока
+bool Field::Define_Victory()
+{
+	int count = CountOfMistakes();
 	if (count == 0)
 	{
-		cout << "Вы выиграли!\n";
-		return 0;
+		return 1;
 	}
 	else
 	{
-		return count;
+		return 0;
 	}
+}
+//Возврат значения в клетке
+int Field::GetCell(int ixRow, int ixCol)
+{
+	return GameField[ ixRow ][ ixCol ];
+}
+//Вставка значения
+void Field::InsertChislo(int ixRow, int ixCol, int chislo)
+{
+	GameField[ ixRow ][ ixCol ] = chislo;
 }
 Field::~Field(void)
 {
