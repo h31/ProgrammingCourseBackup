@@ -7,13 +7,13 @@ SavedGames::SavedGames()
 {
 }
 //Сохранение сгенерированного поля
-void SavedGames::SaveField(int** GameField, char name[])
+void SavedGames::SaveField(Field* GameField, char name[])
 {
 	RecordField(name, GameField);
-	SaveGame();
+	SaveGameField();
 }
 //Запрос на сохранения игры
-bool SavedGames::SaveRequest(Field GameField)
+bool SavedGames::SaveRequest(Field* GameField)
 {
 	int choice = 0;
 	cout << "Вы хотите сохранить игру? \n";
@@ -35,49 +35,30 @@ bool SavedGames::SaveRequest(Field GameField)
 	}
 }
 //Запись готового поля в файл
-void SavedGames::RecordField(char name[], int** GameField)
+void SavedGames::RecordField(char name[], Field* GameField)
 {
 	for (int ixRow = 0; ixRow < 100; ixRow++)
 		Name[ ixRow ] = name[ ixRow ];
 	for (int ixRow = 0; ixRow < 9; ixRow++)
 		for (int ixCol = 0; ixCol < 9; ixCol++)
-			Array[ ixRow ][ ixCol ] = GameField[ ixRow ][ ixCol ];
+			FirstArray[ ixRow ][ ixCol ] = GameField->GameField[ ixRow ][ ixCol ];
 }
 //Запись текущей игры
-void SavedGames::RecordData(char name[], Field GameField)
-{
-	for (int ixRow = 0; ixRow < 100; ixRow++)
-		Name[ ixRow ] = name[ ixRow ];
-	for (int ixRow = 0; ixRow < 9; ixRow++)
-		for (int ixCol = 0; ixCol < 9; ixCol++)
-			Array[ ixRow ][ ixCol ] = GameField.GameField[ ixRow ][ ixCol ];
-}
-//Сохранение игры
-void SavedGames::SaveGame()
-{
-	ofstream out;
-	out.open(Name);
-	for (int ixRow = 0; ixRow < 9; ixRow++)
-	{
-		for (int ixCol = 0; ixCol < 9; ixCol++)
-			out << Array[ ixRow ][ ixCol ] << " ";
-		out << "\n";
-	}
-}
-//Запрос на загрузку игры
-void SavedGames::LoadRequest(Field GameField)
-{
-	char name[ 20 ];
-	cout << "Выберите игру из списка, введите имя игры: \n";
-	cin >> name;
-	LoadGame(name, GameField);
-}
-//Загрузка сохранённой игры
-void SavedGames::LoadGame(char name[], Field GameField)
+void SavedGames::RecordData(char name[], Field* GameField)
 {
 	int ixRow = 0;
 	int ixCol = 0;
-	ifstream in(name);
+	for (int ixRow = 0; ixRow < 100; ixRow++)
+		Name[ ixRow ] = name[ ixRow ];
+	for (int ixRow = 0; ixRow < 9; ixRow++)
+		for (int ixCol = 0; ixCol < 9; ixCol++)
+			FirstArray[ ixRow ][ ixCol ] = GameField->GameField[ ixRow ][ ixCol ];
+	ifstream in("CurrentGameField.txt");
+	if (!in.fail())
+	{
+		cout << "Файл не открылся!\n";
+		return;
+	}
 	while (!in.eof())
 	{
 		if (ixCol == 9)
@@ -85,12 +66,103 @@ void SavedGames::LoadGame(char name[], Field GameField)
 			ixRow++;
 			ixCol = 0;
 		}
-		in >> Array[ ixRow ][ ixCol ];
+		in >> SecondArray[ ixRow ][ ixCol ];
 		ixCol++;
 	}
+}
+//Сохранение игрового поля
+void SavedGames::SaveGameField()
+{
+	ofstream out("CurrentGameField.txt");
+	if (!out.fail())
+	{
+		cout << "Файл не открылся!\n";
+		return;
+	}
+	for (int ixRow = 0; ixRow < 9; ixRow++)
+	{
+		for (int ixCol = 0; ixCol < 9; ixCol++)
+			out << FirstArray[ ixRow ][ ixCol ] << " ";
+		out << "\n";
+	}
+}
+//Сохранение игры
+void SavedGames::SaveGame()
+{
+	ofstream out;
+	if (!out.fail())
+	{
+		cout << "Файл не открылся!\n";
+		return;
+	}
+	out.open(Name);
+	for (int ixRow = 0; ixRow < 9; ixRow++)
+	{
+		for (int ixCol = 0; ixCol < 9; ixCol++)
+			out << FirstArray[ ixRow ][ ixCol ] << " ";
+		out << "\n";
+	}
+	for (int ixRow = 0; ixRow < 9; ixRow++)
+	{
+		for (int ixCol = 0; ixCol < 9; ixCol++)
+			out << SecondArray[ ixRow ][ ixCol ] << " ";
+		out << "\n";
+	}
+}
+//Запрос на загрузку игры
+void SavedGames::LoadRequest(Field* GameField)
+{
+	cout << "Вы хотите загрузить сохранённую игру?\n";
+	cout << "1. Да\n";
+	cout << "2. Нет\n";
+	int choice = 0;
+	cin >> choice;
+	if (choice == 1)
+	{
+		char name[ 20 ];
+		cout << "Введите имя игры: \n";
+		cin >> name;
+		LoadGame(name, GameField);
+	}
+	else if (choice == 2)
+	{
+		return;
+	}
+}
+//Загрузка сохранённой игры
+void SavedGames::LoadGame(char name[], Field* GameField)
+{
+	int ixRow = 0;
+	int ixCol = 0;
+	ifstream in(name);
+	if (!in.fail())
+	{
+		cout << "Файл не открылся!\n";
+		return;
+	}
+	ofstream out("CurrentGameField.txt");
+	if (!out.fail())
+	{
+		cout << "Файл не открылся!\n";
+		return;
+	}
 	for (ixRow = 0; ixRow < 9; ixRow++)
+	{
 		for (ixCol = 0; ixCol < 9; ixCol++)
-			GameField.GameField[ ixRow ][ ixCol ] = Array[ ixRow ][ ixCol ];
+		{
+			in >> GameField->GameField[ ixRow ][ ixCol ];
+		}
+	}
+	for (ixRow = 0; ixRow < 9; ixRow++)
+	{
+		for (ixCol = 0; ixCol < 9; ixCol++)
+		{
+			in >> SecondArray[ ixRow ][ ixCol ];
+			out << SecondArray[ ixRow ][ixCol];
+			out << " ";
+		}
+		out << "\n";
+	}
 }
 SavedGames::~SavedGames(void)
 {
