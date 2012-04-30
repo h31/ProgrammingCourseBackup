@@ -10,13 +10,14 @@ class Field
 public:
 	int* *FieldVictory;//Поле для проверки на ошибки
 	int* *GameField;
-	Field(int chislo, char name[]);
+	Field(int chislo);
 	int CountZero();
-	void OutOfField();
 	void Fill_Zero(int NumberOfZero);
 	void Fill_Zero_Square(int a, int b, int NumberOfZero);
+	void InsertChislo(int ixRow, int ixCol, int chislo);
+	int CountOfMistakes();
+	int ControlOfChisel();
 	~Field(void);
 	int GetCell(int ixRow, int ixCol);
-	void OutOfCell(int ixRow, int ixCol);
-	int Define_Victory(char name[]);
+	bool Define_Victory();
 };
