@@ -7,16 +7,16 @@ public:
 	int y;
 	Figure();
 	~Figure();
-	virtual bool makeMove(int Px, int Py)=0;//Ход фигуры
-
+	virtual bool makeMove1(int Px, int Py)=0;//Ход белой фигуры
+	virtual bool makeMove2(int Px, int Py)=0;//Ход черной фигуры
 };
 class Checker: public Figure//Класс обычная шашка
 {
 public:
 	Checker();
 	~Checker();
-	bool makeMove(int Px,int Py);
-
+	bool makeMove1(int Px,int Py);
+	bool makeMove2(int Px,int Py);
 
 };
 class King: public Figure//Класс дамка
@@ -24,6 +24,8 @@ class King: public Figure//Класс дамка
 public:
 	King();
 	~King();
-	bool makeMove(int Px,int Py);
+	bool makeMove1(int Px,int Py);
+	bool makeMove2(int Px,int Py);
+
 };
 #endif
