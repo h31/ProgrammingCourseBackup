@@ -1,22 +1,29 @@
 #ifndef _field_h_
 #define _field_h_
-enum Cell
+
+ const int size=8;
+enum Cell//состояние ячейки
 {
-		 empty=0,
-		 whiteShashka=1,
-		 blackShashka=2,
-		 whiteKing=8,
-		 blackKing=9
+		 empty=0,//пуста
+		 whiteShashka=1,//белая шашка
+		 blackShashka=2,//черная шашка
+		 whiteKing=8,//белая дамка
+		 blackKing=9//черная дамка
 };
 class Field
 	{
-	 Cell gameField[8][8];
-	 Field( );
+	public:
+	 Field();
 	 ~Field();
-	 public:
+	 Cell gameField[size][size];//игровое поле
+	void fieldMake();//заполнение поля
 	 void print();//Вывод поля
-	 void permutation(int Px,int Py, int x, int y);//Реализация хода
+	 bool permutation(int Px,int Py, int x, int y);//Реализация обычного хода
+	 void eatenChecker(int Px,int Py, int x, int y);//Реализация хода при съедении шашки врага
+	 bool secondCourse(int Px,int Py);//Реализация следующего хода той же шашки после того, как она "съела" шашку противника
 	 void transformKing();//Превращение шашки в дамку
+	 int endOfGame();//Проверка окончания игры
+	 bool testEatenChecker(int Px,int Py, int x, int y);//Проверка:возможно ли данной шашке или дамке "съесть" шашку противника
 };
 
 # endif
