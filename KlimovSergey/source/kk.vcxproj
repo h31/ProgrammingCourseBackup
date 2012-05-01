@@ -14,14 +14,18 @@
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="OpenFileTest.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Square.cpp" />
+    <ClCompile Include="SquareTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Field.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="OpenFileTest.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Square.h" />
+    <ClInclude Include="SquareTest.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{04D554D7-CE7E-4BDB-B447-F7D602A28037}</ProjectGuid>
