@@ -12,39 +12,37 @@ Field::~Field()
 
 bool Field::loadField(char* arg)
 {
-		ifstream fin(arg);
-		int hor_row,hor_col,ver_row,ver_col;
-		fin>>hor_row>>ver_row>>hor_col>>ver_col;
-		height = ver_row;
-		width = hor_row;
-		int **hortmp = new int*[hor_row];
-		for(int i=0;i<hor_row;i++)
-			hortmp[i] = new int [hor_col];
-		for(int i=0; i<hor_row; i++)
+	ifstream fin(arg);
+	if (!fin.is_open())
+		return false;
+	int hor_row,hor_col,ver_row,ver_col;
+	fin>>hor_row>>ver_row>>hor_col>>ver_col;
+	height = ver_row;
+	width = hor_row;
+	int **hortmp = new int*[hor_row];
+	for(int i=0;i<hor_row;i++)
+		hortmp[i] = new int [hor_col];
+	for(int i=0; i<hor_row; i++)
+	{
+		for(int j=0; j<hor_col; j++)
 		{
-			for(int j=0; j<hor_col; j++)
-			{
-                fin>>hortmp[i][j];
-                //cout<<hortmp[i][j]<<" ";
-			}
-		//cout<<endl;
+               fin>>hortmp[i][j];
 		}
-		hor = hortmp;
-		int **vertmp = new int*[ver_row];
-		for(int i=0;i<ver_row;i++)
-			vertmp[i] = new int [ver_col];
-		for(int i=0; i<ver_row; i++)
-		{
-			for(int j=0; j<ver_col; j++)
-			{
-                fin>>vertmp[i][j];
-                //cout<<vertmp[i][j]<<" ";
-			}
-		//cout<<endl;
-		}
-		ver = vertmp;
-		return true;
 	}
+	hor = hortmp;
+	int **vertmp = new int*[ver_row];
+	for(int i=0;i<ver_row;i++)
+		vertmp[i] = new int [ver_col];
+	for(int i=0; i<ver_row; i++)
+	{
+		for(int j=0; j<ver_col; j++)
+		{
+               fin>>vertmp[i][j];
+		}
+	}
+	ver = vertmp;
+	return true;
+}
 
 bool Field::show()
 {
@@ -62,6 +60,8 @@ bool Field::show()
 bool Field::loadComplete(char* arg)
 {
 	ifstream fin(arg);
+	if (!fin.is_open())
+		return false;
 	int pr, kol = 0;
 	while(!fin.eof())
 	{
@@ -101,9 +101,7 @@ bool Field::loadComplete(char* arg)
 				tmp[i][j].s.x = i;
 				tmp[i][j].s.y = j;
 			}
-		//cout<<endl;
 		}
 	map = tmp;
-	//cout<<rows_k<<" "<<cols_k<<endl;
 	return true;
 }

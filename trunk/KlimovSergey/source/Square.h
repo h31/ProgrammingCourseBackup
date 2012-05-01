@@ -19,6 +19,9 @@ public:
 	int getStat();
 	Square();
 	~Square();
+	
+private:
+	
 	friend ostream& operator <<(ostream& out, const Square& sq);
 	friend istream& operator >>(istream& in, Square& sq);
 };

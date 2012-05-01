@@ -8,8 +8,7 @@ using namespace std;
 class Field
 {
 public:
-	int** hor;
-	int** ver;
+	
 	Square** map;
 	int height, width;
 	Field();
@@ -17,6 +16,10 @@ public:
 	bool loadField(char* arg);
 	bool loadComplete(char* arg);
 	bool show();
+private:
+	int** hor;
+	int** ver;
+	
 };
 
 #endif

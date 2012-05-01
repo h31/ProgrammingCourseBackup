@@ -8,7 +8,8 @@ Game::~Game()
 
 bool Game::Start(Field &field, char* arg, Player &player)
 {
-	field.loadField(arg);
+	if(!field.loadField(arg))
+		return false;
 	Square **tmp = new Square*[field.height];
 	for(int i=0;i<field.height;i++)
 		tmp[i] = new Square [field.width];
@@ -19,9 +20,7 @@ bool Game::Start(Field &field, char* arg, Player &player)
 				tmp[i][j].status = 0;
 				tmp[i][j].s.x = i;
 				tmp[i][j].s.y = j;
-				//cout << tmp[i][j].status<<" ";
 			}
-		//cout<<endl;
 		}
 	field.map = tmp;
 	return true;

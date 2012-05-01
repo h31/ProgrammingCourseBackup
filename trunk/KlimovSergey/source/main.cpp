@@ -1,5 +1,6 @@
 #include "Game.h"
-//#include "Field.h"
+#include "SquareTest.h"
+#include "OpenFileTest.h"
 
 using namespace std;
 
@@ -9,10 +10,13 @@ int main(void)
 	Game g;
 	Player p;
 	g.Start(f,"test12.txt",p);
-	//cout<<p.ChangeStat(145,f.map[0][0])<<endl;
 	cout<<f.height<<" "<<f.width<<endl;
 	p.ChangeStat(1,f,0,0);
 	p.ChangeStat(2,f.map[1][1]);
 	f.show();
+	SquareTest sqt;
+	sqt.testGetStat(f.map[2][2], 2);
+	OpenFileTest oft;
+	oft.openTest(f);
 	return 0;
 }
