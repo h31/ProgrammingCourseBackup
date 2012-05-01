@@ -7,7 +7,6 @@
 using namespace std;
 class UserWord : public BasicWord
 {
-	//void enterLetter();
 public:
 	void enterLetter();
 	UserWord();

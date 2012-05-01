@@ -15,12 +15,12 @@ class Test
 	Game *game;
 	Man *man;
 	DictionaryWord* takeTheThirdWord();
-	bool test1();
-	bool test2();
-	bool test3();
-	bool test4();
-	bool test5();
-	bool test6();
+	bool checkTheWord();
+	bool checkLetter();
+	bool testCheckLetterMethod();
+	bool checkPutLetter();
+	bool checkIsWon();
+	bool checkIsLose();
 public:
 	Test();
 	~Test();

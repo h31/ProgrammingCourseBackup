@@ -13,6 +13,7 @@ int Library::numberOfWords(ifstream &in)
 		in.seekg(0, ios::end);
         const int numOfWords = in.tellg();
 		in.seekg(0, ios::beg);
+		cout<<numOfWords;
 		return numOfWords;
 };
 DictionaryWord* Library::takeWord(ifstream &in)

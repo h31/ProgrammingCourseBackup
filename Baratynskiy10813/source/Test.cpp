@@ -28,7 +28,7 @@ DictionaryWord* Test::takeTheThirdWord()
     }
 	return word;
 };
-bool Test::test1()
+bool Test::checkTheWord()
 {
 	string str = "aback";
 	if (takeTheThirdWord()->word == str)
@@ -42,7 +42,7 @@ bool Test::test1()
 		return false;
 	}
 };
-bool Test::test2()
+bool Test::checkLetter()
 {
 	cout<<"¬ведите b, пожалуйста:";
 	uword->enterLetter();
@@ -57,7 +57,7 @@ bool Test::test2()
 		return false;
 	}
 };
-bool Test::test3()
+bool Test::testCheckLetterMethod()
 {
 	cout<<"¬ведите 'b', пожалуйста: ";
 	if (uword->checkLetter(*takeTheThirdWord()) == false)
@@ -71,7 +71,7 @@ bool Test::test3()
 		return true;
 	}
 };
-bool Test::test4()
+bool Test::checkPutLetter()
 {
 	word->word=takeTheThirdWord()->word;
 	uword->makeUserWord(*word);
@@ -89,7 +89,7 @@ bool Test::test4()
 		return false;
 	}
 };
-bool Test::test5()
+bool Test::checkIsWon()
 {
 	word->word=takeTheThirdWord()->word;
 	uword->word=word->word;
@@ -104,7 +104,7 @@ bool Test::test5()
 		return false;
 	}
 };
-bool Test::test6()
+bool Test::checkIsLose()
 {
 	word->word=takeTheThirdWord()->word;
 	game->man->curMisses=6;
@@ -121,7 +121,7 @@ bool Test::test6()
 };
 bool Test::fullTest()
 {
-	if (test1() & test2() & test3() & test4() & test5() & test6())
+	if (checkTheWord() & checkLetter() & testCheckLetterMethod() & checkPutLetter() & checkIsWon() & checkIsLose())
 		return true;
 	else
 		return false;
