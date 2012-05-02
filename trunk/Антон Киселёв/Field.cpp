@@ -7,8 +7,14 @@ Field::Field(int chislo)
 	GameField = new int *[ 9 ];
 	for (int i = 0; i < 9; i++)
 		GameField[ i ] = new int [ 9 ];
+	FieldVictory = new int *[ 9 ];
+	for (int i = 0; i < 9; i++)
+		FieldVictory[ i ] = new int [ 9 ];
 	InitField();
 	Generation(chislo);
+	for (int ixRow = 0; ixRow < 9; ixRow++)
+		for (int ixCol = 0; ixCol < 9; ixCol++)
+			FieldVictory[ ixRow ][ ixCol ] = GameField[ ixRow ][ ixCol ];
 }
 //Заполнение массива готовым образцом
 void Field::InitField()
@@ -123,12 +129,18 @@ int Field::CountOfMistakes()
 	return count;
 }
 //Проверка чисел
-int Field::ControlOfChisel()
+bool Field::ControlOfChisel(int ixRow, int ixCol)
 {
-	for (int ixRow = 0; ixRow < 9; ixRow++)
-		for (int ixCol = 0; ixCol < 9; ixCol++)
-			if (GameField[ ixRow ][ ixCol ] != FieldVictory[ ixRow ][ ixCol ])
-				return ixRow, ixCol;
+	if (GameField[ ixRow ][ ixCol ] != FieldVictory[ ixRow ][ ixCol ])
+	{
+		xx = ixRow;
+		yy = ixCol;
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 }
 //Определение победы игрока
 bool Field::Define_Victory()
