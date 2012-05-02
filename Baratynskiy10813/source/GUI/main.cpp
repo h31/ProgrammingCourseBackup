@@ -1,10 +1,10 @@
 #include <QtGui/QApplication>
-#include "widget.h"
+#include "mainwidget.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    Widget *widget= new Widget;
+    MainWidget *widget = new MainWidget;
     widget->play();
     return a.exec();
 }

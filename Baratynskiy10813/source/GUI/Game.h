@@ -19,6 +19,6 @@ class Game
     UserWord *uword;
     Game();
 public:
-    friend class Widget;
+    friend class MainWidget;
 };
 #endif // GAME_H
