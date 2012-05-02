@@ -1,32 +1,38 @@
 #include "SavedGames.h"
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
 #include "Field.h"
 using namespace std;
 SavedGames::SavedGames()
 {
 }
 //Сохранение сгенерированного поля
-void SavedGames::SaveField(Field* GameField, char name[])
+void SavedGames::SaveReadyField(Field* GameField, char name[])
 {
-	RecordField(name, GameField);
-	SaveGameField();
+	ofstream out("CurrentGameField.txt");
+	if (!out)
+	{
+		cout << "Файл не открылся!\n";
+		return;
+	}
+	for (int ixRow = 0; ixRow < 9; ixRow++)
+	{
+		for (int ixCol = 0; ixCol < 9; ixCol++)
+			out << GameField->FieldVictory[ ixRow ][ ixCol ] << " ";
+		out << "\n";
+	}
 }
 //Запрос на сохранения игры
-bool SavedGames::SaveRequest(Field* GameField)
+bool SavedGames::SaveRequest(int choice, Field* GameField)
 {
-	int choice = 0;
-	cout << "Вы хотите сохранить игру? \n";
-	cout << "1. Да\n";
-	cout << "2. Нет\n";
-	cin >> choice;
 	if (choice == 1)
 	{
 		char name[ 20 ];
 		cout << "Введите имя игры: \n";
 		cin >> name;
+		SaveNameLastGame(name);
 		RecordData(name, GameField);
-		SaveGame();
 		return true;
 	}
 	else if (choice == 2)
@@ -34,131 +40,87 @@ bool SavedGames::SaveRequest(Field* GameField)
 		return false;
 	}
 }
-//Запись готового поля в файл
-void SavedGames::RecordField(char name[], Field* GameField)
+//Сохранение имени последней игры
+void SavedGames::SaveNameLastGame(char name[])
 {
-	for (int ixRow = 0; ixRow < 100; ixRow++)
-		Name[ ixRow ] = name[ ixRow ];
-	for (int ixRow = 0; ixRow < 9; ixRow++)
-		for (int ixCol = 0; ixCol < 9; ixCol++)
-			FirstArray[ ixRow ][ ixCol ] = GameField->GameField[ ixRow ][ ixCol ];
+	ofstream out("LastSave.txt");
+	if (!out)
+	{
+		cout << "Файл не открывается!\n";
+	}
+	out << name;
 }
 //Запись текущей игры
 void SavedGames::RecordData(char name[], Field* GameField)
 {
-	int ixRow = 0;
-	int ixCol = 0;
-	for (int ixRow = 0; ixRow < 100; ixRow++)
-		Name[ ixRow ] = name[ ixRow ];
+	ofstream out(name);
+	if (!out)
+		cout << "\n";
 	for (int ixRow = 0; ixRow < 9; ixRow++)
+	{
 		for (int ixCol = 0; ixCol < 9; ixCol++)
-			FirstArray[ ixRow ][ ixCol ] = GameField->GameField[ ixRow ][ ixCol ];
-	ifstream in("CurrentGameField.txt");
-	if (!in.fail())
-	{
-		cout << "Файл не открылся!\n";
-		return;
-	}
-	while (!in.eof())
-	{
-		if (ixCol == 9)
 		{
-			ixRow++;
-			ixCol = 0;
+			out << GameField->GameField[ ixRow ][ ixCol ];
+			out << " ";
 		}
-		in >> SecondArray[ ixRow ][ ixCol ];
-		ixCol++;
-	}
-}
-//Сохранение игрового поля
-void SavedGames::SaveGameField()
-{
-	ofstream out("CurrentGameField.txt");
-	if (!out.fail())
-	{
-		cout << "Файл не открылся!\n";
-		return;
 	}
 	for (int ixRow = 0; ixRow < 9; ixRow++)
 	{
 		for (int ixCol = 0; ixCol < 9; ixCol++)
-			out << FirstArray[ ixRow ][ ixCol ] << " ";
-		out << "\n";
-	}
-}
-//Сохранение игры
-void SavedGames::SaveGame()
-{
-	ofstream out;
-	if (!out.fail())
-	{
-		cout << "Файл не открылся!\n";
-		return;
-	}
-	out.open(Name);
-	for (int ixRow = 0; ixRow < 9; ixRow++)
-	{
-		for (int ixCol = 0; ixCol < 9; ixCol++)
-			out << FirstArray[ ixRow ][ ixCol ] << " ";
-		out << "\n";
-	}
-	for (int ixRow = 0; ixRow < 9; ixRow++)
-	{
-		for (int ixCol = 0; ixCol < 9; ixCol++)
-			out << SecondArray[ ixRow ][ ixCol ] << " ";
-		out << "\n";
+		{
+			out << GameField->FieldVictory[ ixRow ][ ixCol ];
+			out << " ";
+		}
 	}
 }
 //Запрос на загрузку игры
-void SavedGames::LoadRequest(Field* GameField)
+void SavedGames::LoadRequest(int choice, Field* GameField)
 {
-	cout << "Вы хотите загрузить сохранённую игру?\n";
-	cout << "1. Да\n";
-	cout << "2. Нет\n";
-	int choice = 0;
-	cin >> choice;
 	if (choice == 1)
 	{
+		ifstream in("LastSave.txt");
+		if (!in)
+		{
+			cout << "Файл не открывается!\n";
+			return;
+		}
 		char name[ 20 ];
-		cout << "Введите имя игры: \n";
-		cin >> name;
+		in >> name;
 		LoadGame(name, GameField);
 	}
 	else if (choice == 2)
 	{
-		return;
+		exit(0);
 	}
 }
 //Загрузка сохранённой игры
 void SavedGames::LoadGame(char name[], Field* GameField)
 {
-	int ixRow = 0;
-	int ixCol = 0;
 	ifstream in(name);
-	if (!in.fail())
+	if (!in)
 	{
 		cout << "Файл не открылся!\n";
 		return;
 	}
 	ofstream out("CurrentGameField.txt");
-	if (!out.fail())
+	if (!out)
 	{
 		cout << "Файл не открылся!\n";
 		return;
 	}
-	for (ixRow = 0; ixRow < 9; ixRow++)
+	for (int ixRow = 0; ixRow < 9; ixRow++)
 	{
-		for (ixCol = 0; ixCol < 9; ixCol++)
+		for (int ixCol = 0; ixCol < 9; ixCol++)
 		{
 			in >> GameField->GameField[ ixRow ][ ixCol ];
 		}
 	}
-	for (ixRow = 0; ixRow < 9; ixRow++)
+	for (int ixRow = 0; ixRow < 9; ixRow++)
 	{
-		for (ixCol = 0; ixCol < 9; ixCol++)
+		for (int ixCol = 0; ixCol < 9; ixCol++)
 		{
-			in >> SecondArray[ ixRow ][ ixCol ];
-			out << SecondArray[ ixRow ][ixCol];
+			in >> GameField->FieldVictory[ ixRow ][ ixCol ];
+			out << GameField->FieldVictory[ ixRow ][ixCol];
 			out << " ";
 		}
 		out << "\n";
