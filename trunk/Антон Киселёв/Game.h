@@ -12,6 +12,8 @@ class Game
 	void GameStep();
 	void EndGame();
 	void ControlField();
+	void SaveGame();
+	void LoadGame();
 public:
 	Game(void);
 	void Menu();
