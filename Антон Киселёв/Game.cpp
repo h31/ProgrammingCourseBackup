@@ -11,7 +11,7 @@ Game::Game(void)
 	char name[ 100 ] = "CurrentGameField.txt";
 	GameField = new Field(chislo);
 	SavedGame = new SavedGames();
-	SavedGame->SaveField(GameField, name);
+	SavedGame->SaveReadyField(GameField, name);
 }
 Game::~Game(void)
 {
@@ -35,9 +35,11 @@ void Game::Menu()
 	}
 	else if (choice == 2)
 	{
-		SavedGame->LoadRequest(GameField);
+		int choice = 1;
+		SavedGame->LoadRequest(choice, GameField);
 		OutOfField();
 		PlayGame();
+		EndGame();
 	}
 	else if (choice == 3)
 	{
@@ -100,29 +102,23 @@ void Game::ControlField()
 	cin >> choice;
 	if (choice == 1)
 	{
-		ifstream in("CurrentGameField.txt");
-		if(!in.fail())
-		{
-			cout << "Файл не открылся!\n";
-			return;
-		}
 		int count = 0;
-		GameField->FieldVictory = new int* [ 9 ];
-		for (int i = 0; i < 9; i++)
-			GameField->FieldVictory[ i ] = new int [ 9 ];
-		int ixRow = 0;
-		int ixCol = 0;
-		while (!in.eof())
+		cout << "Есть ошибка в клетках с координатами: \n";
+		for (int ixRow = 0; ixRow < 9; ixRow++)
 		{
-			if (ixCol == 9)
+			for (int ixCol = 0; ixCol < 9; ixCol++)
 			{
-				ixRow++;
-				ixCol = 0;
+				bool Control = GameField->ControlOfChisel(ixRow, ixCol);
+				if (Control == 1)
+				{
+					int Row = GameField->xx;
+					int Col = GameField->yy;
+					Row++;
+					Col++;
+					cout << Row << " " << Col << "\n";
+				}
 			}
-			in >> GameField->FieldVictory[ ixRow ][ ixCol ];
-			ixCol++;
 		}
-		cout << "Есть ошибка в клетках с координатами: " << GameField->ControlOfChisel() << "\n";
 	}
 }
 //Игра
@@ -132,7 +128,12 @@ void Game::PlayGame()
 	do
 	{
 		GameStep();
-		SavedGame->SaveRequest(GameField);
+		int choice = 0;
+		cout << "Вы желаете сохранить текущую игру?\n";
+		cout << "1.Да\n";
+		cout << "2.Нет\n";
+		cin >> choice;
+		SavedGame->SaveRequest(choice, GameField);
 		ControlField();
 		count--;
 	} while(count != 0);
@@ -140,45 +141,46 @@ void Game::PlayGame()
 //Конец игры
 void Game::EndGame()
 {
-	ifstream in("CurrentGameField.txt");
-	if(!in.fail())
-	{
-		cout << "Файл не открылся!\n";
-		return;
-	}
 	int count = 0;
-	GameField->FieldVictory = new int* [ 9 ];
-	for (int i = 0; i < 9; i++)
-		GameField->FieldVictory[ i ] = new int [ 9 ];
-	int ixRow = 0;
-	int ixCol = 0;
-	while (!in.eof())
-	{
-		if (ixCol == 9)
-		{
-			ixRow++;
-			ixCol = 0;
-		}
-		in >> GameField->FieldVictory[ ixRow ][ ixCol ];
-		ixCol++;
-	}
 	bool victory = GameField->Define_Victory();
 	if (victory == 1)
 		cout << "Вы выиграли!\n";
 	else if (victory == 0)
 	{
-		cout << "Есть ошибка в клетках с координатами: " << GameField->ControlOfChisel() << "\n";
+		cout << "Есть ошибка в клетке с координатами: " << "\n";
+		for (int ixRow = 0; ixRow < 9; ixRow++)
+		{
+			for (int ixCol = 0; ixCol < 9; ixCol++)
+			{
+				GameField->ControlOfChisel(ixRow, ixCol);
+				int Row = GameField->xx;
+				int Col = GameField->yy;
+				Row++;
+				Col++;
+				cout << Row << " " << Col << "\n";
+			}
+		}
 		count = GameField->CountOfMistakes();
 		do
 		{
 			GameStep();
-			SavedGame->SaveRequest(GameField);
+			int choice = 0;
+			cout << "Вы желаете сохранить текущую игру?\n";
+			cout << "1.Да\n";
+			cout << "2.Нет\n";
+			cin >> choice;
+			SavedGame->SaveRequest(choice, GameField);
 			ControlField();
 			count--;
 		} while(count != 0);
 	}
 	OutOfField();
-	SavedGame->LoadRequest(GameField);
+	int choice = 0;
+	cout << "\n";
+	cout << "\n";
+	cout << "\n";
+	cin >> choice;
+	SavedGame->LoadRequest(choice, GameField);
 	OutOfField();
 }
 //Вывод поля
