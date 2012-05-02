@@ -8,15 +8,17 @@ class Field
 	int IsVer(int ixRow, int chislo);
 	int IsHor(int ixCol, int chislo);
 public:
+	int xx;//Строка
+	int yy;//Столбец
 	int* *FieldVictory;//Поле для проверки на ошибки
-	int* *GameField;
+	int* *GameField;//
 	Field(int chislo);
 	int CountZero();
 	void Fill_Zero(int NumberOfZero);
 	void Fill_Zero_Square(int a, int b, int NumberOfZero);
 	void InsertChislo(int ixRow, int ixCol, int chislo);
 	int CountOfMistakes();
-	int ControlOfChisel();
+	bool ControlOfChisel(int ixRow, int ixCol);
 	~Field(void);
 	int GetCell(int ixRow, int ixCol);
 	bool Define_Victory();
