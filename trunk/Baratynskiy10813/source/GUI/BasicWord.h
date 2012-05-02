@@ -12,6 +12,6 @@ public:
     QChar mistakes[6];
     QString getWord();
     friend class Library;
-    friend class Widget;
+    friend class MainWidget;
 };
 #endif
