@@ -60,3 +60,16 @@ bool Rook::canFigureTurn(const int xCoordinate,const int yCoordinate,const Desk 
 	//cout<<"rook"<<xCoordinate<<yCoordinate<<endl;
 	return false;
 }
+
+void Rook::printFigure(QPainter &painter)
+{
+    QPixmap figureIcon;
+    if(whiteColour==true)
+        figureIcon.load("rookwhite.png");
+    else
+       figureIcon.load("rookblack.png");
+    int x = 78*coordinateX-30;
+    int y = 78*coordinateY-11;
+    painter.drawPixmap(x,y,figureIcon);
+    return;
+}

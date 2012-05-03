@@ -23,7 +23,7 @@ bool Bishop::canFigureTurn(const int xCoordinate,const int yCoordinate,const  De
 	int yStep = (yCoordinate - coordinateY)/(abs(yCoordinate - coordinateY));
 	int startX = coordinateX;
 	int startY = coordinateY;
-	bool lineIsClear = true;
+//	bool lineIsClear = true;
 
 	while((xCoordinate - startX)!=0)
 	{
@@ -38,4 +38,17 @@ bool Bishop::canFigureTurn(const int xCoordinate,const int yCoordinate,const  De
 	}
 	//cout<<"bishop"<<xCoordinate<<yCoordinate<<endl;
 	return true;
+}
+
+void Bishop::printFigure(QPainter &painter)
+{
+    QPixmap figureIcon;
+    if(whiteColour==true)
+       figureIcon.load("bishopwhite.png");
+    else
+       figureIcon.load("bishopblack.png");
+    int x = 78*coordinateX-30;
+    int y = 78*coordinateY-11;
+    painter.drawPixmap(x,y,figureIcon);
+    return;
 }

@@ -60,3 +60,16 @@ bool Pawn::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk
 	//cout<<"pawn"<<xCoordinate<<yCoordinate<<endl;
 	return false;
 }
+
+void Pawn::printFigure(QPainter &painter)
+{
+    QPixmap figureIcon;
+    if(whiteColour==true)
+       figureIcon.load("pawnwhite.png");
+    else
+        figureIcon.load("pawnblack.png");
+    int x = 78*coordinateX-30;
+    int y = 78*coordinateY-11;
+    painter.drawPixmap(x,y,figureIcon);
+    return;
+}

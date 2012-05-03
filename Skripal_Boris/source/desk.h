@@ -4,6 +4,7 @@
 #define _desk_h_
 
 class Figure;
+#include <QtGui>
 
 #include "bishop.h"
 #include "knight.h"

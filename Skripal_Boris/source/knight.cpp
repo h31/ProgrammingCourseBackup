@@ -23,3 +23,16 @@ bool Knight::canFigureTurn(const int xCoordinate,const int yCoordinate,const  De
 	//cout<<"knight"<<xCoordinate<<yCoordinate<<endl;
 	return false;
 }
+
+void Knight::printFigure( QPainter &painter)
+{
+    QPixmap figureIcon;
+    if(whiteColour==true)
+       figureIcon.load("knightwhite.png");
+    else
+        figureIcon.load("knightblack.png");
+    int x = 78*coordinateX-30;
+    int y = 78*coordinateY-11;
+    painter.drawPixmap(x,y,figureIcon);
+    return;
+}
