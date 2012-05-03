@@ -13,5 +13,6 @@ public:
     QString getWord();
     friend class Library;
     friend class MainWidget;
+    friend class RussianWidget;
 };
 #endif

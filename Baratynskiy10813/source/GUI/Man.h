@@ -3,15 +3,13 @@
 #include <QString>
 #include "QPainter"
 #include "QPicture"
+#include "QImage"
 
 class Man
 {
 public:
-    QChar man[6];
     int maxMisses;
     int curMisses;
-    QPicture picture;
     Man();
-    QPicture createMan();
 };
 #endif // MAN_H

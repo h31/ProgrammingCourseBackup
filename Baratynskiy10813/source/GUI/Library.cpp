@@ -16,24 +16,37 @@ Library::~Library()
 ////        in.seekg(0, ios::beg);
 ////        return numOfWords;
 //}
-DictionaryWord* Library::takeWord(QFile &in)
-{
-        QTextStream text(&in);
-        srand(time(NULL));
-        int numOfWords = 19000;//numberOfWords(in);
-        randNum = rand() % numOfWords;
-        int i = 0;
-        while (i != randNum)
-        {
-            word->word=text.readLine();
-            i++;
-        }
-    return word;
-}
-DictionaryWord* Library::takeWordOfLang()
+
+DictionaryWord* Library::takeEng()
 {
     QFile file("c://eng_words.txt");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
-    word=takeWord(file);
+    QTextStream text(&file);
+    srand(time(NULL));
+    int numOfWords = 197776;
+    randNum = rand() % numOfWords;
+    int i = 0;
+    while (i != randNum)
+    {
+        word->word=text.readLine();
+        i++;
+    }
+    return word;
+}
+
+DictionaryWord* Library::takeRus()
+{
+    QFile file("c://rus_words.txt");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QTextStream text(&file);
+    srand(time(NULL));
+    int numOfWords = 1146266;
+    randNum = rand() % numOfWords;
+    int i = 0;
+    while (i != randNum)
+    {
+        word->word=text.readLine();
+        i++;
+    }
     return word;
 }
