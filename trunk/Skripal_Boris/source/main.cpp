@@ -1,21 +1,12 @@
-#include "player.h"
-#include "test.h"
+#include <QtGui/QApplication>
+#include "mainwindow.h"
 
-#include <iostream>
-
-using namespace std;
-
-void main ()
+int main(int argc, char *argv[])
 {
-	Player p;
-	Test tests;
-
-	//tests.testCastling();
-	//tests.testEnPassant();
-	//tests.testChanchePawn();
-	//tests.testShah();
-	tests.tests();
-	cout<<"Game run now!"<<endl<<endl;
-	p.makeGame();
-	return;
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+    w.repaint();
+    
+    return a.exec();
 }

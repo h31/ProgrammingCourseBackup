@@ -1,10 +1,13 @@
 #pragma once
-#include "desk.h"
 
-#include "test.h"
 
 #ifndef _player_h_
 #define _player_h_
+
+#include <QtGui>
+
+#include "desk.h"
+#include "test.h"
 
 enum Winner
 {

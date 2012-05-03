@@ -44,3 +44,16 @@ bool Queen::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Des
 	//cout<<"queen"<<xCoordinate<<yCoordinate<<endl;
 	return true;
 }
+
+void Queen::printFigure(QPainter &painter)
+{
+    QPixmap figureIcon;
+    if(whiteColour==true)
+       figureIcon.load("queenwhite.png");
+    else
+        figureIcon.load("queenblack.png");
+    int x = 78*coordinateX-30;
+    int y = 78*coordinateY-11;
+    painter.drawPixmap(x,y,figureIcon);
+    return;
+}
