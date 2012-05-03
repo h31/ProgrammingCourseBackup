@@ -9,36 +9,14 @@ MainWidget::MainWidget(QWidget *parent) :
     game = new Game;
     iflose = new IfLoseWidget;
     ifwin = new IfWinWidget;
+    QPalette pal = this->palette();
+    pal.setBrush(QPalette::Window,
+    QBrush(Qt::white));
+    this->setPalette(pal);
 }
 
 void MainWidget::connectButtons()
 {
-    QObject::connect(ui->a,SIGNAL(clicked()),this,SLOT(on_a_clicked()));
-    QObject::connect(ui->b,SIGNAL(clicked()),this,SLOT(on_b_clicked()));
-    QObject::connect(ui->c,SIGNAL(clicked()),this,SLOT(on_c_clicked()));
-    QObject::connect(ui->d,SIGNAL(clicked()),this,SLOT(on_d_clicked()));
-    QObject::connect(ui->e,SIGNAL(clicked()),this,SLOT(on_e_clicked()));
-    QObject::connect(ui->f,SIGNAL(clicked()),this,SLOT(on_f_clicked()));
-    QObject::connect(ui->g,SIGNAL(clicked()),this,SLOT(on_g_clicked()));
-    QObject::connect(ui->h,SIGNAL(clicked()),this,SLOT(on_h_clicked()));
-    QObject::connect(ui->i,SIGNAL(clicked()),this,SLOT(on_i_clicked()));
-    QObject::connect(ui->j,SIGNAL(clicked()),this,SLOT(on_j_clicked()));
-    QObject::connect(ui->k,SIGNAL(clicked()),this,SLOT(on_k_clicked()));
-    QObject::connect(ui->l,SIGNAL(clicked()),this,SLOT(on_l_clicked()));
-    QObject::connect(ui->m,SIGNAL(clicked()),this,SLOT(on_m_clicked()));
-    QObject::connect(ui->n,SIGNAL(clicked()),this,SLOT(on_n_clicked()));
-    QObject::connect(ui->o,SIGNAL(clicked()),this,SLOT(on_o_clicked()));
-    QObject::connect(ui->p,SIGNAL(clicked()),this,SLOT(on_p_clicked()));
-    QObject::connect(ui->q,SIGNAL(clicked()),this,SLOT(on_q_clicked()));
-    QObject::connect(ui->r,SIGNAL(clicked()),this,SLOT(on_r_clicked()));
-    QObject::connect(ui->s,SIGNAL(clicked()),this,SLOT(on_s_clicked()));
-    QObject::connect(ui->t,SIGNAL(clicked()),this,SLOT(on_t_clicked()));
-    QObject::connect(ui->u,SIGNAL(clicked()),this,SLOT(on_u_clicked()));
-    QObject::connect(ui->v,SIGNAL(clicked()),this,SLOT(on_v_clicked()));
-    QObject::connect(ui->w,SIGNAL(clicked()),this,SLOT(on_w_clicked()));
-    QObject::connect(ui->x,SIGNAL(clicked()),this,SLOT(on_x_clicked()));
-    QObject::connect(ui->y,SIGNAL(clicked()),this,SLOT(on_y_clicked()));
-    QObject::connect(ui->z,SIGNAL(clicked()),this,SLOT(on_z_clicked()));
     QObject::connect(iflose->returnYes(),SIGNAL(clicked()),this,SLOT(close()));
     QObject::connect(iflose->returnNo(),SIGNAL(clicked()),this,SLOT(close()));
     QObject::connect(ifwin->returnYes(),SIGNAL(clicked()),this,SLOT(close()));
@@ -46,7 +24,7 @@ void MainWidget::connectButtons()
 }
 void MainWidget::play()
 {
-    game->dword = game->lib->takeWordOfLang();
+    game->dword = game->lib->takeEng();
     connectButtons();
     makeLabel();
     show();
@@ -74,8 +52,6 @@ void MainWidget::checkLetter()
     {
        game->man->curMisses++;
        paintEvent(0);
-       this->update();
-       ui->misses->setNum(game->man->curMisses);
        game->uword->putMistake(game->man->curMisses);
        if (game->man->curMisses == game->man->maxMisses)
        {
@@ -247,8 +223,22 @@ void MainWidget::on_z_clicked()
 
 void MainWidget::paintEvent(QPaintEvent *event)
 {
-    QPainter painter;
-    painter.begin(this);
-    painter.drawPicture(0,0,game->man->createMan());
-    painter.end();
+    QPainter qp;
+    QPixmap pix;
+    if (game->man->curMisses==0)
+        pix.load("C://QtProjects/Hangman-0-3/#0.png");
+    if (game->man->curMisses==1)
+        pix.load("C://QtProjects/Hangman-0-3/#1.png");
+    if (game->man->curMisses==2)
+        pix.load("C://QtProjects/Hangman-0-3/#2.png");
+    if (game->man->curMisses==3)
+        pix.load("C://QtProjects/Hangman-0-3/#3.png");
+    if (game->man->curMisses==4)
+        pix.load("C://QtProjects/Hangman-0-3/#4.png");
+    if (game->man->curMisses==5)
+        pix.load("C://QtProjects/Hangman-0-3/#5.png");
+    if (game->man->curMisses==6)
+        pix.load("C://QtProjects/Hangman-0-3/#6.png");
+    qp.drawPixmap(0,0,pix);
+    ui->misses->setPixmap(pix);
 }

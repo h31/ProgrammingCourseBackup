@@ -8,17 +8,14 @@
 
 class Game
 {
+public:
     Man *man;
     Library *lib;
     DictionaryWord *dword;
     bool isWon();
     bool isLose();
-    bool playAgain();
-    void reset();
     ~Game();
     UserWord *uword;
     Game();
-public:
-    friend class MainWidget;
 };
 #endif // GAME_H

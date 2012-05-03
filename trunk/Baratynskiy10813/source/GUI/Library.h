@@ -10,11 +10,10 @@ class Library
     int var;
     DictionaryWord *word;
     int numberOfWords(QFile &in);
-    DictionaryWord* takeWord(QFile &in);
 public:
     Library();
     ~Library();
-    DictionaryWord* takeWordOfLang();
-    int chooseTheme();
+    DictionaryWord* takeEng();
+    DictionaryWord* takeRus();
 };
 #endif
