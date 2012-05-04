@@ -61,6 +61,7 @@ void RussianWidget::checkLetter()
        game->uword->putMistake(game->man->curMisses);
        if (game->man->curMisses == game->man->maxMisses)
        {
+           ui->word->setText(game->dword->word);
            iflose->show();
            return;
        }
@@ -269,19 +270,19 @@ void RussianWidget::paintEvent(QPaintEvent *event)
     QPainter qp;
     QPixmap pix;
     if (game->man->curMisses==0)
-        pix.load("C://QtProjects/Hangman-0-3/#0.png");
+        pix.load("C://Hangman/#0.png");
     if (game->man->curMisses==1)
-        pix.load("C://QtProjects/Hangman-0-3/#1.png");
+        pix.load("C://Hangman/#1.png");
     if (game->man->curMisses==2)
-        pix.load("C://QtProjects/Hangman-0-3/#2.png");
+        pix.load("C://Hangman/#2.png");
     if (game->man->curMisses==3)
-        pix.load("C://QtProjects/Hangman-0-3/#3.png");
+        pix.load("C://Hangman/#3.png");
     if (game->man->curMisses==4)
-        pix.load("C://QtProjects/Hangman-0-3/#4.png");
+        pix.load("C://Hangman/#4.png");
     if (game->man->curMisses==5)
-        pix.load("C://QtProjects/Hangman-0-3/#5.png");
+        pix.load("C://Hangman/#5.png");
     if (game->man->curMisses==6)
-        pix.load("C://QtProjects/Hangman-0-3/#6.png");
+        pix.load("C://Hangman/#6.png");
     qp.drawPixmap(0,0,pix);
     ui->misses->setPixmap(pix);
 }
