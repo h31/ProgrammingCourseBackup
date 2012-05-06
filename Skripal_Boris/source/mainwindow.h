@@ -26,7 +26,7 @@ public:
 
 public slots:
 
- //  void readCoordinates();
+//   void checkShah();
 protected:
    void mousePressEvent(QMouseEvent *event);
 private:
