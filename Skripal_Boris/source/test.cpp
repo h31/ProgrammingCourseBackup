@@ -10,17 +10,18 @@ bool Test::testCastling()
 	while(!fout.eof())
 	{
 		fout>>startX>>startY>>finishX>>finishY;
-		test.desk.makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurn);
+       // test.desk->makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurn);
+        test.desk->makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurn);
 		whitePlayerTurn=!whitePlayerTurn;
 	}
 
 	for(int i=0;i<32;i++)
 	{
-		if(test.desk.getFigure(i)->getX()==6 && test.desk.getFigure(i)->getY()==1 && test.desk.getFigure(i)->getColour()==true &&test.desk.getFigure(i)->isEat()==false && test.desk.getFigure(i)->getType()==rook && test.desk.getFigure(i)->getStep()==1)
-			if(test.desk.wKing->getX()==7 && test.desk.wKing->getY()==1 && test.desk.wKing->getStep()==1)
+        if(test.desk->getFigure(i)->getX()==6 && test.desk->getFigure(i)->getY()==1 && test.desk->getFigure(i)->getColour()==true &&test.desk->getFigure(i)->isEat()==false && test.desk->getFigure(i)->getType()==rook && test.desk->getFigure(i)->getStep()==1)
+            if(test.desk->wKing->getX()==7 && test.desk->wKing->getY()==1 && test.desk->wKing->getStep()==1)
 			{
 				cout<<"castling test is true!"<<endl;
-				test.desk.printPlayingBoard();
+                test.desk->printPlayingBoard();
 				return true;
 			}
 	}
@@ -38,15 +39,15 @@ bool Test::testEnPassant()
 	while(!fout.eof())
 	{
 		fout>>startX>>startY>>finishX>>finishY;
-		test.desk.makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurn);
+        test.desk->makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurn);
 		whitePlayerTurn=!whitePlayerTurn;
 	}
 	
 	for(int i=0;i<32;i++)
-		if(test.desk.getFigure(i)->getX()==3 && test.desk.getFigure(i)->getY()==6 && test.desk.getFigure(i)->getType()==pawn && test.desk.getFigure(i)->isEat()==false && test.desk.getFigure(i)->getColour()==true)
+        if(test.desk->getFigure(i)->getX()==3 && test.desk->getFigure(i)->getY()==6 && test.desk->getFigure(i)->getType()==pawn && test.desk->getFigure(i)->isEat()==false && test.desk->getFigure(i)->getColour()==true)
 		{
 			cout<<" en passant is true!"<<endl;
-			test.desk.printPlayingBoard();
+            test.desk->printPlayingBoard();
 			return true;
 		}
 	cout<<" en passant is false"<<endl;
@@ -63,15 +64,15 @@ bool Test::testChanchePawn()
 	while(!fout.eof())
 	{
 		fout>>startX>>startY>>finishX>>finishY;
-		test.desk.makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurn);
+        test.desk->makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurn);
 		whitePlayerTurn=!whitePlayerTurn;
 	}
 	
 	for(int i=0;i<32;i++)
-		if(test.desk.getFigure(i)->getX()==1 && test.desk.getFigure(i)->getY()==8 && test.desk.getFigure(i)->getType()!=pawn && test.desk.getFigure(i)->isEat()==false && test.desk.getFigure(i)->getColour()==true)
+        if(test.desk->getFigure(i)->getX()==1 && test.desk->getFigure(i)->getY()==8 && test.desk->getFigure(i)->getType()!=pawn && test.desk->getFigure(i)->isEat()==false && test.desk->getFigure(i)->getColour()==true)
 		{
 			cout<<" chance pawn is true"<<endl;
-			test.desk.printPlayingBoard();
+            test.desk->printPlayingBoard();
 			return true;
 		}
 	cout<<" chance pawn is false"<<endl;
@@ -88,16 +89,16 @@ bool Test::testShah()
 	while(!fout.eof())
 	{
 		fout>>startX>>startY>>finishX>>finishY;
-		test.desk.makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurn);
-		if(test.desk.checkShah(whitePlayerTurn)==true)
+        test.desk->makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurn);
+        if(test.desk->checkShah(whitePlayerTurn)==true)
 		{
 			cout<<"shah is true!"<<endl;
-			test.desk.printPlayingBoard();
+            test.desk->printPlayingBoard();
 			return true;
 		}
 		whitePlayerTurn=!whitePlayerTurn;
 	}
-	test.desk.printPlayingBoard();
+    test.desk->printPlayingBoard();
 	cout<<"shah is false"<<endl;
 	return false;
 }
