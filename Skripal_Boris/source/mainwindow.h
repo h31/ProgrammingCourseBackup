@@ -29,6 +29,9 @@ public slots:
 //   void checkShah();
 protected:
    void mousePressEvent(QMouseEvent *event);
+private slots:
+   void on_actionNewGame_activated();
+
 private:
     Ui::MainWindow *ui;
      QPainter qp;

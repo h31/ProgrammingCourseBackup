@@ -193,7 +193,7 @@ bool Desk::checkShah(const bool whitePlayer)
 	else
 		king = bKing;
 	for(int i=0;i<32;i++)
-		if(figure[i]->canFigureTurn(king->getX(),king->getY(),*this)==true)
+        if(figure[i]->getColour()!=king->getColour() && figure[i]->isEat() == false && figure[i]->canFigureTurn(king->getX(),king->getY(),*this)==true)
 			return true;
 
 	return false;
@@ -248,9 +248,15 @@ bool Desk::castling(const int startX, const int startY,const int finishX,const i
 						rook=figure[i];
 					}
 			}
-			
+
 			if(haveRook == false)
 				return false;
+            docastling *cast = new docastling;
+            cast->exec();
+            bool doCast = cast->getDoCastling();
+            delete cast;
+            if(doCast==false)
+                return false;
 			if(rook->canFigureTurn(finishX,finishY,*this)==false)
 				return false;
 			else
@@ -333,7 +339,7 @@ bool Desk::makeFigureTurn(const int startX,const int startY,const int finishX,co
 	int numberOfFirstFigure= -1;
 	int numberOfSecondFigure =-1;
 
-	
+//Ui:QMessageBox::information(Ui::ChanchePawn,"","Now make turn");
 
 	for(int i=0;i<32;i++)
 		if(getFigure(i)->getX()==startX && getFigure(i)->getY()==startY && getFigure(i)->isEat()==false)
@@ -365,6 +371,7 @@ bool Desk::makeFigureTurn(const int startX,const int startY,const int finishX,co
 			cout<<"Shah!!! repeat turn"<<endl;
 			return false;
 		}
+
 		cout<<"Castling is true"<<endl;
 		return true;
 	}

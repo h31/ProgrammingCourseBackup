@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     figure.cpp \
     desk.cpp \
     bishop.cpp \
-    chanchepawn.cpp
+    chanchepawn.cpp \
+    docastling.cpp
 
 HEADERS  += mainwindow.h \
     test.h \
@@ -38,11 +39,13 @@ HEADERS  += mainwindow.h \
     figure.h \
     desk.h \
     bishop.h \
-    chanchepawn.h
+    chanchepawn.h \
+    docastling.h
 
 FORMS    += mainwindow.ui \
     mainwindow.ui \
-    chanchepawn.ui
+    chanchepawn.ui \
+    docastling.ui
 
 OTHER_FILES += \
     playingboard.jpg \

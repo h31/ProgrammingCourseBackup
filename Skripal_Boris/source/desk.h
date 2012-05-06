@@ -14,6 +14,8 @@ class Figure;
 #include "rook.h"
 
 #include "chanchepawn.h"
+#include "docastling.h"
+
 struct PlayingBoard
 {
 	TypeOfFigure figuresType;

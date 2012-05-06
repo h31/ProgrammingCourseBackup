@@ -25,13 +25,14 @@ private:
 	bool whitePlayerTurnNow;
 	bool checkWinner();
 	void printWinner();
-    void newGame();
+
      void insertWhitePlayerTurnNow();
 public:
     Desk *desk;
 	//Desk getDesk();
 	Player();
     bool getWhitePlayerTurnNow();
+    void newGame();
     //bool makeGame();
     void makePlayerTurn(int startX, int startY, int finishX, int finishY);
 
