@@ -24,7 +24,7 @@ SOURCES += main.cpp\
     figure.cpp \
     desk.cpp \
     bishop.cpp \
-    showerror.cpp
+    chanchepawn.cpp
 
 HEADERS  += mainwindow.h \
     test.h \
@@ -38,10 +38,11 @@ HEADERS  += mainwindow.h \
     figure.h \
     desk.h \
     bishop.h \
-    showerror.h
+    chanchepawn.h
 
 FORMS    += mainwindow.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    chanchepawn.ui
 
 OTHER_FILES += \
     playingboard.jpg \

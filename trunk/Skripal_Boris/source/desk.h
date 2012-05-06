@@ -12,6 +12,8 @@ class Figure;
 #include "pawn.h"
 #include "queen.h"
 #include "rook.h"
+
+#include "chanchepawn.h"
 struct PlayingBoard
 {
 	TypeOfFigure figuresType;
@@ -36,6 +38,7 @@ private:
 	void setFigure(const int numberOfFigure,const  int type);
 	bool castling(const int startX, const int startY,const int finishX,const  int finishY,const  bool whitePlayer);
 	bool enPassant(const int startX,const  int startY,const int finishX, const int finishY,const  bool whitePlayer);
+//    void printShah();
 public:
 	Desk();
 

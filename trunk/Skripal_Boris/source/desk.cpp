@@ -102,6 +102,7 @@ Desk::~Desk()
 
 void Desk::chanchePawn(const bool whiteColour)
 {
+
 	int type;
 
 	for(int i=0;i<32;i++)
@@ -109,8 +110,12 @@ void Desk::chanchePawn(const bool whiteColour)
 		{
 			do
 			{
-			cout<<"Enter type of figure: 1 queen, 2 rook, 3 knight, 4 bishop"<<endl;
-			cin>>type;
+//                cout<<"Enter type of figure: 1 queen, 2 rook, 3 knight, 4 bishop"<<endl;
+//                cin>>type;
+                ChanchePawn *dial = new ChanchePawn;
+                dial->exec();
+                type=dial->getTypeOfFigure();
+                delete dial;
 			}
 			while(type>4);
 			setFigure(i,type);
@@ -121,8 +126,12 @@ void Desk::chanchePawn(const bool whiteColour)
 		{
 			do
 			{
-			cout<<"Enter type of figure: 1 queen, 2 rook, 3 knight, 4 bishop"<<endl;
-			cin>>type;
+//			cout<<"Enter type of figure: 1 queen, 2 rook, 3 knight, 4 bishop"<<endl;
+//			cin>>type;
+                ChanchePawn *dial = new ChanchePawn;
+                dial->exec();
+                type=dial->getTypeOfFigure();
+                delete dial;
 			}
 			while(type>4);
 			setFigure(i,type);
@@ -405,3 +414,8 @@ void Desk::cancelTurn(const int coordinateX, const int coordinateY, const int nu
 	getFigure(number)->eatFigure(false);
 	return;
 }
+
+//void Desk::printShah()
+//{
+//    return;
+//}

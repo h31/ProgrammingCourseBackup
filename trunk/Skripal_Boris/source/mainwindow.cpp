@@ -9,7 +9,8 @@ MainWindow::MainWindow(QWidget *parent) :
     isFirstClick = true;
     isReadCoordinateEnd = false;
     game = new Player;
-    //connect(game, SIGNAL(readMouseCoordiante()),*this,SLOT(readCoordinates()));
+   // connect(game->desk,SIGNAL(printShah()),this,SLOT(checkShah()));
+    QMessageBox::information(this,"","White figures turn");
 }
 
 MainWindow::~MainWindow()
@@ -24,18 +25,18 @@ MainWindow::~MainWindow()
         QPoint p;
         p = event->pos();
         readCord.startX = (p.rx()-30+78)/78;
-        readCord.startY = (p.ry()-11+78)/78;
+        readCord.startY = (p.ry()-11)/78;
         isReadCoordinateEnd = false;
-        QMessageBox::information(this,"","Start coordinate is read");
+        QMessageBox::information(this,"",QString( QString(readCord.startX+'0') + " " + QString(readCord.startY+'0') ));
     }
     else
     {
         QPoint p;
         p=event->pos();
         readCord.finishX = (p.rx()-30+78)/78;
-        readCord.finishY = (p.ry()-11+78)/78;
+        readCord.finishY = (p.ry()-11)/78;
         isReadCoordinateEnd = true;
-        QMessageBox::information(this,"","Finish coordinate is read");
+       // QMessageBox::information(this,"","Finish coordinate is read");
     }
     isFirstClick =!isFirstClick;
 
@@ -44,6 +45,10 @@ MainWindow::~MainWindow()
        game->makePlayerTurn(readCord.startX,readCord.startY,readCord.finishX,readCord.finishY);
       // QMessageBox::information(this,"","make turn");
        repaint();
+       if(game->getWhitePlayerTurnNow())
+           QMessageBox::information(this,"","White figures turn");
+       else
+            QMessageBox::information(this,"","Black figures turn");
     }
 }
 
@@ -67,4 +72,9 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     if(event->button()==Qt::LeftButton)
         leftButtonPressEvent(event);
 }
+
+//void MainWindow::checkShah()
+//{
+//    QMessageBox::information(this,"","Вам шах");
+//}
 
