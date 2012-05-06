@@ -2,7 +2,6 @@
 #define CHANCHEPAWN_H
 
 #include <QDialog>
-#include <QMessageBox>
 
 namespace Ui {
 class ChanchePawn;

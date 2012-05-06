@@ -27,7 +27,7 @@ MainWindow::~MainWindow()
         readCord.startX = (p.rx()-30+78)/78;
         readCord.startY = (p.ry()-11)/78;
         isReadCoordinateEnd = false;
-        QMessageBox::information(this,"",QString( QString(readCord.startX+'0') + " " + QString(readCord.startY+'0') ));
+       // QMessageBox::information(this,"",QString( QString(readCord.startX+'0') + " " + QString(readCord.startY+'0') ));
     }
     else
     {
@@ -55,7 +55,6 @@ MainWindow::~MainWindow()
 void MainWindow::paintEvent(QPaintEvent *ev)
 {
      qp.begin(this);
-//    qp.drawRect(QRect(50, 70, 100, 120));
      desk.load("playingboard.jpg");
      qp.drawImage(40,60,desk);
 
@@ -78,3 +77,11 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 //    QMessageBox::information(this,"","Вам шах");
 //}
 
+
+void MainWindow::on_actionNewGame_activated()
+{
+    isFirstClick = true;
+    isReadCoordinateEnd = false;
+    game->newGame();
+    repaint();
+}
