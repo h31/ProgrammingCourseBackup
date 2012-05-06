@@ -4,7 +4,12 @@
 #include <QMainWindow>
 #include <QtGui>
 
-#include<player.h>
+#include "player.h"
+
+struct Coordinate
+{
+   int startX,startY,finishX,finishY;
+};
 
 namespace Ui {
 class MainWindow;
@@ -18,12 +23,24 @@ public:
     explicit MainWindow(QWidget *parent = 0);
    void paintEvent(QPaintEvent *event);
     ~MainWindow();
-    
+
+public slots:
+
+ //  void readCoordinates();
+protected:
+   void mousePressEvent(QMouseEvent *event);
 private:
     Ui::MainWindow *ui;
-    QPainter qp;
+     QPainter qp;
      QImage desk;
-     Player game;
+     Player *game;
+
+     bool isFirstClick;
+     bool isReadCoordinateEnd;
+
+     Coordinate readCord;
+
+      void leftButtonPressEvent(QMouseEvent * event);
 };
 
 #endif // MAINWINDOW_H

@@ -8,6 +8,8 @@
 
 #include "desk.h"
 #include "test.h"
+//#include "mainwindow.h"
+
 
 enum Winner
 {
@@ -23,12 +25,15 @@ private:
 	bool whitePlayerTurnNow;
 	bool checkWinner();
 	void printWinner();
-	void newGame();	
+    void newGame();
+     void insertWhitePlayerTurnNow();
 public:
-	Desk desk;
+    Desk *desk;
 	//Desk getDesk();
 	Player();
-	bool makeGame();
+    bool getWhitePlayerTurnNow();
+    //bool makeGame();
+    void makePlayerTurn(int startX, int startY, int finishX, int finishY);
 
 	friend class Test;
 };

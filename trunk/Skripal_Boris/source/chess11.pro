@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     king.cpp \
     figure.cpp \
     desk.cpp \
-    bishop.cpp
+    bishop.cpp \
+    showerror.cpp
 
 HEADERS  += mainwindow.h \
     test.h \
@@ -36,7 +37,8 @@ HEADERS  += mainwindow.h \
     king.h \
     figure.h \
     desk.h \
-    bishop.h
+    bishop.h \
+    showerror.h
 
 FORMS    += mainwindow.ui \
     mainwindow.ui

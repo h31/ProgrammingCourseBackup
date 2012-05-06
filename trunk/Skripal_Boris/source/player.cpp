@@ -4,51 +4,56 @@
 
 Player::Player()
 {
+    desk = new Desk;
 	winner = nobody;
 	whitePlayerTurnNow = true;
 
 }
 
-bool Player::makeGame()
-{
-	ofstream fout ("mat.txt");
+//bool Player::makeGame()
+//{
+//    //ofstream fout ("mat.txt");
 
-	int startX,startY,finishX,finishY;
-	desk.printPlayingBoard();
-	while(winner == nobody)
-	{
-		if(desk.checkShah(whitePlayerTurnNow)==true)
-		{
-			checkWinner();
-			cout<<"Shah"<<endl;
-		}
-		if(whitePlayerTurnNow==true)
-			cout<<"White player turn now"<<endl;
-		else
-			cout<<"Black player turn now"<<endl;
+//    //desk.printPlayingBoard();
+//	while(winner == nobody)
+//	{
+//        if(desk->checkShah(whitePlayerTurnNow)==true)
+//		{
+//			checkWinner();
+//            //cout<<"Shah"<<endl;
+//           // QMessageBox message::information(*MainWindow,"","Shah!");
+//		}
+//		if(whitePlayerTurnNow==true)
+//			cout<<"White player turn now"<<endl;
+//		else
+//			cout<<"Black player turn now"<<endl;
 
-		cin>>startX>>startY>>finishX>>finishY;
-		fout<<startX<<" "<<startY<<" "<<finishX<<" "<<finishY<<endl;
+//        //cin>>startX>>startY>>finishX>>finishY;
+//        //fout<<startX<<" "<<startY<<" "<<finishX<<" "<<finishY<<endl;
+//       bool isTurnTrue = desk->makeFigureTurn(cord.startX,cord.startY,cord.finishX,cord.finishY,whitePlayerTurnNow);
 
-		bool isTurnTrue = desk.makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurnNow);
+//		if(isTurnTrue == true)
+//		{
+//			whitePlayerTurnNow=!whitePlayerTurnNow;
+//			cout<<"Turn is sucsess"<<endl;
+//            isTurnTrue = false;
+//		}
+//		else
+//		{
+//            //cout<<"turn is false"<<endl;
+////            QMessageBox *message = new QMessageBox;
+////            message->information(*this,"","Turn is false!");
+////            delete message;
 
-		if(isTurnTrue == true)
-		{
-			whitePlayerTurnNow=!whitePlayerTurnNow;
-			cout<<"Turn is sucsess"<<endl;
-		}
-		else
-		{
-			cout<<"turn is false"<<endl;
-		}
-		desk.printPlayingBoard();
-	}
-	return true;
-}
+//		}
+//        //desk.printPlayingBoard();
+//	}
+//	return true;
+//}
 
 bool Player::checkWinner()
 {
-	if(desk.checkMat(whitePlayerTurnNow)==true)
+    if(desk->checkMat(whitePlayerTurnNow)==true)
 	{
 		if(whitePlayerTurnNow==true)
 			winner = black;
@@ -57,7 +62,7 @@ bool Player::checkWinner()
 		return true;
 	}
 	for(int i=0;i<32;i++)
-		if(desk.getFigure(i)->getType()!=king && desk.getFigure(i)->isEat() == true)
+        if(desk->getFigure(i)->getType()!=king && desk->getFigure(i)->isEat() == true)
 			return false;
 		else
 		{
@@ -71,11 +76,25 @@ bool Player::checkWinner()
 void Player::printWinner()
 {
 	if(winner==white)
-		cout<<"white Player win"<<endl;
+    {
+        //cout<<"white Player win"<<endl;
+//        QMessageBox *message = new QMessageBox;
+//        message->information(*this,"","White Player win!");
+//        delete message;
+    }
 	if(winner==black)
-		cout<<"black Player win"<<endl;
+        //cout<<"black Player win"<<endl;
+    {
+//        QMessageBox *message = new QMessageBox;
+//        message->information(*this,"","Black Player win!");
+//        delete message;
+    }
 	if(winner == twoWinner)
-		cout<<"black Player win"<<endl;
+    {
+//        QMessageBox *message = new QMessageBox;
+//        message->information(*this,"","Two Player win!");
+//        delete message;
+    }
 	newGame();
 	return;
 }
@@ -83,7 +102,48 @@ void Player::printWinner()
 void Player::newGame()
 {
 	winner = nobody;
-	desk.createNewDesk();
+    desk->createNewDesk();
 	return;
 }
 
+bool Player::getWhitePlayerTurnNow()
+{
+    return whitePlayerTurnNow;
+}
+
+void Player::insertWhitePlayerTurnNow()
+{
+    whitePlayerTurnNow =! whitePlayerTurnNow;
+}
+
+
+void Player::makePlayerTurn(int startX, int startY, int finishX, int finishY)
+{
+    if(desk->checkShah(whitePlayerTurnNow)==true)
+        {
+            checkWinner();
+              //cout<<"Shah"<<endl;
+              // QMessageBox message::information(*MainWindow,"","Shah!");
+        }
+   //		if(whitePlayerTurnNow==true)
+   //			cout<<"White player turn now"<<endl;
+   //		else
+   //			cout<<"Black player turn now"<<endl;
+
+   //        //cin>>startX>>startY>>finishX>>finishY;
+   //        //fout<<startX<<" "<<startY<<" "<<finishX<<" "<<finishY<<endl;
+        bool isTurnTrue = desk->makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurnNow);
+
+        if(isTurnTrue == true)
+        {
+            insertWhitePlayerTurnNow();
+            //cout<<"Turn is sucsess"<<endl;
+           // isTurnTrue = false;
+        }
+//   		else
+//   		{
+               //cout<<"turn is false"<<endl;
+   ////            QMessageBox *message = new QMessageBox;
+   ////            message->information(*this,"","Turn is false!");
+   ////            delete message;
+}
