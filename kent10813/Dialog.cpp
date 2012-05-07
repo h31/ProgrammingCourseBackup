@@ -3,7 +3,6 @@
 void dialog::setName()
 {
 	cout<<"Введите ваше имя: ";
-	cin>>name;
 }
 void dialog::setBet()
 {
@@ -39,7 +38,7 @@ void dialog::dealerScore()
 }
 void dialog::prize()
 {
-	cout<<"Величина выигрыша: ";
+	cout<<"Банк: ";
 }
 void dialog::isplayerWon()
 {

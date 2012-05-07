@@ -7,7 +7,7 @@ class dialog
 {
 private:
 	RealPlayer rp;
-	string name;
+	
 public:
 	void setName();
 	void setBet();

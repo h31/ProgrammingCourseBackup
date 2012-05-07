@@ -3,13 +3,13 @@
 
 int Game::playerScore()
 {
-	Pscore=plr.countScore();
-	return Pscore;
+	pscore=plr.countScore();
+	return pscore;
 }
 int Game::dealerScore()
 {
-	Dscore=dlr.countScore();
-	return Dscore;
+	dscore=dlr.countScore();
+	return dscore;
 }
 void Game::firstDispensation()
 {
@@ -17,42 +17,36 @@ void Game::firstDispensation()
 	plr.takeCards();
 	dlr.takeCards();
 	dlr.takeCards();
-	dlg.playerShow();
-	plr.show();
+    plr.show(p);
 }
 void Game::gameContinue()
 {
-	
-	dlg.moreOrStop();
-	cin>>n;
+    //cin>>n;
 	
 	while (n=="1")
 	{
 	plr.takeCards();
-	dlg.playerShow();
-	plr.show();
-	dlg.moreOrStop();
-	cin>>n;
+    plr.show(p);
+    //cin>>n;
 	}
 }
 void Game::dealerTakeCards()
 {
 	dealerScore();
-	while (Dscore<17)
+	while (dscore<17)
 	{
 		dlr.takeCards();
 		dealerScore();
 	}
-	dlg.dealerShow();
-	dlr.show();
+    dlr.show(p);
 }
 int Game::whoWon()
 {
-	if ((Pscore>Dscore&&Pscore<=21)||(Pscore<=21&&Dscore>21)|| (Pscore>21&&Dscore>21))
+	if ((pscore>dscore&&pscore<=21)||(pscore<=21&&dscore>21))
 		return 1;
-	if ((Dscore>Pscore&&Dscore<=21)||(Dscore<=21&&Pscore>21))
+	if ((dscore>pscore&&dscore<=21)||(dscore<=21&&pscore>21))
 		return 2;
-	if (Pscore==Dscore&&Pscore<=21&&Dscore<=21)
+	if (pscore==dscore&&pscore<=21&&dscore<=21||(pscore>21&&dscore>21))
 		return 3;
 }
 void Game::setCash(int  bet)
