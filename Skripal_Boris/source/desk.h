@@ -50,7 +50,7 @@ public:
 	bool checkShah(const bool whitePlayer);
 	bool makeFigureTurn(const int startX,const int startY,const int finishX,const int finishY, const bool whitePlayerTurn);
 
-	void printPlayingBoard();\
+    void printPlayingBoard();
 	~Desk();
 
 	friend class Test;
