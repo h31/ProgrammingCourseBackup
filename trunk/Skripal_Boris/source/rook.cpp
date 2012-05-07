@@ -57,7 +57,6 @@ bool Rook::canFigureTurn(const int xCoordinate,const int yCoordinate,const Desk 
 
 	if(lineIsClear == true)
 			return true;
-	//cout<<"rook"<<xCoordinate<<yCoordinate<<endl;
 	return false;
 }
 

@@ -109,9 +109,7 @@ void Desk::chanchePawn(const bool whiteColour)
 		if(figure[i]->getType() == pawn &&figure[i]->getY() == 8 && figure[i]->getColour() == true)
 		{
 			do
-			{
-//                cout<<"Enter type of figure: 1 queen, 2 rook, 3 knight, 4 bishop"<<endl;
-//                cin>>type;
+            {
                 ChanchePawn *dial = new ChanchePawn;
                 dial->exec();
                 type=dial->getTypeOfFigure();
@@ -126,8 +124,6 @@ void Desk::chanchePawn(const bool whiteColour)
 		{
 			do
 			{
-//			cout<<"Enter type of figure: 1 queen, 2 rook, 3 knight, 4 bishop"<<endl;
-//			cin>>type;
                 ChanchePawn *dial = new ChanchePawn;
                 dial->exec();
                 type=dial->getTypeOfFigure();
@@ -194,7 +190,10 @@ bool Desk::checkShah(const bool whitePlayer)
 		king = bKing;
 	for(int i=0;i<32;i++)
         if(figure[i]->getColour()!=king->getColour() && figure[i]->isEat() == false && figure[i]->canFigureTurn(king->getX(),king->getY(),*this)==true)
-			return true;
+        {
+
+            return true;
+        }
 
 	return false;
 }
@@ -292,7 +291,7 @@ bool Desk::enPassant(const int startX, const int startY, const int finishX,const
 					return false;
 			for(int k=0;k<32;k++)
 				if(figure[k]->getX()==finishX && figure[k]->getY()==startY && figure[k]->getColour()!=figure[i]->getColour() && figure[k]->isEat()==false && figure[k]->getStep()==1)
-                    if(figure[k]->getColour()==true && figure[k]->getX()==4 || figure[k]->getColour()==false &&figure[k]->getX()==5)
+                    if(figure[k]->getColour()==true && figure[k]->getY()==4 || figure[k]->getColour()==false &&figure[k]->getY()==5)
                     {
                         figure[k]->eatFigure(true);
                         figure[i]->setX(finishX);
@@ -341,7 +340,6 @@ bool Desk::makeFigureTurn(const int startX,const int startY,const int finishX,co
 {
 	int numberOfFirstFigure= -1;
 	int numberOfSecondFigure =-1;
-
 	for(int i=0;i<32;i++)
 		if(getFigure(i)->getX()==startX && getFigure(i)->getY()==startY && getFigure(i)->isEat()==false)
 		{
@@ -365,27 +363,23 @@ bool Desk::makeFigureTurn(const int startX,const int startY,const int finishX,co
 
 	if(castling(startX,startY,finishX,finishY,whitePlayerTurnNow)==true)
 	{
-		if(checkShah(whitePlayerTurnNow)==true)
+        if(checkShah(whitePlayerTurnNow)==true)
 		{
 			cancelTurn(startX,startY,numberOfFirstFigure);
-			cancelTurn(finishX,finishY,numberOfSecondFigure);
-			cout<<"Shah!!! repeat turn"<<endl;
+            cancelTurn(finishX,finishY,numberOfSecondFigure);
 			return false;
 		}
 
-		cout<<"Castling is true"<<endl;
 		return true;
 	}
 	if(enPassant(startX,startY,finishX,finishY,whitePlayerTurnNow)==true)
 	{
-		if(checkShah(whitePlayerTurnNow)==true)
+        if(checkShah(whitePlayerTurnNow)==true)
 		{
 			cancelTurn(startX,startY,numberOfFirstFigure);
 			cancelTurn(finishX,finishY,numberOfSecondFigure);
-			cout<<"Shah!!! repeat turn"<<endl;
 			return false;
 		}
-		cout<<"en passant is true"<<endl;
 		return true;
 	}
 
@@ -398,13 +392,12 @@ bool Desk::makeFigureTurn(const int startX,const int startY,const int finishX,co
 		else
 			getFigure(numberOfFirstFigure)->putFigure(finishX,finishY);
 
-//		if(checkShah(whitePlayerTurnNow)==true)
-//		{
-//			cancelTurn(startX,startY,numberOfFirstFigure);
-//			cancelTurn(finishX,finishY,numberOfSecondFigure);
-//			cout<<"Shah!!! repeat turn"<<endl;
-//			return false;
-//		}
+        if(checkShah(whitePlayerTurnNow)==true)
+        {
+            cancelTurn(startX,startY,numberOfFirstFigure);
+            cancelTurn(finishX,finishY,numberOfSecondFigure);
+            return false;
+        }
 
 		chanchePawn(whitePlayerTurnNow);
 		refreshPlayingBoard();
@@ -422,8 +415,3 @@ void Desk::cancelTurn(const int coordinateX, const int coordinateY, const int nu
 	getFigure(number)->eatFigure(false);
 	return;
 }
-
-//void Desk::printShah()
-//{
-//    return;
-//}

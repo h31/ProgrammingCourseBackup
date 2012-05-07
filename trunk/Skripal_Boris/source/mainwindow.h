@@ -31,9 +31,9 @@ protected:
    void mousePressEvent(QMouseEvent *event);
 private slots:
    void on_actionNewGame_activated();
-
    void on_actionPlayerWins_activated();
-
+   void shahIsTrue();
+   void turnIsFalse();
 private:
     Ui::MainWindow *ui;
      QPainter qp;

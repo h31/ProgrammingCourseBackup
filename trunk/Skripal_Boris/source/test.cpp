@@ -10,7 +10,6 @@ bool Test::testCastling()
 	while(!fout.eof())
 	{
 		fout>>startX>>startY>>finishX>>finishY;
-       // test.desk->makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurn);
         test.desk->makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurn);
 		whitePlayerTurn=!whitePlayerTurn;
 	}

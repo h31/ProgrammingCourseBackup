@@ -23,7 +23,6 @@ bool Bishop::canFigureTurn(const int xCoordinate,const int yCoordinate,const  De
 	int yStep = (yCoordinate - coordinateY)/(abs(yCoordinate - coordinateY));
 	int startX = coordinateX;
 	int startY = coordinateY;
-//	bool lineIsClear = true;
 
     while((xCoordinate - startX)!=1)
 	{
@@ -39,7 +38,6 @@ bool Bishop::canFigureTurn(const int xCoordinate,const int yCoordinate,const  De
     for(int i=0;i<32;i++)
         if(desk.getFigure(i)->getColour()!=whiteColour && desk.getFigure(i)->isEat()==false)
             return true;
-	//cout<<"bishop"<<xCoordinate<<yCoordinate<<endl;
 	return true;
 }
 

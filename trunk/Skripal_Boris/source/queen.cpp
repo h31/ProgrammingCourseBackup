@@ -41,7 +41,6 @@ bool Queen::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Des
 				if(desk.getFigure(i)->getX()==startX && desk.getFigure(i)->getY() == startY)
 					return false;
 	}
-	//cout<<"queen"<<xCoordinate<<yCoordinate<<endl;
 	return true;
 }
 
