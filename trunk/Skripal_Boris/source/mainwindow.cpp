@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     isReadCoordinateEnd = false;
     game = new Player;
    // connect(game->desk,SIGNAL(printShah()),this,SLOT(checkShah()));
-    QMessageBox::information(this,"","White figures turn");
+   // QMessageBox::information(this,"","White figures turn");
 }
 
 MainWindow::~MainWindow()
@@ -20,9 +20,11 @@ MainWindow::~MainWindow()
 
  void MainWindow::leftButtonPressEvent(QMouseEvent * event)
 {
+     repaint();
     if (isFirstClick)
     {
         QPoint p;
+
         p = event->pos();
         readCord.startX = (p.rx()-30+78)/78;
         readCord.startY = (p.ry()-11)/78;
@@ -39,16 +41,15 @@ MainWindow::~MainWindow()
        // QMessageBox::information(this,"","Finish coordinate is read");
     }
     isFirstClick =!isFirstClick;
-
     if(isReadCoordinateEnd)
     {
        game->makePlayerTurn(readCord.startX,readCord.startY,readCord.finishX,readCord.finishY);
       // QMessageBox::information(this,"","make turn");
        repaint();
-       if(game->getWhitePlayerTurnNow())
-           QMessageBox::information(this,"","White figures turn");
-       else
-            QMessageBox::information(this,"","Black figures turn");
+//       if(game->getWhitePlayerTurnNow())
+//           QMessageBox::information(this,"","White figures turn");
+//       else
+//            QMessageBox::information(this,"","Black figures turn");
     }
 }
 
@@ -58,6 +59,12 @@ void MainWindow::paintEvent(QPaintEvent *ev)
      desk.load("playingboard.jpg");
      qp.drawImage(40,60,desk);
 
+     if(game->getWhitePlayerTurnNow())
+         turnPicture.load("whiteturn.jpg");
+     else
+         turnPicture.load("blackturn.jpg");
+
+     qp.drawImage(800,300,turnPicture);
      for(int i=0;i<32;i++)
      {
          if(game->desk->getFigure(i)->isEat() == false)
@@ -84,4 +91,9 @@ void MainWindow::on_actionNewGame_activated()
     isReadCoordinateEnd = false;
     game->newGame();
     repaint();
+}
+
+void MainWindow::on_actionPlayerWins_activated()
+{
+    QMessageBox::information(this,"Players wins",QString("White player wins: "+QString(game->getWhitePlayerWins()+'0')+ " "+"Black player wins: "+QString(game->getBlackPlayerWins()+'0')));
 }

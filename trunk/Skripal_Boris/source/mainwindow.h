@@ -32,11 +32,14 @@ protected:
 private slots:
    void on_actionNewGame_activated();
 
+   void on_actionPlayerWins_activated();
+
 private:
     Ui::MainWindow *ui;
      QPainter qp;
      QImage desk;
      Player *game;
+     QImage turnPicture;
 
      bool isFirstClick;
      bool isReadCoordinateEnd;

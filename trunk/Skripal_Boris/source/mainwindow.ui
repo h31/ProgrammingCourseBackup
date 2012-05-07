@@ -28,6 +28,7 @@
      <string>Меню</string>
     </property>
     <addaction name="actionNewGame"/>
+    <addaction name="actionPlayerWins"/>
     <addaction name="separator"/>
    </widget>
    <addaction name="menu"/>
@@ -39,6 +40,8 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionNewGame"/>
+   <addaction name="actionPlayerWins"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNewGame">
@@ -47,6 +50,14 @@
    </property>
    <property name="toolTip">
     <string>Новая игра</string>
+   </property>
+  </action>
+  <action name="actionPlayerWins">
+   <property name="text">
+    <string>playerWins</string>
+   </property>
+   <property name="toolTip">
+    <string>Победы игроков</string>
    </property>
   </action>
  </widget>
