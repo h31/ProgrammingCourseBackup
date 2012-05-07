@@ -18,15 +18,18 @@ SOURCES += main.cpp\
     Game.cpp \
     deck.cpp \
     Dealer.cpp \
-    Card.cpp
+    Card.cpp \
+    firstdialog.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
     RealPlayer.h \
     player.h \
-    mainwindow.h \
     Game.h \
     deck.h \
     Dealer.h \
-    Card.h
+    Card.h \
+    mainwindow.h \
+    firstdialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    firstdialog.ui

@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QtGui>
-#include "Game.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -16,10 +16,10 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void paintEvent(QPaintEvent *event);
-    
+    QPainter pen;
 private:
     Ui::MainWindow *ui;
-    QPainter pen;
+
     QImage im;
 
 };

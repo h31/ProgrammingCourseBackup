@@ -3,6 +3,7 @@
 #include "RealPlayer.h"
 #include "Dealer.h"
 #include "Dialog.h"
+#include "mainwindow.h"
 class Game
 {
 private:
@@ -10,7 +11,8 @@ private:
 	Dealer dlr;
 	dialog dlg;
 	int pscore, dscore, cash;
-	string n;
+    QString n;
+    QPainter p;
 public:
 	void takeCards();
 	int playerScore();
