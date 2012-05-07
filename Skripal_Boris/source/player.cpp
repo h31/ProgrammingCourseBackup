@@ -12,46 +12,7 @@ Player::Player()
 
 }
 
-//bool Player::makeGame()
-//{
-//    //ofstream fout ("mat.txt");
 
-//    //desk.printPlayingBoard();
-//	while(winner == nobody)
-//	{
-//        if(desk->checkShah(whitePlayerTurnNow)==true)
-//		{
-//			checkWinner();
-//            //cout<<"Shah"<<endl;
-//           // QMessageBox message::information(*MainWindow,"","Shah!");
-//		}
-//		if(whitePlayerTurnNow==true)
-//			cout<<"White player turn now"<<endl;
-//		else
-//			cout<<"Black player turn now"<<endl;
-
-//        //cin>>startX>>startY>>finishX>>finishY;
-//        //fout<<startX<<" "<<startY<<" "<<finishX<<" "<<finishY<<endl;
-//       bool isTurnTrue = desk->makeFigureTurn(cord.startX,cord.startY,cord.finishX,cord.finishY,whitePlayerTurnNow);
-
-//		if(isTurnTrue == true)
-//		{
-//			whitePlayerTurnNow=!whitePlayerTurnNow;
-//			cout<<"Turn is sucsess"<<endl;
-//            isTurnTrue = false;
-//		}
-//		else
-//		{
-//            //cout<<"turn is false"<<endl;
-////            QMessageBox *message = new QMessageBox;
-////            message->information(*this,"","Turn is false!");
-////            delete message;
-
-//		}
-//        //desk.printPlayingBoard();
-//	}
-//	return true;
-//}
 
 bool Player::checkWinner()
 {
@@ -128,34 +89,19 @@ void Player::insertWhitePlayerTurnNow()
 
 void Player::makePlayerTurn(int startX, int startY, int finishX, int finishY)
 {
-   // QMessageBox::information(Ui::docastling,"","Shah!");
     if(desk->checkShah(whitePlayerTurnNow)==true)
         {
-            checkWinner();
-              //cout<<"Shah"<<endl;
-              //QMessageBox::information(Ui::docastling,"","Shah!");
+            printShah();
+            checkWinner(); 
         }
-   //		if(whitePlayerTurnNow==true)
-   //			cout<<"White player turn now"<<endl;
-   //		else
-   //			cout<<"Black player turn now"<<endl;
-
-   //        //cin>>startX>>startY>>finishX>>finishY;
-   //        //fout<<startX<<" "<<startY<<" "<<finishX<<" "<<finishY<<endl;
         bool isTurnTrue = desk->makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurnNow);
 
         if(isTurnTrue == true)
         {
             insertWhitePlayerTurnNow();
-            //cout<<"Turn is sucsess"<<endl;
-           // isTurnTrue = false;
         }
-//   		else
-//   		{
-               //cout<<"turn is false"<<endl;
-   ////            QMessageBox *message = new QMessageBox;
-   ////            message->information(*this,"","Turn is false!");
-   ////            delete message;
+        else
+            printFalseTurn();
 }
 
 int Player::getBlackPlayerWins()

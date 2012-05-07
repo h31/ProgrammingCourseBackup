@@ -18,8 +18,9 @@ enum Winner
 	twoWinner,
 	nobody
 };
-class Player
+class Player : public QObject
 {
+     Q_OBJECT
 private:
 	Winner winner;
     int whitePlayerWins;
@@ -30,6 +31,9 @@ private:
 	void printWinner();
 
      void insertWhitePlayerTurnNow();
+signals:
+     void printShah();
+     void printFalseTurn();
 public:
     Desk *desk;
 	//Desk getDesk();

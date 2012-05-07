@@ -24,8 +24,9 @@ struct PlayingBoard
 	Figure *figureOnCell;
 };
 
-class Desk
+class Desk: public QObject
 {
+   Q_OBJECT
 private:
 	Figure *wKing;
 	Figure *bKing;
@@ -40,14 +41,16 @@ private:
 	void setFigure(const int numberOfFigure,const  int type);
 	bool castling(const int startX, const int startY,const int finishX,const  int finishY,const  bool whitePlayer);
 	bool enPassant(const int startX,const  int startY,const int finishX, const int finishY,const  bool whitePlayer);
-//    void printShah();
+signals:
+   // void checkShah();
+    void printShah();
 public:
 	Desk();
 
 	Figure* getFigure(const int number) const;	
 	void createNewDesk();
 	bool checkMat(const bool whitePlayer);
-	bool checkShah(const bool whitePlayer);
+    bool checkShah(const bool whitePlayer);
 	bool makeFigureTurn(const int startX,const int startY,const int finishX,const int finishY, const bool whitePlayerTurn);
 
     void printPlayingBoard();

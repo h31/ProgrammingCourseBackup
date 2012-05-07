@@ -19,8 +19,6 @@ bool King::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk
 	if(abs(xCoordinate - coordinateX)>1 || abs(yCoordinate - coordinateY)>1)
 		return false;
 
-
-	//cout<<"king"<<xCoordinate<<yCoordinate<<endl;
     return true;
 }
 

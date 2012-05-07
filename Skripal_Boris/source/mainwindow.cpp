@@ -11,7 +11,9 @@ MainWindow::MainWindow(QWidget *parent) :
     game = new Player;
     leftUp.setX(0);
     leftUp.setY(0);
-   // connect(game->desk,SIGNAL(printShah()),this,SLOT(checkShah()));
+    QObject::connect(game->desk,SIGNAL(printShah()),this,SLOT(shahIsTrue()));
+     QObject::connect(game,SIGNAL(printShah()),this,SLOT(shahIsTrue()));
+      QObject::connect(game,SIGNAL(printFalseTurn()),this,SLOT(turnIsFalse()));
 }
 
 MainWindow::~MainWindow()
@@ -85,12 +87,6 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         leftButtonPressEvent(event);
 }
 
-//void MainWindow::checkShah()
-//{
-//    QMessageBox::information(this,"","Вам шах");
-//}
-
-
 void MainWindow::on_actionNewGame_activated()
 {
     isFirstClick = true;
@@ -102,4 +98,15 @@ void MainWindow::on_actionNewGame_activated()
 void MainWindow::on_actionPlayerWins_activated()
 {
     QMessageBox::information(this,"Players wins",QString("White player wins: "+QString(game->getWhitePlayerWins()+'0')+ " "+"Black player wins: "+QString(game->getBlackPlayerWins()+'0')));
+}
+
+void MainWindow::shahIsTrue()
+{
+    QMessageBox::information(this,"","Shah is true!");
+    return;
+}
+
+void MainWindow::turnIsFalse()
+{
+    QMessageBox::information(this,"","Turn is false! Repeat turn");
 }
