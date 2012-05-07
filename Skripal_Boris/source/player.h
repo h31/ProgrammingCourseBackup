@@ -22,6 +22,9 @@ class Player
 {
 private:
 	Winner winner;
+    int whitePlayerWins;
+    int blackPlayerWins;
+
 	bool whitePlayerTurnNow;
 	bool checkWinner();
 	void printWinner();
@@ -32,6 +35,9 @@ public:
 	//Desk getDesk();
 	Player();
     bool getWhitePlayerTurnNow();
+    int getWhitePlayerWins();
+    int getBlackPlayerWins();
+
     void newGame();
     //bool makeGame();
     void makePlayerTurn(int startX, int startY, int finishX, int finishY);

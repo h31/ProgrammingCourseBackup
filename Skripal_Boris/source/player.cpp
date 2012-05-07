@@ -7,6 +7,8 @@ Player::Player()
     desk = new Desk;
 	winner = nobody;
 	whitePlayerTurnNow = true;
+    whitePlayerWins=0;
+    blackPlayerWins=0;
 
 }
 
@@ -56,9 +58,15 @@ bool Player::checkWinner()
     if(desk->checkMat(whitePlayerTurnNow)==true)
 	{
 		if(whitePlayerTurnNow==true)
+        {
 			winner = black;
+            blackPlayerWins++;
+        }
 		else
+        {
 			winner = white;
+            whitePlayerWins++;
+        }
 		return true;
 	}
 	for(int i=0;i<32;i++)
@@ -101,6 +109,7 @@ void Player::printWinner()
 
 void Player::newGame()
 {
+    whitePlayerTurnNow = true;
 	winner = nobody;
     desk->createNewDesk();
 	return;
@@ -146,4 +155,14 @@ void Player::makePlayerTurn(int startX, int startY, int finishX, int finishY)
    ////            QMessageBox *message = new QMessageBox;
    ////            message->information(*this,"","Turn is false!");
    ////            delete message;
+}
+
+int Player::getBlackPlayerWins()
+{
+    return blackPlayerWins;
+}
+
+int Player::getWhitePlayerWins()
+{
+    return whitePlayerWins;
 }

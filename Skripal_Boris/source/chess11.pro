@@ -70,4 +70,6 @@ OTHER_FILES += \
     chanchePawn.txt \
     castlingTest.txt \
     bishopwhite.png \
-    bishopblack.png
+    bishopblack.png \
+    whiteturn.jpg \
+    blackturn.jpg
