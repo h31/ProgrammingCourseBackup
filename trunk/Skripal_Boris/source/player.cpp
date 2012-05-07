@@ -128,11 +128,12 @@ void Player::insertWhitePlayerTurnNow()
 
 void Player::makePlayerTurn(int startX, int startY, int finishX, int finishY)
 {
+   // QMessageBox::information(Ui::docastling,"","Shah!");
     if(desk->checkShah(whitePlayerTurnNow)==true)
         {
             checkWinner();
               //cout<<"Shah"<<endl;
-              // QMessageBox message::information(*MainWindow,"","Shah!");
+              //QMessageBox::information(Ui::docastling,"","Shah!");
         }
    //		if(whitePlayerTurnNow==true)
    //			cout<<"White player turn now"<<endl;

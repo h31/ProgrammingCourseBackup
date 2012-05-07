@@ -21,7 +21,7 @@ bool King::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk
 
 
 	//cout<<"king"<<xCoordinate<<yCoordinate<<endl;
-	return false;
+    return true;
 }
 
 void King::printFigure(QPainter &painter)

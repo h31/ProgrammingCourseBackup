@@ -40,6 +40,7 @@ private:
      QImage desk;
      Player *game;
      QImage turnPicture;
+     QPoint leftUp;
 
      bool isFirstClick;
      bool isReadCoordinateEnd;
