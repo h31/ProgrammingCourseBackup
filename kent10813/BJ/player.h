@@ -1,7 +1,9 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
+#include <QtGui>
 #include "deck.h"
-
+#include "QInputDialog"
+#include "firstdialog.h"
 class player
 	{
 	protected:
@@ -11,16 +13,15 @@ class player
 	public:
 		int score;
 		int bet;
-		string name;
-
+        QString name;
 		player ();
 		
-		void enterName();
+        void enterName(QString playerName);
 		virtual int makeBets ();
 		void takeCards ();
-		virtual void show();
+        virtual void show(QPainter &painter);
 		int countScore ();
-		
+
 	};
 
 #endif

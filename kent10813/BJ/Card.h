@@ -1,7 +1,7 @@
 #ifndef _CARD_H_
 #define _CARD_H_
 
-#include <string>
+#include <QString>
 #include <iostream>
 using namespace std;
 
@@ -18,10 +18,10 @@ class card
 		
 		void set_value (Values v);
 		
-		string get_suit ();
+        QString get_suit();
 		
-		string get_score ();
-		
+        QString get_score ();
+
 };
 
 #endif

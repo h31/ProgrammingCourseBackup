@@ -17,17 +17,17 @@ void Game::firstDispensation()
 	plr.takeCards();
 	dlr.takeCards();
 	dlr.takeCards();
-	plr.show();
+    plr.show(p);
 }
 void Game::gameContinue()
 {
-	cin>>n;
+    //cin>>n;
 	
 	while (n=="1")
 	{
 	plr.takeCards();
-	plr.show();
-	cin>>n;
+    plr.show(p);
+    //cin>>n;
 	}
 }
 void Game::dealerTakeCards()
@@ -38,7 +38,7 @@ void Game::dealerTakeCards()
 		dlr.takeCards();
 		dealerScore();
 	}
-	dlr.show();
+    dlr.show(p);
 }
 int Game::whoWon()
 {
