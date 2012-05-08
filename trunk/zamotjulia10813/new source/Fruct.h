@@ -1,40 +1,43 @@
 #ifndef _Fruct_h_
 #define _Fruct_h_
-
 #include <iostream>
 #include <stdlib.h>
 using namespace std;
 
 const int peartime=20;
 
-enum fructType { app=0, pear=1 };
+enum fructType { app=98, pear=99 };
 
 class Fruct { //единичный фрукт, абстрактый базовый класс
 private:
     int x, y;
+	int type;
 public:
     Fruct (int X, int Y);
+	Fruct ();
     ~Fruct();
     int getx();
     int gety();
     bool setx (int new_x);
     bool sety (int new_y);
-    virtual int fructenumerate ( )=0;
+    int gettype ( );
+	bool settype(int newtype);
 };
 
 class Apple: public Fruct { //производный класс
 public:
     Apple (int X, int Y);
     ~Apple();
-    int fructenumerate ();
 };
 
 class Pear: public Fruct { //производный класс
+private:
+	int time;
 public:
-    int time;
     Pear (int t, int X, int Y);
     ~Pear();
-    int fructenumerate ();
+	int gettime();
+	bool settime(int newtime);
 };
 
 #endif
