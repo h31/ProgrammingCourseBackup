@@ -3,7 +3,6 @@
 
 #include "Snake.h"
 #include "Field.h"
-
 class Scenario
 {
 	public:
@@ -13,7 +12,7 @@ class Scenario
     Scenario(void);
     ~Scenario(void);
     void virtual init ()=0;
-    bool virtual run(int cycle_snake)=0;
+    bool virtual run (int cycle_snake)=0;
 
 };
 class Scenario1: public Scenario
@@ -25,7 +24,7 @@ public:
     bool run(int cycle_snake);
 };
 
-class Scenario2:  public Scenario
+class Scenario2: public Scenario
 {
 public:
     Scenario2(void);
