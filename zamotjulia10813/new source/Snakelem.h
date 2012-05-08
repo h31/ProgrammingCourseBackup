@@ -1,10 +1,10 @@
 #ifndef _Snakelem_h_
 #define _Snakelem_h_
-
 class ZmElement {
 private:
 int x, y;
 int napx, napy;
+int dir;
 public:
     ZmElement ();
     ZmElement (int X, int Y);
