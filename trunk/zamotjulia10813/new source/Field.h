@@ -2,20 +2,17 @@
 #define _Field_h_
 
 #include <stdlib.h>
-
 #include "Fructs.h"
-#include "Snake.h"
 
 class Field {
 private:
     int** field;
-    
     int width, height;
 public:
     Field (int W, int H);
     Field ();
     ~Field ();
-    bool set_field (int x, int y, int new_value); //дл€ изменени€ €счейки пол€
+    bool set_field (int x, int y, int new_value); //дл€ изменени€ €чейки пол€
     int get_field (int x, int y); //получить €чейку
     int get_width ();
     bool set_width (int new_width);
