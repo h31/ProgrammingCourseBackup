@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
       QObject::connect(game,SIGNAL(printFalseTurn()),this,SLOT(turnIsFalse()));
       QObject::connect(test,SIGNAL(testIsTrue()),this,SLOT(testIsTrue()));
       QObject::connect(test,SIGNAL(testIsFalse()),this,SLOT(turnIsFalse()));
+      QObject::connect(game,SIGNAL(printMat()),this,SLOT(printMat()));
 }
 
 MainWindow::~MainWindow()
@@ -129,4 +130,13 @@ void MainWindow::on_actionEnd_activated()
     else
         game->plusWinner(true);
     game->newGame();
+}
+
+void MainWindow::printMat()
+{
+    if(game->getWinner()!=nobody)
+    if(game->getWhitePlayerTurnNow())
+        QMessageBox::information(this,"Mat","White Player win!");
+    else
+        QMessageBox::information(this,"Mat"," Black Player win!");
 }

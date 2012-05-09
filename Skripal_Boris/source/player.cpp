@@ -18,24 +18,27 @@ bool Player::checkWinner()
 {
     if(desk->checkMat(whitePlayerTurnNow)==true)
 	{
-		if(whitePlayerTurnNow==true)
+        if(whitePlayerTurnNow==false)
         {
 			winner = black;
             plusWinner(!whitePlayerTurnNow);
+            printMat();
         }
 		else
         {
 			winner = white;
            plusWinner(whitePlayerTurnNow);
+           printMat();
         }
 		return true;
 	}
 	for(int i=0;i<32;i++)
-        if(desk->getFigure(i)->getType()!=king && desk->getFigure(i)->isEat() == true)
+        if(desk->getFigure(i)->getType()!=king && desk->getFigure(i)->isEat() == false)
 			return false;
 		else
 		{
 			winner = twoWinner;
+            printMat();
 			return true;
 		}
 
@@ -124,4 +127,9 @@ void Player::plusWinner(bool whitePlayer)
         whitePlayerWins++;
     else
         blackPlayerWins++;
+}
+
+Winner Player::getWinner()
+{
+    return winner;
 }
