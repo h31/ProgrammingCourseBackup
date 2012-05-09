@@ -37,7 +37,6 @@ signals:
      void printMat();
 public:
     Desk *desk;
-	//Desk getDesk();
 	Player();
     bool getWhitePlayerTurnNow();
     int getWhitePlayerWins();
@@ -45,7 +44,6 @@ public:
     void plusWinner(bool whitePlayer);
     void newGame();
     Winner getWinner();
-    //bool makeGame();
     void makePlayerTurn(int startX, int startY, int finishX, int finishY);
 
 	friend class Test;

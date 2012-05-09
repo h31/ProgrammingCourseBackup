@@ -264,9 +264,8 @@ for(int j=0;j<32;j++)
                             king->increaceSteps(false);
                         }
                     }
-          //  return true;
             }
-    return true;//false;
+    return true;
 }
 bool Desk::castling(const int startX, const int startY,const int finishX,const int finishY,const bool whitePlayer)
 {
@@ -468,5 +467,6 @@ void Desk::cancelTurn(const int coordinateX, const int coordinateY, const int nu
 	getFigure(number)->setX(coordinateX);
 	getFigure(number)->setY(coordinateY);
 	getFigure(number)->eatFigure(false);
+    getFigure(number)->increaceSteps(false);
 	return;
 }

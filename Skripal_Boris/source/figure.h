@@ -32,24 +32,24 @@ protected:
 	
 public:
 	char symbol;
-	int getX();
-	int getY();
-	int getStep();
-	TypeOfFigure getType();
-	bool getColour();
-	bool isEat();
+    int getX();
+    int getY();
+    int getStep();
+    TypeOfFigure getType();
+    bool getColour();
+    bool isEat();
 
-	void setX(const int x);
-	void setY(const int y);
-	void increaceSteps(const bool plus);
-	void eatFigure(const bool eat);
+    void setX(const int x);
+    void setY(const int y);
+    void increaceSteps(const bool plus);
+    void eatFigure(const bool eat);
 
-	virtual bool canFigureTurn(const int,const int,const Desk &)=0;
+    virtual bool canFigureTurn(const int,const int,const Desk &)=0;
     virtual void printFigure(QPainter &)=0;
 
-	bool isFinishCellTrue(const int xCoordinate,const int yCoordinate,const Desk& desk);
-	void putFigure(const int xCoordinate,const int yCoordinate);
-	void eatFigure(const int xCoordinate,const int yCoordinate, Desk &desk);
-};
+    bool isFinishCellTrue(const int xCoordinate,const int yCoordinate,const Desk& desk);
+    void putFigure(const int xCoordinate,const int yCoordinate);
+    void eatFigure(const int xCoordinate,const int yCoordinate, Desk &desk);
+    };
 
 #endif

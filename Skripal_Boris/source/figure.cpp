@@ -29,6 +29,7 @@ void Figure::eatFigure(const int xCoordinate,const int yCoordinate,Desk &desk)
 		if(desk.getFigure(i)->coordinateX==xCoordinate && desk.getFigure(i)->coordinateY==yCoordinate && desk.getFigure(i)->isFigureEat==false)
 		{
 			desk.getFigure(i)->isFigureEat=true;
+            desk.getFigure(i)->increaceSteps(true);
 			coordinateX=desk.getFigure(i)->coordinateX;
 			coordinateY=desk.getFigure(i)->coordinateY;
 			steps++;
