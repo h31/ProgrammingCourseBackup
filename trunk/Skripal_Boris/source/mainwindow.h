@@ -37,6 +37,7 @@ private slots:
    void turnIsFalse();
    void testIsTrue();
    void testIsFalse();
+   void printMat();
    void on_actionTests_activated();
 
    void on_actionEnd_activated();

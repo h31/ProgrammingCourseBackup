@@ -34,6 +34,7 @@ private:
 signals:
      void printShah();
      void printFalseTurn();
+     void printMat();
 public:
     Desk *desk;
 	//Desk getDesk();
@@ -43,6 +44,7 @@ public:
     int getBlackPlayerWins();
     void plusWinner(bool whitePlayer);
     void newGame();
+    Winner getWinner();
     //bool makeGame();
     void makePlayerTurn(int startX, int startY, int finishX, int finishY);
 
