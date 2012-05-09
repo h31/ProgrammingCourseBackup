@@ -236,6 +236,13 @@ int numberOfEatFigure =-1;
                         figure[numberOfEatFigure]->eatFigure(false);
                         return false;
                     }
+                    else
+                    {
+                        king->setX(startX);
+                        king->setY(startY);
+                        king->increaceSteps(false);
+                    }
+                }
                   else
                     {
                         king->putFigure(x,y);
@@ -246,10 +253,16 @@ int numberOfEatFigure =-1;
                             king->increaceSteps(false);
                             return false;
                         }
+                        else
+                        {
+                            king->setX(startX);
+                            king->setY(startY);
+                            king->increaceSteps(false);
+                        }
                     }
-                }
+            return true;
             }
-    return true;
+    return false;
 }
 bool Desk::castling(const int startX, const int startY,const int finishX,const int finishY,const bool whitePlayer)
 {

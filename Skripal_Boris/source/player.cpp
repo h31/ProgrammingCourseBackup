@@ -21,12 +21,12 @@ bool Player::checkWinner()
 		if(whitePlayerTurnNow==true)
         {
 			winner = black;
-            blackPlayerWins++;
+            plusWinner(!whitePlayerTurnNow);
         }
 		else
         {
 			winner = white;
-            whitePlayerWins++;
+           plusWinner(whitePlayerTurnNow);
         }
 		return true;
 	}
@@ -116,4 +116,12 @@ int Player::getBlackPlayerWins()
 int Player::getWhitePlayerWins()
 {
     return whitePlayerWins;
+}
+
+void Player::plusWinner(bool whitePlayer)
+{
+    if(whitePlayer)
+        whitePlayerWins++;
+    else
+        blackPlayerWins++;
 }

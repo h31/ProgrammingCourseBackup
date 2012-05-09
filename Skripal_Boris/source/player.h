@@ -41,7 +41,7 @@ public:
     bool getWhitePlayerTurnNow();
     int getWhitePlayerWins();
     int getBlackPlayerWins();
-
+    void plusWinner(bool whitePlayer);
     void newGame();
     //bool makeGame();
     void makePlayerTurn(int startX, int startY, int finishX, int finishY);

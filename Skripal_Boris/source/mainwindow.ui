@@ -43,6 +43,7 @@
    <addaction name="actionNewGame"/>
    <addaction name="actionPlayerWins"/>
    <addaction name="actionTests"/>
+   <addaction name="actionEnd"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNewGame">
@@ -67,6 +68,14 @@
    </property>
    <property name="toolTip">
     <string>Тесты</string>
+   </property>
+  </action>
+  <action name="actionEnd">
+   <property name="text">
+    <string>end</string>
+   </property>
+   <property name="toolTip">
+    <string>Сдаться</string>
    </property>
   </action>
  </widget>
