@@ -130,12 +130,13 @@ void MainWindow::on_actionEnd_activated()
     else
         game->plusWinner(true);
     game->newGame();
+    repaint();
 }
 
 void MainWindow::printMat()
 {
     if(game->getWinner()!=nobody)
-    if(game->getWhitePlayerTurnNow())
+    if(game->getWhitePlayerTurnNow()==false)
         QMessageBox::information(this,"Mat","White Player win!");
     else
         QMessageBox::information(this,"Mat"," Black Player win!");

@@ -117,6 +117,34 @@ bool Test::testShah()
 	return false;
 }
 
+bool Test::testMat()
+{
+    ifstream fout("mat.txt");
+    int startX,startY,finishX,finishY;
+    bool whitePlayerTurn=true;
+    Player test;
+
+    while(!fout.eof())
+    {
+        fout>>startX>>startY>>finishX>>finishY;
+        test.desk->makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurn);
+        if(test.desk->checkMat(whitePlayerTurn)==true)
+        {
+//			cout<<"shah is true!"<<endl;
+//            test.desk->printPlayingBoard();
+            testIsTrue();
+            test.desk->createNewDesk();
+            return true;
+        }
+        whitePlayerTurn=!whitePlayerTurn;
+    }
+//    test.desk->printPlayingBoard();
+//	cout<<"shah is false"<<endl;
+    test.desk->createNewDesk();
+    testIsFalse();
+    return false;
+}
+
 bool Test::tests()
 {
 	int numberOfTest=9;
@@ -137,30 +165,24 @@ bool Test::tests()
        delete tdial;
 		if(numberOfTest == 1)
 			{
-			testCastling();
-            return true;
-			numberOfTest=9;
+            return testCastling();
 			}
 		if(numberOfTest==2)
 			{
-			testChanchePawn();
-            return true;
-			numberOfTest=9;
+            return testChanchePawn();
 			}
 		if(numberOfTest==3)
 			{
-			testEnPassant();
-            return true;
-			numberOfTest=9;
+            return testEnPassant();
 			}
 		if(numberOfTest==4)
 			{
-			testShah();
-            return true;
-			numberOfTest=9;
+            return testShah();
 			}
 		if(numberOfTest==5)
-			return true;
+        {
+           return testMat();
+        }
 		
 	}
 }

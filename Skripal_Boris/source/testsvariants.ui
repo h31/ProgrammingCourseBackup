@@ -42,7 +42,7 @@
     <string>Выберите тест</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>150</x>
@@ -77,6 +77,13 @@
      <widget class="QRadioButton" name="radioButton_4">
       <property name="text">
        <string>Шах</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QRadioButton" name="radioButton_5">
+      <property name="text">
+       <string>Мат</string>
       </property>
      </widget>
     </item>
