@@ -92,8 +92,8 @@ void Player::makePlayerTurn(int startX, int startY, int finishX, int finishY)
     if(desk->checkShah(whitePlayerTurnNow)==true)
         {
             printShah();
-            checkWinner(); 
         }
+    checkWinner();
         bool isTurnTrue = desk->makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurnNow);
 
         if(isTurnTrue == true)

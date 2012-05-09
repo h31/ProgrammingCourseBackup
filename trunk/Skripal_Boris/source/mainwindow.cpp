@@ -9,11 +9,14 @@ MainWindow::MainWindow(QWidget *parent) :
     isFirstClick = true;
     isReadCoordinateEnd = false;
     game = new Player;
+    test = new Test;
     leftUp.setX(0);
     leftUp.setY(0);
     QObject::connect(game->desk,SIGNAL(printShah()),this,SLOT(shahIsTrue()));
      QObject::connect(game,SIGNAL(printShah()),this,SLOT(shahIsTrue()));
       QObject::connect(game,SIGNAL(printFalseTurn()),this,SLOT(turnIsFalse()));
+      QObject::connect(test,SIGNAL(testIsTrue()),this,SLOT(testIsTrue()));
+      QObject::connect(test,SIGNAL(testIsFalse()),this,SLOT(turnIsFalse()));
 }
 
 MainWindow::~MainWindow()
@@ -43,18 +46,12 @@ MainWindow::~MainWindow()
         readCord.finishX = (p.rx()-50+77)/77;
         readCord.finishY = (p.ry()+5)/77;
         isReadCoordinateEnd = true;
-       // QMessageBox::information(this,"","Finish coordinate is read");
     }
     isFirstClick =!isFirstClick;
     if(isReadCoordinateEnd)
     {
        game->makePlayerTurn(readCord.startX,readCord.startY,readCord.finishX,readCord.finishY);
-      // QMessageBox::information(this,"","make turn");
        repaint();
-//       if(game->getWhitePlayerTurnNow())
-//           QMessageBox::information(this,"","White figures turn");
-//       else
-//            QMessageBox::information(this,"","Black figures turn");
     }
     repaint();
 }
@@ -109,4 +106,18 @@ void MainWindow::shahIsTrue()
 void MainWindow::turnIsFalse()
 {
     QMessageBox::information(this,"","Turn is false! Repeat turn");
+}
+
+void MainWindow::testIsTrue()
+{
+    QMessageBox::information(this,"","Test is true!");
+}
+void MainWindow::testIsFalse()
+{
+    QMessageBox::information(this,"","Test is false!");
+}
+
+void MainWindow::on_actionTests_activated()
+{
+    test->tests();
 }
