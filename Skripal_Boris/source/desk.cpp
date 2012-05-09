@@ -205,13 +205,51 @@ bool Desk::checkMat(const bool whitePlayer)
 		king = wKing;
 	else
 		king = bKing;
+int startX;
+int startY;
+startX = king->getX();
+startY = king->getY();
+int numberOfEatFigure =-1;
 
 	for(int x=1;x<9;x++)
 		for(int y=1;y<9;y++)
-			for(int i=0;i<32;i++)
-				if(king->canFigureTurn(x,y,*this)==true && figure[i]->getColour()!=king->getColour() &&figure[i]->canFigureTurn(x,y,*this)==false )
-					return false;
-	return true;
+//			for(int i=0;i<32;i++)
+//				if(king->canFigureTurn(x,y,*this)==true && figure[i]->getColour()!=king->getColour() &&figure[i]->canFigureTurn(x,y,*this)==false )
+//					return false;
+//	return true;
+            if(king->canFigureTurn(x,y,*this))
+            {
+                for(int i=0;i<32;i++)
+                    if(figure[i]->getX()==x && figure[i]->getY()==y&&figure[i]->isEat()==false&&figure[i]->getColour()!=king->getColour())
+                    {
+                        numberOfEatFigure=i;
+                        break;
+                    }
+                if(numberOfEatFigure!=-1)
+                {
+                    king->eatFigure(x,y,*this);
+                    if(checkShah(king->getColour())==false)
+                    {
+                        king->setX(startX);
+                        king->setY(startY);
+                        king->increaceSteps(false);
+                        figure[numberOfEatFigure]->eatFigure(false);
+                        return false;
+                    }
+                  else
+                    {
+                        king->putFigure(x,y);
+                        if(checkShah(king->getColour())==false)
+                        {
+                            king->setX(startX);
+                            king->setY(startY);
+                            king->increaceSteps(false);
+                            return false;
+                        }
+                    }
+                }
+            }
+    return true;
 }
 bool Desk::castling(const int startX, const int startY,const int finishX,const int finishY,const bool whitePlayer)
 {

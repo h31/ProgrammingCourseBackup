@@ -89,10 +89,10 @@ void Player::insertWhitePlayerTurnNow()
 
 void Player::makePlayerTurn(int startX, int startY, int finishX, int finishY)
 {
-    if(desk->checkShah(whitePlayerTurnNow)==true)
-        {
-            printShah();
-        }
+//    if(desk->checkShah(whitePlayerTurnNow)==true)
+//        {
+//            printShah();
+//        }
     checkWinner();
         bool isTurnTrue = desk->makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurnNow);
 
@@ -102,6 +102,10 @@ void Player::makePlayerTurn(int startX, int startY, int finishX, int finishY)
         }
         else
             printFalseTurn();
+       if(desk->checkShah(whitePlayerTurnNow)==true)
+           {
+               printShah();
+           }
 }
 
 int Player::getBlackPlayerWins()
