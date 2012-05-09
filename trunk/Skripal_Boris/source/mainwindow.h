@@ -39,6 +39,8 @@ private slots:
    void testIsFalse();
    void on_actionTests_activated();
 
+   void on_actionEnd_activated();
+
 private:
     Ui::MainWindow *ui;
      QPainter qp;

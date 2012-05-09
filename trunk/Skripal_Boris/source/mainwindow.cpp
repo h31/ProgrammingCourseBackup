@@ -121,3 +121,12 @@ void MainWindow::on_actionTests_activated()
 {
     test->tests();
 }
+
+void MainWindow::on_actionEnd_activated()
+{
+    if(game->getWhitePlayerTurnNow())
+        game->plusWinner(false);
+    else
+        game->plusWinner(true);
+    game->newGame();
+}
