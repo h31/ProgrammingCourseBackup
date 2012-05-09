@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "SquareTest.h"
 #include "OpenFileTest.h"
+#include "TestResult.h"
 
 using namespace std;
 
@@ -18,5 +19,8 @@ int main(void)
 	sqt.testGetStat(f.map[2][2], 2);
 	OpenFileTest oft;
 	oft.openTest(f);
+	TestResult test;
+	test.failedTest();
+	test.successTest();
 	return 0;
 }
