@@ -74,4 +74,5 @@ OTHER_FILES += \
     bishopwhite.png \
     bishopblack.png \
     whiteturn.jpg \
-    blackturn.jpg
+    blackturn.jpg \
+    mat.txt

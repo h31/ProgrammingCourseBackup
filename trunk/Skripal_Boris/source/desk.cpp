@@ -211,6 +211,10 @@ startX = king->getX();
 startY = king->getY();
 int numberOfEatFigure =-1;
 
+for(int j=0;j<32;j++)
+    if(figure[j]->getColour()==king->getColour() && figure[j]->isEat()==false && figure[j]->getType()!=king->getType())
+        if(checkShah(whitePlayer)==false)
+            return false;
 	for(int x=1;x<9;x++)
 		for(int y=1;y<9;y++)
 //			for(int i=0;i<32;i++)
@@ -260,9 +264,9 @@ int numberOfEatFigure =-1;
                             king->increaceSteps(false);
                         }
                     }
-            return true;
+          //  return true;
             }
-    return false;
+    return true;//false;
 }
 bool Desk::castling(const int startX, const int startY,const int finishX,const int finishY,const bool whitePlayer)
 {

@@ -18,7 +18,7 @@ private:
 	bool testCastling();
 	bool testChanchePawn();
 	bool testShah();
-	//bool testMat();
+    bool testMat();
 public:
 	bool tests();
 signals:

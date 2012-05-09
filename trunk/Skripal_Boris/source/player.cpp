@@ -23,12 +23,14 @@ bool Player::checkWinner()
 			winner = black;
             plusWinner(!whitePlayerTurnNow);
             printMat();
+            newGame();
         }
 		else
         {
 			winner = white;
            plusWinner(whitePlayerTurnNow);
            printMat();
+           newGame();
         }
 		return true;
 	}
@@ -39,6 +41,7 @@ bool Player::checkWinner()
 		{
 			winner = twoWinner;
             printMat();
+            newGame();
 			return true;
 		}
 
@@ -92,11 +95,8 @@ void Player::insertWhitePlayerTurnNow()
 
 void Player::makePlayerTurn(int startX, int startY, int finishX, int finishY)
 {
-//    if(desk->checkShah(whitePlayerTurnNow)==true)
-//        {
-//            printShah();
-//        }
-    checkWinner();
+
+
         bool isTurnTrue = desk->makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurnNow);
 
         if(isTurnTrue == true)
@@ -105,6 +105,8 @@ void Player::makePlayerTurn(int startX, int startY, int finishX, int finishY)
         }
         else
             printFalseTurn();
+         checkWinner();
+
        if(desk->checkShah(whitePlayerTurnNow)==true)
            {
                printShah();

@@ -23,6 +23,8 @@ void testsVariants::on_buttonBox_accepted()
         typeOfTest = 3;
     if(ui->radioButton_4->isChecked())
         typeOfTest = 4;
+    if(ui->radioButton_5->isChecked())
+        typeOfTest=5;
 }
 
 int testsVariants::getTypeOfTest()
