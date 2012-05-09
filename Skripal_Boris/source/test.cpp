@@ -16,15 +16,19 @@ bool Test::testCastling()
 
 	for(int i=0;i<32;i++)
 	{
-        if(test.desk->getFigure(i)->getX()==6 && test.desk->getFigure(i)->getY()==1 && test.desk->getFigure(i)->getColour()==true &&test.desk->getFigure(i)->isEat()==false && test.desk->getFigure(i)->getType()==rook && test.desk->getFigure(i)->getStep()==1)
-            if(test.desk->wKing->getX()==7 && test.desk->wKing->getY()==1 && test.desk->wKing->getStep()==1)
+        if(test.desk->getFigure(i)->getX()==3 && test.desk->getFigure(i)->getY()==1 && test.desk->getFigure(i)->getColour()==true &&test.desk->getFigure(i)->isEat()==false && test.desk->getFigure(i)->getType()==rook && test.desk->getFigure(i)->getStep()==1)
+            if(test.desk->wKing->getX()==2 && test.desk->wKing->getY()==1 && test.desk->wKing->getStep()==1)
 			{
-				cout<<"castling test is true!"<<endl;
-                test.desk->printPlayingBoard();
+//				cout<<"castling test is true!"<<endl;
+//                test.desk->printPlayingBoard();
+                testIsTrue();
+                test.desk->createNewDesk();
 				return true;
 			}
 	}
-	cout<<"castling test is faled"<<endl;
+//	cout<<"castling test is faled"<<endl;
+    testIsFalse();
+    test.desk->createNewDesk();
 	return false;
 }
 
@@ -45,11 +49,14 @@ bool Test::testEnPassant()
 	for(int i=0;i<32;i++)
         if(test.desk->getFigure(i)->getX()==3 && test.desk->getFigure(i)->getY()==6 && test.desk->getFigure(i)->getType()==pawn && test.desk->getFigure(i)->isEat()==false && test.desk->getFigure(i)->getColour()==true)
 		{
-			cout<<" en passant is true!"<<endl;
-            test.desk->printPlayingBoard();
+//			cout<<" en passant is true!"<<endl;
+//            test.desk->printPlayingBoard();
+            testIsTrue();
+            test.desk->createNewDesk();
 			return true;
 		}
-	cout<<" en passant is false"<<endl;
+//	cout<<" en passant is false"<<endl;
+    test.desk->createNewDesk();
 	return false;
 }
 
@@ -70,11 +77,15 @@ bool Test::testChanchePawn()
 	for(int i=0;i<32;i++)
         if(test.desk->getFigure(i)->getX()==1 && test.desk->getFigure(i)->getY()==8 && test.desk->getFigure(i)->getType()!=pawn && test.desk->getFigure(i)->isEat()==false && test.desk->getFigure(i)->getColour()==true)
 		{
-			cout<<" chance pawn is true"<<endl;
-            test.desk->printPlayingBoard();
+//			cout<<" chance pawn is true"<<endl;
+//            test.desk->printPlayingBoard();
+            testIsTrue();
+            test.desk->createNewDesk();
 			return true;
 		}
-	cout<<" chance pawn is false"<<endl;
+//	cout<<" chance pawn is false"<<endl;
+    testIsFalse();
+    test.desk->createNewDesk();
 	return false;
 }
 
@@ -91,14 +102,18 @@ bool Test::testShah()
         test.desk->makeFigureTurn(startX,startY,finishX,finishY,whitePlayerTurn);
         if(test.desk->checkShah(whitePlayerTurn)==true)
 		{
-			cout<<"shah is true!"<<endl;
-            test.desk->printPlayingBoard();
+//			cout<<"shah is true!"<<endl;
+//            test.desk->printPlayingBoard();
+            testIsTrue();
+            test.desk->createNewDesk();
 			return true;
 		}
 		whitePlayerTurn=!whitePlayerTurn;
 	}
-    test.desk->printPlayingBoard();
-	cout<<"shah is false"<<endl;
+//    test.desk->printPlayingBoard();
+//	cout<<"shah is false"<<endl;
+    test.desk->createNewDesk();
+    testIsFalse();
 	return false;
 }
 
@@ -106,34 +121,42 @@ bool Test::tests()
 {
 	int numberOfTest=9;
 
-	cout<<"Tests!"<<endl;
-	while(numberOfTest >5)
+//	cout<<"Tests!"<<endl;
+//	while(numberOfTest >5)
 	{
-		cout<<"If you want test castling enter 1"<<endl<<
-		"If you want test chanche pawn enter 2"<<endl<<
-		"If you want test en passant enter 3"<<endl<<
-		"If you want test shah enter 4"<<endl<<
-		"If you want exit press 5"<<endl;
+//		cout<<"If you want test castling enter 1"<<endl<<
+//		"If you want test chanche pawn enter 2"<<endl<<
+//		"If you want test en passant enter 3"<<endl<<
+//		"If you want test shah enter 4"<<endl<<
+//		"If you want exit press 5"<<endl;
 	
-			cin>>numberOfTest;
+//			cin>>numberOfTest;
+        testsVariants *tdial = new testsVariants;
+        tdial->exec();
+       numberOfTest = tdial->getTypeOfTest();
+       delete tdial;
 		if(numberOfTest == 1)
 			{
 			testCastling();
+            return true;
 			numberOfTest=9;
 			}
 		if(numberOfTest==2)
 			{
 			testChanchePawn();
+            return true;
 			numberOfTest=9;
 			}
 		if(numberOfTest==3)
 			{
 			testEnPassant();
+            return true;
 			numberOfTest=9;
 			}
 		if(numberOfTest==4)
 			{
 			testShah();
+            return true;
 			numberOfTest=9;
 			}
 		if(numberOfTest==5)

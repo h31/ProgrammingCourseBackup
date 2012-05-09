@@ -5,6 +5,7 @@
 #include <QtGui>
 
 #include "player.h"
+#include "test.h"
 
 struct Coordinate
 {
@@ -34,11 +35,17 @@ private slots:
    void on_actionPlayerWins_activated();
    void shahIsTrue();
    void turnIsFalse();
+   void testIsTrue();
+   void testIsFalse();
+   void on_actionTests_activated();
+
 private:
     Ui::MainWindow *ui;
      QPainter qp;
      QImage desk;
      Player *game;
+     Test *test;
+
      QImage turnPicture;
      QPoint leftUp;
 

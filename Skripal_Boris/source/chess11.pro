@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     desk.cpp \
     bishop.cpp \
     chanchepawn.cpp \
-    docastling.cpp
+    docastling.cpp \
+    testsvariants.cpp
 
 HEADERS  += mainwindow.h \
     test.h \
@@ -40,12 +41,14 @@ HEADERS  += mainwindow.h \
     desk.h \
     bishop.h \
     chanchepawn.h \
-    docastling.h
+    docastling.h \
+    testsvariants.h
 
 FORMS    += mainwindow.ui \
     mainwindow.ui \
     chanchepawn.ui \
-    docastling.ui
+    docastling.ui \
+    testsvariants.ui
 
 OTHER_FILES += \
     playingboard.jpg \
@@ -59,7 +62,6 @@ OTHER_FILES += \
     playingboard.jpg \
     pawnwhite.png \
     pawnblack.png \
-    mat.txt \
     knightwhite.png \
     knightblack.png \
     kingwhite.png \

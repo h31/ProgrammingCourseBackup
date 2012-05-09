@@ -2,14 +2,16 @@
 #define _test_h_
 
 #include"player.h"
-
+#include "testsvariants.h"
 #include <io.h>
 #include <iostream>
 #include <fstream>
 
 using namespace std;
-class Test
+class Test: public QObject
 {
+    Q_OBJECT
+private:
 	/*void printListOfFigures();
 	bool testFiguresTurn();*/
 	bool testEnPassant();
@@ -19,6 +21,9 @@ class Test
 	//bool testMat();
 public:
 	bool tests();
+signals:
+    void testIsTrue();
+    void testIsFalse();
 };
 
 #endif
