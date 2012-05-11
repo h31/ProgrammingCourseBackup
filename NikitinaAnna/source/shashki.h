@@ -3,8 +3,6 @@
 class Figure
 {
 public:
-	int x;
-	int y;
 	Figure();
 	~Figure();
 	virtual bool makeMove1(int Px, int Py)=0;//Ход белой фигуры
@@ -12,18 +10,30 @@ public:
 };
 class Checker: public Figure//Класс обычная шашка
 {
+	int x;
+	int y;
 public:
 	Checker();
 	~Checker();
+	int gety();
+	int getx();
+	void setx(int Ox);
+	void sety(int Oy);
 	bool makeMove1(int Px,int Py);
 	bool makeMove2(int Px,int Py);
 
 };
 class King: public Figure//Класс дамка
 {
+	int x;
+	int y;
 public:
 	King();
 	~King();
+	int gety();
+	int getx();
+	void setx(int Ox);
+	void sety(int Oy);
 	bool makeMove1(int Px,int Py);
 	bool makeMove2(int Px,int Py);
 
