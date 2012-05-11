@@ -4,6 +4,8 @@
 
 class Player
 {
+	int opponentX;
+	int opponentY;
 public:
 	Player();
 	~Player();
