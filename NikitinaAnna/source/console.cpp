@@ -89,3 +89,19 @@ void Console::printResult(Game& game)
 	if(game.winner=black)
 		cout<<"Выиграл игрок,играющий черными."<<endl;
 }
+int Console::getConx()
+{
+	return conx;
+}
+int Console::getCony()
+{
+	return cony;
+}
+int Console::getConPx()
+{
+	return conPx;
+}
+int Console::getConPy()
+{
+	return conPy;
+}
