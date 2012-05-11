@@ -74,6 +74,6 @@ int main(void)
 		}
 	game.findWinner(field);
 	}
-	console.endOfGame(game);
+	console.printResult(game);
 	return 1;
 }
