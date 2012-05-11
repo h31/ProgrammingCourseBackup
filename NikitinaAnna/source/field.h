@@ -13,8 +13,6 @@ enum Cell//состояние ячейки
 class Field
 	{
 	public:
-	int opponentX;
-	int opponentY;
 	 Field();
 	 ~Field();
 	 Cell gameField[size][size];//игровое поле
