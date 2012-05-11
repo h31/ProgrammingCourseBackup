@@ -1,19 +1,16 @@
 #ifndef _player_h_
 #define _player_h_
-
-enum View
-{ 
-	black,//Игрок, играющий черными
-	white,//Игрок, играющий белыми
-	blank//Ничья
-};
+#include"field.h"
 
 class Player
 {
 public:
 	Player();
-	~ Player();
-	View winner;//Кто выиграл
-	bool isWhiteTurn;//Кто на данный момент ходит
+	~Player();
+	bool permutation(int Px,int Py, int x, int y,Field& field);//Реализация обычного хода
+	bool testEatenChecker(int Px,int Py, int x, int y,Field& field);//Проверка:возможно ли данной шашке или дамке "съесть" шашку противника
+	void eatenChecker(int Px,int Py, int x, int y,Field& field);//Реализация хода при съедении шашки врага
+	bool secondCourse(int Px,int Py,Field& field);//Реализация следующего хода той же шашки после того, как она "съела" шашку противника
 };
+
 #endif
