@@ -81,7 +81,7 @@ void Console::check(Field& field,Checker& checker,King& king,int Px, int Py, int
 	if((field.gameField[x][y]==whiteKing && king.makeMove1(Px,Py)==false) || (field.gameField[x][y]==blackKing && king.makeMove2(Px,Py)==false))
 			cout<<"Такой ход невозможен для данной дамки."<<endl;
 }
-void Console::endOfGame(Game& game)
+void Console::printResult(Game& game)
 {
 	setlocale(LC_ALL, "Russian");
 	if(game.winner=white)
