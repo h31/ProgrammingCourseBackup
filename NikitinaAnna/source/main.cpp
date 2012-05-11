@@ -25,23 +25,23 @@ int main(void)
 	while(game.winner=blank)//пока победител€ нет
 	{
 	console.dialog( Px, Py,variable,field, player,game);
-	x=console.conx; y=console.cony;
-	Px=console.conPx; Py=console.conPy;
+	x=console.getConx(); y=console.getCony();
+	Px=console.getConPx(); Py=console.getConPy();
 	//game.sequenceMove(field,Px,Py,x,y);
 	if((game.isWhiteTurn==true && field.gameField[x][y]==whiteShashka ) || (game.isWhiteTurn==false && field.gameField[x][y]==blackShashka))//если сейчас должен ходить игрок, играющий белыми(черными), и шашка выбрана так же бела€(черна€)
 	{
-		checker.x=x;
-		checker.y=y;
+		checker.setx(x);
+		checker.sety(y);
 		if ((field.gameField[x][y]==whiteShashka && checker.makeMove1(Px,Py)==true) || (field.gameField[x][y]==blackShashka && checker.makeMove2(Px,Py)==true))//если на €чейке бела€(черна€) шашка и возможен ход ее на заданную €чейку
 		{
-			if(player.permutation(Px,Py,checker.x, checker.y,field)==true)//проверка функции на просто ход шашки(то есть шашка не "съедает" шашку противника)
+			if(player.permutation(Px,Py,checker.getx(),checker.gety(),field)==true)//проверка функции на просто ход шашки(то есть шашка не "съедает" шашку противника)
 		{
 			field.transformKing();//проверка:не станет ли шашка дамкой
 			console.print(field);//вывод пол€
 			}
-			if(player.testEatenChecker(Px,Py,checker.x, checker.y,field)==true)//если шашка может "съесть" шашку противника
+			if(player.testEatenChecker(Px,Py,checker.getx(),checker.gety(),field)==true)//если шашка может "съесть" шашку противника
 			{
-			player.eatenChecker(Px,Py,checker.x, checker.y,field);//производим нужные преобразовани€ с полем
+			player.eatenChecker(Px,Py,checker.getx(),checker.gety(),field);//производим нужные преобразовани€ с полем
 			field.transformKing();//проверка:не станет ли шашка дамкой
 			console.print(field);//вывод пол€
 			if(player.secondCourse(Px,Py,field)==true)//если возможен второй ход
@@ -54,15 +54,15 @@ int main(void)
 		}
 	if((game.isWhiteTurn==true && field.gameField[x][y]==whiteKing ) || (game.isWhiteTurn==false && field.gameField[x][y]==blackKing))//если сейчас должен ходить игрок, играющий белыми(черными), и дамка выбрана так же бела€(черна€)
 		{
-		king.x=x;
-		king.y=y;
+		king.setx(x);
+		king.sety(y);
 		if ((field.gameField[x][y]==whiteKing && king.makeMove1(Px,Py)==true) || (field.gameField[x][y]==blackKing && king.makeMove2(Px,Py)==true))//если на €чейке бела€(черна€) дамка и возможен ход ее на заданную €чейку
 		{
-			if(player.permutation(Px,Py,king.x,king.y,field)==true)//проверка функции на просто ход дамки(то есть дамка не "съедает" шашку противника)
+			if(player.permutation(Px,Py,king.getx(),king.gety(),field)==true)//проверка функции на просто ход дамки(то есть дамка не "съедает" шашку противника)
 				console.print(field);//вывод пол€
-			if(player.testEatenChecker(Px,Py,king.x, king.y,field)==true)//если дамка может "съесть" шашку противника
+			if(player.testEatenChecker(Px,Py,king.getx(),king.gety(),field)==true)//если дамка может "съесть" шашку противника
 			{
-				player.eatenChecker(Px,Py,king.x, king.y,field);//производим нужные преобразовани€ с полем
+				player.eatenChecker(Px,Py,king.getx(),king.gety(),field);//производим нужные преобразовани€ с полем
 				console.print(field);//вывод пол€
 				if(player.secondCourse(Px,Py,field)==true)//если невозможен второй ход
 					variable=1;//в обратном случае присваиваем переменной значение 1
