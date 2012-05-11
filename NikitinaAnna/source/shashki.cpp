@@ -18,6 +18,38 @@ King::King()
 King::~King()
 {
 }
+int Checker::gety()
+{
+	return y;
+}
+int Checker::getx()
+{
+	return x;
+}
+void Checker::sety(int Oy)
+{
+	y=Oy;
+}
+void Checker::setx(int Ox)
+{
+	x=Ox;
+}
+int King::gety()
+{
+	return y;
+}
+int King::getx()
+{
+	return x;
+}
+void King::sety(int Oy)
+{
+	y=Oy;
+}
+void King::setx(int Ox)
+{
+	x=Ox;
+}
 bool Figure::makeMove1(int Px,int Py)
 {
 	return true;
