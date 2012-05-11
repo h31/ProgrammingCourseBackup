@@ -29,8 +29,8 @@ bool Player::testEatenChecker(int Px,int Py, int x, int y,Field& field)//ѕроверк
 			if((field.gameField[x][y]==whiteKing && (field.gameField[i][j]==blackShashka || field.gameField[i][j]==blackKing ))//если ход совершаетс€ белой дамкой, и на €чейке между этой дамкой и той, на которую совершаетс€ ход, стоит черна€ фигура
 				|| (field.gameField[x][y]==blackKing && (field.gameField[i][j]==whiteShashka || field.gameField[i][j]==whiteKing )))//если ход совершаетс€ черной дамкой, и на €чейке между этой дамкой и той, на которую совершаетс€ ход, стоит бела€ фигура
 			{
-				field.opponentX=i;
-				field.opponentY=j;
+				opponentX=i;
+				opponentY=j;
 				k++;//увеличиваем счетчик
 			}
 			if(Px>x) i++;//проверка всех остальных €чеек
@@ -61,7 +61,7 @@ void Player::eatenChecker(int Px,int Py, int x, int y,Field& field )//–еализаци€
 	}
 	if(field.gameField[x][y]==blackKing || field.gameField[x][y]==whiteKing)//если на заданной €чейке кака€-либо дамка
 	{
-		field.gameField[field.opponentX][field.opponentY]=empty;
+		field.gameField[opponentX][opponentY]=empty;
 		field.gameField[Px][Py]=field.gameField[x][y];
 		field.gameField[x][y]=empty;//совершаем заданные преобразовани€ пол€
 	}
