@@ -29,7 +29,7 @@ void Field::fieldMake()//заполнение поля
 	{
 	gameField[2][j]=whiteShashka;
 	gameField[5][0]=blackShashka;
-	gameField[6][1]=blackShashka;
+	gameField[3][1]=blackShashka;
 	}
 	/*for(int i=0;i<size/2-1;i=i+2)
 	{
