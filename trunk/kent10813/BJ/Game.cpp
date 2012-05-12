@@ -11,6 +11,11 @@ int Game::dealerScore()
 	dscore=dlr.countScore();
 	return dscore;
 }
+RealPlayer Game::getPlayer()
+{
+    return plr;
+}
+
 void Game::firstDispensation()
 {
 	plr.takeCards();
@@ -49,8 +54,8 @@ int Game::whoWon()
 	if (pscore==dscore&&pscore<=21&&dscore<=21||(pscore>21&&dscore>21))
 		return 3;
 }
-void Game::setCash(int  bet)
+int Game::setCash(int  bet)
 {
 	cash=bet;
-	cout<<2*cash<<endl;
+    return cash;
 }

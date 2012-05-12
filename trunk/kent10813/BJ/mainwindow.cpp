@@ -8,8 +8,6 @@ ui(new Ui::MainWindow)
 ui->setupUi(this);
 im.load("../BJ/images/green.jpg");
 game = new Game;
-rpl =new RealPlayer;
-dlr= new Dealer;
 
 
 
@@ -31,15 +29,15 @@ pen.drawImage(0, 0, im.scaled(width(), height() ) );
 }
 void MainWindow::printFirstDispensation()
 {
-    rpl->takeCards();
-    rpl->show(pen);
+    game->plr.takeCards();
+    game->plr.show(pen);
     pen.end();
 }
 
 void MainWindow::on_pushButton_clicked()
 {
-    rpl->takeCards();
-    rpl->show(pen);
+    game->plr.takeCards();
+    game->plr.show(pen);
     this->repaint();
 }
 
