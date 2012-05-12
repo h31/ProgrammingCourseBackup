@@ -7,13 +7,14 @@
 class Game
 {
 private:
-	RealPlayer plr;
+    //RealPlayer plr;
 	Dealer dlr;
 	dialog dlg;
 	int pscore, dscore, cash;
     QString n;
     QPainter p;
 public:
+    RealPlayer plr;
 	void takeCards();
 	int playerScore();
 	int dealerScore();
@@ -21,7 +22,8 @@ public:
 	void dealerTakeCards();
 	void gameContinue();
 	int whoWon();
-	void setCash(int bet);
+    int setCash(int bet);
+    RealPlayer getPlayer();
 };
 
 

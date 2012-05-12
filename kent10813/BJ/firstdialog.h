@@ -16,7 +16,7 @@ public:
     explicit firstDialog(QWidget *parent = 0);
     ~firstDialog();
 
-private slots:
+public slots:
 
 
     QString on_pushButton_clicked();

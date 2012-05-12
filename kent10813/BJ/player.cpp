@@ -21,9 +21,7 @@ void player::takeCards()
 }
 void player::show(QPainter &painter)
 {
-   /* const int CARD_WIDTH = width()/20;
-    const int CARD_HEIGHT = width()/15;
-    const int CARD_OFFSET = width()/30;*/
+
 
     const int CARD_INITIAL_X =15;
     const int CARD_INITIAL_Y =15;
