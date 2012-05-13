@@ -1,13 +1,10 @@
-
-#include "field.h"
-
+#include "player.h"
+#include "fieldControl.h"
 
 int main()
 {
-	Field f(7, 8); 
-	f.createField();
- 
-	cout<<f;
+	Player a(2);
+	cout<<a;
 	
 	return 0;
 }
