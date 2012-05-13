@@ -1,6 +1,5 @@
 #ifndef _Snakelem_h_
 #define _Snakelem_h_
-
 class ZmElement {
 private:
 int x, y;
@@ -17,6 +16,7 @@ public:
     int getnapy();
     bool set_napx(int new_napx );
     bool set_napy(int new_napy);
+	int dir;
 };
 
 #endif
