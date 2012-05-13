@@ -1,33 +1,32 @@
+
 #include "Fructs.h"
-
-Fructs::Fructs (int len) {
+Fructs::Fructs (int len) 
+{
         numberfructs=len;
+		Fruits.clear();
+}
 
-        fruct = new Fruct*[numberfructs];
+Fructs::Fructs () 
+{
+		numberfructs=0;
+		Fruits.clear();
+}
 
-        // инициализация массива
-        for (int i=0; i<numberfructs; i++)
-        {
-            fruct [i] = 0;
-        }
-    }
-
-//добавить фрукты в массив
 void Fructs::add (int size1,int size2) {
 
         for(int i=0; i<numberfructs; i++)
         {
         int random=rand() %2+1;
-        int x=rand() %size1; //чтобы не вылететь за пределы поля
+        int x=rand() %size1;
         int y=rand() %size2;
         Apple*ap= new Apple (x,y);
         Pear*pear= new Pear (peartime,x,y);
         switch (random) {
             case 1:
-                    fruct [i]=ap;
+                    Fruits [i]=ap;
                     break;
             case 2:
-                    fruct [i]=pear;
+                    Fruits [i]=pear;
                     break;
         }
         }
@@ -50,7 +49,20 @@ void Fructs::add (int size1,int size2) {
         return numberfructs;
     }
 
-    void Fructs::addApple(Apple *new_apple)
-    {
-        //Apples.push_back(new_apple);
-    }
+	void Fructs::addApple(Apple *new_apple)
+	{
+		Fruits.push_back(new_apple);
+	}
+
+	void Fructs::addPear(Pear*new_pear)
+	{
+	
+		Fruits.push_back(new_pear);
+	}
+	bool Fructs::deleteFruct(int number)
+	{
+		if(number<0 || number >= Fruits.size())
+			return false;
+		Fruits[number]->setx(-1);
+		return true;
+	}

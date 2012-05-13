@@ -5,19 +5,20 @@
 
 #include <vector>
 
-class Fructs { //Фрукты, состоящие из фруктов
+class Fructs {
 private:
-    int numberfructs; //число фруктов
+    int numberfructs;
+	
 public:
-    Fruct** fruct;
-    std::vector<Fruct*>Apples;
-    std::vector<Fruct*>Grushes;
+	std::vector<Fruct*>Fruits;
     Fructs (int len);
+	Fructs();
     bool set_numberfructs (int new_numberfructs);
     int get_numberfructs ();
-    void add (int size1,int size2); //
-    void addApple(Apple *new_apple);//вручную
+    void add (int size1,int size2);
+    void addApple(Apple *new_apple);
     void addPear(Pear *new_pear);
+	bool deleteFruct(int number);
 
 };
 
