@@ -37,7 +37,7 @@ private:
 	void cancelTurn(const int coordinateX, const int coordinateY, const int number);
 
 	void refreshPlayingBoard();
-	void chanchePawn(const bool whiteColour);
+	void changePawn(const bool whiteColour);
 	void setFigure(const int numberOfFigure,const  int type);
 	bool castling(const int startX, const int startY,const int finishX,const  int finishY,const  bool whitePlayer);
 	bool enPassant(const int startX,const  int startY,const int finishX, const int finishY,const  bool whitePlayer);

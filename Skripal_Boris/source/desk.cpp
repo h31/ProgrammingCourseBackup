@@ -100,7 +100,7 @@ Desk::~Desk()
 	delete figure;
 }
 
-void Desk::chanchePawn(const bool whiteColour)
+void Desk::changePawn(const bool whiteColour)
 {
 
 	int type;
@@ -274,7 +274,8 @@ bool Desk::castling(const int startX, const int startY,const int finishX,const i
 		king = wKing;
 	else
 		king = bKing;
-
+    if(king->getStep()!=0)
+        return false;
 	if(king->getX()==startX && king->getY()==startY)
 		if(king->getStep()==0 && abs(king->getX()-finishX)==2 && king->getY()==finishY)
 		{
@@ -453,7 +454,7 @@ bool Desk::makeFigureTurn(const int startX,const int startY,const int finishX,co
             return false;
         }
 
-		chanchePawn(whitePlayerTurnNow);
+        changePawn(whitePlayerTurnNow);
 		refreshPlayingBoard();
 		return true;
 	}

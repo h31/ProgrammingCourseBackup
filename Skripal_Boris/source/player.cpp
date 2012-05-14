@@ -16,19 +16,22 @@ Player::Player()
 
 bool Player::checkWinner()
 {
+    bool whitePlayerLastWinner;
     if(desk->checkMat(whitePlayerTurnNow)==true)
 	{
         if(whitePlayerTurnNow==false)
         {
 			winner = black;
-            plusWinner(!whitePlayerTurnNow);
+            whitePlayerLastWinner = true;
+            plusWinner(whitePlayerLastWinner);
             printMat();
             newGame();
         }
 		else
         {
 			winner = white;
-           plusWinner(whitePlayerTurnNow);
+            whitePlayerLastWinner = false;
+           plusWinner(whitePlayerLastWinner);
            printMat();
            newGame();
         }
