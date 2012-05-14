@@ -8,8 +8,6 @@
 
 #include "desk.h"
 #include "test.h"
-//#include "mainwindow.h"
-
 
 enum Winner
 {

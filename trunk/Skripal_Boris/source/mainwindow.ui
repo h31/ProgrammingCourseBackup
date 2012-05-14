@@ -29,6 +29,8 @@
     </property>
     <addaction name="actionNewGame"/>
     <addaction name="actionPlayerWins"/>
+    <addaction name="actionTests"/>
+    <addaction name="actionEnd"/>
     <addaction name="separator"/>
    </widget>
    <addaction name="menu"/>

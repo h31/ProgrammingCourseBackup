@@ -39,11 +39,21 @@ bool Pawn::canFigureTurn(const int xCoordinate,const int yCoordinate,const  Desk
 		if(xCoordinate == coordinateX)
 		{
 			if(whiteColour==true && (coordinateY - yCoordinate)==-2 )
+            {
+                for (int k =0; k<32;k++)
+                    if(desk.getFigure(k)->getY()==3 && desk.getFigure(k)->getX()==coordinateX && desk.getFigure(k)->isEat()==false)
+                        return false;
 				if(steps==0)
-					return true;
+                    return true;
+            }
 			if(whiteColour==false && (coordinateY - yCoordinate)==2)
+            {
+                for (int k =0; k<32;k++)
+                    if(desk.getFigure(k)->getY()==6 && desk.getFigure(k)->getX()==coordinateX && desk.getFigure(k)->isEat()==false)
+                        return false;
 				if(steps==0)
 					return true;
+            }
 			if(whiteColour==true && (coordinateY - yCoordinate)==-1 )
 					return true;
 			if(whiteColour==false && (coordinateY - yCoordinate)==1)
