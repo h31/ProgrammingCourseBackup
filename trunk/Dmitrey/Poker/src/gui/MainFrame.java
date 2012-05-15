@@ -63,8 +63,8 @@ public class MainFrame extends JFrame{
     {
         super("Poker_GUI");
         setSize(1030, 500);
-        ImageIcon ic = new ImageIcon("\\pic\\logo.png");
-        setIconImage(ic.getImage());
+        Image ic = Toolkit.getDefaultToolkit().getImage("src\\gui\\pic\\logo.png");
+        setIconImage(ic);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         

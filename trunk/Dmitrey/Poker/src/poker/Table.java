@@ -26,8 +26,8 @@ public class Table {
         tempPlayers = new CircleArray();
         allPlayers = new CircleArray();
         reserve = new CircleArray(); 
-        deck = new Deck();
         frame = new MainFrame();
+        deck = new Deck();
     }
          
      public void start()
@@ -43,14 +43,18 @@ public class Table {
         flop(); if(tempPlayers.size()<=1) break;
         turn(); if(tempPlayers.size()<=1) break;
         river(); 
-        }while(allPlayers.size()<=1);
         for(int i = 0; i<tempPlayers.size(); i++){
-        if(tempPlayers.get(i).getStack()<=0){
-           tempPlayers.remove(i);}}
+            tempPlayers.get(i).resetCards();
+            if(tempPlayers.get(i).getStack()<=0)
+            {
+                tempPlayers.remove(i);
+            }
+        }
         allPlayers.addAll(tempPlayers);
         tempPlayers.removeAll();
         distribution++;
-             
+        deck.refill();
+        }while(allPlayers.size()>1);     
     }
     
     private void createPlayers(int qp)

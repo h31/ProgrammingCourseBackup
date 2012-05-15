@@ -24,6 +24,11 @@ public class Player {
         size = 0;
     }
     
+    public void resetCards()
+    {
+        size = 0;
+    }
+    
     public Player olderHand(Player that)            //Player with older hand
     {
         if(this.hand.equals(this.hand.compareTo(that.getHand())))
