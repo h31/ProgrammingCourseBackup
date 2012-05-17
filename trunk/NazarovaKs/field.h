@@ -1,20 +1,37 @@
 #ifndef _field_h_
 #define _field_h_
 
-#include "cell.h"
+#include <iostream>
+#include <time.h>
 
-class Field
-{
-	unsigned columns, rows;
+using namespace std;
+
+const unsigned short maxColumns = 7; 
+const unsigned short maxCells = 343; 
+
+class List{
+private:
+	unsigned short rows;
+	struct Cell{
+		unsigned short arrCell [maxColumns];
+		Cell *prev,*next;
+		Cell();
+		Cell(unsigned short);
+		~Cell() {}		
+		friend ostream& operator<<(ostream& out, const Cell& line) {
+			for ( unsigned short i=0; i<maxColumns; i++ )
+				out<<line.arrCell[i]<<" ";
+			out<<endl;
+			return out;
+		}		
+	};
 public:
-	Cell **cells;
-	Field();
-	Field(unsigned, unsigned);
-	~Field();
-
-	void createField();
-	
-	friend ostream& operator << (ostream& , const Field& );
+	List():rows(NULL) {}
+	List(unsigned short);
+	~List() {};
+	friend ostream& operator << (ostream& out, const List&);
+	Cell* makeCell();
+	Cell* makeList(Cell*);
 };
 
 #endif

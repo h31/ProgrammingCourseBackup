@@ -1,37 +1,39 @@
 #include "field.h"
-
-Field::Field(): rows(7), columns(8) 
-{
-	cells=new Cell *[rows];
-	for (unsigned i=0; i<rows; i++)
-		cells[i]=new Cell[columns];	
+List::Cell::Cell(): prev(NULL),next(NULL){
+	for (unsigned short i=0; i<maxColumns; i++)
+		arrCell[i] = NULL;
 }
 
-Field::Field(unsigned a, unsigned b): rows(a), columns(b) 
-{
-	cells=new Cell *[rows];
-	for (unsigned i=0; i<rows; i++)
-		cells[i]=new Cell[columns];	
+List::Cell::Cell(unsigned short key):prev(NULL),next(NULL) {
+	for ( unsigned short i=0; i<maxColumns; i++)
+		arrCell[i]=1+rand()%9;
 }
-	
-Field::~Field() {}
 
-ostream& operator << (ostream& out, const Field& field)
-{
-	for (unsigned i=0; i<field.rows; i++)
-	{
-		for(unsigned j=0; j<field.columns; j++)
-			out<<field.cells[i][j]<<" ";
-		cout<<endl;
+List::List(unsigned short amtRows):rows(amtRows) {}
+
+ostream& operator << (ostream& out, const List& list){
+	List newList=list;
+	List::Cell *cell=newList.makeCell();
+	srand((unsigned short)time(NULL));
+	for(unsigned short i=0; i<newList.rows; i++){
+		cell=newList.makeList(cell);
+		out<<*cell<<endl;
 	}
-	cout<<endl;
 	return out;
 }
 
-void Field::createField()
-{
-	for (unsigned i=0; i<rows; i++)
-		for (unsigned j=0; j<columns; j++)
-			cells[i][j].createCell();
+List::Cell* List::makeCell(){
+	Cell* cell=new (Cell);
+	cell->next=0; cell->prev=0;
+	return cell;
 }
 
+List::Cell* List::makeList(Cell* start){
+	Cell line(1);
+	Cell *cell=makeCell();
+	cell->next=start;
+	start->prev=cell;
+	start=cell;
+	*cell=line;
+	return start;
+}

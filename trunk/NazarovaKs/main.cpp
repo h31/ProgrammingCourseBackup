@@ -1,10 +1,10 @@
-#include "player.h"
-#include "fieldControl.h"
+#include "field.h"
 
 int main()
 {
-	Player a(2);
+	List a(4);
 	cout<<a;
+
 	
 	return 0;
 }
