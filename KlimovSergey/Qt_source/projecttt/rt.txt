@@ -1,0 +1,106 @@
+bool Field::loadComplete(QString arg)
+{
+    QFile file(arg);
+    file.open(QIODevice::ReadOnly|QIODevice::Text);
+    QTextStream in(&file);
+    int pr, kol = 0;
+        while(!in.atEnd())
+        {
+           in >> pr;
+           kol++;
+        }
+        int rows_k = 0;
+        file.close();
+        file.open(QIODevice::ReadOnly|QIODevice::Text);
+        QString str;
+        while(!in.atEnd())
+        {
+            str = in.readLine();
+            rows_k++;
+        }
+        file.close();
+        int cols_k = kol/rows_k;
+
+        height = rows_k;
+        width = cols_k;
+
+        //tmp1 = height;
+        //tmp2 = width;
+
+        int temp;
+        Square **tmp = new Square*[rows_k];
+        for(int i=0;i<rows_k;i++)
+            tmp[i] = new Square [cols_k];
+        for(int i=0; i<rows_k; i++)
+            {
+                for(int j=0; j<cols_k; j++)
+                {
+                    in >> temp;
+                    //tmp[i][j].status;
+                    tmp[i][j].setStat(temp);
+                    //tmp[i][j].s.x = i;
+                    //tmp[i][j].s.y = j;
+                    //tmp[i][j].s.x = (i+vcol)*(sqSize+1)/*+1*/;
+                    //tmp[i][j].s.y = (j+hcol)*(sqSize+1)/*+1*/;
+                }
+            }
+        map = tmp;
+        //ready = true;
+        return true;
+}
+
+
+
+
+
+
+bool Field::loadComplete(QString arg)
+{
+    QFile file(arg);
+    file.open(QIODevice::ReadOnly|QIODevice::Text);
+    QTextStream in(&file);
+    int pr, kol = 0;
+        while(!in.atEnd())
+        {
+           in >> pr;
+           kol++;
+        }
+        int rows_k = 0;
+        file.close();
+        file.open(QIODevice::ReadOnly|QIODevice::Text);
+        QString str;
+        while(!in.atEnd())
+        {
+            str = in.readLine();
+            rows_k++;
+        }
+        file.close();
+        int cols_k = kol/rows_k;
+
+        height = rows_k;
+        width = cols_k;
+
+        //tmp1 = height;
+        //tmp2 = width;
+
+        int temp;
+        Square **tmp = new Square*[width];
+        for(int i=0;i<width;i++)
+            tmp[i] = new Square [height];
+        for(int i=0; i<width; i++)
+            {
+                for(int j=0; j<height; j++)
+                {
+                    in >> temp;
+                    //tmp[i][j].status;
+                    tmp[i][j].setStat(temp);
+                    //tmp[i][j].s.x = i;
+                    //tmp[i][j].s.y = j;
+                    //tmp[i][j].s.x = (i+vcol)*(sqSize+1)/*+1*/;
+                    //tmp[i][j].s.y = (j+hcol)*(sqSize+1)/*+1*/;
+                }
+            }
+        map = tmp;
+        //ready = true;
+        return true;
+}
