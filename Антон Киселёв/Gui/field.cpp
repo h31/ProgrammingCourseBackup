@@ -1,7 +1,6 @@
 #include "field.h"
-#include <stdlib.h>
 using namespace std;
-Field::Field(int chislo)
+Field::Field()
 {
     GameField = new int *[ 9 ];
     for (int i = 0; i < 9; i++)
@@ -10,6 +9,7 @@ Field::Field(int chislo)
     for (int i = 0; i < 9; i++)
         FieldVictory[ i ] = new int [ 9 ];
     InitField();
+    int chislo = 3;
     Generation(chislo);
     for (int ixRow = 0; ixRow < 9; ixRow++)
         for (int ixCol = 0; ixCol < 9; ixCol++)
@@ -164,6 +164,15 @@ void Field::InsertChislo(int ixRow, int ixCol, int chislo)
 {
     GameField[ ixRow ][ ixCol ] = chislo;
 }
+//Записываем графические параметры для каждой клетки игрового поля
+void Field::Graphic_Parameters(int ixRow, int ixCol, int point_1, int point_2, int p_1, int p_2)
+{
+    parameters[ ixRow ][ ixCol ].point_x = point_1;
+    parameters[ ixRow ][ ixCol ].point_y = point_2;
+    parameters[ ixRow ][ ixCol ].p_x = p_1;
+    parameters[ ixRow ][ ixCol ].p_y = p_2;
+}
+
 Field::~Field(void)
 {
 }
