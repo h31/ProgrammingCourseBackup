@@ -1,15 +1,11 @@
 #include "game.h"
-#include <iostream>
-#include <fstream>
-#include <time.h>
-#include <cstdlib>
 using namespace std;
 Games::Games(void)
 {
     srand((unsigned)time(0));
     int chislo = rand()%9+1;
     char name[ 100 ] = "CurrentGameField.txt";
-    GameField = new Field(chislo);
+    GameField = new Field;
     SavedGame = new SavedGames();
     SavedGame->SaveReadyField(GameField, name);
 }
