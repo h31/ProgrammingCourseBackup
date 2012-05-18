@@ -2,6 +2,10 @@
 #define GAME_H
 #include "field.h"
 #include "savedGames.h"
+#include <iostream>
+#include <fstream>
+#include <time.h>
+#include <cstdlib>
 
 class Games
 {
