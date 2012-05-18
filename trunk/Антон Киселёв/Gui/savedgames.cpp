@@ -1,45 +1,38 @@
 #include "savedgames.h"
-#include <iostream>
-#include <fstream>
-#include <cstdlib>
-#include "field.h"
-using namespace std;
+#include <QFile>
+#include <QTextStream>
 SavedGames::SavedGames()
 {
 }
 //Сохранение сгенерированного поля
 void SavedGames::SaveReadyField(Field* GameField, char name[])
 {
-    ofstream out("CurrentGameField.txt");
+    QFile file("C:\\QtProjects\\SUDOKU\\CurrentGameField.txt");
+    file.open(QIODevice::WriteOnly);
+    QTextStream out(&file);
     for (int ixRow = 0; ixRow < 9; ixRow++)
     {
         for (int ixCol = 0; ixCol < 9; ixCol++)
             out << GameField->FieldVictory[ ixRow ][ ixCol ] << " ";
         out << "\n";
     }
+    file.close();
 }
-//Запрос на сохранения игры
+//Запрос на сохранение игры
 void SavedGames::SaveRequest(Field* GameField)
 {
-    SaveNameLastGame("game.txt");
-    RecordData("game.txt", GameField);
-}
-//Сохранение имени последней игры
-void SavedGames::SaveNameLastGame(char name[])
-{
-    ofstream out("LastSave.txt");
-    if (!out)
-    {
-        cout << "Файл не открывается!\n";
-    }
-    out << name;
+    RecordData("C:\\QtProjects\\SUDOKU\\game.txt", GameField);
 }
 //Запись текущей игры
 void SavedGames::RecordData(char name[], Field* GameField)
 {
-    ofstream out(name);
-    if (!out)
-        cout << "\n";
+    QFile file(name);
+    file.open(QIODevice::WriteOnly);
+    QTextStream out(&file);
+    /*if (!out)
+    {
+        cout << "Файл не открывается!\n";
+    }*/
     for (int ixRow = 0; ixRow < 9; ixRow++)
     {
         for (int ixCol = 0; ixCol < 9; ixCol++)
@@ -47,7 +40,9 @@ void SavedGames::RecordData(char name[], Field* GameField)
             out << GameField->GameField[ ixRow ][ ixCol ];
             out << " ";
         }
+        out << "\n";
     }
+    out << "\n";
     for (int ixRow = 0; ixRow < 9; ixRow++)
     {
         for (int ixCol = 0; ixCol < 9; ixCol++)
@@ -55,36 +50,34 @@ void SavedGames::RecordData(char name[], Field* GameField)
             out << GameField->FieldVictory[ ixRow ][ ixCol ];
             out << " ";
         }
+        out << "\n";
     }
+    file.close();
 }
 //Запрос на загрузку игры
 void SavedGames::LoadRequest(Field* GameField)
 {
-    ifstream in("LastSave.txt");
-    if (!in)
-    {
-        cout << "Файл не открывается!\n";
-        return;
-    }
-    char name[ 20 ];
-    in >> name;
-    LoadGame(name, GameField);
+    LoadGame("C:\\QtProjects\\SUDOKU\\game.txt", GameField);
 }
 //Загрузка сохранённой игры
 void SavedGames::LoadGame(char name[], Field* GameField)
 {
-    ifstream in(name);
-    if (!in)
+    QFile infile(name);
+    infile.open(QIODevice::ReadOnly);
+    QTextStream in(&infile);
+    /*if (!in)
     {
         cout << "Файл не открылся!\n";
         return;
-    }
-    ofstream out("CurrentGameField.txt");
-    if (!out)
+    }*/
+    QFile outfile("C:\\QtProjects\\SUDOKU\\CurrentGameField.txt");
+    outfile.open(QIODevice::ReadOnly, QIODevice::WriteOnly);
+    QTextStream out(&outfile);
+    /*if (!out)
     {
         cout << "Файл не открылся!\n";
         return;
-    }
+    }*/
     for (int ixRow = 0; ixRow < 9; ixRow++)
     {
         for (int ixCol = 0; ixCol < 9; ixCol++)
@@ -102,6 +95,8 @@ void SavedGames::LoadGame(char name[], Field* GameField)
         }
         out << "\n";
     }
+    infile.close();
+    outfile.close();
 }
 SavedGames::~SavedGames(void)
 {
