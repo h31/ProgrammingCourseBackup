@@ -19,7 +19,7 @@
 #include <QLineEdit>
 #include <Game.h>
 #include <vector>
-
+static int razdvatri;
 //GameField* field;
 
 //extern QString str1;
@@ -29,12 +29,19 @@
 
 class MyLine : public QGraphicsLineItem
 {
-
+  //  Q_OBJECT
 public:
  MyLine(int x1, int x2, int x3, int x4);
  bool isChecked;
+//signals:
+ //  void mySignal();
+
+
+// int ocherednost;
+
 protected:
  void mousePressEvent(QGraphicsSceneMouseEvent* event);
+
 };
 
 class MyText : public QGraphicsTextItem
@@ -48,8 +55,13 @@ protected:
 };
 
 
-class GameField
+
+
+
+class GameFieldA
 {
+  //  Q_OBJECT
+
 public:
 
   //  QPen PenBlack;
@@ -59,10 +71,17 @@ public:
     std::vector<std::vector<MyLine*> > VerticalLine;
     std::vector<std::vector<MyLine*> > HorizontalLine;
     QGraphicsTextItem* finished;
+    TurnText *tu;
+    QGraphicsTextItem* hello;
     std::vector<std::vector<MyText*> > CellText;
    // MyText* CellText[10][10];
-    GameField();
-    ~GameField();
+    GameFieldA(int height, int width, QString str1, QString str2);
+    QString string1;
+    QString string2;
+    int h;
+    int w;
+
+    ~GameFieldA();
     void InitializationField();
     int CheckField();
     int FieldCounting();
@@ -70,6 +89,46 @@ public:
     void ShowField();
 protected:
     void keyPressEvent(QKeyEvent *event);
+};
+
+
+class GameFieldQ : public GameFieldA
+{
+ //   Q_OBJECT
+public:
+
+  //  QPen PenBlack;
+
+    GameFieldQ(int height, int width, QString str1, QString str2) : GameFieldA(height, width, str1, str2)
+    {
+        PenGray.setColor(Qt::gray);
+        PenGray.setWidth(5);
+        if(height >= width)
+        {
+            h = height;
+            w = height;
+        }
+        else
+        {
+            h = width;
+            w = width;
+        }
+        string1 = str1;
+        string2 = str2;
+
+
+    }
+
+  //  int a;
+ //   ~GameFieldQ();
+//public slots:
+ //  void mySlot()
+ //  {
+ //      if(tu->toPlainText() == string1)
+   //        tu=new TurnText(string2);
+   //    else
+   //        tu=new TurnText(string1);
+ //  }
 };
 
 

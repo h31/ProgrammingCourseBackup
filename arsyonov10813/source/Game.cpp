@@ -4,15 +4,15 @@
 
 
 
-void GameField::InitializationField()
+void GameFieldA::InitializationField()
 {
-    VerticalLine.resize(11);
-    HorizontalLine.resize(11);
-    for(int i = 0; i < 11; i++)
+    VerticalLine.resize(w+1);
+    HorizontalLine.resize(w+1);
+    for(int i = 0; i < w+1; i++)
     {
-        VerticalLine[i].resize(11);
-        HorizontalLine[i].resize(11);
-        for(int j = 0; j < 10; j++)
+        VerticalLine[i].resize(w+1);
+        HorizontalLine[i].resize(w+1);
+        for(int j = 0; j < h; j++)
         {
             VerticalLine[i][j]=new MyLine(200+40*i,200+40*j,200+40*i,240+40*j);
             VerticalLine[i][j]->isChecked = false;
@@ -24,11 +24,11 @@ void GameField::InitializationField()
             GameScene->addItem(HorizontalLine[i][j]);
         }
     }
-    CellText.resize(11);
-    for(int i = 0; i < 10; i++)
+    CellText.resize(w+1);
+    for(int i = 0; i < w; i++)
         {
-        CellText[i].resize(11);
-            for(int j = 0; j < 10; j++)
+        CellText[i].resize(w+1);
+            for(int j = 0; j < h; j++)
             {
                 CellText[i][j]=new MyText("~~");
                 CellText[i][j]->setPos(200 + i*40, 200 + j*40);
@@ -37,10 +37,106 @@ void GameField::InitializationField()
 
             }
     }
+
     finished=new QGraphicsTextItem("Click for winner name!");
     finished->setPos(350,150);
     GameScene->addItem(finished);
+
+
+    hello = new QGraphicsTextItem("Now Is Turn:");
+    hello->setPos(320, 120);
+    tu=new TurnText(string1);
+
+    tu->setPos(420, 120);
+    tu->setDefaultTextColor(Qt::red);
+    GameScene->addItem(hello);
+    GameScene->addItem(tu);
+
 }
+
+
+
+
+
+
+/*
+
+void GameFieldQ::InitializationField()
+{
+    VerticalLine.resize(a+1);
+    HorizontalLine.resize(a+1);
+    for(int i = 0; i < a+1; i++)
+    {
+        VerticalLine[i].resize(a+1);
+        HorizontalLine[i].resize(a+1);
+        for(int j = 0; j < a; j++)
+        {
+            VerticalLine[i][j]=new MyLine(200+40*i,200+40*j,200+40*i,240+40*j);
+            VerticalLine[i][j]->isChecked = false;
+            HorizontalLine[i][j]=new MyLine(200+40*j,200+40*i,240+40*j,200+40*i);
+            HorizontalLine[i][j]->isChecked = false;
+            VerticalLine[i][j]->setPen(PenGray);
+            HorizontalLine[i][j]->setPen(PenGray);
+       //     VerticalLine[i][j]->ocherednost=0;
+       //     HorizontalLine[i][j]->ocherednost=0;
+            GameScene->addItem(VerticalLine[i][j]);
+            GameScene->addItem(HorizontalLine[i][j]);
+        }
+    }
+    CellText.resize(a+1);
+    for(int i = 0; i < a; i++)
+        {
+        CellText[i].resize(a+1);
+            for(int j = 0; j < a; j++)
+            {
+                CellText[i][j]=new MyText("~~");
+                CellText[i][j]->setPos(200 + i*40, 200 + j*40);
+
+                GameScene->addItem(CellText[i][j]);
+
+            }
+    }
+*/
+/*
+    for(int i = 0; i < a; i++)
+        {
+        for(int j = 0; j < a; j++)
+            {
+            connect(VerticalLine[i][j], SIGNAL(mySignal()),
+                            this, SLOT(mySlot()));
+            }
+    }
+
+    for(int i = 0; i < a; i++)
+        {
+        for(int j = 0; j < a; j++)
+            {
+            connect(HorizontalLine[i][j], SIGNAL(mySignal()),
+                            this, SLOT(mySlot()));
+            }
+    }
+
+    */
+/*
+    finished=new QGraphicsTextItem("Click for winner name!");
+    finished->setPos(350,150);
+    GameScene->addItem(finished);
+
+
+    hello = new QGraphicsTextItem("Now Is Turn:");
+    hello->setPos(320, 120);
+    tu=new TurnText(string1);
+
+    tu->setPos(420, 120);
+    tu->setDefaultTextColor(Qt::red);
+    GameScene->addItem(hello);
+    GameScene->addItem(tu);
+
+   // connect(VerticalLine[0][0], SIGNAL(mySignal()),
+      //              this, SLOT(mySlot()));
+
+}
+*/
 /*
 bool GameField::CheckField()
 {
@@ -58,7 +154,12 @@ bool GameField::CheckField()
     }
 }
 */
-MyLine::MyLine(int x1, int x2, int x3, int x4) : QGraphicsLineItem(x1,x2,x3,x4) {}
+
+
+MyLine::MyLine(int x1, int x2, int x3, int x4) : QGraphicsLineItem(x1,x2,x3,x4)
+{
+
+}
 MyText::MyText(const QString q) : QGraphicsTextItem(q) {}
 TurnText::TurnText(const QString q) : QGraphicsTextItem(q) {}
 
@@ -70,7 +171,7 @@ Game::Game()
 
 }
 
-int GameField::CheckField()
+int GameFieldA::CheckField()
 {
     int red = 0;
     int blue = 0;
@@ -79,7 +180,7 @@ int GameField::CheckField()
         {
             for(int j = 0; j < 10; j++)
             {
-                if(CellText[i][j]->toPlainText() == "X")
+                if(CellText[i][j]->toPlainText() == "x")
                     red++;
                 else
                     blue++;
@@ -93,6 +194,47 @@ int GameField::CheckField()
         return 3;
 }
 
+/*
+
+void GameFieldA::InitializationField()
+{
+    VerticalLine.resize(a+1);
+    HorizontalLine.resize(a+1);
+    for(int i = 0; i < a+1; i++)
+    {
+        VerticalLine[i].resize(a+1);
+        HorizontalLine[i].resize(a+1);
+        for(int j = 0; j < a; j++)
+        {
+            VerticalLine[i][j]=new MyLine(200+40*i,200+40*j,200+40*i,240+40*j);
+            VerticalLine[i][j]->isChecked = false;
+            HorizontalLine[i][j]=new MyLine(200+40*j,200+40*i,240+40*j,200+40*i);
+            HorizontalLine[i][j]->isChecked = false;
+            VerticalLine[i][j]->setPen(PenGray);
+            HorizontalLine[i][j]->setPen(PenGray);
+       //     VerticalLine[i][j]->ocherednost=0;
+       //     HorizontalLine[i][j]->ocherednost=0;
+            GameScene->addItem(VerticalLine[i][j]);
+            GameScene->addItem(HorizontalLine[i][j]);
+        }
+    }
+    CellText.resize(a+1);
+    for(int i = 0; i < a; i++)
+        {
+        CellText[i].resize(a+1);
+            for(int j = 0; j < a; j++)
+            {
+                CellText[i][j]=new MyText("~~");
+                CellText[i][j]->setPos(200 + i*40, 200 + j*40);
+
+                GameScene->addItem(CellText[i][j]);
+
+            }
+    }
+    finished=new QGraphicsTextItem("Click for winner name!");
+    finished->setPos(350,150);
+    GameScene->addItem(finished);
+}
 /*
 void GameField::keyPressEvent(QKeyEvent *event)
 {

@@ -3,13 +3,12 @@
 #include <peremenny.h>
 void MyLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    QString str1;
-    QString str2;
-    TurnText* tu;
-    GameField* field;
-    field = new GameField;
 
-
+   // GameField* field;
+  //  field = new GameField;
+ //   int ocherednost;
+    //ocherednost++;
+ //   QMessageBox::warning(this, QString("Info"), QString(ocherednost + '0'));
     QPen PenBlack;
     PenBlack.setColor(Qt::black);
     PenBlack.setWidth(5);
@@ -19,6 +18,8 @@ void MyLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
     Phonon::MediaObject* object = Phonon::createPlayer(Phonon::MusicCategory,
     Phonon::MediaSource("phone-hang-up-1.mp3"));
         object->play();
+
+    //emit mySignal();
 
 ///////////////////////////////////
 /*
@@ -43,12 +44,19 @@ void MyLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
             tu=new TurnText(str2);
 */
 /////////////////////////////////////
+    //
+          //tu=new TurnText(str2);
+
+    //    else
+        //    tu=new TurnText(str1);
+
+
 }
 
 void MyText::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     QFont cross("Arial", 25, QFont::Bold);
-    setPlainText("X");
+    setPlainText("x");
     setFont(cross);
     setDefaultTextColor(Qt::red);
 
@@ -57,7 +65,7 @@ void MyText::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void MyText::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * event )
 {
     QFont circle("Arial", 25, QFont::Bold);
-    setPlainText("O");
+    setPlainText("o");
     setFont(circle);
     setDefaultTextColor(Qt::blue);
 }

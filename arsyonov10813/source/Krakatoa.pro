@@ -15,7 +15,8 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     lineandtext.cpp \
-    Game.cpp
+    Game.cpp \
+    peremenny.cpp
 
 HEADERS  += mainwindow.h \
     Field.h \
