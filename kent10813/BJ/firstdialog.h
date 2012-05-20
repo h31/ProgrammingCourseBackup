@@ -15,8 +15,9 @@ class firstDialog : public QDialog
 public:
     explicit firstDialog(QWidget *parent = 0);
     ~firstDialog();
-
-public slots:
+    MainWindow *wn;
+    QString name;
+private slots:
 
 
     QString on_pushButton_clicked();
@@ -25,6 +26,7 @@ public slots:
     int on_pushButton_2_clicked();
 
     void on_pushButton_3_clicked();
+
 
 private:
     Ui::firstDialog *ui;

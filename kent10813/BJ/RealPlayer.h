@@ -4,7 +4,7 @@
 class RealPlayer : public player
 	{
 	public:
-		int makeBets ();
+        int makeBets (int bets);
 	};
 
 

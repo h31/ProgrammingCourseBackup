@@ -2,7 +2,9 @@
 #define INFORMATION_H
 
 #include <QDialog>
+
 #include "play_again.h"
+#include "want_to_play.h"
 namespace Ui {
 class information;
 }
@@ -15,23 +17,21 @@ public:
     explicit information(QWidget *parent = 0);
     ~information();
     void showBets();
+    int dlrScore();
+    int scr;
 private slots:
     void on_pushButton_clicked();
 
-    void on_label_7_linkActivated(const QString &link);
 
-    void on_label_linkActivated(const QString &link);
-
-    void on_label_4_linkActivated(const QString &link);
-
-    void on_label_6_linkActivated(const QString &link);
 
 private:
     Ui::information *ui;
-    Game *gm;
-    RealPlayer *pl;
-    Dealer *dealer;
-    //firstDialog dial;
+  //  firstDialog *fd;
+    QString money;
+   // want_to_play *new_game;
+    dealer_cards *dlr_cards;
+    void who_won();
+
 };
 
 #endif // INFORMATION_H

@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     mainwindow.cpp \
     firstdialog.cpp \
     dealer_cards.cpp \
-    information.cpp
+    information.cpp \
+    want_to_play.cpp
 
 HEADERS  += mainwindow.h \
     deck.h \
@@ -34,11 +35,13 @@ HEADERS  += mainwindow.h \
     play_again.h \
     firstdialog.h \
     dealer_cards.h \
-    information.h
+    information.h \
+    want_to_play.h
 
 FORMS    += mainwindow.ui \
     play_again.ui \
     mainwindow.ui \
     firstdialog.ui \
     dealer_cards.ui \
-    information.ui
+    information.ui \
+    want_to_play.ui

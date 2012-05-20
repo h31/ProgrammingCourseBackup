@@ -16,7 +16,7 @@ class player
                         two_clubs,three_clubs,four_clubs, five_clubs,six_clubs,seven_clubs,eigth_clubs,nine_clubs,ten_clubs,jack_clubs,queen_clubs,king_clubs,ace_clubs
                        };*/
 	public:
-		int score;
+        int *score;
 		int bet;
         QString plname;
 		player ();
