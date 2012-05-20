@@ -5,7 +5,6 @@ using namespace std;
 Field::Field()
 {
     ready=false;
-    //sqSize =20;
 }
 
 Field::~Field()
@@ -133,12 +132,15 @@ void Field::createEmpty()
     QPen pen;
     painter.setPen(Qt::black);
     QString str;
+    QFont font;
+    font.setPixelSize(sqSize-4);
+    painter.setFont(font);
     for(int i=0; i<width; i++)
     {
         for(int j=hcol-1; j>-1; j--)
         {
             if(hor[i][j]!=0)
-                painter.drawText((i+vcol)*(sqSize+1)+1,(hcol-1-j)*(sqSize+1)+21+1,sqSize,sqSize,1,str.setNum(hor[i][j]));
+                painter.drawText((i+vcol)*(sqSize+1)+1,(hcol-1-j)*(sqSize+1)+21+1,sqSize,sqSize,Qt::AlignCenter,str.setNum(hor[i][j]));
         }
     }
     for(int i=vcol-1; i>-1; i--)
@@ -146,7 +148,7 @@ void Field::createEmpty()
         for(int j=0; j<height; j++)
         {
             if(ver[j][i]!=0)
-                painter.drawText((vcol-1-i)*(sqSize+1)+1,(j+hcol)*(sqSize+1)+21+1,sqSize,sqSize,1,str.setNum(ver[j][i]));
+                painter.drawText((vcol-1-i)*(sqSize+1)+1,(j+hcol)*(sqSize+1)+21+1,sqSize,sqSize,Qt::AlignCenter,str.setNum(ver[j][i]));
         }
     }
     for(int i=0;i<width;i++)

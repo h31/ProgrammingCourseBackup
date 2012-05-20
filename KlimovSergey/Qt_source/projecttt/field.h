@@ -10,13 +10,12 @@ class Field
 public:
     int sizex,sizey;
     bool ready;
-    int height, width, vcol, hcol/*,sqSize*/;
+    int height, width, vcol, hcol;
 
     Field();
     ~Field();
     bool loadField(QString arg);
     bool loadComplete(QString arg);
-    //bool show();
     void createEmpty();
     bool Check(QString arg);
     void setSqStat(int st,int x, int y);
