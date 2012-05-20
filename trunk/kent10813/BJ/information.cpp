@@ -6,11 +6,18 @@ information::information(QWidget *parent) :
     ui(new Ui::information)
 {
     ui->setupUi(this);
-    pl=new RealPlayer;
-    dealer= new Dealer;
-    gm= new Game;
-    //ui->label_6->setNum(gm->setCash());
-    //QObject::connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(on_label_6_linkActivated(QString)));
+
+  //  new_game= new want_to_play;
+    dlr_cards= new dealer_cards;
+
+  //  QMessageBox::information(this,"",p.qw());
+
+
+//   window->game->playerScore();
+    who_won();
+  //  ui->label->setNum(new_game->dialog->wn->game->playerScore());
+    //ui->label_4->setNum(p.qw());
+    connect(dlr_cards,SIGNAL(mySignal(int)),ui->label_4,SLOT(setNum(int)));
 }
 
 information::~information()
@@ -20,34 +27,16 @@ information::~information()
 
 void information::on_pushButton_clicked()
 {
-    play_again  *play= new play_again;
+  /*  play_again  *play= new play_again;
     play->show();
-    this->close();
+    this->close();*/
+}
+void information::who_won()
+{
+
 }
 
-void information::showBets()
+int information::dlrScore()
 {
-   // ui->label_6->setNum(gm->plr.makeBets());
-}
-
-void information::on_label_7_linkActivated(const QString &link)
-{
-    if (gm->dealerScore()>gm->playerScore())
-        ui->label_7->setText("Дилер выиграл");
-    if (gm->dealerScore()<gm->playerScore())
-        ui->label_7->setText("Вы выиграли");
-    if (gm->dealerScore()==gm->playerScore())
-        ui->label_7->setText("Ничья");
-}
-void information::on_label_linkActivated(const QString &link)
-{
-    ui->label->setNum(gm->playerScore());
-}
-void information::on_label_4_linkActivated(const QString &link)
-{
-    ui->label_4->setNum(gm->dealerScore());
-}
-void information::on_label_6_linkActivated(const QString &link)
-{
-    ui->label_6->setNum(gm->plr.makeBets());
+   return 0;
 }

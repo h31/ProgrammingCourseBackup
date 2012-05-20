@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
 MainWindow::MainWindow(QWidget *parent) :
 QMainWindow(parent),
 ui(new Ui::MainWindow)
@@ -8,8 +9,10 @@ ui(new Ui::MainWindow)
 ui->setupUi(this);
 im.load("../BJ/images/green.jpg");
 game = new Game;
-
-
+dealer_crd= new dealer_cards;
+game->plr->takeCards();
+game->plr->takeCards();
+ui->label->setNum(game->playerScore());
 
 }
 
@@ -21,29 +24,26 @@ void MainWindow::paintEvent(QPaintEvent *event)
 {
 pen.begin(this);
 pen.drawImage(0, 0, im.scaled(width(), height() ) );
+game->plr->show(pen);
 
-
-
- printFirstDispensation();
- pen.end();
+pen.end();
 }
-void MainWindow::printFirstDispensation()
-{
-    game->plr.takeCards();
-    game->plr.show(pen);
-    pen.end();
-}
+
 
 void MainWindow::on_pushButton_clicked()
 {
-    game->plr.takeCards();
-    game->plr.show(pen);
+    pen.begin(this);
+    game->plr->takeCards();
+    game->plr->show(pen);
+    ui->label->setNum(game->playerScore());
+    pen.end();
     this->repaint();
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    dealer_cards *dealer_crd= new dealer_cards;
+
     dealer_crd->show();
     this->close();
 }
+

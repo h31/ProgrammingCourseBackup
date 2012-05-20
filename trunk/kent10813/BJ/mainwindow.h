@@ -5,6 +5,7 @@
 #include <QtGui>
 #include "Game.h"
 #include "dealer_cards.h"
+//#include "information.h"
 namespace Ui {
 class MainWindow;
 }
@@ -17,9 +18,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void paintEvent(QPaintEvent *event);
-    void printFirstDispensation();
-    QPainter pen;
+    int stri();
     Game *game;
+    dealer_cards *dealer_crd;
 private slots:
 
 
@@ -30,6 +31,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QImage im;
+    QPainter pen;
+
 
 };
 

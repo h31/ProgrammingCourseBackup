@@ -1,15 +1,8 @@
 #include "RealPlayer.h"
 
 
-int RealPlayer::makeBets()
+int RealPlayer::makeBets(int bets)
 {
-	bet=0;
-	cin>>bet;
-/*	while (bet<=0)
-	{
-		//cout<<"Вы ввели запрещенную ставку, сделайте новую ставку ";
-		cin>>bet;
-	}
-cout<<endl;*/
+    bet=bets;
 return bet;
 }

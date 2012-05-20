@@ -8,19 +8,20 @@ class Game
 {
 private:
     //RealPlayer plr;
-	Dealer dlr;
+
 	dialog dlg;
-	int pscore, dscore, cash;
+    int *pscore, *dscore, cash;
     QString n;
     QPainter p;
 public:
-    RealPlayer plr;
+    Game();
+    RealPlayer *plr;
+    Dealer *dlr;
 	void takeCards();
 	int playerScore();
 	int dealerScore();
 	void firstDispensation();
 	void dealerTakeCards();
-	void gameContinue();
 	int whoWon();
     int setCash(int bet);
     RealPlayer getPlayer();

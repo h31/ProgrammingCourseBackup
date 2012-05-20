@@ -1,8 +1,9 @@
 #ifndef DEALER_CARDS_H
 #define DEALER_CARDS_H
-
+#include "QtGui"
 #include <QDialog>
-#include "information.h"
+#include "Game.h"
+//#include "information.h"
 namespace Ui {
 class dealer_cards;
 }
@@ -15,6 +16,7 @@ public:
     explicit dealer_cards(QWidget *parent = 0);
     ~dealer_cards();
     void paintEvent(QPaintEvent *ev);
+
 private slots:
     void on_pushButton_clicked();
 
@@ -22,6 +24,11 @@ private:
     Ui::dealer_cards *ui;
     QPainter qp;
     QImage image;
+    Game *gm;
+   // information *info;
+signals:
+    void mySignal(int);
+
 };
 
 #endif // DEALER_CARDS_H
