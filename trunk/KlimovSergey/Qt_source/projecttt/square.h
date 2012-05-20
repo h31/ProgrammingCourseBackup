@@ -1,8 +1,5 @@
 #ifndef SQUARE_H
 #define SQUARE_H
-
-//#include<fstream>
-//#include<iostream>
 #include<QtGui>
 
 using namespace std;
@@ -29,8 +26,6 @@ public:
 private:
 
     int status;//2-empty;1-painted;0-marked
-    //friend ostream& operator <<(ostream& out, const Square& sq);
-    //friend istream& operator >>(istream& in, Square& sq);
 };
 
 #endif // SQUARE_H

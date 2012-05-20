@@ -89,7 +89,6 @@ void Game::leftButtonPressEvent(QMouseEvent* ev)
             d+=ds;
             ky++;
         }
-
     if(field.getSqStat(kx,ky)!=1)
         field.setSqStat(1,kx,ky);
     else
@@ -139,26 +138,9 @@ void Game::on_actionCheck_activated()
     else
         str = "Fail!";
     QMessageBox::information(0,"Game status",str);
-   // ui->label_3->setText(str);
-    /*fileName = QFileDialog::getSaveFileName(this, "Сохранить");
-    this->setWindowTitle(fileName);
-    QFile file(fileName);
-    file.open(QIODevice::WriteOnly);
-    QTextStream out(&file);
-    out<<field.width<<" "<<field.height<<"\r\n";
-    for(int j=0;j<field.height;j++)
-        {
-            for(int i=0;i<field.width;i++)
-            {
-                out << field.getSqStat(i,j)<<" ";
-            }
-            out<<"\r\n";
-        }
-    file.close();*/
 }
 
 void Game::on_actionExit_activated()
 {
     this->close();
-    //field.loadComplete("уц.txt");
 }
