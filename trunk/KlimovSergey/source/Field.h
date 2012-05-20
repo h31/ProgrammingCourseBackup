@@ -9,17 +9,20 @@ class Field
 {
 public:
 	
-	Square** map;
+	
 	int height, width;
 	Field();
 	~Field();
 	bool loadField(char* arg);
 	bool loadComplete(char* arg);
 	bool show();
+	void setSqStat(int st,int x, int y);
+    int getSqStat(int x,int y);
+	void createEmpty();
 private:
 	int** hor;
 	int** ver;
-	
+	Square** map;
 };
 
 #endif

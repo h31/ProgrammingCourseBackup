@@ -23,3 +23,8 @@ ostream& operator <<(ostream& out, const Square& sq)
 	out << sq.status;
 	return out;
 }
+
+void Square::setStat(int st)
+{
+	status = st;
+}

@@ -46,11 +46,11 @@ bool Field::loadField(char* arg)
 
 bool Field::show()
 {
-	for(int i=0; i<height; i++)
+	for(int j=0; j<height; j++)
 		{
-			for(int j=0; j<width; j++)
+			for(int i=0; i<width; i++)
 			{
-				cout << map[i][j].status<<" ";
+				cout << map[i][j].getStat()<<" ";
 			}
 		cout<<endl;
 		}
@@ -62,42 +62,22 @@ bool Field::loadComplete(char* arg)
 	ifstream fin(arg);
 	if (!fin.is_open())
 		return false;
-	int pr, kol = 0;
-	while(!fin.eof())
-	{
-       fin >> pr;
-       kol++;
-	}
 
-	char buf[256];
-	int rows_k = 0;
+	fin>>width>>height;
+	int rows_k = height;
+	int cols_k = width;
+	int temp;
 
-	fin.close();
-	fin.clear();
-	fin.open(arg);
 
-	while(!fin.eof())
-	{
-       fin.getline(buf, 255);
-       rows_k++;
-	}
-	fin.close();
-	fin.clear();
-	fin.open(arg);
-
-	int cols_k = kol/rows_k;
-
-	height = rows_k;
-	width = cols_k;
-
-	Square **tmp = new Square*[rows_k];
-	for(int i=0;i<rows_k;i++)
-		tmp[i] = new Square [cols_k];
-	for(int i=0; i<rows_k; i++)
-		{
-			for(int j=0; j<cols_k; j++)
-			{
-				fin >> tmp[i][j].status;
+	Square **tmp = new Square*[width];
+        for(int i=0;i<width;i++)
+            tmp[i] = new Square [height];
+        for(int j=0;j<height;j++)
+            {
+                for(int i=0;i<width;i++)
+                {
+				fin >> temp; 
+				tmp[i][j].setStat(temp);
 				tmp[i][j].s.x = i;
 				tmp[i][j].s.y = j;
 			}
@@ -105,3 +85,30 @@ bool Field::loadComplete(char* arg)
 	map = tmp;
 	return true;
 }
+
+void Field::setSqStat(int st,int x, int y)
+{
+	map[x][y].setStat(st);
+}
+
+int Field::getSqStat(int x,int y)
+ {
+     return map[x][y].getStat();
+ }
+
+void Field::createEmpty()
+ {
+    Square **tmp = new Square*[width];
+    for(int i=0;i<width;i++)
+        tmp[i] = new Square [height];
+    for(int i=0; i<width; i++)
+        {
+            for(int j=0; j<height; j++)
+            {
+                tmp[i][j].setStat(2);
+                tmp[i][j].s.x = i;
+                tmp[i][j].s.y = j;
+            }
+        }
+    map = tmp;
+ }

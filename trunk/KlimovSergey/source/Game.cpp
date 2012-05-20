@@ -10,19 +10,8 @@ bool Game::Start(Field &field, char* arg, Player &player)
 {
 	if(!field.loadField(arg))
 		return false;
-	Square **tmp = new Square*[field.height];
-	for(int i=0;i<field.height;i++)
-		tmp[i] = new Square [field.width];
-	for(int i=0; i<field.height; i++)
-		{
-			for(int j=0; j<field.width; j++)
-			{
-				tmp[i][j].status = 0;
-				tmp[i][j].s.x = i;
-				tmp[i][j].s.y = j;
-			}
-		}
-	field.map = tmp;
+	field.createEmpty();
+	cout<<field.height<<" "<<field.width<<endl;
 	return true;
 }
 
@@ -30,11 +19,11 @@ bool Game::Check(Field &field, char* arg)
 {
 	Field test;
 	test.loadComplete(arg);
-	for(int i=0; i<field.height; i++)
+	for(int i=0; i<field.width; i++)
 		{
-			for(int j=0; j<field.width; j++)
+			for(int j=0; j<field.height; j++)
 			{
-				if(test.map[i][j].status == field.map[i][j].status)
+				if(test.getSqStat(i,j) == field.getSqStat(i,j))
 					continue; 
 				else
 					cout<<endl;

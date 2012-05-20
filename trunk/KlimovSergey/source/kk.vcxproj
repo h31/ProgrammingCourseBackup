@@ -17,7 +17,6 @@
     <ClCompile Include="OpenFileTest.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Square.cpp" />
-    <ClCompile Include="SquareTest.cpp" />
     <ClCompile Include="TestResult.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -26,7 +25,6 @@
     <ClInclude Include="OpenFileTest.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Square.h" />
-    <ClInclude Include="SquareTest.h" />
     <ClInclude Include="TestResult.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

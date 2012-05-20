@@ -30,9 +30,6 @@
     <ClCompile Include="Game.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="SquareTest.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="OpenFileTest.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -51,9 +48,6 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="SquareTest.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="OpenFileTest.h">

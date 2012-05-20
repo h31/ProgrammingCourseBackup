@@ -10,6 +10,8 @@ public:
 	int number;
 	Game();
 	~Game();
+	Field field;
+	Player player;
 	bool Check(Field &field, char* arg);
 	bool Start(Field &field, char* arg, Player &player);
 };
