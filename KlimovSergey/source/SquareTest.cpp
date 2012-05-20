@@ -10,9 +10,9 @@ SquareTest::~SquareTest()
 {
 }
 
-bool SquareTest::testGetStat(Square &s, int stat)
+/*bool SquareTest::testGetStat(Square &s, int stat)
 {
-	s.status = stat;
+	s.setStat(stat);
 	if(s.status == s.getStat())
 	{
 		cout << "Success to get status of point" <<endl;
@@ -23,4 +23,4 @@ bool SquareTest::testGetStat(Square &s, int stat)
 		cout << "Fail to get status of point" <<endl;
 		return false;
 	}
-}
+}*/

@@ -8,12 +8,12 @@ Player::~Player()
 
 int Player::ChangeStat(int st,Square &square)
 {
-	square.status = st;
-	return square.status;
+	square.setStat(st);
+	return square.getStat();
 }
 
 bool Player::ChangeStat(int st,Field &field,int x, int y)
 {
-	field.map[x][y].status = st;
+	field.setSqStat(st,x,y);
 	return true;
 }
