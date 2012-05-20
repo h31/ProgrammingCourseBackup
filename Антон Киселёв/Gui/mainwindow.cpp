@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "savedgames.h"
 #include "game.h"
+#include "windialog.h"
 #include <QWidget>
 #include <QEvent>
 #include <QMouseEvent>
@@ -178,7 +179,9 @@ void MainWindow::paintEvent(QPaintEvent *)
         }
         if (count == 0)
         {
-            QMessageBox::information(this, "You win!", "You win!");
+            WinDialog* win = new WinDialog;
+            win->show();
+            is_Checking = false;
         }
     }
     if (is_Mouse_Clicked == true)
