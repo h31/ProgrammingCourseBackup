@@ -13,78 +13,16 @@
 
 int main(int argc, char *argv[])
 {
+    int h = 10;
+    int wi = 15;
+    //ocherednost = 0;
     QApplication a(argc, argv);
 
     MainWindow w;
 
-
-
-
-
-    QHBoxLayout* fieldlayout = new QHBoxLayout;
-    w.setLayout(fieldlayout);
-
-    GameField* field;
-    w.field = field;
-
-    field = new GameField;
-
-
-    field->GameScene = new QGraphicsScene;
-
-
-    QGraphicsView* fieldwiew = new QGraphicsView(field->GameScene);
-
-    fieldlayout->addWidget(fieldwiew);
-
-    field->InitializationField();
-
-    fieldwiew->show();
-
-    w.show();
-
-    //////////////////////////////////////////
-
-    QHBoxLayout* gamelayout = new QHBoxLayout;
-    w.setLayout(gamelayout);
-
- //   Game* GAME = new Game;
-
-
-//    MainScene = new QGraphicsScene;
-
-
- //   QGraphicsView* gamewiew = new QGraphicsView(GAME->MainScene);
-
-//    gamelayout->addWidget(gamewiew);
-
- //   GAME->PreparingGame();
-
-   // gamewiew->show();
-
-//    QString str1;
-//    QString str2;
-
-//    TurnText* tu;
-
-    QGraphicsScene* MainScene;
-    MainScene = new QGraphicsScene;
-
-
-    QGraphicsView* gamewiew = new QGraphicsView(MainScene);
-
-    gamelayout->addWidget(gamewiew);
-
-
-
-    gamewiew->show();
-
- //   QString str1;
-   // QString str2;
-
     QString str1;
     QString str2;
-    TurnText* tu;
+
 
 
     bool Ok1;
@@ -114,6 +52,78 @@ int main(int argc, char *argv[])
 
 
 
+    QHBoxLayout* fieldlayout = new QHBoxLayout;
+    w.setLayout(fieldlayout);
+
+  //  GameField* field;
+ //   w.field = field;
+    GameFieldQ *field;
+
+    field = new GameFieldQ(h, wi, str1, str2);
+
+
+    field->GameScene = new QGraphicsScene;
+
+
+    QGraphicsView* fieldwiew = new QGraphicsView(field->GameScene);
+
+    fieldlayout->addWidget(fieldwiew);
+
+    field->InitializationField();
+
+    fieldwiew->show();
+
+ //   w.show();
+
+    //////////////////////////////////////////
+
+    QHBoxLayout* gamelayout = new QHBoxLayout;
+    w.setLayout(gamelayout);
+
+
+ //   Game* GAME = new Game;
+
+
+//    MainScene = new QGraphicsScene;
+
+
+ //   QGraphicsView* gamewiew = new QGraphicsView(GAME->MainScene);
+
+//    gamelayout->addWidget(gamewiew);
+
+ //   GAME->PreparingGame();
+
+   // gamewiew->show();
+
+//    QString str1;
+//    QString str2;
+
+//    TurnText* tu;
+
+ //   QGraphicsScene* MainScene;
+ //   MainScene = new QGraphicsScene;
+
+
+ //   QGraphicsView* gamewiew = new QGraphicsView(MainScene);
+
+ //   gamelayout->addWidget(gamewiew);
+
+
+
+ //   gamewiew->show();
+
+ //   QString str1;
+   // QString str2;
+
+ //   QString str1;
+ //   QString str2;
+  //  TurnText* tu;
+
+
+
+
+
+/*
     QGraphicsTextItem* hello = new QGraphicsTextItem("Now Is Turn:");
     hello->setPos(100, 100);
     tu=new TurnText(str1);
@@ -122,10 +132,12 @@ int main(int argc, char *argv[])
     tu->setDefaultTextColor(Qt::red);
     MainScene->addItem(hello);
     MainScene->addItem(tu);
+
+    */
 ////////////////////////////////////
 
-/*
 
+/*
     for(;;)
     {
         int razdvatri = 0;
@@ -144,9 +156,9 @@ int main(int argc, char *argv[])
                 }
             }
         if(razdvatri%2==0)
-            GAME->tu=new TurnText(GAME->str1);
+            tu=new TurnText(str1);
         else
-            GAME->tu=new TurnText(GAME->str2);
+           tu=new TurnText(str2);
 
     }
 */
@@ -159,11 +171,40 @@ int main(int argc, char *argv[])
 
 
 
-GameField::GameField()
+
+
+GameFieldA::GameFieldA(int height, int width,  QString str1, QString str2)
 {
     PenGray.setColor(Qt::gray);
     PenGray.setWidth(5);
+    h = height;
+    w = width;
+    string1 = str1;
+    string2 = str2;
 
+}
+
+GameFieldA::~GameFieldA()
+{
+}
+/*
+GameFieldQ::GameFieldQ(int height, int width, QString str1, QString str2)
+{
+    PenGray.setColor(Qt::gray);
+    PenGray.setWidth(5);
+    if(height >= width)
+    {
+        h = height;
+        w = height;
+    }
+    else
+    {
+        h = width;
+        w = width;
+    }
+    string1 = str1;
+    string2 = str2;
 
 
 }
+*/

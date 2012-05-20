@@ -16,7 +16,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-   GameField* field;
+    GameFieldQ* field;
     void keyPressEvent(QKeyEvent *event);
     
 private:
