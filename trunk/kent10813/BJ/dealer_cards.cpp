@@ -1,7 +1,6 @@
 
 #include "dealer_cards.h"
 #include "ui_dealer_cards.h"
-#include "information.h"
 dealer_cards::dealer_cards(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::dealer_cards)
@@ -9,14 +8,9 @@ dealer_cards::dealer_cards(QWidget *parent) :
     ui->setupUi(this);
     image.load("../BJ/images/green.jpg");
     gm= new Game;
-    //info= new information;
-  //  mainWind= new MainWindow;
+    info= new information;
     gm->dealerTakeCards();
-   // info->scr=gm->dealerScore();
-
     ui->label->setNum(gm->dealerScore());
-    emit mySignal(gm->dealerScore());
-
 }
 
 dealer_cards::~dealer_cards()
@@ -26,7 +20,7 @@ dealer_cards::~dealer_cards()
 
 void dealer_cards::on_pushButton_clicked()
 {
-    information *info= new information;
+    info->getLabel()->setNum(gm->dealerScore());
     info->show();
     this->close();
 }
