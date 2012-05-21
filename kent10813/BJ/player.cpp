@@ -3,6 +3,7 @@
 player::player()
 {
 	hand.clear();
+    mydeck.create_deck();
 }
 
 void player::enterName(QString name)
@@ -16,8 +17,7 @@ int player::makeBets(int bets)
 }
 void player::takeCards()
 {
-	mydeck.create_deck();
-	hand.push_back(mydeck.pull_card());
+    hand.push_back(mydeck.pull_card());
 }
 void player::show(QPainter &painter)
 {

@@ -1,6 +1,6 @@
 #ifndef PLAY_AGAIN_H
 #define PLAY_AGAIN_H
-/*
+
 #include <QDialog>
 #include "information.h"
 namespace Ui {
@@ -17,11 +17,10 @@ public:
 
 private slots:
     void on_pushButton_clicked();
-
     void on_pushButton_2_clicked();
 
 private:
     Ui::play_again *ui;
 };
-*/
+
 #endif // PLAY_AGAIN_H

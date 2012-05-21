@@ -1,25 +1,29 @@
 #include "information.h"
 #include "ui_information.h"
-
+#include "play_again.h"
 information::information(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::information)
 {
     ui->setupUi(this);
-
-  //  new_game= new want_to_play;
-    dlr_cards= new dealer_cards;
-
-  //  QMessageBox::information(this,"",p.qw());
-
-
-//   window->game->playerScore();
-    who_won();
-  //  ui->label->setNum(new_game->dialog->wn->game->playerScore());
-    //ui->label_4->setNum(p.qw());
-    connect(dlr_cards,SIGNAL(mySignal(int)),ui->label_4,SLOT(setNum(int)));
 }
 
+QLabel* information::getLabel()
+{
+    return ui->label_4;
+}
+QLabel* information::getLabel2()
+{
+    return ui->label;
+}
+QLabel* information::getLabel3()
+{
+    return ui->label_6;
+}
+QLabel* information::getLabel4()
+{
+    return ui->label_7;
+}
 information::~information()
 {
     delete ui;
@@ -27,16 +31,7 @@ information::~information()
 
 void information::on_pushButton_clicked()
 {
-  /*  play_again  *play= new play_again;
+    play_again  *play= new play_again;
     play->show();
-    this->close();*/
-}
-void information::who_won()
-{
-
-}
-
-int information::dlrScore()
-{
-   return 0;
+    this->close();
 }

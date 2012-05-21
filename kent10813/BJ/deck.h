@@ -11,14 +11,11 @@ class deck
 	{
 	private:
 		deque<card> Deck;
-	public:
-
-		card crd;
-		void create_deck ();
-		
-		void shuffle ();
-		
-		card pull_card ();
+        card crd;
+        void shuffle ();
+    public:
+        void create_deck ();
+         card pull_card ();
 		
 	};
 

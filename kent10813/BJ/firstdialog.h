@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "QInputDialog"
 #include "mainwindow.h"
+
 namespace Ui {
 class firstDialog;
 }
@@ -15,21 +16,13 @@ class firstDialog : public QDialog
 public:
     explicit firstDialog(QWidget *parent = 0);
     ~firstDialog();
-    MainWindow *wn;
-    QString name;
+
 private slots:
-
-
-    QString on_pushButton_clicked();
-
-
-    int on_pushButton_2_clicked();
-
     void on_pushButton_3_clicked();
-
-
 private:
     Ui::firstDialog *ui;
+    MainWindow *wn;
+    QString name;
 };
 
 #endif // FIRSTDIALOG_H

@@ -12,14 +12,11 @@ class card
 {
 	private:
 		Suits su;
-		Values val;
+        Values val;
 	public:
-		void set_suit (Suits s);
-		
-		void set_value (Values v);
-		
+        void set_suit (Suits s);
+        void set_value (Values v);
         QString get_suit();
-		
         QString get_score ();
 
 };
