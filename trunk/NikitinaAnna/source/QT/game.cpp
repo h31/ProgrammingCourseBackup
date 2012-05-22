@@ -16,12 +16,12 @@ void Game::findWinner(Field& field)//проверка завершения игры и определение побе
     if(field.endOfGame()==1)//проверка завершения игры. Если на поле нет черных шашек
     {
         winner=white;
-        emit end();
+        //emit end();
     }
     if(field.endOfGame()==2)//если на поле нет черных шашек
     {
         winner=black;
-     emit end();
+    // emit end();
     }
     if(field.endOfGame()==0)//если есть и черные, и белые шашки
         winner=blank;
@@ -53,9 +53,9 @@ bool Game::result(int Px,int  Py,int  x, int y,int variable,Field& field,Checker
              isWhiteTurn=!isWhiteTurn;//передача хода другому игроку
            return true;
          }
-        emit printFalseTurn();
+       // emit printFalseTurn();
    }
-  emit printFalseTurn();
+ // emit printFalseTurn();
   }
    if(((isWhiteTurn==true && field.gameField[x][y]==whiteKing) ||
          (isWhiteTurn==false && field.gameField[x][y]==blackKing))//если сейчас должен ходить игрок, играющий белыми(черными), и шашка выбрана так же белая(черная)
@@ -80,9 +80,9 @@ bool Game::result(int Px,int  Py,int  x, int y,int variable,Field& field,Checker
               isWhiteTurn=!isWhiteTurn;//передача хода другому игроку
             return true;
           }
-         emit printFalseTurn();
+         //emit printFalseTurn();
           }
-  emit printFalseTurn();
+ // emit printFalseTurn();
    }
   return false;
-}
+    }
