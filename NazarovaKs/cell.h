@@ -6,17 +6,18 @@
 
 using namespace std;
 
+#include <vector>
 const int maxColumns=7;
 
 class Exception {};
 
 class Cell{
-	
+	vector<int> arr;
 public:
-	int arr[maxColumns];
-	Cell();
-	~Cell();	
+	Cell();	
 	int getData(int);
+	void setData(int number, int value);
+	void clearCell(int a);
 	friend ostream& operator << (ostream&, const Cell&);
 };
 
