@@ -38,7 +38,7 @@ void Game::paintEvent(QPaintEvent *)
     qp.begin(this);
     if (field.ready)
     {
-        field.paint(qp);
+        pf.paintF(field,qp);
     }
     qp.end();
 }

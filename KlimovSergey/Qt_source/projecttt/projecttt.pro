@@ -14,11 +14,15 @@ SOURCES += main.cpp\
         game.cpp \
     field.cpp \
     square.cpp \
-    player.cpp
+    player.cpp \
+    pfield.cpp \
+    psquare.cpp
 
 HEADERS  += game.h \
     field.h \
     square.h \
-    player.h
+    player.h \
+    pfield.h \
+    psquare.h
 
 FORMS    += game.ui

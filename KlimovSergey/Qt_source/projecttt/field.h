@@ -2,6 +2,7 @@
 #define FIELD_H
 
 #include"square.h"
+#include"pfield.h"
 
 using namespace std;
 
@@ -20,7 +21,7 @@ public:
     bool Check(QString arg);
     void setSqStat(int st,int x, int y);
     int getSqStat(int x,int y);
-    void paint(QPainter& painter);
+    friend class PField;
 private:
     int** hor;
     int** ver;
