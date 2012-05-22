@@ -25,8 +25,12 @@ bool Player::testEatenChecker(int Px,int Py, int x, int y,Field& field)//ѕроверк
     {
         i=x;j=y;//координаты €чейки, будем мен€ть их и искать по ним фигуру противника
         int k=0;//счетчик, он будет считать шашки противника между заданными координатами
-        while(i!=Px && j!=Py)
+         do
         {
+            if(Px>x) i++;//проверка всех остальных €чеек
+            else  i--;
+            if(Py>y)   j++;
+            else   j--;
             if((field.gameField[x][y]==whiteKing && (field.gameField[i][j]==blackShashka || field.gameField[i][j]==blackKing ))//если ход совершаетс€ белой дамкой, и на €чейке между этой дамкой и той, на которую совершаетс€ ход, стоит черна€ фигура
                 || (field.gameField[x][y]==blackKing && (field.gameField[i][j]==whiteShashka || field.gameField[i][j]==whiteKing )))//если ход совершаетс€ черной дамкой, и на €чейке между этой дамкой и той, на которую совершаетс€ ход, стоит бела€ фигура
             {
@@ -34,13 +38,11 @@ bool Player::testEatenChecker(int Px,int Py, int x, int y,Field& field)//ѕроверк
                 opponentY=j;
                 k++;//увеличиваем счетчик
             }
-            if(Px>x) i++;//проверка всех остальных €чеек
-            else  i--;
-            if(Py>y)   j++;
-            else   j--;
-        }
+        } while(i!=Px && j!=Py);
         if(k==1)//если стоит всего одна шашка противника
             return true;
+        else
+            return false;
     }
     return false;
 }
@@ -74,16 +76,13 @@ bool Player::secondCourse(int Px,int Py,Field& field )//–еализаци€ следующего хо
          &&(((field.gameField[++i][++j]==blackShashka || field.gameField[i][j]==blackKing) && field.gameField[++i][++j]==empty)
          || ((field.gameField[--i][j=j-3]==blackShashka || field.gameField[i][j]==blackKing) && field.gameField[++i][--j]==empty)))
             return true;
-    else
-             return false;
      i=Px;  j=Py;
      if(field.gameField[Px][Py]==blackShashka//если предыдущий ход был совершен черной шашкой
          &&(((field.gameField[--i][++j]==whiteShashka || field.gameField[i][j]==whiteKing) && field.gameField[--i][++j]==empty)
          || ((field.gameField[++i][j=j-3]==whiteShashka || field.gameField[i][j]==whiteKing) && field.gameField[--i][--j]==empty)))
              return true;
-     else
-             return false;
-    while(i<7 && i>0 && j<7 && j>0)
+     if(field.gameField[Px][Py]==whiteKing || field.gameField[Px][Py]==blackKing)
+    while(i<size && i>0 && j<size && j>0)
      {
         i=Px+1;	j=Py+1;//проверка всевозможных направлений
             while(field.gameField[i][j]==empty)//"идем" по диагонал€м
@@ -128,13 +127,7 @@ bool Player::permutation(int Px,int  Py,int  x, int y,Field& field)//–еализаци€ 
     field.gameField[x][y]=empty;
     return true;
     }
-    if((Px-x==1 || x-Px==1 )&& (field.gameField[x][y]==whiteKing || field.gameField[x][y]==blackKing))//’од на соседнюю €чейку дамки
-    {
-    field.gameField[Px][Py]=field.gameField[x][y];
-    field.gameField[x][y]=empty;
-    return true;
-    }
-   if((Px-x==y-Py || x-Px==Py-y )&& (field.gameField[x][y]==whiteKing || field.gameField[x][y]==blackKing))//’од дамки не на соседнюю €чейку
+   if((Px-x==y-Py || x-Px==y-Py )&& (field.gameField[x][y]==whiteKing || field.gameField[x][y]==blackKing))//’од дамки не на соседнюю €чейку
     {
         int i=x;int j=y;
         do
@@ -144,15 +137,13 @@ bool Player::permutation(int Px,int  Py,int  x, int y,Field& field)//–еализаци€ 
         if(Py>y)  j++;
         else    j--;
         }
-        while(field.gameField[i][j]==empty  && i>0 && j>0 && i<8 && j<8 && i!=Px && j!=Py);//"»дем" по диагонали и провер€ем  все €чейки на пустоту
+        while(field.gameField[i][j]==empty  && i!=Px && j!=Py);//"»дем" по диагонали и провер€ем  все €чейки на пустоту
         if(i==Px && j==Py)//если все €чейки пустые
         {
             field.gameField[Px][Py]=field.gameField[x][y];//совершаем нужные преобразовани€ пол€
             field.gameField[x][y]=empty;
             return true;
         }
-        else
-            return false;
     }
     return false;
 }
