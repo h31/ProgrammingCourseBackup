@@ -23,10 +23,5 @@ int main(){
 	f.deleteCell(x1,y1,x2,y2);
 	cout<<f;
 
-	cout<<"Input numbers: ";
-	cin>>x1>>y1>>x2>>y2;
-	f.deleteCell(x1,y1,x2,y2);
-	cout<<f;
-
 	return 0;
 }

@@ -1,7 +1,7 @@
 #ifndef _field_h_
 #define _field_h_
 
-#include "cell.h"
+#include "row.h"
 
 #include <vector>
 
@@ -12,7 +12,7 @@ public:
 	Field(int a);
 	~Field();
 
-	vector<Cell>field;
+	vector<Row>field;
 	void deleteCell(int, int, int, int);
 	void addCells();
 	friend ostream& operator << (ostream& out, const Field&);
