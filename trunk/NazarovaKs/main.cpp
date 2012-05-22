@@ -28,8 +28,5 @@ int main(){
 	f.deleteCell(x1,y1,x2,y2);
 	cout<<f;
 
-	f.addCells();
-	cout<<f;
-
 	return 0;
 }

@@ -5,7 +5,7 @@
 
 #include <vector>
 
-class Field:private Cell{
+class Field{
 	int rows;
 public:
 	Field();
