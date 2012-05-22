@@ -29,8 +29,8 @@ protected:
    void mousePressEvent(QMouseEvent *event);      
 private slots:
    void on_pushButton_clicked();
-   void printResult();
-   void turnIsFalse();
+   //void printResult();
+   //void turnIsFalse();
 
 private:
     Ui::MainWindow *ui;
@@ -45,6 +45,9 @@ private:
     bool isReadCoordinateEnd;
     Coordinate readCord;
     void leftButtonPressEvent(QMouseEvent * event);
+    int sizeBoard;int number;
+    int plateX;int plateY;
+    int denom;int sum;
 };
 
 #endif // MAINWINDOW_H

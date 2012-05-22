@@ -15,40 +15,33 @@ Field::~Field()
 }
 Field::Field()
 {
-/*for(int i=0;i<size;i++)
-{
-    for (int j=0; j<size; j++)
-        gameField[i][j]=empty;
-}
-gameField[5][2]=whiteShashka;
-gameField[6][1]=blackShashka;*/
  for(int i=0;i<size/2-1;i=i+2)
     {
         for (int j=0; j<size; j+=2)
-            gameField[i][j]=empty;
+            gameField[i][j]=whiteKing;
         for (int j=1; j<size; j+=2)
-            gameField[i][j]=whiteShashka;
+            gameField[i][j]=empty;
     }
     for(int i=1;i<size/2-1;i+=2)
     {
         for (int j=1; j<size; j+=2)
-            gameField[i][j]=empty;
+            gameField[i][j]=whiteKing;
         for (int j=0; j<size; j+=2)
-            gameField[i][j]=whiteShashka;
+            gameField[i][j]=empty;
     }
     for(int i=size/2+1;i<size;i=i+2)
     {
         for (int j=0; j<size; j+=2)
-            gameField[i][j]=blackShashka;
-        for (int j=1; j<size; j+=2)
             gameField[i][j]=empty;
+        for (int j=1; j<size; j+=2)
+            gameField[i][j]=blackShashka;
     }
     for(int i=size/2+2;i<size-1;i+=2)
     {
         for (int j=0; j<size; j+=2)
-            gameField[i][j]=empty;
-        for (int j=1; j<size; j+=2)
             gameField[i][j]=blackShashka;
+        for (int j=1; j<size; j+=2)
+            gameField[i][j]=empty;
     }
     for(int j=0;j<size;j++)
     {
