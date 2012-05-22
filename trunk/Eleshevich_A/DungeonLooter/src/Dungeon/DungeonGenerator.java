@@ -7,6 +7,7 @@ import Items.BodyArmor;
 import Items.Weapon;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.File;
 import java.util.ArrayDeque;
 
 /**
@@ -49,9 +50,12 @@ public class DungeonGenerator {
         }catch(Exception ex){
             System.out.println(ex.getMessage());
         }
-        Monster m1 = new Monster("Паукан", 8, 5, 1, 2, 10, 0);
+        Monster m1 = new Monster("Паукан", 8, 5, 1, 2, 10, 4);
         m1.move(new Position(107, 158));
         monsters.add(m1);
         return new Dungeon(field, player, monsters);
+    }
+    public static Dungeon loadDungeon(File file, Player player){
+        return null;
     }
 }

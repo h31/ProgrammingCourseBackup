@@ -3,6 +3,7 @@ package Items;
 import Creatures.InventoryFullException;
 import Dungeon.Position;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class ItemStack {
     public ItemStack(Position pos){
         this.pos = pos;
         items = new LinkedList<Item>();
+        imgBag = Toolkit.getDefaultToolkit().createImage("Data/Bag.gif");
     }
     
     public Image getImg(){
@@ -48,5 +50,7 @@ public class ItemStack {
             return null;
         }
     }
-    
+    public boolean isEmpty(){
+        return items.isEmpty();
+    }
 }
