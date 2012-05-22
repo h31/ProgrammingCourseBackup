@@ -31,7 +31,7 @@ void Field::deleteCell(int a1, int b1, int a2, int b2){
 }
 
 void Field::addCells(){
-	vector<Cell>f;
+	vector<Row>f;
 	f.resize(rows);
 
 	int i_new = 0;
