@@ -10,6 +10,7 @@ import Items.Item;
 import Items.ItemStack;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Iterator;
 import javax.swing.JOptionPane;
 
 /**
@@ -61,7 +62,7 @@ public class Dungeon {
         if(moveCreature(player, direction)){
             passTurn();
             playerSightRenew(oldPos, player.getPos());  //может вызывать при passTurn
-            playerItemFloorRenew();
+            itemFloorRenew();
         }
     }
     public boolean moveCreature(Creature creat, int direction){
@@ -148,17 +149,20 @@ public class Dungeon {
     void generateMonsters(){
         
     }
-    void playerItemFloorRenew(){    //вкрутить поиск itemstck по коорд
+    void itemFloorRenew(){    //вкрутить поиск itemstck по коорд
         if(player.getItemsFloor() != null && !ItemStacks.contains(player.getItemsFloor())){
             ItemStacks.add(player.getItemsFloor());
         }
-        for(ItemStack istack: ItemStacks){
-            if(istack.getPos().equals(player.getPos())){
-                player.setItemsFloor(istack);
-                return;
-            }
-        }
         player.setItemsFloor(null);
+        Iterator<ItemStack> itt = ItemStacks.iterator();
+        while(itt.hasNext()){    //итератор, чтобы по ходу удалять (проверить без него)
+            ItemStack istack = itt.next();
+            if(istack.isEmpty())
+                itt.remove();
+            else
+                if(istack.getPos().equals(player.getPos()))
+                    player.setItemsFloor(istack);
+        }
     }
 }
 

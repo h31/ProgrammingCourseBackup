@@ -94,12 +94,12 @@ public class DungeonPanel extends JPanel implements Updatable{
         repaint();
     }
     Image darken(Image src){
-        BufferedImage bi = new BufferedImage(src.getWidth(this), src.getHeight(this), BufferedImage.TYPE_INT_RGB);
+        BufferedImage bi = new BufferedImage(75, 75, BufferedImage.TYPE_INT_RGB);
         Graphics2D big = bi.createGraphics();
         big.drawImage(src, 0, 0, this);
-        BufferedImage dbi = new BufferedImage(src.getWidth(this), src.getHeight(this), BufferedImage.TYPE_INT_RGB);
+        BufferedImage dbi = new BufferedImage(75, 75, BufferedImage.TYPE_INT_RGB);
         RescaleOp rop = new RescaleOp(0.5f, 70.0f, null);
         rop.filter(bi, dbi);
-        return dbi;
+        return getToolkit().createImage(bi.getSource());
     }
 }
