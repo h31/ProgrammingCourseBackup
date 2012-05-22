@@ -1,5 +1,6 @@
 #ifndef SQUARE_H
 #define SQUARE_H
+
 #include<QtGui>
 
 using namespace std;
@@ -19,10 +20,7 @@ public:
     void setStat(int st);
     Square();
     ~Square();
-    void fill(QPainter& painter);
-    void clear(QPainter& painter);
-    void mark(QPainter& painter);
-
+    friend class PSquare;
 private:
 
     int status;//2-empty;1-painted;0-marked

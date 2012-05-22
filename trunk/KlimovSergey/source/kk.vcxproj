@@ -18,6 +18,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="TestResult.cpp" />
+    <ClCompile Include="TestStat.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Field.h" />
@@ -26,6 +27,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Square.h" />
     <ClInclude Include="TestResult.h" />
+    <ClInclude Include="TestStat.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{04D554D7-CE7E-4BDB-B447-F7D602A28037}</ProjectGuid>

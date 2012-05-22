@@ -17,6 +17,8 @@ class Game : public QMainWindow
     QString fileName, complFile;
     Field field;
     Player player;
+    PField pf;
+
 
 protected:
     void paintEvent(QPaintEvent *event);
