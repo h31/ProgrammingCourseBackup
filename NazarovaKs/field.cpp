@@ -17,17 +17,17 @@ ostream& operator << (ostream& out, const Field& f){
 	return out;
 }
 
-void Field::deleteCell(int a1, int b1, int a2, int b2){
+bool Field::deleteCell(int a1, int b1, int a2, int b2){
 	Field newField;
 	newField.field=field;
 	Check check(newField);
 
 	if (check.checkMove(a1, b1, a2, b2)){
-		cout<<"Right move."<<endl;
 		field[--a1].clearCell(b1);
 		field[--a2].clearCell(b2);
+        return true;
 	}
-	else cout<<"Error!"<<endl;
+    else return false;
 }
 
 void Field::addCells(){
@@ -37,7 +37,7 @@ void Field::addCells(){
 	int i_new = 0;
 	int j_new = 0;
 	cout << rows << endl;
-	for (int i=0; i<rows; i++)
+    for (int i=0; i<field.size(); i++)
 		for (int j=0; j<maxColumns; j++){
 			if (field[i].getData(j) != 0)
 			{
@@ -58,4 +58,19 @@ void Field::addCells(){
 	}
 	rows=field.size();
 	cout<<"Size: "<<rows<<endl;
+}
+
+void Field::deleteEmptyRow(){
+    for (vector<Row>::iterator it=field.begin(); it != field.end();	it++)
+	{
+		bool isEmpty = true;
+		for (int i=0; i<maxColumns; i++)
+			if (it->getData(i) != 0)
+			{
+				isEmpty = false;
+				break;
+			}
+        if (isEmpty)
+			field.erase(it);
+    }
 }

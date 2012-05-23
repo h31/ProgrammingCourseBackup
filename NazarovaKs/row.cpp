@@ -1,9 +1,10 @@
 #include "row.h"
+#include <stdlib.h>
 
 Row::Row(){
 	arr.resize(maxColumns);
 	for(int i=0; i<maxColumns; i++)
-		arr[i]=1+rand()%9;
+        arr[i]=1+rand()%9;
 }
 
 ostream& operator << (ostream& out, const Row& cell){	
@@ -19,15 +20,13 @@ int Row::getData(int a){
 	else throw Exception();
 }
 
-void Row::clearCell(int a)
-{
+void Row::clearCell(int a){
 	if (a<=maxColumns)
 		arr[--a]=0;
 	else throw Exception();
 }
 
-void Row::setData(int number, int value)
-{
+void Row::setData(int number, int value){
 	if (number<=maxColumns)
 		arr[number] = value;
 	else throw Exception();

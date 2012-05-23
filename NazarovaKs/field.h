@@ -2,7 +2,6 @@
 #define _field_h_
 
 #include "row.h"
-
 #include <vector>
 
 class Field{
@@ -13,9 +12,11 @@ public:
 	~Field();
 
 	vector<Row>field;
-	void deleteCell(int, int, int, int);
+    bool deleteCell(int, int, int, int);
+	void deleteEmptyRow();
 	void addCells();
 	friend ostream& operator << (ostream& out, const Field&);
+    friend class Test;
 };
 
 #endif
