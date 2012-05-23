@@ -1,5 +1,8 @@
 package Items;
 
+import Constants.ItemType;
+import Constants.WeaponType;
+import Constants.UseType;
 import java.awt.Image;
 
 /**
@@ -7,18 +10,18 @@ import java.awt.Image;
  */
 public class Weapon extends Item{
     int damage;
-    int weaponType;
+    WeaponType wtype;
     
-    public static final int SWORD = 1;
-    public static final int MACE = 2;
-    public static final int STAFF = 3;
-    
-    public Weapon(String name, Image img, int damage, int wtype){
-        super(name, img, Item.WEAPON, Item.WIELDABLE);
+    public Weapon(String name, Image img, int damage, WeaponType wtype, String descr){
+        super(name, img, ItemType.WEAPON, UseType.WIELDABLE, descr);
         this.damage = damage;
-        weaponType = wtype;
+        this.wtype = wtype;
     }
     
     public int getDamage(){ return damage; }
-    public int getWtype(){ return weaponType; }
+    public WeaponType getWtype(){ return wtype; }
+    @Override
+    public Weapon clone(){
+        return new Weapon(this.name, this.img, this.damage, this.wtype, this.descr);
+    }
 }

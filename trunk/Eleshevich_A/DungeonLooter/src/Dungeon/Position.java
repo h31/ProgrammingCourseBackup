@@ -19,6 +19,16 @@ public class Position {
         x = pos.x;
         y = pos.y;
     }
+    public Position getNewPos(Direction dir){
+        Position res = new Position(this);
+        switch(dir){
+            case UP: res.y--; break;
+            case LEFT: res.x--; break;
+            case RIGHT: res.x++; break;
+            case DOWN: res.y++; break;
+        }
+        return res;
+    }
     @Override
     public boolean equals(Object obj){
         if(!obj.getClass().equals(this.getClass()))

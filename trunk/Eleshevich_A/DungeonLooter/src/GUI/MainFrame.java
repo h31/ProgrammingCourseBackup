@@ -1,6 +1,7 @@
 package GUI;
 
 import Creatures.Player;
+import Dungeon.Direction;
 import Dungeon.Dungeon;
 import Dungeon.DungeonGenerator;
 import java.awt.event.KeyAdapter;
@@ -41,10 +42,10 @@ class MyKeyListener extends KeyAdapter{
     @Override
     public void keyPressed(KeyEvent e){
         switch(e.getKeyCode()){
-            case KeyEvent.VK_UP: dungeon.movePlayer(Dungeon.UP); break;
-            case KeyEvent.VK_LEFT: dungeon.movePlayer(Dungeon.LEFT); break;
-            case KeyEvent.VK_RIGHT: dungeon.movePlayer(Dungeon.RIGHT); break;
-            case KeyEvent.VK_DOWN: dungeon.movePlayer(Dungeon.DOWN); break;
+            case KeyEvent.VK_UP: dungeon.movePlayer(Direction.UP); break;
+            case KeyEvent.VK_LEFT: dungeon.movePlayer(Direction.LEFT); break;
+            case KeyEvent.VK_RIGHT: dungeon.movePlayer(Direction.RIGHT); break;
+            case KeyEvent.VK_DOWN: dungeon.movePlayer(Direction.DOWN); break;
             case KeyEvent.VK_SPACE: dungeon.passTurn(); break;
         }
     }

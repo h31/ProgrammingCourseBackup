@@ -1,10 +1,10 @@
 package GUI;
 
+import Constants.CellType;
+import Constants.CellStatus;
 import Creatures.Monster;
+import Dungeon.*;
 import GUI.Updatable;
-import Dungeon.Cell;
-import Dungeon.Dungeon;
-import Dungeon.Position;
 import Items.ItemStack;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -53,16 +53,16 @@ public class DungeonPanel extends JPanel implements Updatable{
                 Cell cell = dungeon.getField()[y][x];
                 if(cell == null)    //проверить будет ли работать в одном if
                     continue;
-                if(cell.getStatus() == Cell.UNDISCOVERED)
+                if(cell.getStatus() == CellStatus.UNDISCOVERED)
                     continue;
                 Image img;
-                if(cell.getType() == Cell.FLOOR){
-                    if(cell.getStatus() == Cell.VISIBLE)
+                if(cell.getType() == CellType.FLOOR){
+                    if(cell.getStatus() == CellStatus.VISIBLE)
                         img = floorImg;
                     else
                         img = dfloorImg;
                 }else{
-                    if(cell.getStatus() == Cell.VISIBLE)
+                    if(cell.getStatus() == CellStatus.VISIBLE)
                         img = wallImg;
                     else
                         img = dwallImg;
@@ -72,7 +72,7 @@ public class DungeonPanel extends JPanel implements Updatable{
         }
         int ty, tx;
         for(ItemStack istack: dungeon.getItemStacks()){
-            if(dungeon.getField()[istack.getPos().y][istack.getPos().x].getStatus() == Cell.VISIBLE){
+            if(dungeon.getField()[istack.getPos().y][istack.getPos().x].getStatus() == CellStatus.VISIBLE){
                 ty = (istack.getPos().y - startPos.y)*tileSize;
                 tx = (istack.getPos().x - startPos.x)*tileSize;
                 g.drawImage(istack.getImg(), tx, ty, tileSize, tileSize, this);
@@ -82,7 +82,7 @@ public class DungeonPanel extends JPanel implements Updatable{
         tx = (pos.x - startPos.x)*tileSize;
         g.drawImage(dungeon.getPlayer().getImg(), tx, ty, tileSize, tileSize, this);
         for(Monster monster: dungeon.getMonsters()){
-            if(dungeon.getField()[monster.getPos().y][monster.getPos().x].getStatus() == Cell.VISIBLE){
+            if(dungeon.getField()[monster.getPos().y][monster.getPos().x].getStatus() == CellStatus.VISIBLE){
                 ty = (monster.getPos().y - startPos.y)*tileSize;
                 tx = (monster.getPos().x - startPos.x)*tileSize;
                 g.drawImage(monster.getImg(), tx, ty, tileSize, tileSize, this);

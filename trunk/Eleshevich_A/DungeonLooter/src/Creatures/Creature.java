@@ -14,10 +14,11 @@ public abstract class Creature {
     protected int dexterity;
     protected int strength;
     protected int sightradius;
+    protected int hregen;
     protected Position pos;
     protected Image img;
     
-    Creature(String name, int maxhealth, int defence, int strength, int dexterity, int sightradius){
+    Creature(String name, Image img, int maxhealth, int defence, int strength, int dexterity, int hregen, int sightradius){
         this.name = name;
         this.maxhealth = maxhealth;
         this.defence = defence;
@@ -25,9 +26,12 @@ public abstract class Creature {
         this.dexterity = dexterity;
         this.sightradius = sightradius;
         health = maxhealth;
+        this.img = img;
+        this.hregen = hregen;
     }
     
     public abstract Damage getDamage();
+    public abstract void passTurn();
     
     public int attack(Damage damage){
         int dam = damage.val - defence;
@@ -42,4 +46,5 @@ public abstract class Creature {
     public String getName(){ return name; }
     public Image getImg(){ return img; }
     public int getDefence(){ return defence; }
+    public int getHealthRegen(){ return hregen; }
 }

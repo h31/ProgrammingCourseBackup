@@ -4,6 +4,7 @@
  */
 package Items;
 
+import Constants.ArmorClass;
 import java.awt.Image;
 
 /**
@@ -11,7 +12,16 @@ import java.awt.Image;
  * @author Andrew
  */
 public class Shield extends Armor{
-    public Shield(String name, Image img, int def){
-        super(name, img, def, Armor.SHIELD);
+    int block;
+    
+    public Shield(String name, Image img, int def, int block, ArmorClass aclass, String descr){
+        super(name, img, def, ArmorType.SHIELD, aclass, descr);
+    }
+    public int getBlock(){
+        return block;
+    }
+    @Override
+    public Shield clone(){
+        return new Shield(this.name, this.img, this.defence, this.block, this.aclass, this.descr);
     }
 }

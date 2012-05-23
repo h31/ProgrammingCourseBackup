@@ -1,12 +1,12 @@
 package Dungeon;
 
+import Constants.CellType;
+import Constants.CellStatus;
 import Creatures.Creature;
 import Creatures.Monster;
 import Creatures.Player;
 import GUI.Messager;
-import GUI.SimpleMessager;
 import GUI.Updatable;
-import Items.Item;
 import Items.ItemStack;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -21,15 +21,12 @@ public class Dungeon {
     ArrayDeque<Monster> monsters;
     ArrayDeque<ItemStack> ItemStacks;
     Cell[][] field;
+    int currLevel;
+    int counter = 0;
     
     Updatable DScreen;
     Updatable PScreen;
     Messager message;
-    
-    public static final int UP = 1;
-    public static final int LEFT = 2;
-    public static final int RIGHT = 3;
-    public static final int DOWN = 4;
     
     Dungeon(Cell[][] field, Player player, ArrayDeque<Monster> monsters){
         this.field = field;
@@ -57,39 +54,33 @@ public class Dungeon {
     public ArrayDeque<Monster> getMonsters(){
         return monsters;
     }
-    public void movePlayer(int direction){
+    public void movePlayer(Direction dir){
         Position oldPos = player.getPos();
-        if(moveCreature(player, direction)){
+        if(moveCreature(player, dir)){
             passTurn();
             playerSightRenew(oldPos, player.getPos());  //может вызывать при passTurn
             itemFloorRenew();
         }
     }
-    public boolean moveCreature(Creature creat, int direction){
+    public boolean moveCreature(Creature creat, Direction dir){
         try{
-            Position target = new Position(creat.getPos()); //переделать со switch
-            if(direction == UP){
-                target.y--;
-            }else if(direction == LEFT){
-                target.x--;
-            }else if(direction == RIGHT){
-                target.x++;
-            }else if(direction == DOWN){
-                target.y++;
-            }
+            Position target = creat.getPos().getNewPos(dir); //переделать со switch
             try{
                 if(player.getPos().equals(target))
                     attack(creat, player);
                 else
                     attack(creat, findMonster(target));
-            }catch(NotFoundException nfex){
-                if(field[target.y][target.x] == null)   //тут тоже попробовать объединить
+            }catch(NotFoundException nfex){ //может спервва Cell получить а потом мучить, а то по 20 раз вызывать...
+                if(getCell(target) == null)   //тут тоже попробовать объединить
                     return false;
-                if(field[target.y][target.x].getType() == Cell.WALL)
-                    return false;
-                else{
-                    creat.move(target);    //можно с проверкой на то, что двигаемое существо - игрок пересчитать зону видимости здесь
+                if(getCell(target).getType().equals(CellType.DOOR) && creat.equals(player)){
+                    ((Door)getCell(target)).tryOpen();
+                    return true;
                 }
+                if(getCell(target).isSolid())
+                    return false;
+                else
+                    creat.move(target);    //можно с проверкой на то, что двигаемое существо - игрок пересчитать зону видимости здесь
             }
             return true;
         }catch(IndexOutOfBoundsException ioex){
@@ -98,8 +89,13 @@ public class Dungeon {
     }
     public void passTurn(){
         generateMonsters();
-        for(Monster monster: monsters)
+        player.passTurn();
+        for(Monster monster: monsters){
+            monster.passTurn();
             monster.AIturn(this);
+        }
+        System.out.println("Прошёл ход №" + counter);
+        counter++;
         PScreen.update();   //возможно не надо обновлять каждый ход
         DScreen.update();
     }
@@ -126,9 +122,9 @@ public class Dungeon {
     }
     void playerSightRenew(Position oldPos, Position newPos){
         for(Position pos: calcVision(oldPos, player.getSightRad()))
-            field[pos.y][pos.x].setStatus(Cell.INVISIBLE);
+            field[pos.y][pos.x].setStatus(CellStatus.INVISIBLE);
         for(Position pos: calcVision(newPos, player.getSightRad()))
-            field[pos.y][pos.x].setStatus(Cell.VISIBLE);
+            field[pos.y][pos.x].setStatus(CellStatus.VISIBLE);
     }
     void attack(Creature ac, Creature dc){
         int adam = dc.attack(ac.getDamage());

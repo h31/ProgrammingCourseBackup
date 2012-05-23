@@ -1,5 +1,8 @@
 package Items;
 
+import Constants.ArmorClass;
+import Constants.ItemType;
+import Constants.UseType;
 import java.awt.Image;
 
 /**
@@ -7,23 +10,25 @@ import java.awt.Image;
  */
 public abstract class Armor extends Item{
     int defence;
-    int armorType;
+    ArmorType atype;
+    ArmorClass aclass;
     
-    public static final int BODY_ARMOR = 1;
-    public static final int SHIELD = 2;
-    
-    public Armor(String name, Image img, int def, int atype){
-        super(name, img, Item.ARMOR, Item.PUTABLE);
-        if(atype == SHIELD)
-            useType = Item.WIELDABLE;   //это всё конечно не хорошо, но... более логично чем тянуть utype дальше
+    public Armor(String name, Image img, int def, ArmorType atype, ArmorClass aclass, String descr){
+        super(name, img, ItemType.ARMOR, UseType.PUTABLE, descr);
+        if(atype.equals(ArmorType.SHIELD))
+            utype = UseType.WIELDABLE;   //это всё конечно не хорошо, но... более логично чем тянуть utype дальше
         defence = def;
-        armorType = atype;
+        this.atype = atype;
+        this.aclass = aclass;
     }
     
-    public int getArmType(){
-        return armorType;
+    public ArmorType getArmType(){
+        return atype;
     }
     public int getDefence(){
         return defence;
+    }
+    public ArmorClass getArmClass(){
+        return aclass;
     }
 }
