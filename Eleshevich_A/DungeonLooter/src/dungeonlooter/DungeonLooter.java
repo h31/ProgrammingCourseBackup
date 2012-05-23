@@ -1,7 +1,9 @@
 package dungeonlooter;
 
+import Creatures.Bestiary;
 import Dungeon.Percenter;
 import GUI.MainFrame;
+import Items.ItemBase;
 
 public class DungeonLooter {
 
@@ -49,6 +51,8 @@ public class DungeonLooter {
 //        }catch(Exception ex){
 //            System.out.println(ex.toString());
 //        }
+        Bestiary.setBestiaryDefault();
+        ItemBase.setBaseDefault();
         new MainFrame("Dungeon Looter");
     }
 }

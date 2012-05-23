@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Constants.SlotType;
 import Items.Item;
 import java.awt.Container;
 import java.awt.Graphics;
@@ -17,20 +18,16 @@ import java.util.ArrayDeque;
 public class ItemSlot{
     Point pos;
     int number;
-    int type;
+    SlotType type;
     Item item;  //в принципе здесь не нужно хранить весь предемет, нужно только изображение, с другой стороны проверять наличие предмета, по наличию изображения...
     //к тому же может уже здесть будет выводиться диаг окно, хотя нет панели
-    
-    public static final int INVENTORY = 1;
-    public static final int FLOOR = 2;
-    public static final int EQUIPPED = 3;
     
     static int size;
     static void setSize(int newSize){
         size = newSize;
     }
     
-    ItemSlot(Point pos, int num, int type){
+    ItemSlot(Point pos, int num, SlotType type){
         this.pos = pos;
         number = num;
         this.type = type;
@@ -41,7 +38,7 @@ public class ItemSlot{
     
     Point getPos(){ return pos; }
     int getNumber(){ return number; }
-    int getType(){ return type; }
+    SlotType getType(){ return type; }
     boolean clicked(Point p){
         return p.x > pos.x && p.x < pos.x + size && p.y > pos.y && p.y < pos.y + size;
     }

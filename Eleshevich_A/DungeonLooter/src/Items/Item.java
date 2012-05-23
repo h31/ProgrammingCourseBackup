@@ -1,5 +1,7 @@
 package Items;
 
+import Constants.ItemType;
+import Constants.UseType;
 import java.awt.Image;
 
 /**
@@ -8,30 +10,23 @@ import java.awt.Image;
 public abstract class Item {
     Image img;
     String name;
-    int type;
-    int useType;
-    String descr = "";
+    ItemType type;
+    UseType utype;
+    String descr;
     
-    public static final int ARMOR = 1;
-    public static final int WEAPON = 2;
-    public static final int POTION = 3;
-    
-    public static final int WIELDABLE = 1;
-    public static final int PUTABLE = 2;
-    public static final int USABLE = 3;
-    
-    Item(String name, Image img, int type, int utype){
+    Item(String name, Image img, ItemType type, UseType utype, String descr){
         this.name = name;
         this.img = img;
         this.type = type;
-        useType = utype;
+        this.utype = utype;
+        this.descr = descr;
     }
     
-    public int getType(){
+    public ItemType getType(){
         return type;
     }
-    public int getUseType(){
-        return useType;
+    public UseType getUseType(){
+        return utype;
     }
     public Image getImg(){
         return img;
@@ -42,4 +37,6 @@ public abstract class Item {
     public String getDescr(){
         return descr;
     }
+    @Override
+    abstract public Item clone();
 }

@@ -1,5 +1,9 @@
 package Creatures;
 
+import Constants.CreatChar;
+import Constants.ItemType;
+import Constants.UseType;
+import Constants.PlayerSlot;
 import Items.*;
 import java.awt.Toolkit;
 import java.util.ArrayList;
@@ -15,19 +19,24 @@ public class Player extends Creature{
     Armor legArmor;
     Item rightHand;
     Item leftHand;
+    int level;
+    int XP;
+    int hrcount = 0;    //в принципе лучше просто жизнь хранить на пару порядков больше, а использовать поделив
     
     Item[] inventory = new Item[10];    //можно задать в конструкторе
     ItemStack itemsFloor;   //может не стак, а просто массив
     
-    public static final int LEFT_HAND = 4;
-    public static final int RIGHT_HAND = 3;
-    public static final int BODY = 2;
-    public static final int HEAD = 1;
-    public static final int LEGS = 5;
+    //public static final int LEFT_HAND = 4;
+    //public static final int RIGHT_HAND = 3;
+    //public static final int BODY = 2;
+    //public static final int HEAD = 1;
+    //public static final int LEGS = 5;
     
-    public Player(String name, int maxhealth, int defence, int strength, int dexterity, int sightradius){
-        super(name, maxhealth, defence, strength, dexterity, sightradius);
-        img = Toolkit.getDefaultToolkit().createImage("Data/player.gif");
+    public Player(String name, int maxhealth, int defence, int strength, int dexterity, int hregen, int sightradius){
+        super(name, Toolkit.getDefaultToolkit().createImage("Data/player.gif"), maxhealth, defence,
+                strength, dexterity, hregen, sightradius);
+        level = 1;
+        XP = 0;
     }
     
     public Armor putOn(BodyArmor armor) throws InvalidArmorTypeException{
@@ -58,9 +67,33 @@ public class Player extends Creature{
         defence += armor.getDefence() - oldDef;
         return oldArmor;
     }
-    
-    public Item wieldHand(Item item, int hand){    //может придумать название получше, пересчёт дамага, а если не только дамаг???
-        if(item.getUseType() != Item.WIELDABLE)
+    public int getXP(){
+        return XP;
+    }
+    public int getLevel(){
+        return level;
+    }
+    public int getXPcap(){
+        return 1 + level*10;
+    }
+    public boolean levelUP(CreatChar pchar){
+        if(levelUPready()){
+            switch(pchar){
+                case MAXHEALTH: maxhealth += 2;
+                case STRENGTH: strength += 1;
+                case DEXTERITY: dexterity += 1;
+            }
+            level++;
+            return true;
+        }
+        else
+            return false;
+    }
+    public boolean levelUPready(){
+        return XP >= getXPcap();
+    }
+    public Item wieldHand(Item item, PlayerSlot hand){    //может придумать название получше, пересчёт дамага, а если не только дамаг???
+        if(item.getUseType() != UseType.WIELDABLE)
             return null;
         Item oldItem = null;
         switch(hand){
@@ -89,7 +122,7 @@ public class Player extends Creature{
         return item;
     }
     
-    public Item takeOff(int slotNum){
+    public Item takeOff(PlayerSlot slotNum){
         Item item;
         switch(slotNum){
             case LEFT_HAND: item = leftHand; leftHand = null; break;
@@ -102,7 +135,7 @@ public class Player extends Creature{
         return item;
     }
     
-    public Item getEquippedItem(int slotNum){
+    public Item getEquippedItem(PlayerSlot slotNum){
         switch(slotNum){
             case LEFT_HAND: return leftHand;
             case RIGHT_HAND: return rightHand;
@@ -113,29 +146,27 @@ public class Player extends Creature{
         }
     }
     
-//    public Item equip(Item item) throws UnequipabbleItemException{
-//        try{
-//            switch(item.getType()){
-//                case Item.ARMOR: return putOn((Armor)item);
-//                case Item.WEAPON: return takeHand((HandItem)item);
-//            }
-//        }catch(InvalidArmorTypeException atex){}    //объединить почистить и выводить диалог окно (может быть)
-//        throw new UnequipabbleItemException();
-//    }
-    
-    
     public void use(Usable item){
         
     }
-    
+    @Override
+    public void passTurn(){
+        if(health < maxhealth){
+            hrcount ++;
+            if(hrcount >= hregen){
+                hrcount = 0;
+                health++;
+            }
+        }
+    }
     @Override
     public Damage getDamage(){
         int damage = 0;
         if(rightHand != null)
-            if(rightHand.getType() == Item.WEAPON)
+            if(rightHand.getType() == ItemType.WEAPON)
                 damage += ((Weapon)rightHand).getDamage();
         if(leftHand != null)
-            if(leftHand.getType() == Item.WEAPON)
+            if(leftHand.getType() == ItemType.WEAPON)
                 damage += ((Weapon)leftHand).getDamage();
         return new Damage(damage, strength, dexterity);
     }

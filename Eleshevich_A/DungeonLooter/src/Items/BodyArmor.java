@@ -4,6 +4,8 @@
  */
 package Items;
 
+import Constants.ArmorClass;
+import Constants.PlayerSlot;
 import java.awt.Image;
 
 /**
@@ -11,13 +13,17 @@ import java.awt.Image;
  * @author Andrew
  */
 public class BodyArmor extends Armor{
-    int slotType;
+    PlayerSlot slotType;
     
-    public BodyArmor(String name, Image img, int def, int stype){
-        super(name, img, def, Armor.BODY_ARMOR);
+    public BodyArmor(String name, Image img, int def, PlayerSlot stype, ArmorClass aclass, String descr){
+        super(name, img, def, ArmorType.BODY_ARMOR, aclass, descr);
         slotType = stype;
     }
-    public int getSlotType(){
+    public PlayerSlot getSlotType(){
         return slotType;
+    }
+    @Override
+    public BodyArmor clone(){
+        return new BodyArmor(this.name, this.img, this.defence, this.slotType, this.aclass, this.descr);
     }
 }
