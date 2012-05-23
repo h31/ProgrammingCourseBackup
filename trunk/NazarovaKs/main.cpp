@@ -1,27 +1,12 @@
 #include <iostream>
-
-#include "field.h"
+#include <stdlib.h>
+#include "test.h"
+#include "game.h"
 
 using namespace std;
 
 int main(){
-	srand((int)time(NULL));
-
-	Field f(6);
-	cout<<f;
-	cout<<endl;
-
-	int x1, y1, x2, y2;
-
-	cout<<"Input numbers: ";
-	cin>>x1>>y1>>x2>>y2;
-	f.deleteCell(x1,y1,x2,y2);
-	cout<<f;
-
-	cout<<"Input numbers: ";
-	cin>>x1>>y1>>x2>>y2;
-	f.deleteCell(x1,y1,x2,y2);
-	cout<<f;
-
+	srand((int)time(NULL));    
+    Test test;
 	return 0;
 }

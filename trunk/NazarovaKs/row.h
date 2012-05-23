@@ -3,11 +3,12 @@
 
 #include <iostream>
 #include <time.h>
+#include <vector>
 
 using namespace std;
 
-#include <vector>
 const int maxColumns=7;
+const int maxRows=49;
 
 class Exception {};
 
@@ -17,7 +18,7 @@ public:
 	Row();	
 	int getData(int);
 	void setData(int number, int value);
-	void clearCell(int a);
+    void clearCell(int a);
 	friend ostream& operator << (ostream&, const Row&);
 };
 
