@@ -23,7 +23,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 
         if(field->CheckField() == 1)
-        field->finished=new QGraphicsTextItem("Red player win!");
+        field->finished= new QGraphicsTextItem("Red player win!");
         if(field->CheckField() == 2)
         field->finished=new QGraphicsTextItem("Blue player win!");
         if(field->CheckField() == 3)
@@ -37,3 +37,4 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
      //   QWidget::keyPressEvent(event);
     }
 }
+

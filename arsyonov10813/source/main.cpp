@@ -13,8 +13,9 @@
 
 int main(int argc, char *argv[])
 {
+    qDebug()<<"Text";
     int h = 10;
-    int wi = 15;
+    int wi = 10;
     //ocherednost = 0;
     QApplication a(argc, argv);
 

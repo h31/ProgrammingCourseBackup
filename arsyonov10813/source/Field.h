@@ -1,6 +1,7 @@
 #ifndef FIELD_H
 #define FIELD_H
 
+#include <iostream>
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
 #include <QApplication>
@@ -27,14 +28,14 @@ static int razdvatri;
 
 //extern TurnText* tu;
 
-class MyLine : public QGraphicsLineItem
+class MyLine : public QObject, public QGraphicsLineItem
 {
-  //  Q_OBJECT
+  Q_OBJECT
 public:
  MyLine(int x1, int x2, int x3, int x4);
  bool isChecked;
-//signals:
- //  void mySignal();
+signals:
+   void mySignal();
 
 
 // int ocherednost;
@@ -53,14 +54,27 @@ protected:
  void mousePressEvent(QGraphicsSceneMouseEvent* event);
  void mouseDoubleClickEvent( QGraphicsSceneMouseEvent * event );
 };
-
-
-
-
-
-class GameFieldA
+/*
+class WinText : public QObject, public QGraphicsTextItem
 {
-  //  Q_OBJECT
+    Q_OBJECT
+public:
+ WinText(const QString q);
+signals:
+   void winSignal();
+
+protected:
+ void mousePressEvent(QGraphicsSceneMouseEvent* event);
+
+};
+
+*/
+
+
+
+class GameFieldA : public QObject
+{
+    Q_OBJECT
 
 public:
 
@@ -89,6 +103,38 @@ public:
     void ShowField();
 protected:
     void keyPressEvent(QKeyEvent *event);
+public slots:
+   void mySlot()
+   {
+      if(tu->toPlainText() == string1)
+      {
+       delete tu;
+       tu=new TurnText(string2);
+       tu->setPos(420, 120);
+       tu->setDefaultTextColor(Qt::blue);
+       GameScene->addItem(tu);
+       }
+       else
+      {
+        delete tu;
+        tu=new TurnText(string1);
+        tu->setPos(420, 120);
+        tu->setDefaultTextColor(Qt::red);
+        GameScene->addItem(tu);
+
+       qDebug()<<"Text";
+      }
+   }
+/*
+   void winSlot()
+   {
+       delete finished;
+       finished = new WinText(string2);
+       finished->setPos(420, 120);
+       finished->setDefaultTextColor(Qt::red);
+       GameScene->addItem(finished);
+   }
+   */
 };
 
 
