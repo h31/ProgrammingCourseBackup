@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const int maxColumns=2;
+const int maxColumns=7;
 const int maxRows=49;
 
 class Exception {};
