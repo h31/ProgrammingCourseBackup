@@ -4,7 +4,7 @@
 Row::Row(){
 	arr.resize(maxColumns);
 	for(int i=0; i<maxColumns; i++)
-        arr[i]=1;//+rand()%9;
+        arr[i]=1+rand()%9;
 }
 
 ostream& operator << (ostream& out, const Row& cell){	
