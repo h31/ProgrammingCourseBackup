@@ -19,7 +19,7 @@ void MyLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
     Phonon::MediaSource("phone-hang-up-1.mp3"));
         object->play();
 
-    //emit mySignal();
+    emit mySignal();
 
 ///////////////////////////////////
 /*
@@ -52,7 +52,18 @@ void MyLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 
 }
+/*
+void WinText::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    QFont cross("Arial", 25, QFont::Bold);
+    setPlainText("x");
+    setFont(cross);
+    setDefaultTextColor(Qt::red);
 
+
+
+}
+*/
 void MyText::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     QFont cross("Arial", 25, QFont::Bold);

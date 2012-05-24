@@ -52,12 +52,31 @@ void GameFieldA::InitializationField()
     GameScene->addItem(hello);
     GameScene->addItem(tu);
 
+
+    for(int i = 0; i < w; i++)
+        {
+        for(int j = 0; j < w; j++)
+            {
+       //     QObject* line = (QObject*)VerticalLine[i][j];
+            connect(VerticalLine[i][j], SIGNAL(mySignal()),
+                            this, SLOT(mySlot()));
+            }
+    }
+
+    for(int i = 0; i < w; i++)
+        {
+        for(int j = 0; j < w; j++)
+            {
+        //  QObject* line1 = (QObject*)HorizontalLine[i][j];
+            connect(HorizontalLine[i][j], SIGNAL(mySignal()),
+                            this, SLOT(mySlot()));
+
+            }
+        }
+  //  connect(finished, SIGNAL(winSignal()),
+   //                 this, SLOT(winSlot()));
+
 }
-
-
-
-
-
 
 /*
 
@@ -161,6 +180,7 @@ MyLine::MyLine(int x1, int x2, int x3, int x4) : QGraphicsLineItem(x1,x2,x3,x4)
 
 }
 MyText::MyText(const QString q) : QGraphicsTextItem(q) {}
+//WinText::WinText(const QString q) : QGraphicsTextItem(q) {}
 TurnText::TurnText(const QString q) : QGraphicsTextItem(q) {}
 
 
