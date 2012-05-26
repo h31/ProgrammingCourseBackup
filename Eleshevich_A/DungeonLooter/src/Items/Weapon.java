@@ -22,6 +22,10 @@ public class Weapon extends Item{
     public WeaponType getWtype(){ return wtype; }
     @Override
     public Weapon clone(){
-        return new Weapon(this.name, this.img, this.damage, this.wtype, this.descr);
+        return new Weapon(name, img, damage, wtype, descr);
+    }
+    @Override
+    public boolean isWeapon(){
+        return true;
     }
 }

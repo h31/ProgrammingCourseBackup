@@ -22,21 +22,13 @@ public abstract class Item {
         this.descr = descr;
     }
     
-    public ItemType getType(){
-        return type;
-    }
-    public UseType getUseType(){
-        return utype;
-    }
-    public Image getImg(){
-        return img;
-    }
-    public String getName(){
-        return name;
-    }
-    public String getDescr(){
-        return descr;
-    }
+    public ItemType getType(){ return type; }
+    public UseType getUseType(){ return utype; }
+    public Image getImg(){ return img; }
+    public String getName(){ return name; }
+    public String getDescr(){ return descr; }
+    public boolean isArmor(){ return false; }
+    public boolean isWeapon(){ return false; }
     @Override
     abstract public Item clone();
 }

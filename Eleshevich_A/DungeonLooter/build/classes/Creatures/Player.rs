@@ -1,0 +1,4 @@
+Creatures.InvalidArmorTypeException
+Creatures.UnequipabbleItemException
+Creatures.Player
+Creatures.UnusableItemException

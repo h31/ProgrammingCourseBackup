@@ -1,12 +1,13 @@
 package Items;
 
-import Creatures.Effects.Effect;
+import Creatures.Buff;
+import Creatures.Effect;
 
 /**
  * @author Andrew
  */
 public interface Usable {
     public boolean isUsed();
-    public Effect use();
-    public Effect getEffect();
+    public Buff use();
+    public Buff getBuff();
 }

@@ -100,4 +100,8 @@ public class Monster extends Creature{
         }
         return res;
     }
+    @Override
+    public Monster clone(){
+        return new Monster(name, img, maxhealth, damage, defence, strength, dexterity, sightradius, hregen, xpreward, descr);
+    }
 }

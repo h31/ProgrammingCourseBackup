@@ -1,2 +1,0 @@
-dungeonlooter.InvalidArmorTypeException
-dungeonlooter.Player

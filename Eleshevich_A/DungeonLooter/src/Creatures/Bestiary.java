@@ -14,7 +14,7 @@ public class Bestiary{
     public static void setBestiaryDefault(){
         Image img1 = Toolkit.getDefaultToolkit().createImage("Data/Spider1.gif");
         Image img2 = Toolkit.getDefaultToolkit().createImage("Data/Monster1.gif");
-        monsters.add(new Monster("Маленький паук", img1, 9, 3, 0, 4, 9, 4, 0, 5, "Маленьки ловкий паучок, не представляет серьёзной опасности"));
+        monsters.add(new Monster("Маленький паук", img1, 9, 3, 0, 4, 8, 4, 0, 5, "Маленьки ловкий паучок, не представляет серьёзной опасности"));
         monsters.add(new Monster("Красная фигня", img2, 14, 4, 1, 6, 4, 3, 0, 10, "Довольно опасный монстр, сильный, но не очень ловкий,\nобладает не самым лучшим зрением"));
     }
     
@@ -34,6 +34,6 @@ public class Bestiary{
     }
     static public Monster getMonsterRandom(){
         int sel = ((int)(Math.random()*10000))%monsters.size();
-        return monsters.get(sel);
+        return monsters.get(sel).clone();
     }
 }

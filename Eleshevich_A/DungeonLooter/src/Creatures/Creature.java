@@ -1,7 +1,10 @@
 package Creatures;
 
+import Dungeon.Percenter;
 import Dungeon.Position;
 import java.awt.Image;
+import java.util.ArrayDeque;
+import java.util.Iterator;
 
 /**
  * @author Andrew
@@ -15,8 +18,10 @@ public abstract class Creature {
     protected int strength;
     protected int sightradius;
     protected int hregen;
+    protected int hrcount = 0;
     protected Position pos;
     protected Image img;
+    ArrayDeque<Buff> buffs;
     
     Creature(String name, Image img, int maxhealth, int defence, int strength, int dexterity, int hregen, int sightradius){
         this.name = name;
@@ -28,16 +33,11 @@ public abstract class Creature {
         health = maxhealth;
         this.img = img;
         this.hregen = hregen;
+        buffs = new ArrayDeque<Buff>();
     }
     
     public abstract Damage getDamage();
-    public abstract void passTurn();
     
-    public int attack(Damage damage){
-        int dam = damage.val - defence;
-        health -= dam;
-        return dam;
-    }
     public Position getPos(){ return pos; }
     public void move(Position npos){ pos = npos; }
     public int getHealth(){ return health; }
@@ -47,4 +47,51 @@ public abstract class Creature {
     public Image getImg(){ return img; }
     public int getDefence(){ return defence; }
     public int getHealthRegen(){ return hregen; }
+    public int getStrength(){ return strength; }
+    public int getDexterity(){ return dexterity; }
+    public boolean isPlayer(){ return false; }
+    
+    public void passTurn(){
+        if(health < maxhealth && hregen > 0){
+            hrcount ++;
+            if(hrcount >= 10 - Math.round(hregen*0.7d)){
+                hrcount = 0;
+                health++;
+            }
+        }
+        Iterator<Buff> itt = buffs.iterator();
+        while(itt.hasNext()){
+            Buff buff = itt.next();
+            if(buff.expired()){
+                for(Effect eff: buff.getReverse())
+                    takeEffect(eff);
+                itt.remove();
+            }else{
+                for(Effect eff: buff.getEffect()){
+                    if(!(eff.isReversible() && buff.isActive()))
+                        takeEffect(eff);
+                }
+            }
+        }
+    }
+    public void takeEffect(Effect effect){   //после этого надо проверить, не сдох ли подопечный
+        switch(effect.getVarChar()){
+            case HEALTH: health += effect.getValue(); if(health > maxhealth) health = maxhealth; break;
+            case MAXHEALTH: maxhealth += effect.getValue(); break;
+            case DEXTERITY: dexterity += effect.getValue(); break;
+            case STRENGTH: strength += effect.getValue(); break;
+            case HREGEN: hregen += effect.getValue(); break;
+            case SRADIUS: sightradius += effect.getValue(); break;
+        }
+    }
+    public int takeDamage(Damage damage){
+        if(new Percenter(damage.getSpeed(), dexterity - (int)(dexterity/3d)).getChance() == 1){
+            int dam = damage.getValue() - defence;
+            if(dam < 0)
+                dam = 0;
+            health -= dam;
+            return dam;
+        }else
+            return -1;
+    }
 }

@@ -12,6 +12,6 @@ public class LoadingException extends Exception{
     
     @Override
     public String getMessage(){
-        return "Не удалось загрузить даные из файла " + cause;
+        return "Не удалось загрузить подземелье - " + cause;
     }
 }

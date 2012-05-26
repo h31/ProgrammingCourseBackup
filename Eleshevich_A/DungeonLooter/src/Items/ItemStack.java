@@ -4,6 +4,7 @@ import Creatures.InventoryFullException;
 import Dungeon.Position;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,7 +43,9 @@ public class ItemStack {
     public void itemPut(Item item){
         items.add(item);
     }
-    
+    public void itemsPut(Item[] items){
+        this.items.addAll(Arrays.asList(items));
+    }
     public Item itemTake(int num){
         try{
             return items.remove(num);
