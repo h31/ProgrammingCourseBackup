@@ -12,7 +12,6 @@ import java.awt.Toolkit;
  */
 public class Monster extends Creature{
     int damage;
-    AI ai;
     String descr;
     int xpreward;
     

@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
 /**
  * @author Andrew
  */
-public class Dungeon {
+public class Dungeon implements TimeSpace{
     Player player;
     ArrayDeque<Monster>[] monsters;
     ArrayDeque<ItemStack>[] itemStacks;

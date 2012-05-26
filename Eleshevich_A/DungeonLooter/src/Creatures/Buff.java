@@ -7,17 +7,20 @@ package Creatures;
 public class Buff { //может другое название?
     Effect[] effects;
     int counter;
+    int duration;
     boolean active;
     
     public Buff(Effect[] effects, int duration){
         this.effects = effects;
+        this.duration = duration;
         counter = duration;
         active = false;
     }
     
     public Effect[] takeEffect() throws BuffExpiredException{
-        if(counter != 0){
+        if(counter == duration-1)
             active = true;
+        if(counter != 0){
             counter--;
             return effects;
         }else
