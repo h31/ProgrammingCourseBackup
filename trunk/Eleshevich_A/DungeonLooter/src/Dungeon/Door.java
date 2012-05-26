@@ -42,7 +42,7 @@ public class Door extends Cell{
     public boolean tryClose(){
         if(new Percenter(4, weight).getChance() == 1){
             closed = true;
-            solid = false;
+            solid = true;
             return true;
         }else
             return false;

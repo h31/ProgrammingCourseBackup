@@ -178,11 +178,12 @@ public class Player extends Creature{
     public Damage getDamage(){
         int damage = 0;
         if(rightHand != null)
-            if(rightHand.getType() == ItemType.WEAPON)
+            if(rightHand.isWeapon())
                 damage += ((Weapon)rightHand).getDamage();
         if(leftHand != null)
-            if(leftHand.getType() == ItemType.WEAPON)
+            if(leftHand.isWeapon())
                 damage += ((Weapon)leftHand).getDamage();
+        damage += (int)(strength/5d);
         return new Damage(damage, strength, dexterity);
     }
     
