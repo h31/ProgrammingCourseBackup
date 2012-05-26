@@ -14,6 +14,6 @@ public class MiscItem extends Item{
 
     @Override
     public Item clone() {
-        return this;
+        return new MiscItem(name, img, descr);
     }
 }

@@ -1,5 +1,6 @@
 package GUI;
 
+import Constants.CreatChar;
 import Constants.SlotType;
 import Creatures.Player;
 import Creatures.PlayerException;
@@ -35,7 +36,7 @@ public class PlayerPanel extends JPanel implements Updatable{
         int space = 10;
         int tileSize = 36;  //задавать автоматически и придумать другое название
         int by = 140;
-        setSlots(294, 710, 140, 36, 10);
+        setSlots(294, 710, 170, 36, 10);
         this.addMouseListener(new SlotMouseAdapter(slots, this)); //опасно при вызове setSlots тут всё слетит
     }
     
@@ -56,9 +57,19 @@ public class PlayerPanel extends JPanel implements Updatable{
         y = 16;
         g.drawString(player.getName(), x, y);
         y += fm.getHeight();
+        g.drawString("Уровень: " + player.getLevel(), x, y);
+        y += fm.getHeight();
         g.drawString("Здоровье: " + player.getHealth() + " / " + player.getMaxHealth(), x, y);
         y += fm.getHeight();
+        g.drawString("Опыт: " + player.getXP() + "/" + player.getXPcap(), x, y);
+        y += fm.getHeight();
         g.drawString("Защита: " + player.getDefence(), x, y);
+        y += fm.getHeight();
+        g.drawString("Сила: " + player.getStrength(), x, y);
+        y += fm.getHeight();
+        g.drawString("Ловкость: " + player.getDexterity(), x, y);
+        y += fm.getHeight();
+        g.drawString("Регенерация: " + player.getHealthRegen(), x, y);
         g.drawString("Инвентарь", invTxt[0].x, invTxt[0].y);
         g.drawString("Лежит на полу", invTxt[1].x, invTxt[1].y);
         for(ItemSlot is: slots)
@@ -66,9 +77,16 @@ public class PlayerPanel extends JPanel implements Updatable{
     }
     @Override
     public void update(){
+        if(player.levelUPready()){
+            int res = SimpleDialog.levelUpDialog(player.getLevel() + 1, this);
+            switch(res){
+                case 0: player.levelUP(CreatChar.MAXHEALTH); break;
+                case 1: player.levelUP(CreatChar.STRENGTH); break;
+                case 2: player.levelUP(CreatChar.DEXTERITY); break;
+            }
+        }
         repaint();
     }
-    
     void setSlots(int width, int height, int startline, int tileSize, int space){  //space можно и не задавать в арг
         slots = new ArrayDeque<ItemSlot>();
         ItemSlot.setSize(tileSize);
@@ -131,7 +149,9 @@ public class PlayerPanel extends JPanel implements Updatable{
                 case FLOOR: item = player.getItemsFloor().itemGet(number); break;
                 default: return;    //тут можно выбросить исключение, потом сделать
             }
-            if(dialogItem(item, slotType) != 1)
+            if(SimpleDialog.dialogItem(item, slotType, this) != 1)
+                return;
+            if(item.getUseType().equals(UseType.NONE))
                 return;
             switch(slotType){
                 case EQUIPPED: player.inventoryPut(player.takeOff(PlayerSlot.getSlot(number))); return;
@@ -140,7 +160,7 @@ public class PlayerPanel extends JPanel implements Updatable{
             }
             switch(item.getUseType()){
                 case PUTABLE: player.inventoryPut(player.putOn((BodyArmor)item)); break; //если я сделаю как хотел passTurn в player то тут может пройти два хода, над обдумать
-                case WIELDABLE: player.inventoryPut(player.wieldHand(item, handDialog())); break; //тут можно сделать диалог с кансел и выбросить кансел эксцептион для отмены
+                case WIELDABLE: player.inventoryPut(player.wieldHand(item, SimpleDialog.handDialog(this))); break; //тут можно сделать диалог с кансел и выбросить кансел эксцептион для отмены
                 case USABLE: player.use((Usable)item); break;
             }
             boolean putback = false;
@@ -149,7 +169,6 @@ public class PlayerPanel extends JPanel implements Updatable{
                     putback = true;
             if(putback) //выглядит глупо, но причин возврата может быть несколько... в теории
                 putback(item, number, slotType);
-            dungeon.passTurn();
         }catch(PlayerException pex){    //где то как то нужно вернуть предмет, надо подумать
             JOptionPane.showMessageDialog(this, pex.getDialogMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
         }catch(Exception ex){   //потом тут надо поправить, чтоб выводилось человеческое сообщение... хотя надо ли оно вообще
@@ -178,92 +197,15 @@ public class PlayerPanel extends JPanel implements Updatable{
     void itemRClicked(int number, SlotType slotType){
         try{
             switch(slotType){
-                case EQUIPPED: player.inventoryPut(player.takeOff(PlayerSlot.getSlot(number))); dungeon.passTurn(); break;
-                case FLOOR: player.inventoryPut(player.getItemsFloor().itemTake(number)); dungeon.passTurn(); break;
-                case INVENTORY: player.dropToFloor(player.inventoryTake(number)); dungeon.passTurn(); break;
+                case EQUIPPED: player.inventoryPut(player.takeOff(PlayerSlot.getSlot(number))); break;
+                case FLOOR: player.pickUpFloor(number); break;
+                case INVENTORY: player.dropFloor(number); break;
             }
         }catch(Exception ex){
-            JOptionPane.showMessageDialog(this, ex.getMessage());
-        }
-    }
-    int dialogItem(Item item, SlotType stype){
-        String option = "";
-        StringBuilder message = new StringBuilder(item.getName());
-        String title = "";
-        switch(item.getType()){
-            case ARMOR:{
-                title = "Броня";
-                Armor arm = (Armor)item;
-                message.append("\nЗащита: ").append(arm.getDefence());
-                String aclass = "";
-                switch(arm.getArmClass()){
-                    case HEAVY: aclass = "Тяжёлый"; break;
-                    case LIGHT: aclass = "Лёгкий"; break;
-                }
-                message.append("\nКласс брони: ").append(aclass);
-                switch(arm.getArmType()){
-                    case SHIELD:
-                        message.append("\nТип: щит\nБлок: ").append(((Shield)arm).getBlock());
-                    case BODY_ARMOR:{
-                        String type = "";
-                        switch(((BodyArmor)arm).getSlotType()){
-                            case HEAD: type = "Шлем"; break;
-                            case BODY: type = "Нагрудник"; break;
-                            case LEGS: type = "Поножи"; break;
-                        }
-                        message.append("\nТип: ").append(type);
-                    }
-                }
-                break;
-            }
-            case WEAPON:{
-                title = "Оружие";
-                Weapon wep = (Weapon)item;
-                String wtype = "";
-                switch(wep.getWtype()){
-                    case SWORD: wtype = "Меч"; break;
-                    case MACE: wtype = "Булава"; break;
-                    case STAFF: wtype = "Посох"; break;
-                }
-                message.append("\nТип: ").append(wtype).append("\nАтака: ").append(wep.getDamage());
-                break;
-            }
-            case MISC:{
-                title = "Разное";
-            }    
-        }
-        message.append("\n").append(item.getDescr());
-        switch(item.getUseType()){
-            case USABLE: option = "Использовать"; break;
-            case PUTABLE:
-                if(stype == SlotType.EQUIPPED)
-                    option = "Снять";
-                else option = "Надеть";
-                break;
-            case WIELDABLE:
-                if(stype == SlotType.EQUIPPED)
-                    option = "Убрать из руки";
-                else
-                    option = "Взять в руку";
-                break;  
-            case NONE: option = "Тут тоже Ок";
-        }
-        String[] vars = {"Ок", option};
-        ImageIcon ic = new ImageIcon(item.getImg());
-        return JOptionPane.showOptionDialog(this, message, title, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, ic, vars, "Ок");
-    }
-    PlayerSlot handDialog(){
-        String[] options = {"В правую", "В левую"};
-        switch(JOptionPane.showOptionDialog(this, "В какую руку взять предмет",
-                "Выбор руки", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-                null, options, player)){
-            case 0: return PlayerSlot.RIGHT_HAND;
-            case 1: return PlayerSlot.LEFT_HAND;
-            default: return PlayerSlot.RIGHT_HAND;  //ну точно нужно исключение
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }
 }
-
 class SlotMouseAdapter extends MouseAdapter{
     Deque<ItemSlot> slots;
     PlayerPanel panel;

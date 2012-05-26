@@ -6,13 +6,9 @@ import dungeonlooter.InvalidConstantException;
  * @author Andrew
  */
 public enum PlayerSlot {
-    HEAD(1), BODY(2), RIGHT_HAND(3), LEFT_HAND(4), LEGS(5);
-    int val;
-    private PlayerSlot(int val){
-        this.val = val;
-    }
+    HEAD, BODY, RIGHT_HAND, LEFT_HAND, LEGS;
     public int getVal(){
-        return val;
+        return this.ordinal() + 1;  //переписал, по моему более оптимально, зачем присваивать значения самому, если они уже где то есть
     }
     public static PlayerSlot getSlot(int val) throws InvalidConstantException{
         try{

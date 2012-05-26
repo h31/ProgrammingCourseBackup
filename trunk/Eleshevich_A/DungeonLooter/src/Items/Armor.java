@@ -31,4 +31,8 @@ public abstract class Armor extends Item{
     public ArmorClass getArmClass(){
         return aclass;
     }
+    @Override
+    public boolean isArmor(){
+        return true;
+    }
 }

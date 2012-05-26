@@ -4,6 +4,8 @@ import Constants.CreatChar;
 import Constants.ItemType;
 import Constants.UseType;
 import Constants.PlayerSlot;
+import Dungeon.Dungeon;
+import GUI.Messager;
 import Items.*;
 import java.awt.Toolkit;
 import java.util.ArrayList;
@@ -14,23 +16,18 @@ import java.util.List;
  * @author Andrew
  */
 public class Player extends Creature{
+    Dungeon dungeon;    //может потом какой нибудь интерфейс, пока так
+    Messager mess;
     Armor headArmor;
     Armor bodyArmor;
     Armor legArmor;
     Item rightHand;
     Item leftHand;
     int level;
-    int XP;
-    int hrcount = 0;    //в принципе лучше просто жизнь хранить на пару порядков больше, а использовать поделив
+    int XP;    //в принципе лучше просто жизнь хранить на пару порядков больше, а использовать поделив
     
     Item[] inventory = new Item[10];    //можно задать в конструкторе
     ItemStack itemsFloor;   //может не стак, а просто массив
-    
-    //public static final int LEFT_HAND = 4;
-    //public static final int RIGHT_HAND = 3;
-    //public static final int BODY = 2;
-    //public static final int HEAD = 1;
-    //public static final int LEGS = 5;
     
     public Player(String name, int maxhealth, int defence, int strength, int dexterity, int hregen, int sightradius){
         super(name, Toolkit.getDefaultToolkit().createImage("Data/player.gif"), maxhealth, defence,
@@ -39,33 +36,28 @@ public class Player extends Creature{
         XP = 0;
     }
     
-    public Armor putOn(BodyArmor armor) throws InvalidArmorTypeException{
-        Armor oldArmor;
+    public void setDungeon(Dungeon dungeon){
+        this.dungeon = dungeon;
+    }
+    public void setMessager(Messager mess){
+        this.mess = mess;
+    }
+    public BodyArmor putOn(BodyArmor armor) throws InvalidArmorTypeException{
+        Item oldArmor = takeOff(armor.getSlotType());
         switch(armor.getSlotType()){
-            case HEAD:{
-                oldArmor = headArmor;
-                headArmor = armor;
-                break;
-            }
-            case BODY:{
-                oldArmor = bodyArmor;
-                headArmor = armor;
-                break;
-            }
-            case LEGS:{
-                oldArmor = legArmor;
-                legArmor = armor;
-                break;
-            }
+            case HEAD: headArmor = armor; break;
+            case BODY: headArmor = armor; break;
+            case LEGS: legArmor = armor; break;
             default: throw new InvalidArmorTypeException();
         }
         int oldDef;
         if(oldArmor == null)
             oldDef = 0;
         else
-            oldDef = oldArmor.getDefence();
+            oldDef = ((Armor)oldArmor).getDefence();
         defence += armor.getDefence() - oldDef;
-        return oldArmor;
+        dungeon.passTurn();
+        return (BodyArmor)oldArmor;
     }
     public int getXP(){
         return XP;
@@ -74,14 +66,17 @@ public class Player extends Creature{
         return level;
     }
     public int getXPcap(){
-        return 1 + level*10;
+        return level*10 - (int)((level*10)/3d);
+    }
+    public void addXP(int val){
+        XP += val;
     }
     public boolean levelUP(CreatChar pchar){
         if(levelUPready()){
             switch(pchar){
-                case MAXHEALTH: maxhealth += 2;
-                case STRENGTH: strength += 1;
-                case DEXTERITY: dexterity += 1;
+                case MAXHEALTH: maxhealth += 2; break;
+                case STRENGTH: strength += 1; break;
+                case DEXTERITY: dexterity += 1; break;
             }
             level++;
             return true;
@@ -93,21 +88,34 @@ public class Player extends Creature{
         return XP >= getXPcap();
     }
     public Item wieldHand(Item item, PlayerSlot hand){    //может придумать название получше, пересчёт дамага, а если не только дамаг???
-        if(item.getUseType() != UseType.WIELDABLE)
+        if(!item.getUseType().equals(UseType.WIELDABLE))
             return null;
-        Item oldItem = null;
+        Item oldItem = takeOff(hand);
         switch(hand){
-            case RIGHT_HAND: oldItem = rightHand; rightHand = item; break;
-            case LEFT_HAND: oldItem = leftHand; leftHand = item; break;
+            case RIGHT_HAND: rightHand = item; break;
+            case LEFT_HAND: leftHand = item; break;
         }
+        if(item.isArmor())
+            defence += ((Armor)item).getDefence();
+        mess.print("Вы берёте в руку " + item.getName());   //надо уточнить в какую
+        dungeon.passTurn();
         return oldItem;
     }
     
     public Item inventoryGet(int num){
         return inventory[num];
     }
+    public boolean inventoryIsFull(){
+        boolean res = true;
+        for(Item item: inventory)
+            if(item == null)
+                res = false;
+        return res;
+    }
     
     public void inventoryPut(Item item) throws InventoryFullException{
+        if(item == null)
+            return;
         for(int x = 0; x < inventory.length; x++)
             if(inventory[x] == null){
                 inventory[x] = item;
@@ -121,7 +129,17 @@ public class Player extends Creature{
         inventory[num] = null;
         return item;
     }
-    
+    public void pickUpFloor(int number) throws InventoryFullException{
+        inventoryPut(itemsFloor.itemGet(number));
+        itemsFloor.itemTake(number);
+        dungeon.passTurn();
+    }
+    public void dropFloor(int number){
+        if(itemsFloor == null)
+            itemsFloor = new ItemStack(pos);
+        itemsFloor.itemPut(inventoryTake(number));
+        dungeon.passTurn();
+    }
     public Item takeOff(PlayerSlot slotNum){
         Item item;
         switch(slotNum){
@@ -131,6 +149,12 @@ public class Player extends Creature{
             case HEAD: item = headArmor; headArmor = null; break;
             case LEGS: item = legArmor; legArmor = null; break;
             default: item = null;   //может нужно исключение
+        }
+        if(item != null){
+            if(item.getType().equals(ItemType.ARMOR))
+                defence -= ((Armor)item).getDefence();
+            mess.print("Вы убираете в инвентарь " + item.getName());    //надоу точнить - снимаете или убираете из руки
+            dungeon.passTurn();
         }
         return item;
     }
@@ -147,17 +171,8 @@ public class Player extends Creature{
     }
     
     public void use(Usable item){
-        
-    }
-    @Override
-    public void passTurn(){
-        if(health < maxhealth){
-            hrcount ++;
-            if(hrcount >= hregen){
-                hrcount = 0;
-                health++;
-            }
-        }
+        buffs.add(item.use());
+        dungeon.passTurn();
     }
     @Override
     public Damage getDamage(){
@@ -178,10 +193,19 @@ public class Player extends Creature{
     public ItemStack getItemsFloor(){
         return itemsFloor;
     }
-    public void dropToFloor(Item item){ //может сразу индекс, хотя вообще лучше просто itemsfloor хранить не тут
-        if(itemsFloor == null)  //всё равно по ходу данж нужно будет в PlayerPanel передавать
-            itemsFloor = new ItemStack(pos);
-        itemsFloor.itemPut(item);
+    public boolean haveArtifact(){
+        boolean getArt = false;
+        for(Item item: inventory)
+            if(item != null)
+                if(ItemBase.isArtifact(item)){
+                    getArt = true;
+                    break;
+                }
+        return getArt;
+    }
+    @Override
+    public boolean isPlayer(){
+        return true;
     }
 }
 

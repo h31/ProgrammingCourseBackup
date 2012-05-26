@@ -22,6 +22,6 @@ public class Shield extends Armor{
     }
     @Override
     public Shield clone(){
-        return new Shield(this.name, this.img, this.defence, this.block, this.aclass, this.descr);
+        return new Shield(name, img, defence, block, aclass, descr);
     }
 }

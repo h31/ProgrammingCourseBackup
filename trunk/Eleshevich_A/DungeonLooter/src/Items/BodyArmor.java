@@ -24,6 +24,6 @@ public class BodyArmor extends Armor{
     }
     @Override
     public BodyArmor clone(){
-        return new BodyArmor(this.name, this.img, this.defence, this.slotType, this.aclass, this.descr);
+        return new BodyArmor(name, img, defence, slotType, aclass, descr);
     }
 }
