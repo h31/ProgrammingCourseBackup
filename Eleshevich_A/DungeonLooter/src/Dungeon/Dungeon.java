@@ -92,11 +92,16 @@ public class Dungeon {
             if(door.isClosed())
                 mess.print("Эта дверь и так закрыта");
             else{
-                if(door.tryClose())
-                    mess.print("Вы закрыли дверь");
-                else
-                    mess.print("Вы пытаетессь закрыть дверь, но она не поддаётся");
-                passTurn();
+                try{
+                    findMonster(tpos);
+                    mess.print("В двери кто то стоит");
+                }catch(NotFoundException nfex){
+                    if(door.tryClose())
+                        mess.print("Вы закрыли дверь");
+                    else
+                        mess.print("Вы пытаетессь закрыть дверь, но она не поддаётся");
+                    passTurn();
+                }
             }
         }
     }

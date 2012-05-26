@@ -51,7 +51,6 @@ public class DungeonPanel extends JPanel implements Updatable{
         }
         int ty, tx;
         for(ItemStack istack: dungeon.getItemStacks()){
-            System.out.println("istack pos: " + istack.getPos().x + "/" + istack.getPos().y);
             if(dungeon.getCell(istack.getPos()).getStatus() == CellStatus.VISIBLE){
                 ty = (istack.getPos().y - startPos.y)*tileSize;
                 tx = (istack.getPos().x - startPos.x)*tileSize;
