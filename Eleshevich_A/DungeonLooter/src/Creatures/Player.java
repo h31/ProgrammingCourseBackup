@@ -49,7 +49,7 @@ public class Player extends Creature{
         Item oldArmor = takeOff(armor.getSlotType());
         switch(armor.getSlotType()){
             case HEAD: headArmor = armor; break;
-            case BODY: headArmor = armor; break;
+            case BODY: bodyArmor = armor; break;
             case LEGS: legArmor = armor; break;
             default: throw new InvalidArmorTypeException();
         }

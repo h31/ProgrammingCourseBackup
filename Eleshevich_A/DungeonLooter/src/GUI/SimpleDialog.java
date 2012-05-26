@@ -27,8 +27,7 @@ public class SimpleDialog {
                 }
                 message.append("\nКласс брони: ").append(aclass);
                 switch(arm.getArmType()){
-                    case SHIELD:
-                        message.append("\nТип: щит\nБлок: ").append(((Shield)arm).getBlock());
+                    case SHIELD: message.append("\nТип: щит"); break;
                     case BODY_ARMOR:{
                         String type = "";
                         switch(((BodyArmor)arm).getSlotType()){

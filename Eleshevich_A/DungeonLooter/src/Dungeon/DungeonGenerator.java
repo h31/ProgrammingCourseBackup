@@ -63,9 +63,14 @@ public class DungeonGenerator {
         try{
             Player player = new Player(pname, 20, 0, 7, 6, 4, 4);
             player.wieldHand(ItemBase.getItemName("Деревянный меч"), PlayerSlot.RIGHT_HAND);
+            player.wieldHand(ItemBase.getItemName("Деревянный щит"), PlayerSlot.LEFT_HAND);
             player.putOn((BodyArmor)ItemBase.getItemName("Штаны"));
             player.inventoryPut(ItemBase.getItemName("Зелье здоровья"));
             player.inventoryPut(ItemBase.getItemName("Зелье силы"));
+            player.inventoryPut(ItemBase.getItemName("Железный шлем"));
+            player.inventoryPut(ItemBase.getItemName("Железная броня"));
+            player.inventoryPut(ItemBase.getItemName("Железные поножи"));
+            player.inventoryPut(ItemBase.getItemName("Железный щит"));
             Position apos = null;
             String mainDir = "Map/";
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(mainDir+"data.txt")));

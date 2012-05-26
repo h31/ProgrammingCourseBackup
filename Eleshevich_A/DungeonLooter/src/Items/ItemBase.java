@@ -37,6 +37,16 @@ public class ItemBase {
                 buff1, "Восстанавливает 10 едениц здоровья"));
         items.add(new Potion("Зелье силы", Toolkit.getDefaultToolkit().createImage("Data/PotionYellow.gif"),
                 buff2, "Увеличивает силу на 5 на 30 ходов"));
+        items.add(new BodyArmor("Железный шлем", Toolkit.getDefaultToolkit().createImage("Data/IronHelmet1.gif"),
+                2, PlayerSlot.HEAD, ArmorClass.HEAVY, "Железный шлем, он такой... железный"));
+        items.add(new Shield("Деревянный щит", Toolkit.getDefaultToolkit().createImage("Data/WoodShield1.gif"),
+                1, ArmorClass.LIGHT, "Это конечно не стена, но всё же хоть что то будет между вами и врагом"));
+        items.add(new BodyArmor("Железная броня", Toolkit.getDefaultToolkit().createImage("Data/IronArmor2.gif"),
+                3, PlayerSlot.BODY, ArmorClass.HEAVY, "Эта броня очень прочная, я бы даже сказал слишком прочная"));
+        items.add(new BodyArmor("Железные поножи", Toolkit.getDefaultToolkit().createImage("Data/IronGreaves.gif"),
+                3, PlayerSlot.LEGS, ArmorClass.HEAVY, "Это как железная броня, только на ноги"));
+        items.add(new Shield("Железный щит", Toolkit.getDefaultToolkit().createImage("Data/IronShield1.gif"),
+                2, ArmorClass.HEAVY, "С таким щитом вам ничего не страшно... разве что только у врага будет\nоружие, больше чем этот щит"));
     }
     static public Item getItemID(int ID){
         try{
