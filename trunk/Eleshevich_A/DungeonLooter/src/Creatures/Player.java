@@ -4,7 +4,10 @@ import Constants.CreatChar;
 import Constants.ItemType;
 import Constants.UseType;
 import Constants.PlayerSlot;
+import Dungeon.DefaultTimeSpace;
 import Dungeon.Dungeon;
+import Dungeon.TimeSpace;
+import GUI.DefaultMessager;
 import GUI.Messager;
 import Items.*;
 import java.awt.Toolkit;
@@ -16,8 +19,8 @@ import java.util.List;
  * @author Andrew
  */
 public class Player extends Creature{
-    Dungeon dungeon;    //может потом какой нибудь интерфейс, пока так
-    Messager mess;
+    TimeSpace dungeon = new DefaultTimeSpace();    //может потом какой нибудь интерфейс, пока так
+    Messager mess = new DefaultMessager();
     Armor headArmor;
     Armor bodyArmor;
     Armor legArmor;
@@ -50,12 +53,7 @@ public class Player extends Creature{
             case LEGS: legArmor = armor; break;
             default: throw new InvalidArmorTypeException();
         }
-        int oldDef;
-        if(oldArmor == null)
-            oldDef = 0;
-        else
-            oldDef = ((Armor)oldArmor).getDefence();
-        defence += armor.getDefence() - oldDef;
+        defence += armor.getDefence();
         dungeon.passTurn();
         return (BodyArmor)oldArmor;
     }
@@ -66,7 +64,7 @@ public class Player extends Creature{
         return level;
     }
     public int getXPcap(){
-        return level*10 - (int)((level*10)/3d);
+        return level*8 + (int)((8/3d)*(level-1));
     }
     public void addXP(int val){
         XP += val;

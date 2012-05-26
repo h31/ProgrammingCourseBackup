@@ -62,9 +62,10 @@ public class DungeonGenerator {
     public static Dungeon loadDungeon(String pname) throws LoadingException{
         try{
             Player player = new Player(pname, 20, 0, 7, 6, 4, 4);
-            player.inventoryPut(ItemBase.getItemName("Железный меч"));
-            player.inventoryPut(ItemBase.getItemName("Штаны"));
+            player.wieldHand(ItemBase.getItemName("Деревянный меч"), PlayerSlot.RIGHT_HAND);
+            player.putOn((BodyArmor)ItemBase.getItemName("Штаны"));
             player.inventoryPut(ItemBase.getItemName("Зелье здоровья"));
+            player.inventoryPut(ItemBase.getItemName("Зелье силы"));
             Position apos = null;
             String mainDir = "Map/";
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(mainDir+"data.txt")));

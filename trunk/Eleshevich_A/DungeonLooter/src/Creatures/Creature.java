@@ -62,15 +62,14 @@ public abstract class Creature {
         Iterator<Buff> itt = buffs.iterator();
         while(itt.hasNext()){
             Buff buff = itt.next();
-            if(buff.expired()){
+            try{
+                for(Effect eff: buff.takeEffect())
+                    if(!(eff.isReversible() && buff.isActive()))
+                        takeEffect(eff);
+            }catch(Exception ex){
                 for(Effect eff: buff.getReverse())
                     takeEffect(eff);
                 itt.remove();
-            }else{
-                for(Effect eff: buff.getEffect()){
-                    if(!(eff.isReversible() && buff.isActive()))
-                        takeEffect(eff);
-                }
             }
         }
     }
