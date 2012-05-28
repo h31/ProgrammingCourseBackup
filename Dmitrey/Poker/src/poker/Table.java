@@ -354,6 +354,7 @@ public class Table {
             do{
                 if(tempPlayers.get(i).getId() == 0){
                 if(tempPlayers.get(i).getTotalBet()==highBet){frame.estSetBut(2);}
+                else{frame.estSetBut(1);}
                 a = action_r();}
             else{
             a = action_b(i);}
