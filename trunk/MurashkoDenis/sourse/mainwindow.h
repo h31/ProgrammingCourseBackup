@@ -5,8 +5,10 @@
 #include <QtGui>
 #include <QPainter>
 #include <QTimer>
+#include <conio.h>
 #include "tanki.h"
 #include "puli.h"
+#include "bot.h"
 namespace Ui {
 class MainWindow;
 }
@@ -17,17 +19,23 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-   // void paint();
+
    void paintEvent(QPaintEvent *event);
     ~MainWindow();
+
+public slots:
+   void moveBulletOnTimeout();//движение пули
+   void driveBotOnTimeout();//движение бота
+
 
 private:
     Ui::MainWindow *ui;
     void keyPressEvent(QKeyEvent * ev);
-    //void moveBulletOnTimeout(BulletCoordinates &coords, int speed);
     QPainter painter;
-    Tank tank;
-    QTimer* bulletTimer;
+    Igrok tank;
+    Bot bot;
+    QTimer* Timer;//таймер
+
 
 };
 
