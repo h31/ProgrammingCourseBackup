@@ -176,49 +176,48 @@ public class Hand {
 
     }
 ////////////////////////////////////////////////////////////////////////////////
-//    void display()
-//    {
-//        String s;
-//        switch( value[0] )
-//        {
-//
-//            case 1:
-//                s="high card";
-//                break;
-//            case 2:
-//                s="pair of " + Card.rankAsString(value[1]) + "\'s";
-//                break;
-//            case 3:
-//                s="two pair " + Card.rankAsString(value[1]) + " " + 
-//                                Card.rankAsString(value[2]);
-//                break;
-//            case 4:
-//                s="three of a kind " + Card.rankAsString(value[1]) + "\'s";
-//                break;
-//            case 5:
-//                s=Card.rankAsString(value[1]) + " high straight";
-//                break;
-//            case 6:
-//                s="flush";
-//                break;
-//            case 7:
-//                s="full house " + Card.rankAsString(value[1]) + " over " + 
-//                                  Card.rankAsString(value[2]);
-//                break;
-//            case 8:
-//                s="four of a kind " + Card.rankAsString(value[1]);
-//                break;
-//            case 9:
-//                s="straight flush " + Card.rankAsString(value[1]) + " high";
-//                break;
-//            default:
-//                s="error in Hand.display: value[0] contains invalid value";
-//        }
-//        s = "                " + s;
-//        System.out.println(s);
-//    }
-//
-//  
+    public String getName()
+    {
+        String s;
+        switch( value[0] )
+        {
+
+            case 1:
+                s="high card";
+                break;
+            case 2:
+                s="pair of " + Card.rankAsString(value[1]) + "\'s";
+                break;
+            case 3:
+                s="two pair " + Card.rankAsString(value[1]) + " " + 
+                                Card.rankAsString(value[2]);
+                break;
+            case 4:
+                s="three of a kind " + Card.rankAsString(value[1]) + "\'s";
+                break;
+            case 5:
+                s=Card.rankAsString(value[1]) + " high straight";
+                break;
+            case 6:
+                s="flush";
+                break;
+            case 7:
+                s="full house " + Card.rankAsString(value[1]) + " over " + 
+                                  Card.rankAsString(value[2]);
+                break;
+            case 8:
+                s="four of a kind " + Card.rankAsString(value[1]);
+                break;
+            case 9:
+                s="straight flush " + Card.rankAsString(value[1]) + " high";
+                break;
+            default:
+                s="error in Hand.display: value[0] contains invalid value";
+        }
+        return s;
+    }
+
+  
     int compareTo(Hand that)
     {
         for (int x=0; x<6; x++)

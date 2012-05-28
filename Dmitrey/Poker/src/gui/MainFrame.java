@@ -55,13 +55,13 @@ public class MainFrame extends JFrame{
     private JMenu menu1 = new JMenu();
     private JMenu menu2 = new JMenu();
     private JMenuBar menBar = new JMenuBar();
-    private JTextField bet = new JTextField("0");
+    private JTextField bet = new JTextField("Input your bet");
     private JButton bt = new JButton("OK");
     private int act;
     
     public MainFrame()
     {
-        super("Poker_GUI");
+        super("Poker");
         setSize(1030, 500);
         Image ic = Toolkit.getDefaultToolkit().getImage("src\\gui\\pic\\logo.png");
         setIconImage(ic);
@@ -280,6 +280,7 @@ public class MainFrame extends JFrame{
             if(e.getSource()==mIt5)
             {
                dispose();
+               System.exit(0);
             }
             if(e.getSource()==mIt6)
             {
@@ -323,28 +324,100 @@ public class MainFrame extends JFrame{
         return new Integer(bet.getText());}
       }
     }
-    
-    public void removeBot(int number)
+       
+    public void trSleep(int id) throws InterruptedException
     {
-      switch (number){
-        case 1: {plim1.setIcon(new ImageIcon("src\\gui\\pic\\player_d.png"));
-                plim1.repaint(); break;}
-        case 2: {plim2.setIcon(new ImageIcon("src\\gui\\pic\\player_d.png"));
-                plim2.repaint(); break;}
-        case 3: {plim3.setIcon(new ImageIcon("src\\gui\\pic\\player_d.png"));
-                plim3.repaint(); break;}
-        case 4: {plim4.setIcon(new ImageIcon("src\\gui\\pic\\player_d.png"));
-                plim4.repaint(); break;}
-        case 5: {plim5.setIcon(new ImageIcon("src\\gui\\pic\\player_d.png"));
-                plim5.repaint(); break;}
-      }
+        int pause = 2;
+        switch (id){
+            case 1: {
+                for(int i = 0; i<pause; i++){
+                Thread.currentThread().sleep(100);
+                pa1.setText(".");
+                Thread.currentThread().sleep(100);
+                pa1.setText("..");
+                Thread.currentThread().sleep(100);
+                pa1.setText("...");
+                Thread.currentThread().sleep(100);
+                pa1.setText("....");
+                Thread.currentThread().sleep(100);
+                pa1.setText("...");
+                Thread.currentThread().sleep(100);
+                pa1.setText("..");}
+            break;
+            }
+            case 2: {
+                for(int i = 0; i<pause; i++){
+                Thread.currentThread().sleep(100);
+                pa2.setText(".");
+                Thread.currentThread().sleep(100);
+                pa2.setText("..");
+                Thread.currentThread().sleep(100);
+                pa2.setText("...");
+                Thread.currentThread().sleep(100);
+                pa2.setText("....");
+                Thread.currentThread().sleep(100);
+                pa2.setText("...");
+                Thread.currentThread().sleep(100);
+                pa2.setText("..");}
+            break;
+            }
+            case 3: {
+                for(int i = 0; i<pause; i++){
+                Thread.currentThread().sleep(100);
+                pa3.setText(".");
+                Thread.currentThread().sleep(100);
+                pa3.setText("..");
+                Thread.currentThread().sleep(100);
+                pa3.setText("...");
+                Thread.currentThread().sleep(100);
+                pa3.setText("....");
+                Thread.currentThread().sleep(100);
+                pa3.setText("...");
+                Thread.currentThread().sleep(100);
+                pa3.setText("..");}
+            break;
+            }
+            case 4: {
+                for(int i = 0; i<pause; i++){
+                Thread.currentThread().sleep(100);
+                pa4.setText(".");
+                Thread.currentThread().sleep(100);
+                pa4.setText("..");
+                Thread.currentThread().sleep(100);
+                pa4.setText("...");
+                Thread.currentThread().sleep(100);
+                pa4.setText("....");
+                Thread.currentThread().sleep(100);
+                pa4.setText("...");
+                Thread.currentThread().sleep(100);
+                pa4.setText("..");}
+            break;
+            }
+            case 5: {
+                for(int i = 0; i<pause; i++){
+                Thread.currentThread().sleep(100);
+                pa5.setText(".");
+                Thread.currentThread().sleep(100);
+                pa5.setText("..");
+                Thread.currentThread().sleep(100);
+                pa5.setText("...");
+                Thread.currentThread().sleep(100);
+                pa5.setText("....");
+                Thread.currentThread().sleep(100);
+                pa5.setText("...");
+                Thread.currentThread().sleep(100);
+                pa5.setText("..");}
+            break;
+            }
+            default: {break;}
+        }
     }
     
-    public void botAction(Player pl, int a)
+    public void botAction(Player pl, int a) throws InterruptedException
     {
         switch (pl.getId()){
             case 1: {
-                switch(a){
+                 switch(a){
                     case 1: pa1.setText("FOLD"); pa1.repaint(); break;
                     case 2: pa1.setText("CHECK"); pa1.repaint(); break;
                     case 3: pa1.setText("CALL"); pa1.repaint(); break;
@@ -410,7 +483,31 @@ public class MainFrame extends JFrame{
     }
     
     public void newRaund()
-    {              
+    {   
+        plim1 = new JLabel(new ImageIcon("src\\gui\\pic\\player_a.png"));
+        plim2 = new JLabel(new ImageIcon("src\\gui\\pic\\player_a.png"));
+        plim3 = new JLabel(new ImageIcon("src\\gui\\pic\\player_a.png"));
+        plim4 = new JLabel(new ImageIcon("src\\gui\\pic\\player_a.png"));
+        plim5 = new JLabel(new ImageIcon("src\\gui\\pic\\player_a.png"));
+        plim1.repaint();
+        plim2.repaint();
+        plim3.repaint();
+        plim4.repaint();
+        plim5.repaint();
+        
+        stp.setIcon(new ImageIcon("src\\gui\\pic\\Status\\EM.png"));
+        st1.setIcon(new ImageIcon("src\\gui\\pic\\Status\\EM.png"));
+        st2.setIcon(new ImageIcon("src\\gui\\pic\\Status\\EM.png"));
+        st3.setIcon(new ImageIcon("src\\gui\\pic\\Status\\EM.png"));
+        st4.setIcon(new ImageIcon("src\\gui\\pic\\Status\\EM.png"));
+        st5.setIcon(new ImageIcon("src\\gui\\pic\\Status\\EM.png"));
+        stp.repaint();
+        st1.repaint();
+        st2.repaint();
+        st3.repaint();
+        st4.repaint();
+        st5.repaint();
+                
         cp1.setIcon(new ImageIcon("src\\gui\\pic\\Cards\\back.png"));
         cp2.setIcon(new ImageIcon("src\\gui\\pic\\Cards\\back.png"));
         c1.setIcon(new ImageIcon("src\\gui\\pic\\Cards\\back.png"));
@@ -425,6 +522,23 @@ public class MainFrame extends JFrame{
         c3.repaint();
         c4.repaint();
         c5.repaint();
+    }
+    
+    public void showWinner(Player pl) throws InterruptedException
+    {
+        JOptionPane.showMessageDialog(null, ("Player " +pl.getId() +" win, with " +pl.getHand().getName()));
+//        setVisible(false);
+//        String s = new String(("Player " +pl.getId() +" win, with " +pl.getHand().getName()));
+//        JFrame f = new JFrame("Winner");
+//        f.setSize(300, 100);
+//        Image ic = Toolkit.getDefaultToolkit().getImage("src\\gui\\pic\\logo.png");
+//        f.setIconImage(ic);
+//        f.setVisible(true);
+//        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        f.add(new JLabel(s));
+//        Thread.currentThread().sleep(4000);
+//        f.dispose();
+//        setVisible(true);
     }
     
     public void setPot(int p)
@@ -462,7 +576,23 @@ public class MainFrame extends JFrame{
       cp1.repaint();
       cp2.repaint();
     }
-       
+    
+    public void removeBot(int number)
+    {
+      switch (number){
+        case 1: {plim1.setIcon(new ImageIcon("src\\gui\\pic\\player_d.png"));
+                plim1.repaint(); break;}
+        case 2: {plim2.setIcon(new ImageIcon("src\\gui\\pic\\player_d.png"));
+                plim2.repaint(); break;}
+        case 3: {plim3.setIcon(new ImageIcon("src\\gui\\pic\\player_d.png"));
+                plim3.repaint(); break;}
+        case 4: {plim4.setIcon(new ImageIcon("src\\gui\\pic\\player_d.png"));
+                plim4.repaint(); break;}
+        case 5: {plim5.setIcon(new ImageIcon("src\\gui\\pic\\player_d.png"));
+                plim5.repaint(); break;}
+      }
+    }
+    
     public void setStat(Player pl, int n)
     {
       switch (n){
