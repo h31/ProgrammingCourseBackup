@@ -1,9 +1,12 @@
 package poker;
 
+import java.util.Collections;
 import gui.MainFrame;   
+import java.util.ArrayList;
 import support.CircleArray;
 import java.util.Scanner;
 import java.util.Random;
+import javax.swing.plaf.OptionPaneUI;
 
 public class Table {
     
@@ -30,38 +33,46 @@ public class Table {
         deck = new Deck();
     }
          
-     public void start()
+     public void start() throws InterruptedException
     {
         createPlayers(5);
+        frame.repaint();
         
         do{
         frame.newRaund();
-        tempPlayers.addAll(allPlayers);
-        allPlayers.removeAll();
-        blinds();
-        pre_flop(); if(tempPlayers.size()<=1) break;
-        flop(); if(tempPlayers.size()<=1) break;
-        turn(); if(tempPlayers.size()<=1) break;
-        river(); 
-        for(int i = 0; i<tempPlayers.size(); i++){
-            tempPlayers.get(i).resetCards();
-            if(tempPlayers.get(i).getStack()<=0)
-            {
-                tempPlayers.remove(i);
-            }
-        }
+        blinds(); 
+        Thread.currentThread().sleep(1000);
+        pre_flop(); 
+        Thread.currentThread().sleep(1000);
+        if((tempPlayers.size()+reserve.size())>1) flop(); Thread.currentThread().sleep(1000); 
+        if((tempPlayers.size()+reserve.size())>1) turn(); Thread.currentThread().sleep(1000);
+        if((tempPlayers.size()+reserve.size())>1) river(); Thread.currentThread().sleep(1000);
+        
         allPlayers.addAll(tempPlayers);
+        allPlayers.addAll(reserve);
         tempPlayers.removeAll();
+        reserve.removeAll();
+        
+        for(int i = 0; i<allPlayers.size(); i++){
+            if(allPlayers.get(i).getStack()>0)
+            {
+                allPlayers.get(i).resetCards();
+                tempPlayers.add(allPlayers.get(i));
+            } 
+        }
+        allPlayers.removeAll();
+        Collections.sort(tempPlayers.getCA());
         distribution++;
         deck.refill();
-        }while(allPlayers.size()>1);     
+        }while(tempPlayers.size()>1 && tempPlayers.getFst().getId()==0);
+        frame.dispose();
     }
     
     private void createPlayers(int qp)
     {           
         for(int i = 0; i<=qp; i++)
         {
-            allPlayers.add(new Player(i));
+            tempPlayers.add(new Player(i));
         }
     }
         
@@ -72,14 +83,17 @@ public class Table {
             tempPlayers.get(i).newRaund();
             frame.setStat(tempPlayers.get(dealer()+i), i);
         }
-        bet(dealer()+1, bigBl/2);
-        bet(dealer()+2, bigBl);
+        tempPlayers.get(dealer()+1).takeChips(bigBl/2);
+        pot += bigBl/2;
+        tempPlayers.get(dealer()+2).takeChips(bigBl);
+        pot += bigBl;
+        highBet = bigBl;
         frame.setPot(pot);
         for(int i = 0; i<tempPlayers.size(); i++)
         {frame.setStack(tempPlayers.get(i));}
     }
        
-    private void pre_flop()
+    private void pre_flop() throws InterruptedException
     {        
         for(int i = 0; i<tempPlayers.size(); i++)      //given cards to tempPlayers
         {
@@ -91,22 +105,21 @@ public class Table {
         while(true)
         {
                 playersTurn_G();
-                if(checkAl() || ((tempPlayers.size()+reserve.size())<=1))
-                {break;}       
-        }
-        
-        if((tempPlayers.size()+reserve.size())==1)
-        {
-            if(tempPlayers.size()!=0){
-            win(tempPlayers.getFst());}
-            else{win(reserve.getFst());}
-            return;
-        }
-        
+                if(tempPlayers.size()+reserve.size()==1)
+                {
+                    if(tempPlayers.size()!=0){
+                    win(tempPlayers.getFst());}
+                    else{win(reserve.getFst());}
+                    return;
+                }
+                if(tempPlayers.size()==0 && reserve.size()>1) break;
+                if(checkAl()) break;
+        }      
     }
    
-    private void flop()
+    private void flop() throws InterruptedException
     {
+        highBet = 0;
         for(int i = 0; i<tempPlayers.size(); i++)
         {
             tempPlayers.get(i).newRaund();
@@ -130,27 +143,27 @@ public class Table {
             tempPlayers.get(i).giveCard(card2);
             tempPlayers.get(i).giveCard(card3);
         }
-        
+        if(tempPlayers.size()>1){
         tempPlayers.setInd(dealer()+1);                      
-        while(true)
-        {
+            while(true)
+            {
                 playersTurn_G();
-                if(checkAl() || ((tempPlayers.size()+reserve.size())<=1))
-                {break;}       
-        }
-        
-        if((tempPlayers.size()+reserve.size())==1)
-        {
-            if(tempPlayers.size()!=0){
-            win(tempPlayers.getFst());}
-            else{win(reserve.getFst());}
-            return;
-        }
-        
+                if((tempPlayers.size()+reserve.size())==1)
+                {
+                    if(tempPlayers.size()!=0){
+                    win(tempPlayers.getFst());}
+                    else{win(reserve.getFst());}
+                    return;
+                }
+                if(tempPlayers.size()==0 && reserve.size()>1) break;
+                if(checkAl()) break;       
+            }
+        }       
     }        
             
-    private void turn()
+    private void turn() throws InterruptedException
     {
+        highBet = 0;
         for(int i = 0; i<tempPlayers.size(); i++)
         {
             tempPlayers.get(i).newRaund();
@@ -168,25 +181,26 @@ public class Table {
         {
             reserve.get(i).giveCard(card4);
         }
-        
+        if(tempPlayers.size()>1){
         tempPlayers.setInd(dealer()+1);                      
         while(true)
-        {
-                playersTurn_G();
-                if(checkAl() || ((tempPlayers.size()+reserve.size())<=1))
-                {break;}       
-        }
-        
-        if((tempPlayers.size()+reserve.size())==1)
-        {
-            if(tempPlayers.size()!=0){
-            win(tempPlayers.getFst());}
-            else{win(reserve.getFst());}
-            return;
+            {
+                    playersTurn_G();
+                    if((tempPlayers.size()+reserve.size())==1)
+                    {
+                        if(tempPlayers.size()!=0){
+                        win(tempPlayers.getFst());}
+                        else{win(reserve.getFst());}
+                        return;
+                    }
+                    if(tempPlayers.size()==0 && reserve.size()>1) break;
+                    if(checkAl()) break;       
+            }
         }
     }
-    private void river()
+    private void river() throws InterruptedException
     {
+        highBet = 0;
         for(int i = 0; i<tempPlayers.size(); i++) //reset player's status
         {
             tempPlayers.get(i).newRaund();
@@ -204,30 +218,26 @@ public class Table {
         {
             reserve.get(i).giveCard(card5);
         }
-        
+        if(tempPlayers.size()>1){
         tempPlayers.setInd(dealer()+1);                      
         while(true)
-        {
+            {
                 playersTurn_G();
-                if(checkAl() || ((tempPlayers.size()+reserve.size())<=1))
-                {break;}       
+                    if((tempPlayers.size()+reserve.size())==1)
+                    {
+                        if(tempPlayers.size()!=0){
+                        win(tempPlayers.getFst());}
+                        else{win(reserve.getFst());}
+                        return;
+                    }
+                    if(tempPlayers.size()==0 && reserve.size()>1) break;
+                    if(checkAl()) break;
+            }
         }
-        
-        if((tempPlayers.size()+reserve.size())==1)
-        {
-            if(tempPlayers.size()!=0){
-            win(tempPlayers.getFst());}
-            else{win(reserve.getFst());}
-            return;
-        }
-        else
-        {
-            findWiner();
-            return;
-        }
-    }
+        findWiner();
+     }
       
-    private void findWiner()
+    private void findWiner() throws InterruptedException
     {        
         tempPlayers.addAll(reserve);
         for(int i = 0; i<tempPlayers.size(); i++)
@@ -242,8 +252,8 @@ public class Table {
        }
        
        int winers = 0;
-       int p=tempPlayers.size()-1;
-       while(p>0){
+       int p = tempPlayers.size()-1;
+       while(p>=0){
            for(int i = 0; i<tempPlayers.size(); i++)
            {
                if(tempPlayers.get(i).getPoints()==p)
@@ -257,16 +267,17 @@ public class Table {
           for(int i = 0; i<tempPlayers.size(); i++)
               {
                   if(tempPlayers.get(i).getPoints()==p){
+                      frame.showWinner(tempPlayers.get(i));
                       tempPlayers.get(i).giveChips(pot/winers);
                   }
                   frame.setStack(tempPlayers.get(i));
               }
               pot=0;
               frame.setPot(pot);
-              return;
+              reserve.removeAll();
     } 
     
-    private void win(Player pl)
+    private void win(Player pl) throws InterruptedException
     {
         pl.giveChips(pot);
         pot = 0;
@@ -276,6 +287,7 @@ public class Table {
         for(int i = 0; i<reserve.size(); i++)
         {frame.setStack(reserve.get(i));}
         frame.setPot(pot);
+        frame.showWinner(pl);
     }
     
     private int dealer()
@@ -308,11 +320,23 @@ public class Table {
     
     public int action_b(int i)//////////////////////////////bot
     {
-      //double ptch = pt/(hb - totalBet);  
+        ArrayList a1 = new ArrayList();
+        a1.add(1);
+        a1.add(2);
+        a1.add(5);
+        a1.add(6);
+        ArrayList a2 = new ArrayList();
+        a2.add(1);
+        a2.add(3);
+        a2.add(4);
+        a2.add(6);
         Random gen = new Random();
-        int res = gen.nextInt(5);
-        res++;
-      return 3;
+        
+        if(tempPlayers.get(i).getTotalBet()<highBet)
+        {return new Integer(a2.get(gen.nextInt(a2.size())).toString());}
+        else
+        {return new Integer(a2.get(gen.nextInt(a1.size())).toString());}
+        
     }
         
     public int bet_b(int i)///////////////////////////////////////bot
@@ -320,14 +344,15 @@ public class Table {
         return bigBl;
     }
     
-    private void playersTurn_G()
-    {                  
-            int i = tempPlayers.getNextx();
-            int a;
-            int b;
-            boolean f;
+    private void playersTurn_G() throws InterruptedException
+    {          
+            for(int s = tempPlayers.size(); s>0; s--){
+                  
+            int i, a, b;
+            boolean f = false;
+            i = tempPlayers.getNextx();
             do{
-            if(tempPlayers.get(i).getId() == 0){
+                if(tempPlayers.get(i).getId() == 0){
                 if(tempPlayers.get(i).getTotalBet()==highBet){frame.estSetBut(2);}
                 a = action_r();}
             else{
@@ -339,41 +364,37 @@ public class Table {
                             }
                         case 2:{ //check
                             f = check(i); break;
-                            }
-                            
+                            }                            
                         case 3:{ //call
                             f = call(i); break;
-                            }
-                            
+                            }                            
                         case 4:{ //rise
-                            if(i==0){
+                            if(tempPlayers.get(i).getId() == 0){
                                 b = bet_r();}
                             else
                             {
                                 b = bet_b(i);
                             }
                             f = rise(i, b); break;
-                            }
-                            
+                            }                            
                         case 5:{ //bet
-                            if(i==0){
+                            if(tempPlayers.get(i).getId() == 0){
                                 b = bet_r();}
                             else
                             {
                                 b = bet_b(i);
                             }
                             f = bet(i, b); break;
-                            }
-                            
+                            }                            
                         case 6:{ //allin   
                             f = allin(i); break;
-                            }
-                        default:{f = false;}    
+                            } 
                     }
-                }while(!f);            
+                  }while(!f);
+                }            
     }
         
-    private void playersTurn()
+    private void playersTurn() throws InterruptedException
     {
         Scanner in = new Scanner(System.in);
         int i;
@@ -410,35 +431,40 @@ public class Table {
                 }            
     }
     
-    private boolean fold(int i)    //1
-    {
+    private boolean fold(int i) throws InterruptedException    //1
+    {        
+        frame.trSleep(tempPlayers.get(i).getId());
         frame.removeBot(tempPlayers.get(i).getId());
         frame.botAction(tempPlayers.get(i), 1);
         allPlayers.add(tempPlayers.remove(i));
         return true;
     }
-    private boolean check(int i)    //2
+    private boolean check(int i) throws InterruptedException    //2
     {
         if(highBet == tempPlayers.get(i).getTotalBet())
-        {frame.botAction(tempPlayers.get(i), 2);
+        {
+            frame.trSleep(tempPlayers.get(i).getId());
+            frame.botAction(tempPlayers.get(i), 2);
             return true;}
         else
         {return false;}
     }
-    private boolean call(int i)  //3
+    private boolean call(int i) throws InterruptedException  //3
     {
         int toCall = (highBet - tempPlayers.get(i).getTotalBet());
         if(tempPlayers.get(i).getStack()>toCall){
+        frame.trSleep(tempPlayers.get(i).getId());    
         pot += toCall;
         tempPlayers.get(i).takeChips(toCall);
         frame.setStack(tempPlayers.get(i));
         frame.setPot(pot);
         frame.botAction(tempPlayers.get(i), 3);
+        if(tempPlayers.size()==1) reserve.add(tempPlayers.remove(i));
         return true;}
         else
         {return false;}
     }
-    private boolean rise(int i, int b)        //4
+    private boolean rise(int i, int b) throws InterruptedException        //4
     {
         if(tempPlayers.get(i).getStack()>((highBet - tempPlayers.get(i).getTotalBet())+b))
         {call(i);
@@ -448,10 +474,11 @@ public class Table {
         else
         {return false;}
     }
-    private boolean bet(int i, int b)        //5
+    private boolean bet(int i, int b) throws InterruptedException        //5
     {  
-       if(tempPlayers.get(i).getStack()>b){ 
-       if(b>highBet) {highBet = b;}
+       if(tempPlayers.get(i).getStack()>b){
+       frame.trSleep(tempPlayers.get(i).getId());    
+       highBet += b;
        pot = pot + b;
        tempPlayers.get(i).takeChips(b);
        frame.setStack(tempPlayers.get(i));
@@ -462,16 +489,17 @@ public class Table {
        {return false;}
        
     }
-    private boolean allin(int i)         //6
+    private boolean allin(int i) throws InterruptedException         //6
     {
-        if(tempPlayers.get(i).getStack()!=0){ 
-           if(tempPlayers.get(i).getStack()>highBet) {highBet = tempPlayers.get(i).getStack();}
-           pot = pot + tempPlayers.get(i).getStack();
+        if(tempPlayers.get(i).getStack()!=0){
+           frame.trSleep(tempPlayers.get(i).getId());
+           if(tempPlayers.get(i).getStack()>highBet) 
+           {highBet = tempPlayers.get(i).getStack()+tempPlayers.get(i).getTotalBet();}
+           pot += tempPlayers.get(i).getStack();    
            tempPlayers.get(i).takeChips(tempPlayers.get(i).getStack());
-           
+                     
            frame.setStack(tempPlayers.get(i));
            frame.setPot(pot); 
-           frame.botAction(tempPlayers.get(i), 5);
            frame.botAction(tempPlayers.get(i), 6);
            reserve.add(tempPlayers.remove(i));
            return true;

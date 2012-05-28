@@ -1,11 +1,19 @@
 package poker;
 
 public class Poker {
-
-    public static void main(String[] args) {
+               
+    public static void main(String[] args) throws InterruptedException {
         
-        Table table = new Table(20);
+        StartFrame sf = new StartFrame();
+        sf.Start();
+        do{
+        
+        if(sf.rdy()){
+        Table table = new Table(sf._b());
         table.start();
-        System.out.println("END!");
+        sf.Start();}
+        }while(true);
     }
-}
+    
+}  
+    

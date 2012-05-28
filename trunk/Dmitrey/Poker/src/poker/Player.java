@@ -1,9 +1,8 @@
 package poker;
 
-import gui.MainFrame;
 import java.util.Scanner;
 
-public class Player {
+public class Player implements Comparable{
     
     private int size;
     private int stack;
@@ -117,4 +116,16 @@ public class Player {
         cards[size] = card;
         size++;
     }
+
+    @Override
+    public int compareTo(Object o) {
+        
+        Player pl = (Player) o;
+        
+        if(pl.id>id) return -1;
+        else if(pl.id<id) return 1;
+        else return 0;
+    }
+    
+    
 }
