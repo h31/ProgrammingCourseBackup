@@ -2,18 +2,22 @@
 
 Test::Test()
 {
-    if (test_1())
-        cout << "Test_1 passed."<<endl;
-    else cout << "Test_1 didn't pass."<<endl;
-    if (test_2())
-        cout << "Test_2 passed."<<endl;
-    else cout << "Test_2 didn't pass."<<endl;
-    if (test_3())
-        cout << "Test_3 passed."<<endl;
-    else cout << "Test_3 didn't pass."<<endl;
+    if (nearSameNumber())
+        cout << "Test #1 passed."<<endl;
+    else cout << "Test #1 didn't pass."<<endl;
+    cout<<endl;
+    if (emptyOrFilledCell())
+        cout << "Test #2 passed."<<endl;
+    else cout << "Test #2 didn't pass."<<endl;
+    cout<<endl;
+    if (sameNumThroughEmptyCell())
+        cout << "Test #3 passed."<<endl;
+    else cout << "Test #3 didn't pass."<<endl;
+    cout<<endl;
 }
 
-bool Test::test_1(){
+bool Test::nearSameNumber(){
+    cout<<"Test #1. The choice of identical adjacent numbers."<<endl;
     Field f(3);
     cout<<f<<endl;
     f.field[0].setData(0, 1);
@@ -22,7 +26,8 @@ bool Test::test_1(){
     return f.deleteCell(1, 1, 1, 2);
 }
 
-bool Test::test_2(){
+bool Test::emptyOrFilledCell(){
+    cout<<"Test #2. The choice of empty and filled cell."<<endl;
     Field c(3);
     cout<<c<<endl;
     c.field[0].setData(0, 0);
@@ -31,7 +36,8 @@ bool Test::test_2(){
     return c.deleteCell(1, 1, 1, 2);
 }
 
-bool Test::test_3(){
+bool Test::sameNumThroughEmptyCell(){
+    cout<<"Test #3. The choice of identical numbers, among which is an empty cell."<<endl;
     Field f(3);
     cout<<f<<endl;
     f.field[2].setData(4, 1);
@@ -40,6 +46,3 @@ bool Test::test_3(){
     cout<<f<<endl;
     return f.deleteCell(3, 5, 1, 5);
 }
-
-
-
