@@ -6,9 +6,9 @@
 class Test{
 public:
     Test();
-    bool test_1();
-    bool test_2();
-    bool test_3();
+    bool nearSameNumber();
+    bool emptyOrFilledCell();
+    bool sameNumThroughEmptyCell();
 };
 
 #endif // TEST_H
