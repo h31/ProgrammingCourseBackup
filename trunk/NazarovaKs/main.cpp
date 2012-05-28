@@ -1,11 +1,12 @@
-#include <iostream>
-#include <stdlib.h>
-#include "test.h"
+#include <QtGui>
+#include "mainwindow.h"
 
-using namespace std;
-
-int main(){
-	srand((int)time(NULL));    
-    Test test;
-	return 0;
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.setWindowTitle("Sunny Seeds");
+    w.show();
+    
+    return a.exec();
 }
