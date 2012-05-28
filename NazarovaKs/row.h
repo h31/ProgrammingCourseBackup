@@ -1,7 +1,6 @@
-#ifndef _row_h_
-#define _row_h_
+#ifndef ROW_H
+#define ROW_H
 
-#include <iostream>
 #include <time.h>
 #include <vector>
 
@@ -13,13 +12,13 @@ const int maxRows=49;
 class Exception {};
 
 class Row{
-	vector<int> arr;
+    vector<int> arr;
 public:
-	Row();	
-	int getData(int);
-	void setData(int number, int value);
+    Row();
+    int getData(int);
+    void setData(int number, int value);
     void clearCell(int a);
-	friend ostream& operator << (ostream&, const Row&);
 };
 
-#endif
+
+#endif // ROW_H

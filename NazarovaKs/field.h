@@ -1,21 +1,22 @@
-#ifndef _field_h_
-#define _field_h_
+#ifndef FIELD_H
+#define FIELD_H
 
 #include "row.h"
 #include <vector>
 
 class Field{
-	int rows;
+    int rows;
 public:
-	Field();
-	Field(int a);
-	~Field();
+    Field();
+    Field(int a);
+    ~Field();
 
-	vector<Row>field;
+    vector<Row>field;
     bool deleteCell(int, int, int, int);
-	void deleteEmptyRow();
-	void addCells();
-	friend ostream& operator << (ostream& out, const Field&);
+    void deleteEmptyRow();
+    void addCells();
+    int getRows();
+    //friend ostream& operator << (ostream& out, const Field&);
 };
 
-#endif
+#endif // FIELD_H
