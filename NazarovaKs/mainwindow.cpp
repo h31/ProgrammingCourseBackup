@@ -50,6 +50,8 @@ void MainWindow::on_actionNew_game_activated(){
     if (QMessageBox::question(this, "Question", "Open a new game?",QMessageBox::Yes, QMessageBox::No)==QMessageBox::Yes) repaint();
 }
 
+
+
 void MainWindow::mousePressEvent(QMouseEvent *event){
     if (event->button()==Qt::LeftButton) leftButtonPressEvent(event);
 }
@@ -77,9 +79,8 @@ void MainWindow::leftButtonPressEvent(QMouseEvent *event){
 
 void MainWindow::outLoss(){
     Check check(f);
-    if (check.getLoss()){
-        QWidget w;
-    }
+    if (check.getLoss())
+        if (QMessageBox::question(this, "You lose!!!", "Open a new game?",QMessageBox::Yes, QMessageBox::No)==QMessageBox::Yes) repaint();
 }
 
 

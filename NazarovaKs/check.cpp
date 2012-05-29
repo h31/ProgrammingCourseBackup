@@ -8,7 +8,7 @@ Check::Check(Field&field){
 
 bool Check::checkMove(int a1, int b1, int a2, int b2){
     if ((checkSameValues(a1, b1, a2, b2) || checkSumValues(a1, b1, a2, b2)) && checkPlace(a1, b1, a2, b2) && nullValue(a1, b1, a2, b2)
-          && (checkLoss()==false) && (checkSamePlace(a1, b1, a2, b2)))// && !(checkWin()))
+          && (checkLoss()==false) && (checkSamePlace(a1, b1, a2, b2)) && (checkWin()==false))
         return true;
     else return false;
 }
@@ -65,16 +65,11 @@ bool Check::checkLoss(){
 }
 
 bool Check::checkWin(){
-   // cout<<"Checking"<<endl;
-/*for (int i=0; i<f.field.size(); i++)
-    for (int j=0; j<maxColumns; j++){
-        if (f.field[i].getData(j)!=0)
-            return false;
-        else{
-            cout<<"You win!";
-            return true;
-            }
-    }*/
-    return true;
+    int amt=0;
+    for (int i=0; i<f.field.size(); i++)
+        for (int j=0; j<maxColumns; j++)
+            if (f.field[i].getData(j)==0)amt++;
+    if (f.field.size()*maxColumns==amt) return true;
+    else return false;
 }
 
