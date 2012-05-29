@@ -1,13 +1,27 @@
 
 #include "puli.h"
-void Bullet::draw(QPainter &painter)//надо передать координаты танка и направл€ющий вектор
+Bullet::Bullet()
 {
-    painter.setPen(Qt::white);
-    painter.drawLine(coords.x,coords.y,coords.x+10*alpha.x,coords.y+10*alpha.y);
+    speed = 10;
+    l=10;
 }
 
-void Bullet::moveBulletOnTimeout()
+Bullet &Bullet::operator =(const Bullet &b)//компил€тор потребовал написани€ этой функции
 {
-    coords.x = coords.x + speed;
-    coords.y = coords.y + speed;
+    coords = b.coords;
+    alpha = b.alpha;
+    speed = b.speed;
+    l = b.l;
+    return *this;
+}
+
+
+Bullet::Bullet(const Bullet &b): coords(b.coords), alpha(b.alpha), speed(b.speed), l(b.l)
+{
+}
+
+void Bullet::drawp(QPainter &painter)
+{
+    painter.setPen(Qt::green);
+    painter.drawLine(coords.x,coords.y,coords.x+l* alpha.x,coords.y+l* alpha.y);
 }
