@@ -1,14 +1,17 @@
 #ifndef TANKI_H
 #define TANKI_H
-#include<iostream>
-#include<math.h>
-#include<QList>
+
+#include <iostream>
+#include <math.h>
 #include <QPainter>
+#include <QVector>
 #include "puli.h"
+#include "pole.h"
+#include "bot.h"
 
 using namespace std;
 
-struct TankCoordinates
+struct TankCoordinates//координаты танка-игрока
 {
     int x;
     int y;
@@ -19,19 +22,19 @@ struct TankVec//для направления движения танка
     int y;
 };
 
-class Tank
+class Igrok//танк-игрок
 {
 public:
-
     TankCoordinates koords;
     TankVec vec;
-    Bullet bullet;
-    int r;
-    int speed;
-    int speedB;
-    void draw(QPainter &painter);
-    void redraw(QPainter &painter);
-    //void drawBullet(QPainter &painter);
+    Field field;
+    QVector <Bullet> bullet;//вектор пуль
+    int r;//радиус танка
+    int speed;//скорость движения танка
+
+    Igrok();//контструктор
+    void draw(QPainter &painter);//рисование танка-игрока
+
 };
 
 #endif // TANKI_H
