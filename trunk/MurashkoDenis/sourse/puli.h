@@ -1,28 +1,31 @@
 #ifndef PULI_H
 #define PULI_H
 #include <QPainter>
-struct BulletCoordinates
+#include <QVector>
+
+struct BulletCoordinates//координаты пули
 {
     int x;
     int y;
 };
-struct AlphaMove
+struct AlphaMove//угол движения пули
 {
     int x;
     int y;
 };
 
-class Bullet
+class Bullet:public QObject //класс пуля
 {
     Q_OBJECT
 public:
     BulletCoordinates coords;
     AlphaMove alpha;
-    int r;
-    int speed;
-    void draw(QPainter &painter);
-public slots:
-    void moveBulletOnTimeout();
+    int speed;//скорость пули
+    int l;//длина пули
 
+    Bullet();//контсруктор
+    Bullet(const Bullet&);//компилятор потребовал написания этой функции
+    Bullet& operator =(const Bullet&);//компилятор потребовал написания этой функции
+    void drawp(QPainter &painter);//рисование пули
 };
 #endif // PULI_H
