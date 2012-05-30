@@ -43,14 +43,16 @@ void MainWindow::paintEvent(QPaintEvent *){
         x=30;
         y=y+30;
     }
-   // outLoss();
+
 }
 
 void MainWindow::on_actionNew_game_activated(){
-    if (QMessageBox::question(this, "Question", "Open a new game?",QMessageBox::Yes, QMessageBox::No)==QMessageBox::Yes) repaint();
+    if (QMessageBox::question(this, "Question", "Open a new game?",QMessageBox::Yes, QMessageBox::No)==QMessageBox::Yes){
+        Field field(5);
+        f=field;
+        repaint();
+    }
 }
-
-
 
 void MainWindow::mousePressEvent(QMouseEvent *event){
     if (event->button()==Qt::LeftButton) leftButtonPressEvent(event);
@@ -79,12 +81,17 @@ void MainWindow::leftButtonPressEvent(QMouseEvent *event){
 
 void MainWindow::outLoss(){
     Check check(f);
-    if (check.getLoss())
-        if (QMessageBox::question(this, "You lose!!!", "Open a new game?",QMessageBox::Yes, QMessageBox::No)==QMessageBox::Yes) repaint();
+    if (check.getLoss()==true)
+        if (QMessageBox::question(this, "You lose!!!", "Open a new game?",QMessageBox::Yes, QMessageBox::No)==QMessageBox::Yes){
+            Field field;
+            f=field;
+            repaint();
+        }
 }
 
 
 void MainWindow::on_pushButton_clicked(){
+    outLoss();
     emit f.addCells();
     repaint();
 }
@@ -92,7 +99,9 @@ void MainWindow::on_pushButton_clicked(){
 void MainWindow::on_actionExit_activated(){
     emit exit(1);
 }
-void MainWindow::on_verticalScrollBar_sliderPressed()
-{
 
+void MainWindow::on_verticalScrollBar_sliderMoved(int position)
+{
+    QScrollArea sa;
+    sa.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 }
