@@ -22,11 +22,12 @@ public:
 
    void paintEvent(QPaintEvent *event);
     ~MainWindow();
-
+   void proverkaDeath();//проверка убийства
 public slots:
    void moveBulletOnTimeout();//движение пули
    void driveBotOnTimeout();//движение бота
-
+   void hitBulletBotOnTimeout();//выпуск пули бота
+   void moveBotBulletOnTimeout();//движение пули бота
 
 private:
     Ui::MainWindow *ui;
@@ -34,9 +35,11 @@ private:
     QPainter painter;
     Igrok tank;
     Bot bot;
-    QTimer* Timer;//таймер
-
-
+    //таймер для
+    QTimer* BulletTimer; //движения пули игрока
+    QTimer* BotTimer;//движения бота
+    QTimer* BulletBotTimer;//выпуск пуль у бота
+    QTimer* BBulletTimer;//движение пуль у бота
 };
 
 #endif // MAINWINDOW_H
