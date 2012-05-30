@@ -6,7 +6,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    Timer = new QTimer;//для движения пули
+    BulletTimer = new QTimer;//для движения пули игрока
+    BotTimer = new QTimer;//для движения бота
+    BulletBotTimer = new QTimer;//для выпускания пули бота
+    BBulletTimer = new QTimer;//для движения пули бота
+
 }
 
 MainWindow::~MainWindow()
@@ -16,15 +20,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::keyPressEvent(QKeyEvent* ev)
 {
-    //танк
-    if ((tank.koords.x-tank.r-tank.speed<tank.field.x1)||(tank.koords.y-tank.r-tank.speed<tank.field.y1)||
-            (tank.koords.x+tank.r+tank.speed>tank.field.x2)||(tank.koords.y+tank.r+tank.speed>tank.field.y2))
-    {
-
-    }
     if (ev->key() == Qt::Key_W)
     {
-
+        if (tank.koords.y-tank.r-tank.speed<tank.field.y1)
+        {
+            tank.koords.x=tank.koords.x;
+            tank.koords.y=tank.koords.y;
+        }
+        else
         tank.koords.y=tank.koords.y-tank.speed;
         tank.vec.x=0;
         tank.vec.y=-2;
@@ -32,6 +35,12 @@ void MainWindow::keyPressEvent(QKeyEvent* ev)
     }
     if (ev->key() == Qt::Key_S)
     {
+        if (tank.koords.y+tank.r+tank.speed>tank.field.y2)
+        {
+            tank.koords.x=tank.koords.x;
+            tank.koords.y=tank.koords.y;
+        }
+        else
         tank.koords.y=tank.koords.y+tank.speed;
         tank.vec.x=0;
         tank.vec.y=2;
@@ -39,6 +48,12 @@ void MainWindow::keyPressEvent(QKeyEvent* ev)
     }
     if (ev->key() == Qt::Key_A)
     {
+        if (tank.koords.x-tank.r-tank.speed<tank.field.x1)
+        {
+            tank.koords.x=tank.koords.x;
+            tank.koords.y=tank.koords.y;
+        }
+        else
         tank.koords.x=tank.koords.x-tank.speed;
         tank.vec.x=-2;
         tank.vec.y=0;
@@ -46,6 +61,12 @@ void MainWindow::keyPressEvent(QKeyEvent* ev)
     }
     if (ev->key() == Qt::Key_D)
     {
+        if (tank.koords.x+tank.r+tank.speed>tank.field.x2)
+        {
+            tank.koords.x=tank.koords.x;
+            tank.koords.y=tank.koords.y;
+        }
+        else
         tank.koords.x=tank.koords.x+tank.speed;
         tank.vec.x=2;
         tank.vec.y=0;
@@ -60,31 +81,41 @@ void MainWindow::keyPressEvent(QKeyEvent* ev)
         b.alpha.x = tank.vec.x;
         b.alpha.y = tank.vec.y;
 
+        BulletTimer->start(800);
+        connect(BulletTimer, SIGNAL(timeout()), SLOT(moveBulletOnTimeout()));
 
         tank.bullet.push_back(b);
-       // qDebug() << "Bullet created: " << b.speed << " " << endl;
     }
-    //бот
-    connect(Timer, SIGNAL(timeout()), SLOT(moveBulletOnTimeout()));
-    connect(Timer, SIGNAL(timeout()), SLOT(driveBotOnTimeout()));
-    Timer->start(1000);
-   // bulletTimer->start(1000);
+    connect(BotTimer, SIGNAL(timeout()), SLOT(driveBotOnTimeout()));
+    BotTimer->start(1000);
+
+    connect(BulletBotTimer, SIGNAL(timeout()), SLOT(hitBulletBotOnTimeout()));
+    BulletBotTimer->start(3000);
+
+    connect(BBulletTimer,SIGNAL(timeout()),SLOT(moveBotBulletOnTimeout()));
+    BBulletTimer->start(800);
+
 
 }
 void MainWindow::paintEvent(QPaintEvent *event) //как передать сюда аргументы(координаты)
 {
     QPainter painter;
     painter.begin(this);
-    painter.setBrush(QBrush(Qt::black));//закрашивание прямоугольником
+    painter.setBrush(QBrush(Qt::green));//закрашивание прямоугольником
     painter.drawRect(tank.field.x1,tank.field.y1,tank.field.x2,tank.field.y2);
-
-    tank.draw(painter);
     bot.draw(painter);
+    tank.draw(painter);
+
     for (int i=0;i<tank.bullet.size();i++)
     {
-        //qDebug() << tank.bullet[i].coords.x << tank.bullet[i].coords.y << endl;
         tank.bullet[i].drawp(painter);
     }
+
+    for (int j=0;j<bot.bbullet.size();j++)
+    {
+        bot.bbullet[j].drawp(painter);
+    }
+    proverkaDeath();
     painter.end();
 }
 
@@ -114,6 +145,7 @@ void MainWindow::driveBotOnTimeout()
         //=2 вверх
         //=3 влево
         //=4 вниз
+        //проверка чтобы бот не ушел за границы полян
         if (bot.koordsb.x-bot.r-bot.speedb<tank.field.x1)
         {
             bot.koordsb.x+=bot.speedb;
@@ -171,3 +203,51 @@ void MainWindow::driveBotOnTimeout()
             repaint();
         }
 }
+void MainWindow::hitBulletBotOnTimeout()
+{
+       Bullet bb;
+       bb.coords.x = bot.koordsb.x;
+       bb.coords.y = bot.koordsb.y;
+
+       bb.alpha.x = bot.vecb.x;
+       bb.alpha.y = bot.vecb.y;
+
+       bot.bbullet.push_back(bb);
+}
+void MainWindow::moveBotBulletOnTimeout()
+{
+       for (int j=0; j<bot.bbullet.size(); j++)
+       {
+           bot.bbullet[j].coords.x = bot.bbullet[j].coords.x + bot.bbullet[j].alpha.x * bot.bbullet[j].speed;
+           bot.bbullet[j].coords.y = bot.bbullet[j].coords.y + bot.bbullet[j].alpha.y * bot.bbullet[j].speed;
+
+           if ((bot.bbullet[j].coords.x > tank.field.x2)||(bot.bbullet[j].coords.y > tank.field.y2)||(bot.bbullet[j].coords.x<tank.field.x1)||(bot.bbullet[j].coords.y<tank.field.y1))
+           {
+               bot.bbullet.erase(&bot.bbullet[j]);
+               break;
+           }
+           repaint();
+           //убийство игрока
+           if ( ((bot.bbullet[j].coords.x+bot.bbullet[j].l * bot.bbullet[j].alpha.x)>=(tank.koords.x-tank.r)) &&((bot.bbullet[j].coords.x+bot.bbullet[j].l * bot.bbullet[j].alpha.x)<=(tank.koords.x+tank.r)) &&
+                ((bot.bbullet[j].coords.y+bot.bbullet[j].l * bot.bbullet[j].alpha.y)>=(tank.koords.y-tank.r)) &&((bot.bbullet[j].coords.y+bot.bbullet[j].l * bot.bbullet[j].alpha.y)<=(tank.koords.y+tank.r)) )
+           {
+               QMessageBox::information(this, "YOU LOSE!", "YOU LOSE");
+               exit(0);
+
+           }
+       }
+}
+void MainWindow::proverkaDeath()
+{
+    //убийство бота
+    for (int i=0;i<tank.bullet.size();i++)
+    {
+        if ( (tank.bullet[i].coords.x+tank.bullet[i].l * tank.bullet[i].alpha.x)>=(bot.koordsb.x-bot.r) && ((tank.bullet[i].coords.x+tank.bullet[i].l * tank.bullet[i].alpha.x)<=(bot.koordsb.x+bot.r)) &&
+            ((tank.bullet[i].coords.y+tank.bullet[i].l * tank.bullet[i].alpha.y)>=(bot.koordsb.y-bot.r)) && ((tank.bullet[i].coords.y+tank.bullet[i].l * tank.bullet[i].alpha.y)<=(bot.koordsb.y+bot.r)) )
+        {
+            QMessageBox::information(this, "YOU WIN!", "YOU WIN");
+            exit(0);
+        }
+    }
+}
+
