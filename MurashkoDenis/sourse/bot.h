@@ -21,6 +21,7 @@ public:
     BotCoordinates koordsb;
     VecBot vecb;
     Field field;
+    QVector <Bullet> bbullet;//вектор пуль
     int alpha; //угол движения
     int speedb; //скорость дижения
     int r;//радиус бота
