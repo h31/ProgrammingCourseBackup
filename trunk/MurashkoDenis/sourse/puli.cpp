@@ -22,6 +22,6 @@ Bullet::Bullet(const Bullet &b): coords(b.coords), alpha(b.alpha), speed(b.speed
 
 void Bullet::drawp(QPainter &painter)
 {
-    painter.setPen(Qt::green);
+    painter.setPen(Qt::yellow);
     painter.drawLine(coords.x,coords.y,coords.x+l* alpha.x,coords.y+l* alpha.y);
 }
