@@ -17,6 +17,7 @@ public:
     Check(Field&);
     bool checkMove(int, int, int, int);
     bool getLoss();
+    bool getWin();
 };
 
 

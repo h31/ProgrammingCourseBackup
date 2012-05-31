@@ -16,7 +16,6 @@ public:
     void deleteEmptyRow();
     void addCells();
     int getRows();
-    //friend ostream& operator << (ostream& out, const Field&);
 };
 
 #endif // FIELD_H

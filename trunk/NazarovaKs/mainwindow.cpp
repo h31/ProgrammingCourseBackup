@@ -1,4 +1,3 @@
-#include <QtGui>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "QPainter"
@@ -79,20 +78,36 @@ void MainWindow::leftButtonPressEvent(QMouseEvent *event){
     }
 }
 
-void MainWindow::outLoss(){
+bool MainWindow::outLoss(){
     Check check(f);
-    if (check.getLoss()==true)
+    if (check.getLoss()==true){
         if (QMessageBox::question(this, "You lose!!!", "Open a new game?",QMessageBox::Yes, QMessageBox::No)==QMessageBox::Yes){
             Field field;
             f=field;
             repaint();
-        }
+        }        
+        else exit(1);
+        return true;
+    }
+    else return false;
 }
 
+bool MainWindow::outWin(){
+    Check check(f);
+    if (check.getWin()==true){
+        if (QMessageBox::question(this, "You win!!!", "Open a new game?",QMessageBox::Yes, QMessageBox::No)==QMessageBox::Yes){
+            Field field;
+            f=field;
+            repaint();
+        }
+        else exit(1);
+        return true;
+    }
+    else return false;
+}
 
 void MainWindow::on_pushButton_clicked(){
-    outLoss();
-    emit f.addCells();
+    if (outLoss()==0 && outWin()==0) emit f.addCells();
     repaint();
 }
 
@@ -100,8 +115,7 @@ void MainWindow::on_actionExit_activated(){
     emit exit(1);
 }
 
-void MainWindow::on_verticalScrollBar_sliderMoved(int position)
-{
+void MainWindow::on_verticalScrollBar_sliderMoved(int position){
     QScrollArea sa;
     sa.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 }

@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QtGui>
 #include <QMainWindow>
 #include "field.h"
 
@@ -23,16 +24,17 @@ protected:
     virtual void paintEvent(QPaintEvent *);
     void mousePressEvent(QMouseEvent *event);    
     void leftButtonPressEvent(QMouseEvent* event);
-    void outLoss();
+    bool outLoss();
+    bool outWin();
 
 private slots:
     void on_actionNew_game_activated();
     void on_pushButton_clicked();
     void on_actionExit_activated();
-
-    void on_verticalScrollBar_sliderPressed();
+    void on_verticalScrollBar_sliderMoved(int position);
 
 private:
+    QScrollArea *scrollArea;
     Ui::MainWindow *ui;
     Field f;
 };

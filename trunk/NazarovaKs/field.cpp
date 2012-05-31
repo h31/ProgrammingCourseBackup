@@ -41,15 +41,19 @@ void Field::addCells(){
     int j_new = 0;
     for (int i=0; i<field.size(); i++)
         for (int j=0; j<maxColumns; j++){
-            if (field[i].getData(j)!=0)
-            {
+            if (field[i].getData(j)!=0){
                 if (j_new >= maxColumns){
                     i_new++;
                     j_new = 0;
                 }
                 f[i_new].setData(j_new, field[i].getData(j) );
-                j_new++;
+                ++j_new;
             }
+    }
+
+    if (j_new<maxColumns){
+        for (j_new; j_new<maxColumns; ++j_new)
+            f[i_new].clearCell(j_new++);
     }
 
     for (unsigned int i=0; i<=i_new; i++)
