@@ -14,7 +14,11 @@ bool Check::checkMove(int a1, int b1, int a2, int b2){
 }
 
 bool Check::getLoss(){
-    return (getLoss());
+    return (checkLoss());
+}
+
+bool Check::getWin(){
+    return (checkWin());
 }
 
 bool Check::checkSameValues(int a1, int b1, int a2, int b2){
