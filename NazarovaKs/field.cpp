@@ -51,9 +51,10 @@ void Field::addCells(){
             }
     }
 
-    if (j_new<maxColumns){
-        for (j_new; j_new<maxColumns; ++j_new)
+    j_new++;
+    for (j_new; j_new<=maxColumns; j_new++){
             f[i_new].clearCell(j_new++);
+            j_new--;
     }
 
     for (unsigned int i=0; i<=i_new; i++)
