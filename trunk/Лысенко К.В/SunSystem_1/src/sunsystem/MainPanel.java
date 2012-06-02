@@ -1,11 +1,11 @@
 package sunsystem;
 
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.*;
 import java.util.ArrayDeque;
 import java.util.Deque;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -17,7 +17,6 @@ class MainPanel extends JPanel implements Screen{
     double Tfact;
     int Tstep;
     double BaseSize;
-    JComboBox choice;
 
     public MainPanel(ArrayDeque<Planet> tplanets){
         super();
@@ -30,10 +29,6 @@ class MainPanel extends JPanel implements Screen{
             planet.getTrajectory().setScreen(this);
         timer = new Timer(Tstep, new TimerListener(planets, this));
         addMouseListener(new MListener(planets, this));
-        choice = new JComboBox(new Speed[] {new Speed(1.0), new Speed(2.0), new Speed(0.5), new Speed(1000.0), new Speed(0.01)});
-        choice.setBounds(100, 200, 100, 20);
-        choice.addItemListener(new SelectMonitor(this));
-        add(choice);
         timer.start();
     }
 
@@ -46,6 +41,8 @@ class MainPanel extends JPanel implements Screen{
         Sfact = (double)size/BaseSize;
         for(Planet planet: planets)
             planet.paint(g, this, Sfact);
+        g.setColor(Color.black);
+        g.drawString(Double.toString(Tfact), 10, 15);
     }
     @Override
     public void setSfact(double nSfact){
@@ -106,32 +103,5 @@ class MListener extends MouseAdapter{
                 break;
             }
         }
-    }
-}
-
-class SelectMonitor implements ItemListener{
-    Screen scr;
-    SelectMonitor(Screen screen){
-        scr = screen;
-    }
-    @Override
-    public void itemStateChanged(ItemEvent e){
-        if(e.getStateChange() == ItemEvent.SELECTED){
-            scr.setTfact(((Speed)e.getItem()).getVal());
-        }
-    } 
-}
-
-class Speed{
-    double val;
-    Speed(double val){
-        this.val = val;
-    }
-    double getVal(){
-        return val;
-    }
-    @Override
-    public String toString(){
-        return val + "x";
     }
 }
