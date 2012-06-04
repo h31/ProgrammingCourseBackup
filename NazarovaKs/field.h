@@ -5,8 +5,7 @@
 #include <vector>
 
 class Field{
-    int rows;    
-    int ist, jst;
+    int rows;
 public:
     Field();
     Field(int a);
