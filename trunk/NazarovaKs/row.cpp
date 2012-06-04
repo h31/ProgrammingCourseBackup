@@ -23,6 +23,14 @@ void Row::clearCell(int a){
     else throw Exception();
 }
 
+void Row::setStateIsPressed(int i, bool j){
+    isPressed[i]=j;
+}
+
+bool Row::getStateIsPressed(int i){
+    return isPressed[i];
+}
+
 void Row::setData(int number, int value){
     if (number<=maxColumns)
         arr[number] = value;

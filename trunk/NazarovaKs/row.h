@@ -13,13 +13,14 @@ class Exception {};
 
 class Row{
     vector<int> arr;
-public:
     vector<bool> isPressed;
-
+public:
     Row();
     int getData(int);
     void setData(int number, int value);
     void clearCell(int a);
+    void setStateIsPressed(int, bool);
+    bool getStateIsPressed(int);
 };
 
 
