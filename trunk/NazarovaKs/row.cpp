@@ -3,16 +3,13 @@
 
 Row::Row(){
     arr.resize(maxColumns);
+    isPressed.resize(maxColumns);
     for(int i=0; i<maxColumns; i++)
+    {
         arr[i]=1+rand()%9;
+        isPressed[i] = false;
+    }
 }
-
-/*ostream& operator << (ostream& out, const Row& cell){
-    for (int i=0; i<maxColumns; i++)
-        out<<cell.arr[i]<<" ";
-    out<<endl;
-    return out;
-}*/
 
 int Row::getData(int a){
     if (a<=maxColumns)

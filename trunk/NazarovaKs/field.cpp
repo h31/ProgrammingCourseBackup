@@ -36,7 +36,6 @@ bool Field::deleteCell(int a1, int b1, int a2, int b2){
 void Field::addCells(){
     vector<Row>f;
     f.resize(rows);
-
     int i_new = 0;
     int j_new = 0;
     for (int i=0; i<field.size(); i++)
@@ -62,8 +61,7 @@ void Field::addCells(){
     rows=field.size();
 }
 
-int Field::getRows()
-{
+int Field::getRows(){
     return rows;
 }
 

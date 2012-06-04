@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     firstClick = true;
     startX=startY=finishX=finishY=0;
+    myVar=0;
+
 }
 MainWindow::~MainWindow(){
     delete ui;
@@ -18,7 +20,7 @@ MainWindow::~MainWindow(){
 
 void MainWindow::paintEvent(QPaintEvent *){
     int x=30, y=45;
-    for(int i=0; i<f.field.size(); i++){
+     for(int i=myVar; i<f.field.size(); i++){
         for(int j=0; j<maxColumns; j++){
             QRect sq(x, y, 30, 30);
             QPainter pict;
@@ -32,16 +34,23 @@ void MainWindow::paintEvent(QPaintEvent *){
             QPainter text;
             text.begin(this);
             text.setRenderHint(QPainter::Antialiasing, true);
+            if (f.field[i].isPressed[j]==true) text.setPen(QPen(Qt::cyan, 3, Qt::DashLine));
             if (f.field[i].getData(j)==0) text.drawText(sq, " ", QTextOption(Qt::AlignCenter));
             else text.drawText(sq, QString::number(f.field[i].getData(j)), QTextOption(Qt::AlignCenter));
             text.end();
             x=x+30;
 
             f.deleteEmptyRow();
+            f.field[i].isPressed[j]=false;
         }
         x=30;
         y=y+30;
     }
+//     int rowsDisplayed = (height() - 45)/30;
+//     if (rowsDisplayed <= f.field.size() )
+//         ui->verticalScrollBar->setMaximum(0);
+//     else
+//         ui->verticalScrollBar->setMaximum(f.field.size() - rowsDisplayed);
 
 }
 
@@ -58,24 +67,24 @@ void MainWindow::mousePressEvent(QMouseEvent *event){
 }
 
 void MainWindow::leftButtonPressEvent(QMouseEvent *event){
-    repaint();
     if(firstClick){
         QPoint p;
         p=event->pos();
-        startX = ((p.ry()-45)/30)+1;
+        startX = ((p.ry()-45)/30)+1+myVar;
         startY = ((p.rx()-30)/30)+1;
+        f.field[startX-1].isPressed[startY-1] = true;
         firstClick=false;
     }
     else {
         QPoint p;
         p=event->pos();
-        finishX = ((p.ry()-45)/30)+1;
+        finishX = ((p.ry()-45)/30)+1+myVar;
         finishY = ((p.rx()-30)/30)+1;
-
+        f.field[finishX-1].isPressed[finishY-1] = true;
         f.deleteCell(startX,startY,finishX,finishY);
-        repaint();
         firstClick = true;
     }
+    repaint();
 }
 
 bool MainWindow::outLoss(){
@@ -115,7 +124,7 @@ void MainWindow::on_actionExit_activated(){
     emit exit(1);
 }
 
-void MainWindow::on_verticalScrollBar_sliderMoved(int position){
-    QScrollArea sa;
-    sa.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+void MainWindow::on_verticalScrollBar_valueChanged(int value){
+    myVar=value;
+    repaint();
 }
