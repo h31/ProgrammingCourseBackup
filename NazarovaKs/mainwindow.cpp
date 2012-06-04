@@ -34,14 +34,14 @@ void MainWindow::paintEvent(QPaintEvent *){
             QPainter text;
             text.begin(this);
             text.setRenderHint(QPainter::Antialiasing, true);
-            if (f.field[i].isPressed[j]==true) text.setPen(QPen(Qt::cyan, 3, Qt::DashLine));
+            if (f.field[i].getStateIsPressed(j)==true) text.setPen(QPen(Qt::cyan, 3, Qt::DashLine));
             if (f.field[i].getData(j)==0) text.drawText(sq, " ", QTextOption(Qt::AlignCenter));
             else text.drawText(sq, QString::number(f.field[i].getData(j)), QTextOption(Qt::AlignCenter));
             text.end();
             x=x+30;
 
             f.deleteEmptyRow();
-            f.field[i].isPressed[j]=false;
+            f.field[i].setStateIsPressed(j, false);
         }
         x=30;
         y=y+30;
@@ -72,7 +72,7 @@ void MainWindow::leftButtonPressEvent(QMouseEvent *event){
         p=event->pos();
         startX=((p.ry()-45)/30)+1+myVar;
         startY=((p.rx()-30)/30)+1;
-        f.field[startX-1].isPressed[startY-1] = true;
+        f.field[startX-1].setStateIsPressed(startY-1, true);
         firstClick=false;
     }
     else {
@@ -80,7 +80,7 @@ void MainWindow::leftButtonPressEvent(QMouseEvent *event){
         p=event->pos();
         finishX=((p.ry()-45)/30)+1+myVar;
         finishY=((p.rx()-30)/30)+1;
-        f.field[finishX-1].isPressed[finishY-1] = true;
+        f.field[finishX-1].setStateIsPressed(finishY-1, true);
         f.deleteCell(startX,startY,finishX,finishY);
         firstClick = true;
     }
