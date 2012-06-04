@@ -6,6 +6,7 @@
 
 class Field{
     int rows;
+    bool saveField;
 public:
     Field();
     Field(int a);
@@ -15,6 +16,9 @@ public:
     bool deleteCell(int, int, int, int);
     void deleteEmptyRow();
     void addCells();
+    void getState(bool);
+    void saveGame();
+    void loadGame();
     int getRows();
 };
 

@@ -3,8 +3,10 @@
 #include "mainwindow.h"
 #include "QtGui"
 #include <stdlib.h>
+#include <fstream>
 
 Field::Field(): field() {
+    saveField=false;
     rows=5;
     srand((int)time(NULL));
     for (int i=0; i<rows; i++)
@@ -12,6 +14,7 @@ Field::Field(): field() {
 }
 
 Field::Field(int a): field(){
+    saveField=false;
     rows=a;
     srand((int)time(NULL));
     for (int i=0; i<rows; i++)
@@ -61,17 +64,50 @@ void Field::addCells(){
     rows=field.size();
 }
 
+void Field::getState(bool state){
+    saveField=state;
+}
+
+void Field::saveGame(){
+    ofstream out("Save.txt");
+    for (int i=0; i<field.size(); i++){
+        for (int j=0; j<maxColumns; j++)
+            out<<field[i].getData(j)<<" ";
+        out<<endl;
+    }
+    out.close();
+}
+
+void Field::loadGame(){
+    vector<Row>f;
+    int amt=0;
+    int* arr=new int[maxRows*maxColumns];
+    ifstream in("Save.txt");
+    for (int i=0; !in.eof(); i++){
+        in>>arr[i];
+        amt++;
+    }
+    f.resize((amt+1)/maxColumns);
+    int k=0;
+    for (int i=0; i<f.size(); i++)
+        for (int j=0; j<maxColumns; j++)
+            if(k<amt){
+                f[i].setData(j, arr[k]);
+                k++;
+            }
+    field=f;
+    in.close();
+}
+
 int Field::getRows(){
     return rows;
 }
 
 void Field::deleteEmptyRow(){
-    for (vector<Row>::iterator it=field.begin(); it != field.end();	it++)
-    {
+    for (vector<Row>::iterator it=field.begin(); it!=field.end(); it++){
         bool isEmpty = true;
         for (int i=0; i<maxColumns; i++)
-            if (it->getData(i) != 0)
-            {
+            if (it->getData(i) != 0){
                 isEmpty = false;
                 break;
             }

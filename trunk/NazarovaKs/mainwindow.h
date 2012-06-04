@@ -25,6 +25,7 @@ protected:
     virtual void paintEvent(QPaintEvent *);
     void mousePressEvent(QMouseEvent *event);    
     void leftButtonPressEvent(QMouseEvent* event);
+    void closeEvent(QCloseEvent *event);
     bool outLoss();
     bool outWin();
 
@@ -32,8 +33,9 @@ private slots:
     void on_actionNew_game_activated();
     void on_pushButton_clicked();
     void on_actionExit_activated();
-
     void on_verticalScrollBar_valueChanged(int value);
+
+    void on_actionContinued_activated();
 
 private:
     Ui::MainWindow *ui;
