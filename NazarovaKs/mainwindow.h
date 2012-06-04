@@ -3,6 +3,7 @@
 
 #include <QtGui>
 #include <QMainWindow>
+#include <QAbstractScrollArea>
 #include "field.h"
 
 namespace Ui {
@@ -31,12 +32,13 @@ private slots:
     void on_actionNew_game_activated();
     void on_pushButton_clicked();
     void on_actionExit_activated();
-    void on_verticalScrollBar_sliderMoved(int position);
+
+    void on_verticalScrollBar_valueChanged(int value);
 
 private:
-    QScrollArea *scrollArea;
     Ui::MainWindow *ui;
     Field f;
+    int myVar;
 };
 
 #endif // MAINWINDOW_H

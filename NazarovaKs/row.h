@@ -7,7 +7,7 @@
 using namespace std;
 
 const int maxColumns=7;
-const int maxRows=49;
+const int maxRows=35;
 
 class Exception {};
 
@@ -16,6 +16,7 @@ class Row{
 public:
     Row();
     int getData(int);
+    vector<bool> isPressed;
     void setData(int number, int value);
     void clearCell(int a);
 };
