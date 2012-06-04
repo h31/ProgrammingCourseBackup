@@ -14,9 +14,10 @@ class Exception {};
 class Row{
     vector<int> arr;
 public:
+    vector<bool> isPressed;
+
     Row();
     int getData(int);
-    vector<bool> isPressed;
     void setData(int number, int value);
     void clearCell(int a);
 };

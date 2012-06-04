@@ -70,21 +70,29 @@ void MainWindow::leftButtonPressEvent(QMouseEvent *event){
     if(firstClick){
         QPoint p;
         p=event->pos();
-        startX = ((p.ry()-45)/30)+1+myVar;
-        startY = ((p.rx()-30)/30)+1;
+        startX=((p.ry()-45)/30)+1+myVar;
+        startY=((p.rx()-30)/30)+1;
         f.field[startX-1].isPressed[startY-1] = true;
         firstClick=false;
     }
     else {
         QPoint p;
         p=event->pos();
-        finishX = ((p.ry()-45)/30)+1+myVar;
-        finishY = ((p.rx()-30)/30)+1;
+        finishX=((p.ry()-45)/30)+1+myVar;
+        finishY=((p.rx()-30)/30)+1;
         f.field[finishX-1].isPressed[finishY-1] = true;
         f.deleteCell(startX,startY,finishX,finishY);
         firstClick = true;
     }
     repaint();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event){
+    if (QMessageBox::question(this, "Question", "Save game?",QMessageBox::Yes, QMessageBox::No)==QMessageBox::Yes) {
+        f.saveGame();
+        emit exit(1);
+    }
+    else emit exit(1);
 }
 
 bool MainWindow::outLoss(){
@@ -121,10 +129,20 @@ void MainWindow::on_pushButton_clicked(){
 }
 
 void MainWindow::on_actionExit_activated(){
-    emit exit(1);
+    if (QMessageBox::question(this, "Question", "Save game?",QMessageBox::Yes, QMessageBox::No)==QMessageBox::Yes) {
+        f.saveGame();
+        emit exit(1);
+    }
+    else emit exit(1);
 }
 
 void MainWindow::on_verticalScrollBar_valueChanged(int value){
     myVar=value;
+    repaint();
+}
+
+void MainWindow::on_actionContinued_activated(){
+    f.getState(true);
+    f.loadGame();
     repaint();
 }
