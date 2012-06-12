@@ -23,6 +23,10 @@ public:
    void paintEvent(QPaintEvent *event);
     ~MainWindow();
    void proverkaDeath();//проверка убийства
+   bool proverkaFieldIgrok();//проверка границ поля для игрока
+   bool proverkaFieldBot();//проверка границ поля для бота
+   void drawIgrok(QPainter &painter);//рисование танка-игрока
+   void drawBot(QPainter &painter);//рисование бота
 public slots:
    void moveBulletOnTimeout();//движение пули
    void driveBotOnTimeout();//движение бота
