@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "mainwindow.h"-
 #include "ui_mainwindow.h"
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -103,19 +103,27 @@ void MainWindow::paintEvent(QPaintEvent *event) //как передать сюда аргументы(ко
     painter.begin(this);
     painter.setBrush(QBrush(Qt::green));//закрашивание прямоугольником
     painter.drawRect(tank.field.x1,tank.field.y1,tank.field.x2,tank.field.y2);
-    bot.draw(painter);
-    tank.draw(painter);
-
-    for (int i=0;i<tank.bullet.size();i++)
+    drawIgrok(painter);
+    drawBot(painter);
+   // bot.draw(painter);
+    //tank.draw(painter);
+    if ((proverkaFieldIgrok()==true)&&(proverkaFieldBot()==true))
     {
-        tank.bullet[i].drawp(painter);
-    }
+        for (int i=0;i<tank.bullet.size();i++)
+        {
+            tank.bullet[i].drawp(painter);
+        }
 
-    for (int j=0;j<bot.bbullet.size();j++)
-    {
-        bot.bbullet[j].drawp(painter);
+        for (int j=0;j<bot.bbullet.size();j++)
+        {
+            bot.bbullet[j].drawp(painter);
+        }
     }
-    proverkaDeath();
+    else
+    {
+        QMessageBox::information(this, "Exit za zranicy!", "Exit za zranicy!");
+         exit(0);
+    }
     painter.end();
 }
 
@@ -126,7 +134,17 @@ void MainWindow::moveBulletOnTimeout()
     {
         tank.bullet[i].coords.x = tank.bullet[i].coords.x + tank.bullet[i].alpha.x * tank.bullet[i].speed;
         tank.bullet[i].coords.y = tank.bullet[i].coords.y + tank.bullet[i].alpha.y * tank.bullet[i].speed;
+        if ( (tank.bullet[i].coords.x+tank.bullet[i].l * tank.bullet[i].alpha.x)>=(bot.koordsb.x-bot.r) && ((tank.bullet[i].coords.x+tank.bullet[i].l * tank.bullet[i].alpha.x)<=(bot.koordsb.x+bot.r)) &&
+            ((tank.bullet[i].coords.y+tank.bullet[i].l * tank.bullet[i].alpha.y)>=(bot.koordsb.y-bot.r)) && ((tank.bullet[i].coords.y+tank.bullet[i].l * tank.bullet[i].alpha.y)<=(bot.koordsb.y+bot.r)) )
+        {
+            BulletTimer->stop();
+            BotTimer->stop();
+            BulletBotTimer->stop();
+            BBulletTimer->stop();
+            QMessageBox::information(this, "YOU WIN!", "YOU WIN");
 
+            exit(0);
+        }
         if ((tank.bullet[i].coords.x > tank.field.x2)||(tank.bullet[i].coords.y > tank.field.y2)||(tank.bullet[i].coords.x<tank.field.x1)||(tank.bullet[i].coords.y<tank.field.y1))
         {
             tank.bullet.erase(&tank.bullet[i]);
@@ -231,13 +249,63 @@ void MainWindow::moveBotBulletOnTimeout()
            if ( ((bot.bbullet[j].coords.x+bot.bbullet[j].l * bot.bbullet[j].alpha.x)>=(tank.koords.x-tank.r)) &&((bot.bbullet[j].coords.x+bot.bbullet[j].l * bot.bbullet[j].alpha.x)<=(tank.koords.x+tank.r)) &&
                 ((bot.bbullet[j].coords.y+bot.bbullet[j].l * bot.bbullet[j].alpha.y)>=(tank.koords.y-tank.r)) &&((bot.bbullet[j].coords.y+bot.bbullet[j].l * bot.bbullet[j].alpha.y)<=(tank.koords.y+tank.r)) )
            {
+               repaint();
+               BulletTimer->stop();
+               BotTimer->stop();
+               BulletBotTimer->stop();
+               BBulletTimer->stop();
                QMessageBox::information(this, "YOU LOSE!", "YOU LOSE");
                exit(0);
 
            }
+
        }
 }
-void MainWindow::proverkaDeath()
+
+bool MainWindow::proverkaFieldIgrok()//для танка
+{
+    if ((tank.koords.y-tank.r<tank.field.y1)||(tank.koords.y+tank.r>tank.field.y2)||
+        (tank.koords.x-tank.r<tank.field.x1)||(tank.koords.x+tank.r>tank.field.x2))
+        {
+            //QMessageBox::information(this, "Nevernie koordinati Igroka!", "Nevernie koordinati Igroka!");
+            return false;
+        }
+
+    else
+        return true;
+}
+
+bool MainWindow::proverkaFieldBot()
+{
+    if ((bot.koordsb.x-bot.r<tank.field.x1)||(bot.koordsb.y-bot.r<tank.field.y1)||
+        (bot.koordsb.x+bot.r>tank.field.x2)||(bot.koordsb.y+bot.r>tank.field.y2))
+        {
+            //QMessageBox::information(this, "Nevernie koordinati Bota!", "Nevernie koordinati Bota!");
+            return false;
+        }
+    else
+        return true;
+}
+
+void MainWindow::drawIgrok(QPainter &painter)
+{
+    painter.setBrush(Qt::blue);
+    painter.setPen(Qt::blue);
+    painter.drawEllipse(QRect(tank.koords.x-tank.r,tank.koords.y-tank.r,2*tank.r,2*tank.r));
+    painter.setPen(Qt::white);
+    painter.drawEllipse(QRect(tank.koords.x+tank.vec.x-5,tank.koords.y+tank.vec.y-5,10,10));//башня
+}
+
+void MainWindow::drawBot(QPainter &painter)
+{
+    painter.setBrush(Qt::red);
+    painter.setPen(Qt::red);
+    painter.drawEllipse(QRect(bot.koordsb.x-bot.r,bot.koordsb.y-bot.r,2*bot.r,2*bot.r));
+    painter.setPen(Qt::white);
+    painter.drawEllipse(QRect(bot.koordsb.x+bot.vecb.x-5,bot.koordsb.y+bot.vecb.y-5,10,10));
+}
+
+/*void MainWindow::proverkaDeath()
 {
     //убийство бота
     for (int i=0;i<tank.bullet.size();i++)
@@ -245,9 +313,10 @@ void MainWindow::proverkaDeath()
         if ( (tank.bullet[i].coords.x+tank.bullet[i].l * tank.bullet[i].alpha.x)>=(bot.koordsb.x-bot.r) && ((tank.bullet[i].coords.x+tank.bullet[i].l * tank.bullet[i].alpha.x)<=(bot.koordsb.x+bot.r)) &&
             ((tank.bullet[i].coords.y+tank.bullet[i].l * tank.bullet[i].alpha.y)>=(bot.koordsb.y-bot.r)) && ((tank.bullet[i].coords.y+tank.bullet[i].l * tank.bullet[i].alpha.y)<=(bot.koordsb.y+bot.r)) )
         {
+            //repaint();
             QMessageBox::information(this, "YOU WIN!", "YOU WIN");
             exit(0);
         }
     }
-}
+}*/
 
