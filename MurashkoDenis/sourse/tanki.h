@@ -8,6 +8,7 @@
 #include "puli.h"
 #include "pole.h"
 #include "bot.h"
+//#include "test.h"
 
 using namespace std;
 
@@ -33,7 +34,7 @@ public:
     int speed;//скорость движения танка
 
     Igrok();//контструктор
-    void draw(QPainter &painter);//рисование танка-игрока
+    //void draw(QPainter &painter);//рисование танка-игрока
 
 };
 
