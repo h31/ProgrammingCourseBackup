@@ -1,2 +1,0 @@
-sunsystem.TimerListener
-sunsystem.MainPanel

@@ -1,3 +1,0 @@
-sunsystem.NoPlanetException
-sunsystem.PlanetLoader
-sunsystem.Filter

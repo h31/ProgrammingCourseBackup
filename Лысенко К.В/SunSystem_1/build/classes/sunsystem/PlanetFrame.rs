@@ -1,2 +1,0 @@
-sunsystem.PlanetFrame
-sunsystem.FrameCloser
