@@ -1,2 +1,0 @@
-sunsystem.Trajectory
-sunsystem.TrajCircle

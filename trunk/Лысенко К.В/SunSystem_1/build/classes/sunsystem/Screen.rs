@@ -1,2 +1,0 @@
-sunsystem.BaseScreen
-sunsystem.Screen
