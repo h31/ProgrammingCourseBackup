@@ -6,15 +6,15 @@ import java.util.Calendar;
  * Остановка поезда на пути следования
  */
 public class TrainPathItem {
+
     /**
      * Время прибытия
      */
-    private Calendar incomingTime;
+    private Time incomingTime;
     /**
      * Время отправления
      */
-    private Calendar outcomingTime;
-
+    private Time outcomingTime;
     /**
      * Станция на которую прибывает и с которой отправляется
      */
@@ -26,16 +26,19 @@ public class TrainPathItem {
      * @param outcomingTime Время отправления
      * @param station       Станция
      */
-    public TrainPathItem(Calendar incomingTime, Calendar outcomingTime, RailwayStation station) {
-        this.incomingTime = incomingTime;
-        this.outcomingTime = outcomingTime;
+    public TrainPathItem(RailwayStation station) {
         this.station = station;
+    }
+
+    public TrainPathItem() {
+        incomingTime = new Time();
+        outcomingTime = new Time();
     }
 
     /**
      * @return {@link #incomingTime}
      */
-    public Calendar getIncomingTime() {
+    public Time getIncomingTime() {
         return incomingTime;
     }
 
@@ -43,14 +46,14 @@ public class TrainPathItem {
      * Устанавливает {@link #incomgTime}
      * @param incomingTime время прибытия которое необходимо установить
      */
-    public void setIncomingTime(Calendar incomingTime) {
-        this.incomingTime = incomingTime;
+    public void setIncomingTime(String incomingTimeString) {
+        this.incomingTime.parseToTime(incomingTimeString);
     }
 
     /**
      * @return {@link #outcomingTime}
      */
-    public Calendar getOutcomingTime() {
+    public Time getOutcomingTime() {
         return outcomingTime;
     }
 
@@ -58,8 +61,8 @@ public class TrainPathItem {
      * устанавливает {@link #outcomingTime}
      * @param outcomingTime время отправления которое необходимо установить
      */
-    public void setOutcomingTime(Calendar outcomingTime) {
-        this.outcomingTime = outcomingTime;
+    public void setOutcomingTime(String outcomingTime) {
+        this.outcomingTime.parseToTime(outcomingTime);
     }
 
     /**
@@ -76,10 +79,4 @@ public class TrainPathItem {
     public void setStation(RailwayStation station) {
         this.station = station;
     }
-
-
-
-
-
-
 }

@@ -6,18 +6,39 @@ import java.util.List;
 
 public class TrevelPath {
 
-    private final List<TrainPathItem> path;
+private String trainName;
+private TrainPathItem outcomingItem;
+private TrainPathItem incomingItem;
 
-    public TrevelPath() {
-        path = new ArrayList<TrainPathItem>();
+    public TrainPathItem getIncomingItem() {
+        return incomingItem;
     }
 
-    public void addPathItem(TrainPathItem item){
-        path.add(item);
+    public void setIncomingItem(TrainPathItem incomingItem) {
+        this.incomingItem = incomingItem;
     }
 
-    public List<TrainPathItem> getItems(){
-        return path;
+    public TrainPathItem getOutcomingItem() {
+        return outcomingItem;
     }
+
+    public void setOutcomingItem(TrainPathItem outcomingItem) {
+        this.outcomingItem = outcomingItem;
+    }
+
+    public String getTrainName() {
+        return trainName;
+    }
+
+    public void setTrainName(String trainName) {
+        this.trainName = trainName;
+    }
+
+    public TrevelPath(String trainName, TrainPathItem outcomingItem, TrainPathItem incomingItem) {
+        this.trainName = trainName;
+        this.outcomingItem = outcomingItem;
+        this.incomingItem = incomingItem;
+    }
+    
 
 }
