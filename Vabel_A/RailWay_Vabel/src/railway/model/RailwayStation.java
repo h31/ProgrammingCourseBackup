@@ -31,7 +31,9 @@ public class RailwayStation {
         trains = new ArrayList<Train>();
     }
 
-
+    public void addTrain(Train train){
+        trains.add(train);
+    }
 
     /**
      * @return {@link #stationName}
@@ -125,4 +127,36 @@ public class RailwayStation {
     public  List<Train> getTrains(){
         return trains;
     }
+
+    @Override
+    public String toString() {
+        return stationName ;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RailwayStation other = (RailwayStation) obj;
+        if ((this.stationName == null) ? (other.stationName != null) : !this.stationName.equals(other.stationName)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + (this.stationName != null ? this.stationName.hashCode() : 0);
+        hash = 97 * hash + (this.ways != null ? this.ways.hashCode() : 0);
+        hash = 97 * hash + (this.trains != null ? this.trains.hashCode() : 0);
+        return hash;
+    }
+    
+
+
 }
