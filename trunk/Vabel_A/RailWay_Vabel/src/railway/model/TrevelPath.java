@@ -10,6 +10,9 @@ private String trainName;
 private TrainPathItem outcomingItem;
 private TrainPathItem incomingItem;
 
+    public TrevelPath(){
+        
+    }
     public TrainPathItem getIncomingItem() {
         return incomingItem;
     }
