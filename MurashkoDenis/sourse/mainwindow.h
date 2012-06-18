@@ -9,6 +9,7 @@
 #include "tanki.h"
 #include "puli.h"
 #include "bot.h"
+#include "test.h"
 namespace Ui {
 class MainWindow;
 }
@@ -39,6 +40,7 @@ private:
     QPainter painter;
     Igrok tank;
     Bot bot;
+    Test test;
     //таймер для
     QTimer* BulletTimer; //движения пули игрока
     QTimer* BotTimer;//движения бота
