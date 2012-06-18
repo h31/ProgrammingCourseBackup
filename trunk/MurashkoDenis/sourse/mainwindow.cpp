@@ -10,6 +10,18 @@ MainWindow::MainWindow(QWidget *parent) :
     BotTimer = new QTimer;//для движения бота
     BulletBotTimer = new QTimer;//для выпускания пули бота
     BBulletTimer = new QTimer;//для движения пули бота
+    if ((test.proverkaFieldIgrok()==false)||(test.proverkaFieldBot()==false))
+    {
+        QMessageBox::information(this, "Test failed", "Test failed!");
+        exit(0);
+    }
+    else
+    {
+        QMessageBox::information(this,"Test passed","Test passed!");
+
+    }
+    proverkaFieldIgrok();
+    proverkaFieldBot();
 
 }
 
@@ -20,6 +32,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::keyPressEvent(QKeyEvent* ev)
 {
+    proverkaFieldIgrok();
     if (ev->key() == Qt::Key_W)
     {
         if (tank.koords.y-tank.r-tank.speed<tank.field.y1)
@@ -105,24 +118,15 @@ void MainWindow::paintEvent(QPaintEvent *event) //как передать сюда аргументы(ко
     painter.drawRect(tank.field.x1,tank.field.y1,tank.field.x2,tank.field.y2);
     drawIgrok(painter);
     drawBot(painter);
-   // bot.draw(painter);
-    //tank.draw(painter);
-    if ((proverkaFieldIgrok()==true)&&(proverkaFieldBot()==true))
-    {
-        for (int i=0;i<tank.bullet.size();i++)
-        {
-            tank.bullet[i].drawp(painter);
-        }
 
-        for (int j=0;j<bot.bbullet.size();j++)
-        {
-            bot.bbullet[j].drawp(painter);
-        }
-    }
-    else
+    for (int i=0;i<tank.bullet.size();i++)
     {
-        QMessageBox::information(this, "Exit za zranicy!", "Exit za zranicy!");
-         exit(0);
+        tank.bullet[i].drawp(painter);
+    }
+
+    for (int j=0;j<bot.bbullet.size();j++)
+    {
+        bot.bbullet[j].drawp(painter);
     }
     painter.end();
 }
@@ -141,8 +145,8 @@ void MainWindow::moveBulletOnTimeout()
             BotTimer->stop();
             BulletBotTimer->stop();
             BBulletTimer->stop();
-            QMessageBox::information(this, "YOU WIN!", "YOU WIN");
 
+            QMessageBox::information(this, "YOU WIN!", "YOU WIN");
             exit(0);
         }
         if ((tank.bullet[i].coords.x > tank.field.x2)||(tank.bullet[i].coords.y > tank.field.y2)||(tank.bullet[i].coords.x<tank.field.x1)||(tank.bullet[i].coords.y<tank.field.y1))
@@ -156,7 +160,7 @@ void MainWindow::moveBulletOnTimeout()
 
 void MainWindow::driveBotOnTimeout()
 {
-
+     proverkaFieldBot();
         bot.alpha=rand()%5;
         //=0 на месте
         //=1 вправо
@@ -262,12 +266,13 @@ void MainWindow::moveBotBulletOnTimeout()
        }
 }
 
-bool MainWindow::proverkaFieldIgrok()//для танка
+bool MainWindow::proverkaFieldIgrok()
 {
     if ((tank.koords.y-tank.r<tank.field.y1)||(tank.koords.y+tank.r>tank.field.y2)||
         (tank.koords.x-tank.r<tank.field.x1)||(tank.koords.x+tank.r>tank.field.x2))
         {
-            //QMessageBox::information(this, "Nevernie koordinati Igroka!", "Nevernie koordinati Igroka!");
+            QMessageBox::information(this, "Nevernie koordinati Igroka!", "Nevernie koordinati Igroka!");
+            exit(0);
             return false;
         }
 
@@ -280,7 +285,8 @@ bool MainWindow::proverkaFieldBot()
     if ((bot.koordsb.x-bot.r<tank.field.x1)||(bot.koordsb.y-bot.r<tank.field.y1)||
         (bot.koordsb.x+bot.r>tank.field.x2)||(bot.koordsb.y+bot.r>tank.field.y2))
         {
-            //QMessageBox::information(this, "Nevernie koordinati Bota!", "Nevernie koordinati Bota!");
+            QMessageBox::information(this, "Nevernie koordinati Bota!", "Nevernie koordinati Bota!");
+            exit(0);
             return false;
         }
     else
@@ -305,18 +311,4 @@ void MainWindow::drawBot(QPainter &painter)
     painter.drawEllipse(QRect(bot.koordsb.x+bot.vecb.x-5,bot.koordsb.y+bot.vecb.y-5,10,10));
 }
 
-/*void MainWindow::proverkaDeath()
-{
-    //убийство бота
-    for (int i=0;i<tank.bullet.size();i++)
-    {
-        if ( (tank.bullet[i].coords.x+tank.bullet[i].l * tank.bullet[i].alpha.x)>=(bot.koordsb.x-bot.r) && ((tank.bullet[i].coords.x+tank.bullet[i].l * tank.bullet[i].alpha.x)<=(bot.koordsb.x+bot.r)) &&
-            ((tank.bullet[i].coords.y+tank.bullet[i].l * tank.bullet[i].alpha.y)>=(bot.koordsb.y-bot.r)) && ((tank.bullet[i].coords.y+tank.bullet[i].l * tank.bullet[i].alpha.y)<=(bot.koordsb.y+bot.r)) )
-        {
-            //repaint();
-            QMessageBox::information(this, "YOU WIN!", "YOU WIN");
-            exit(0);
-        }
-    }
-}*/
 
