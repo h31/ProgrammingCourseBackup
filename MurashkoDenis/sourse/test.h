@@ -8,10 +8,11 @@
 //#include <QPainter>
 class Test
 {
+public:
     Igrok t;
     Bot bott;
-    bool proverkaFieldIgrok();
-    bool proverkaFieldBot();
+    bool proverkaFieldIgrok(); //проверяет находится ли танк-игрок на поле(в начальном положении)
+    bool proverkaFieldBot(); //проверяет находится ли танк-бот на поле(в начальном положении)
 
 };
 
