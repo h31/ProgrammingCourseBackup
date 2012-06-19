@@ -5,6 +5,7 @@
 package railway.gui;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageFilter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -384,7 +385,7 @@ public class MainFrame extends javax.swing.JFrame {
             String number = String.valueOf(train.getNumber());
             String name = train.getName();
             Time outcoming = null;
-            ;
+            
             Time incoming = null;
             if (train.getTrainPath().getStartPoint().getStation().getStationName().equals(selectedStation.getStationName())) {
                 outcoming = train.getTrainPath().getStartPoint().getOutcomingTime();
@@ -396,14 +397,20 @@ public class MainFrame extends javax.swing.JFrame {
                         incoming = pathItem.getIncomingTime();
                     }
                 } else {
-                    break;
+                    TrainPathItem item=train.getTrainPath().getEndPoint();
+                    incoming = item.getIncomingTime();
                 }
             }
-            if (incoming == null) {
-                dtm.addRow(new String[]{number, name, null, outcoming.toString()});
-            } else {
-                dtm.addRow(new String[]{number, name, incoming.toString(), outcoming.toString()});
+            if (incoming != null) {
+                if(outcoming!=null){
+                    dtm.addRow(new String[]{number, name, incoming.toString(), outcoming.toString()});
+                }else{
+                    dtm.addRow(new String[]{number, name, incoming.toString(), null});
+                }
+            }else{
+               dtm.addRow(new String[]{number, name, null, outcoming.toString()});
             }
+
         }
 
         jTable1.setModel(dtm);
@@ -464,6 +471,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void loadMapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadMapActionPerformed
         JFileChooser fileopen = new JFileChooser();
+        fileopen.addChoosableFileFilter(new railway.gui.ImageFilter());
+        fileopen.setAcceptAllFileFilterUsed(false);
         int ret = fileopen.showDialog(null, "Открыть файл");
         if (ret == JFileChooser.APPROVE_OPTION) {
             fileMap = fileopen.getSelectedFile();
