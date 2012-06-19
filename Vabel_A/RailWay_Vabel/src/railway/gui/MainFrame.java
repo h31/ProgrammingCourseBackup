@@ -385,7 +385,7 @@ public class MainFrame extends javax.swing.JFrame {
             String number = String.valueOf(train.getNumber());
             String name = train.getName();
             Time outcoming = null;
-            
+
             Time incoming = null;
             if (train.getTrainPath().getStartPoint().getStation().getStationName().equals(selectedStation.getStationName())) {
                 outcoming = train.getTrainPath().getStartPoint().getOutcomingTime();
@@ -397,18 +397,18 @@ public class MainFrame extends javax.swing.JFrame {
                         incoming = pathItem.getIncomingTime();
                     }
                 } else {
-                    TrainPathItem item=train.getTrainPath().getEndPoint();
+                    TrainPathItem item = train.getTrainPath().getEndPoint();
                     incoming = item.getIncomingTime();
                 }
             }
             if (incoming != null) {
-                if(outcoming!=null){
+                if (outcoming != null) {
                     dtm.addRow(new String[]{number, name, incoming.toString(), outcoming.toString()});
-                }else{
+                } else {
                     dtm.addRow(new String[]{number, name, incoming.toString(), null});
                 }
-            }else{
-               dtm.addRow(new String[]{number, name, null, outcoming.toString()});
+            } else {
+                dtm.addRow(new String[]{number, name, null, outcoming.toString()});
             }
 
         }
@@ -472,13 +472,30 @@ public class MainFrame extends javax.swing.JFrame {
     private void loadMapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadMapActionPerformed
         JFileChooser fileopen = new JFileChooser();
         fileopen.addChoosableFileFilter(new railway.gui.ImageFilter());
-        fileopen.setAcceptAllFileFilterUsed(false);
+        //fileopen.setAcceptAllFileFilterUsed(false);
         int ret = fileopen.showDialog(null, "Открыть файл");
         if (ret == JFileChooser.APPROVE_OPTION) {
             fileMap = fileopen.getSelectedFile();
+            if(!checkImageFormat()){
+                JOptionPane.showMessageDialog(this, "Неверный формат файла", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                fileMap=null;
+            }
         }
     }//GEN-LAST:event_loadMapActionPerformed
 
+    private boolean checkImageFormat() {
+        if (fileMap != null) {
+            String fname = fileMap.getName();
+            String ext = fname.substring(fname.lastIndexOf('.') + 1, fname.length());
+            if (ext.equals("tif") || ext.equals("gif") || ext.equals("jpeg") || ext.equals("jpg") || ext.equals("png")) {
+                return true;
+            } else {
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
     private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
     }//GEN-LAST:event_jMenu2ActionPerformed
 
