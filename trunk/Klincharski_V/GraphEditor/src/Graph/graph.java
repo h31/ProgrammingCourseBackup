@@ -69,7 +69,7 @@ public class graph
         for (int i = 0; i<Edge.size();i++)
         {
             // if(Edge.get(i).equals(_edge)) return true;
-            if(Edge.get(i).getVert1().equals(_edge.getVert1()) && Edge.get(i).getVert2().equals(_edge.getVert2())) return Edge.get(i).getDistance();
+            if((Edge.get(i).getVert1().equals(_edge.getVert1()) && Edge.get(i).getVert2().equals(_edge.getVert2())) || (Edge.get(i).getVert1().equals(_edge.getVert2()) && Edge.get(i).getVert2().equals(_edge.getVert1()))) return Edge.get(i).getDistance();
         }
         return 0;
     }
@@ -202,7 +202,7 @@ public class graph
             }
         }
         
-        for(int i = 1;i<Vertice.size();i++)
+        for(int i = 1;i<Vertice.size()+1;i++)
         {
             for(int j=0; j<Vertice.size();j++)
             {

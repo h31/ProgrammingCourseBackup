@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/C:/Users/Vlad/Documents/NetBeansProjects/GraphEditor/src/Graph/vertice.java</file>
+        <file>file:/C:/Users/Vlad/Documents/NetBeansProjects/GraphEditor/src/Graph/edge.java</file>
+        <file>file:/C:/Users/Vlad/Documents/NetBeansProjects/GraphEditor/src/Graph/graph.java</file>
+        <file>file:/C:/Users/Vlad/Documents/NetBeansProjects/GraphEditor/src/Graph/algorythm.java</file>
+        <file>file:/C:/Users/Vlad/Documents/NetBeansProjects/GraphEditor/src/Interface/InfoPanel.java</file>
+        <file>file:/C:/Users/Vlad/Documents/NetBeansProjects/GraphEditor/src/Interface/MainPanel.java</file>
+        <file>file:/C:/Users/Vlad/Documents/NetBeansProjects/GraphEditor/src/Interface/MainFrame.java</file>
+        <file>file:/C:/Users/Vlad/Documents/NetBeansProjects/GraphEditor/src/Interface/InfoListener.java</file>
+        <file>file:/C:/Users/Vlad/Documents/NetBeansProjects/GraphEditor/src/Interface/CurrentListener.java</file>
+        <file>file:/C:/Users/Vlad/Documents/NetBeansProjects/GraphEditor/src/Interface/WorldFileFilter.java</file>
+        <file>file:/C:/Users/Vlad/Documents/NetBeansProjects/GraphEditor/src/Interface/WaysInfoDialog.java</file>
+        <file>file:/C:/Users/Vlad/Documents/NetBeansProjects/GraphEditor/test/Graph/graphTest.java</file>
+    </open-files>
 </project-private>
