@@ -44,7 +44,8 @@ class MainPanel extends JPanel implements InfoListener {
         ADDWAY_START, // Добавить первую точку пути
         ADDWAY_FINISH, // Добавить вторую точку пути
         SEL_START, //Выбор начальной точки
-        SEL_FINISH //Выбор конечной точки
+        SEL_FINISH, //Выбор конечной точки
+        SET_NAME // Назнвчение имени
     };
 
     private Mode mode;
@@ -348,7 +349,13 @@ class MainPanel extends JPanel implements InfoListener {
      */
     public void cityNameChanged(String name) {
         if (currentCity != null) {
-            currentCity.setName(name);
+            
+            if (world.CheckNameExist(name) != true )
+            {
+                currentCity.setName(name);
+            }/*
+            else JOptionPane.showMessageDialog(this,"Данное имя узла существует", "Ошибка", JOptionPane.INFORMATION_MESSAGE);*/
+            //else currentCity.setName(JOptionPane.showInputDialog(this, "Недопустимое имя узла. После ввода нажмите кнопку OK"));
             repaint();
         }
     }

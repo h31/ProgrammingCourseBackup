@@ -77,6 +77,8 @@ public class graph
     // Добавление вершины
     public void addVertice(vertice _vertice)            
     {
+        String vr_name =  CheckAddVertice(_vertice);        
+        _vertice.setName(vr_name);        
         Vertice.add(_vertice);
     }
     
@@ -233,5 +235,28 @@ public class graph
         minpth = min[i][n];
         
         return minpth;
+    }
+    
+    public String CheckAddVertice(vertice vr1)
+    {
+        String tempName;
+        int count = 0;
+        while(true)
+        {
+            tempName = "Узел" + Integer.toString(count);
+            if(CheckNameExist(tempName) == false) break;
+            count ++;
+        }
+        
+        return tempName;
+    }
+    
+    public boolean CheckNameExist(String _name)
+    {
+        for (vertice vr2 : Vertice)
+        {
+            if (_name.equals(vr2.getName())) return true;
+        }
+        return false;
     }
 }
