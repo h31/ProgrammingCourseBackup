@@ -18,6 +18,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import Graph.edge.*;
 import Graph.*;
+import Graph.graph.*;
 
 public class InfoPanel extends JPanel implements CurrentListener {
     /** Метка */
@@ -122,6 +123,8 @@ public class InfoPanel extends JPanel implements CurrentListener {
      */
     public void setCityName(String name) {
         cityName.setEnabled(true);
+        
+        //if(CheckNameExist(name) != false)
         cityName.setText(name);
     }
 
