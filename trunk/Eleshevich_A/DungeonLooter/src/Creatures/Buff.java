@@ -4,7 +4,7 @@ package Creatures;
 /**
  * @author Andrew
  */
-public class Buff { //может другое название?
+public class Buff {
     Effect[] effects;
     int counter;
     int duration;
@@ -16,7 +16,9 @@ public class Buff { //может другое название?
         counter = duration;
         active = false;
     }
-    
+    public int getDuration(){
+        return duration;
+    }
     public Effect[] takeEffect() throws BuffExpiredException{
         if(counter == duration-1)
             active = true;
@@ -49,6 +51,10 @@ public class Buff { //может другое название?
     }
     public boolean isActive(){
         return active;
+    }
+    @Override
+    public Buff clone(){
+        return new Buff(effects, duration);
     }
 }
 

@@ -13,15 +13,18 @@ public abstract class Item {
     ItemType type;
     UseType utype;
     String descr;
+    int ID;
     
-    Item(String name, Image img, ItemType type, UseType utype, String descr){
+    Item(String name, Image img, ItemType type, UseType utype, String descr, int ID){
         this.name = name;
         this.img = img;
         this.type = type;
         this.utype = utype;
         this.descr = descr;
+        this.ID = ID;
     }
     
+    public int getID(){ return ID; }
     public ItemType getType(){ return type; }
     public UseType getUseType(){ return utype; }
     public Image getImg(){ return img; }

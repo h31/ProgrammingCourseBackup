@@ -1,5 +1,6 @@
 package Items;
 
+import Constants.ArmorType;
 import Constants.ArmorClass;
 import Constants.ItemType;
 import Constants.UseType;
@@ -13,10 +14,10 @@ public abstract class Armor extends Item{
     ArmorType atype;
     ArmorClass aclass;
     
-    public Armor(String name, Image img, int def, ArmorType atype, ArmorClass aclass, String descr){
-        super(name, img, ItemType.ARMOR, UseType.PUTABLE, descr);
+    public Armor(String name, Image img, int def, ArmorType atype, ArmorClass aclass, String descr, int ID){
+        super(name, img, ItemType.ARMOR, UseType.PUTABLE, descr, ID);
         if(atype.equals(ArmorType.SHIELD))
-            utype = UseType.WIELDABLE;   //это всё конечно не хорошо, но... более логично чем тянуть utype дальше
+            utype = UseType.WIELDABLE;
         defence = def;
         this.atype = atype;
         this.aclass = aclass;

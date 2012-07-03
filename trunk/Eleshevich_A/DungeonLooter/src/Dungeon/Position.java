@@ -1,5 +1,7 @@
 package Dungeon;
 
+import Constants.Direction;
+
 /**
  * @author Andrew
  */

@@ -2,8 +2,8 @@ package Creatures;
 
 import Constants.CreatChar;
 import Constants.ItemType;
-import Constants.UseType;
 import Constants.PlayerSlot;
+import Constants.UseType;
 import Dungeon.DefaultTimeSpace;
 import Dungeon.Dungeon;
 import Dungeon.TimeSpace;
@@ -11,15 +11,12 @@ import GUI.DefaultMessager;
 import GUI.Messager;
 import Items.*;
 import java.awt.Toolkit;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author Andrew
  */
 public class Player extends Creature{
-    TimeSpace dungeon = new DefaultTimeSpace();    //может потом какой нибудь интерфейс, пока так
+    TimeSpace dungeon = new DefaultTimeSpace();
     Messager mess = new DefaultMessager();
     Armor headArmor;
     Armor bodyArmor;
@@ -27,10 +24,10 @@ public class Player extends Creature{
     Item rightHand;
     Item leftHand;
     int level;
-    int XP;    //в принципе лучше просто жизнь хранить на пару порядков больше, а использовать поделив
+    int XP;
     
-    Item[] inventory = new Item[10];    //можно задать в конструкторе
-    ItemStack itemsFloor;   //может не стак, а просто массив
+    Item[] inventory = new Item[10];
+    ItemStack itemsFloor;
     
     public Player(String name, int maxhealth, int defence, int strength, int dexterity, int hregen, int sightradius){
         super(name, Toolkit.getDefaultToolkit().createImage("Data/player.gif"), maxhealth, defence,
@@ -85,7 +82,7 @@ public class Player extends Creature{
     public boolean levelUPready(){
         return XP >= getXPcap();
     }
-    public Item wieldHand(Item item, PlayerSlot hand){    //может придумать название получше, пересчёт дамага, а если не только дамаг???
+    public Item wieldHand(Item item, PlayerSlot hand){
         if(!item.getUseType().equals(UseType.WIELDABLE))
             return null;
         Item oldItem = takeOff(hand);
@@ -95,7 +92,7 @@ public class Player extends Creature{
         }
         if(item.isArmor())
             defence += ((Armor)item).getDefence();
-        mess.print("Вы берёте в руку " + item.getName());   //надо уточнить в какую
+        mess.print("Вы берёте в руку " + item.getName());
         dungeon.passTurn();
         return oldItem;
     }
@@ -111,15 +108,16 @@ public class Player extends Creature{
         return res;
     }
     
-    public void inventoryPut(Item item) throws InventoryFullException{
+    public boolean inventoryPut(Item item){
         if(item == null)
-            return;
+            return true;
         for(int x = 0; x < inventory.length; x++)
             if(inventory[x] == null){
                 inventory[x] = item;
-                return;
+                return true;
             }
-        throw new InventoryFullException();
+        dropFloor(item);
+        return false;
     }
     
     public Item inventoryTake(int num){
@@ -128,15 +126,18 @@ public class Player extends Creature{
         return item;
     }
     public void pickUpFloor(int number) throws InventoryFullException{
-        inventoryPut(itemsFloor.itemGet(number));
-        itemsFloor.itemTake(number);
+        if(!inventoryPut(itemsFloor.itemTake(number)))
+            throw new InventoryFullException();
         dungeon.passTurn();
     }
-    public void dropFloor(int number){
+    public void dropInvFloor(int number){
+        dropFloor(inventoryTake(number));
+        dungeon.passTurn();
+    }
+    void dropFloor(Item item){
         if(itemsFloor == null)
             itemsFloor = new ItemStack(pos);
-        itemsFloor.itemPut(inventoryTake(number));
-        dungeon.passTurn();
+        itemsFloor.itemPut(item);
     }
     public Item takeOff(PlayerSlot slotNum){
         Item item;
@@ -146,17 +147,19 @@ public class Player extends Creature{
             case BODY: item = bodyArmor; bodyArmor = null; break;
             case HEAD: item = headArmor; headArmor = null; break;
             case LEGS: item = legArmor; legArmor = null; break;
-            default: item = null;   //может нужно исключение
+            default: item = null;
         }
         if(item != null){
             if(item.getType().equals(ItemType.ARMOR))
                 defence -= ((Armor)item).getDefence();
-            mess.print("Вы убираете в инвентарь " + item.getName());    //надоу точнить - снимаете или убираете из руки
+            mess.print("Вы убираете в инвентарь " + item.getName());
             dungeon.passTurn();
         }
         return item;
     }
-    
+    public void takeBuff(Buff buff){
+        buffs.add(buff);
+    }
     public Item getEquippedItem(PlayerSlot slotNum){
         switch(slotNum){
             case LEFT_HAND: return leftHand;
@@ -169,18 +172,25 @@ public class Player extends Creature{
     }
     
     public void use(Usable item){
-        buffs.add(item.use());
+        takeBuff(item.use());
         dungeon.passTurn();
     }
     @Override
     public Damage getDamage(){
         int damage = 0;
+        int count = 0;
         if(rightHand != null)
-            if(rightHand.isWeapon())
+            if(rightHand.isWeapon()){
                 damage += ((Weapon)rightHand).getDamage();
+                count++;
+            }
         if(leftHand != null)
-            if(leftHand.isWeapon())
+            if(leftHand.isWeapon()){
                 damage += ((Weapon)leftHand).getDamage();
+                count++;
+            }
+        if(count == 2)
+            damage = (int)(damage*2/3d);
         damage += (int)(strength/5d);
         return new Damage(damage, strength, dexterity);
     }
@@ -205,26 +215,5 @@ public class Player extends Creature{
     @Override
     public boolean isPlayer(){
         return true;
-    }
-}
-
-class InvalidArmorTypeException extends PlayerException{
-    @Override
-    public String getDialogMessage(){
-        return "Неверный тип брони";
-    }
-}
-
-class UnequipabbleItemException extends PlayerException{
-    @Override
-    public String getDialogMessage(){
-        return "Unequipabble Item Error";
-    }
-}
-
-class UnusableItemException extends PlayerException{
-    @Override
-    public String getDialogMessage(){
-        return "Item is unusable";
     }
 }

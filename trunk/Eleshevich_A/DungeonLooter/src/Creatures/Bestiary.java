@@ -1,7 +1,5 @@
 package Creatures;
 
-import Items.Item;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
@@ -12,15 +10,16 @@ public class Bestiary{
     private static ArrayList<Monster> monsters = new ArrayList<Monster>();
     
     public static void setBestiaryDefault(){
-        Image img1 = Toolkit.getDefaultToolkit().createImage("Data/Spider1.gif");
-        Image img2 = Toolkit.getDefaultToolkit().createImage("Data/Monster1.gif");
-        monsters.add(new Monster("Маленький паук", img1, 9, 3, 0, 4, 8, 4, 0, 5, "Маленьки ловкий паучок, не представляет серьёзной опасности"));
-        monsters.add(new Monster("Красная фигня", img2, 14, 4, 1, 6, 4, 3, 0, 8, "Довольно опасный монстр, сильный, но не очень ловкий,\nобладает не самым лучшим зрением"));
+        Toolkit tlk = Toolkit.getDefaultToolkit();
+        monsters.add(new Monster("Маленький паук", tlk.createImage("Data/Spider1.gif"), 9, 3, 0, 4, 8, 4, 0,
+                5, "Маленьки ловкий паучок, не представляет серьёзной опасности", 1));
+        monsters.add(new Monster("Красная фигня", tlk.createImage("Data/Monster1.gif"), 14, 4, 1, 6, 4, 3, 0,
+                6, "Довольно опасный монстр, сильный, но не очень ловкий,\nобладает не самым лучшим зрением", 2));
     }
     
     static public Monster getMonsterID(int ID){
         try{
-            return monsters.get(ID);
+            return monsters.get(ID - 1).clone();
         }catch(IndexOutOfBoundsException ioex){
             return null;
         }
@@ -28,7 +27,7 @@ public class Bestiary{
     static public Monster getMonsterName(String name){
         for(Monster monster: monsters){
             if(monster.getName().equalsIgnoreCase(name))
-                return monster;
+                return monster.clone();
         }
         return null;
     }

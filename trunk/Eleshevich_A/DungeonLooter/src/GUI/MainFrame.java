@@ -1,7 +1,6 @@
 package GUI;
 
-import Creatures.Player;
-import Dungeon.Direction;
+import Constants.Direction;
 import Dungeon.Dungeon;
 import Dungeon.DungeonGenerator;
 import Dungeon.LoadingException;
@@ -18,13 +17,12 @@ public class MainFrame extends JFrame{
     public MainFrame(String s){
         super(s);
         try{
-            String pname = "Player";
-            //String pname = JOptionPane.showInputDialog(rootPane, "Введите имя игрока");
+            String pname = JOptionPane.showInputDialog(rootPane, "Введите имя игрока");
             dungeon = DungeonGenerator.loadDungeon(pname);
             setSize(915, 765);
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             Dpanel = new DungeonPanel(dungeon);
-            Ppanel = new PlayerPanel(dungeon);
+            Ppanel = new PlayerPanel(dungeon.getPlayer());
             Mpanel = new MessagePanel();
             dungeon.addScreens(Dpanel, Ppanel, Mpanel);
             add(Dpanel);

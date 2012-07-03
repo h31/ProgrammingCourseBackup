@@ -8,12 +8,12 @@ import java.awt.Image;
  * @author Andrew
  */
 public class MiscItem extends Item{
-    MiscItem(String name, Image img, String descr){
-        super(name, img, ItemType.MISC, UseType.NONE, descr);
+    MiscItem(String name, Image img, String descr, int ID){
+        super(name, img, ItemType.MISC, UseType.NONE, descr, ID);
     }
 
     @Override
     public Item clone() {
-        return new MiscItem(name, img, descr);
+        return new MiscItem(name, img, descr, ID);
     }
 }

@@ -1,8 +1,8 @@
 package Dungeon;
 
 import Constants.CellStatus;
-import Constants.StairType;
 import Constants.CellType;
+import Constants.StairType;
 import java.awt.Image;
 import java.awt.Toolkit;
 

@@ -1,22 +1,18 @@
 package GUI;
 
-import Constants.CreatChar;
-import Constants.SlotType;
+import Constants.*;
 import Creatures.Player;
 import Creatures.PlayerException;
-import Constants.PlayerSlot;
-import Constants.UseType;
 import Dungeon.Dungeon;
-import Items.*;
-import dungeonlooter.InvalidConstantException;
+import Items.BodyArmor;
+import Items.Item;
+import Items.Usable;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -24,20 +20,15 @@ import javax.swing.JPanel;
  * @author Andrew
  */
 public class PlayerPanel extends JPanel implements Updatable{
-    Player player;
-    Dungeon dungeon;    
+    Player player;    
     ArrayDeque<ItemSlot> slots;
     Point[] invTxt;
     
-    PlayerPanel(Dungeon dungeon){
+    PlayerPanel(Player player){
         invTxt = new Point[2];
-        this.dungeon = dungeon;
-        player = dungeon.getPlayer();
-        int space = 10;
-        int tileSize = 36;  //задавать автоматически и придумать другое название
-        int by = 140;
+        this.player = player;
         setSlots(294, 710, 170, 36, 10);
-        this.addMouseListener(new SlotMouseAdapter(slots, this)); //опасно при вызове setSlots тут всё слетит
+        this.addMouseListener(new SlotMouseAdapter(slots, this));
     }
     
     @Override
@@ -47,11 +38,9 @@ public class PlayerPanel extends JPanel implements Updatable{
         setSlotItems();
         g.setColor(Color.lightGray);
         g.fillRect(0, 0, width, height);
-        //System.out.println("Width/Height: " + width + "/" + height);
         g.setColor(Color.BLACK);
         g.setFont(new Font("Lucid", Font.PLAIN, 13));
         FontMetrics fm = g.getFontMetrics();
-        int dh = 0;
         int x, y;
         x = 10;
         y = 16;
@@ -87,7 +76,7 @@ public class PlayerPanel extends JPanel implements Updatable{
         }
         repaint();
     }
-    void setSlots(int width, int height, int startline, int tileSize, int space){  //space можно и не задавать в арг
+    void setSlots(int width, int height, int startline, int tileSize, int space){
         slots = new ArrayDeque<ItemSlot>();
         ItemSlot.setSize(tileSize);
         int x ,y;
@@ -126,7 +115,7 @@ public class PlayerPanel extends JPanel implements Updatable{
     
     void setSlotItems(){
         Iterator<ItemSlot> itt = slots.iterator();
-        for(int x = 1; x < 6; x++)  //тут расчитывается что константы известны, может нужно по другому, но так компактней
+        for(int x = 1; x < 6; x++)
             try{
                 itt.next().setItem(player.getEquippedItem(PlayerSlot.getSlot(x)));
             }catch(InvalidConstantException icex){ System.err.println(icex.getMessage()); }
@@ -140,14 +129,14 @@ public class PlayerPanel extends JPanel implements Updatable{
                 itt.next().setItem(null);
     }
     
-    void itemSelected(int number, SlotType slotType){   //может разбить на 3 функции?
+    void itemSelected(int number, SlotType slotType){
         try{
             Item item;
             switch(slotType){
                 case EQUIPPED: item = player.getEquippedItem(PlayerSlot.getSlot(number)); break;
                 case INVENTORY: item = player.inventoryGet(number); break;
                 case FLOOR: item = player.getItemsFloor().itemGet(number); break;
-                default: return;    //тут можно выбросить исключение, потом сделать
+                default: return;
             }
             if(SimpleDialog.dialogItem(item, slotType, this) != 1)
                 return;
@@ -159,19 +148,19 @@ public class PlayerPanel extends JPanel implements Updatable{
                 case FLOOR: player.getItemsFloor().itemTake(number); break;
             }
             switch(item.getUseType()){
-                case PUTABLE: player.inventoryPut(player.putOn((BodyArmor)item)); break; //если я сделаю как хотел passTurn в player то тут может пройти два хода, над обдумать
-                case WIELDABLE: player.inventoryPut(player.wieldHand(item, SimpleDialog.handDialog(this))); break; //тут можно сделать диалог с кансел и выбросить кансел эксцептион для отмены
+                case PUTABLE: player.inventoryPut(player.putOn((BodyArmor)item)); break;
+                case WIELDABLE: player.inventoryPut(player.wieldHand(item, SimpleDialog.handDialog(this))); break;
                 case USABLE: player.use((Usable)item); break;
             }
             boolean putback = false;
             if(item.getUseType().equals(UseType.USABLE))
                 if(!((Usable)item).isUsed())
                     putback = true;
-            if(putback) //выглядит глупо, но причин возврата может быть несколько... в теории
+            if(putback)
                 putback(item, number, slotType);
-        }catch(PlayerException pex){    //где то как то нужно вернуть предмет, надо подумать
+        }catch(PlayerException pex){
             JOptionPane.showMessageDialog(this, pex.getDialogMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
-        }catch(Exception ex){   //потом тут надо поправить, чтоб выводилось человеческое сообщение... хотя надо ли оно вообще
+        }catch(Exception ex){
             System.err.println(ex.getMessage());
         }
     }
@@ -179,7 +168,7 @@ public class PlayerPanel extends JPanel implements Updatable{
         try{
             switch(stype){
                 case EQUIPPED:{
-                    switch(item.getUseType()){  //тут проверку, не надето ли уже что то
+                    switch(item.getUseType()){
                         case PUTABLE: player.putOn((BodyArmor)item); break;
                         case WIELDABLE: player.wieldHand(item, PlayerSlot.getSlot(number)); break;
                     }
@@ -199,13 +188,16 @@ public class PlayerPanel extends JPanel implements Updatable{
             switch(slotType){
                 case EQUIPPED: player.inventoryPut(player.takeOff(PlayerSlot.getSlot(number))); break;
                 case FLOOR: player.pickUpFloor(number); break;
-                case INVENTORY: player.dropFloor(number); break;
+                case INVENTORY: player.dropInvFloor(number); break;
             }
+        }catch(PlayerException pex){
+            JOptionPane.showMessageDialog(this, pex.getDialogMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
         }catch(Exception ex){
-            JOptionPane.showMessageDialog(this, ex.toString());
+            System.err.println(ex.getMessage());
         }
     }
 }
+
 class SlotMouseAdapter extends MouseAdapter{
     Deque<ItemSlot> slots;
     PlayerPanel panel;

@@ -3,7 +3,6 @@ package Items;
 import Constants.ItemType;
 import Constants.UseType;
 import Creatures.Buff;
-import Creatures.Effect;
 import java.awt.Image;
 
 /**
@@ -13,8 +12,8 @@ public class Potion extends Item implements Usable{
     Buff buff;
     boolean used = false;
     
-    Potion(String name, Image img, Buff buff, String descr){
-        super(name, img, ItemType.POTION, UseType.USABLE, descr);
+    Potion(String name, Image img, Buff buff, String descr, int ID){
+        super(name, img, ItemType.POTION, UseType.USABLE, descr, ID);
         this.buff = buff;
     }
     
@@ -25,7 +24,7 @@ public class Potion extends Item implements Usable{
     @Override
     public Buff use(){
         used = true;
-        return buff;
+        return buff.clone();
     }
     @Override
     public boolean isUsed(){
@@ -33,6 +32,6 @@ public class Potion extends Item implements Usable{
     }
     @Override
     public Potion clone(){
-        return new Potion(name, img, buff, descr);
+        return new Potion(name, img, buff.clone(), descr, ID);
     }
 }

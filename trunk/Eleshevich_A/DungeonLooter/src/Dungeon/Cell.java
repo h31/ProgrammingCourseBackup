@@ -1,9 +1,7 @@
 package Dungeon;
 
-import Constants.CellType;
 import Constants.CellStatus;
-import Constants.StairType;
-import java.awt.Component;
+import Constants.CellType;
 import java.awt.Image;
 import java.awt.Toolkit;
 
@@ -15,25 +13,7 @@ public abstract class Cell{
     CellStatus status;
     boolean solid;
     
-    static Image floorImg = Toolkit.getDefaultToolkit().createImage("Data/floor.gif");
-    static Image wallImg = Toolkit.getDefaultToolkit().createImage("Data/wall.gif");
-    static Image dfloorImg = Toolkit.getDefaultToolkit().createImage("Data/floordark.gif");
-    static Image dwallImg = Toolkit.getDefaultToolkit().createImage("Data/walldark.gif");
-    
-//    static Cell createFloor(){
-//        return new Floor();
-//    }
-//    static Cell createWall(){
-//        return new Wall();
-//    }
-//    static Cell createDoor(int weight){
-//        return new Door(weight);
-//    }
-//    static Cell createStair(StairType stype, Position tpos){
-//        return new Stair(stype, tpos);
-//    }
-    
-    Cell(CellType type){
+    protected Cell(CellType type){
         this.type = type;
         switch(type){
             case WALL: solid = true; break;
@@ -50,26 +30,40 @@ public abstract class Cell{
         return status;
     }
     public void setStatus(CellStatus newStatus){
-        status = newStatus; //нужно предусмотреть проверку на корректность статуса и выброс исключения
+        status = newStatus;
     }
     public boolean isSolid(){
         return solid;
     }
-    public Image getImg(){
-        switch(type){
-            case WALL: if(status.equals(CellStatus.VISIBLE)) return wallImg; else return dwallImg;
-            case FLOOR: if(status.equals(CellStatus.VISIBLE)) return floorImg; else return dfloorImg;
-            default: return null;   //надо будет потом тут всё починить, а пока сойдёт, может пересмотреть принцип Cell   
-        }
-    }
+    public abstract Image getImg();
 }
 class Wall extends Cell{
+    static Image wallImg = Toolkit.getDefaultToolkit().createImage("Data/wall.gif");
+    static Image dwallImg = Toolkit.getDefaultToolkit().createImage("Data/walldark.gif");
+    
     Wall(){
         super(CellType.WALL);
     }
+    @Override
+    public Image getImg(){
+        if(status.equals(CellStatus.VISIBLE))
+            return wallImg;
+        else
+            return dwallImg;
+    }
 }
 class Floor extends Cell{
+    static Image floorImg = Toolkit.getDefaultToolkit().createImage("Data/floor.gif");
+    static Image dfloorImg = Toolkit.getDefaultToolkit().createImage("Data/floordark.gif");
+    
     Floor(){
         super(CellType.FLOOR);
+    }
+    @Override
+    public Image getImg(){
+        if(status.equals(CellStatus.VISIBLE))
+            return floorImg;
+        else
+            return dfloorImg;
     }
 }

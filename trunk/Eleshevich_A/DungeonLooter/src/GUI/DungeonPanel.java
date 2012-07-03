@@ -1,17 +1,13 @@
 package GUI;
 
-import Constants.CellType;
 import Constants.CellStatus;
 import Creatures.Monster;
-import Dungeon.*;
-import GUI.Updatable;
+import Dungeon.Cell;
+import Dungeon.Dungeon;
+import Dungeon.Position;
 import Items.ItemStack;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import java.awt.Color;
+import java.awt.Graphics;
 import javax.swing.JPanel;
 
 /**
@@ -19,13 +15,8 @@ import javax.swing.JPanel;
  */
 public class DungeonPanel extends JPanel implements Updatable{
     Dungeon dungeon;
-    int tilesNum = 8;   //отсчитывается от позиции игрока
-    Image floorImg = getToolkit().createImage("Data/floor.gif");
-    Image wallImg = getToolkit().createImage("Data/wall.gif");
-    Image dfloorImg = darken(floorImg);
-    Image dwallImg = darken(wallImg);
-//    Image dfloorImg = getToolkit().createImage("Data/floordark.gif");
-//    Image dwallImg = getToolkit().createImage("Data/walldark.gif");
+    int tilesNum = 8;
+    
     DungeonPanel(Dungeon dungeon){
         this.dungeon = dungeon;
     }
@@ -34,7 +25,7 @@ public class DungeonPanel extends JPanel implements Updatable{
     public void paint(Graphics g){
         g.setColor(Color.black);
         g.fillRect(0, 0, getWidth(), getHeight());
-        int tileSize = getWidth()/(tilesNum*2+1);   //Проверка чтоб был квадратный экран, брать наименьшее, хотя это контролируется в bacgroundPanel
+        int tileSize = getWidth()/(tilesNum*2+1);
         Position pos = dungeon.getPlayer().getPos();
         Position startPos = new Position(pos.x - tilesNum, pos.y - tilesNum);
         int dy = 0;
@@ -42,7 +33,7 @@ public class DungeonPanel extends JPanel implements Updatable{
             int dx = 0;
             for(int x = startPos.x; x <= startPos.x+tilesNum*2+1; x++, dx++){
                 Cell cell = dungeon.getCell(x, y);
-                if(cell == null)    //проверить будет ли работать в одном if
+                if(cell == null)
                     continue;
                 if(cell.getStatus() == CellStatus.UNDISCOVERED)
                     continue;
@@ -71,19 +62,5 @@ public class DungeonPanel extends JPanel implements Updatable{
     @Override
     public void update(){
         repaint();
-    }
-    Image darken(Image src){
-        try{
-            MediaTracker mt = new MediaTracker(this);
-            mt.addImage(src, 0);
-            mt.waitForID(0);
-        }catch(Exception ex){}
-        BufferedImage bi = new BufferedImage(src.getWidth(this), src.getHeight(this), BufferedImage.TYPE_INT_RGB);
-        Graphics2D big = bi.createGraphics();
-        big.drawImage(src, 0, 0, this);
-        BufferedImage dbi = new BufferedImage(src.getWidth(this), src.getHeight(this), BufferedImage.TYPE_INT_RGB);
-        RescaleOp rop = new RescaleOp(0.3f, 40.0f, null);
-        rop.filter(bi, dbi);
-        return getToolkit().createImage(dbi.getSource());
     }
 }

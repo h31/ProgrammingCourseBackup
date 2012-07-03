@@ -1,11 +1,13 @@
 package Creatures;
 
-import Dungeon.*;
+import Constants.Direction;
+import Constants.InvalidConstantException;
+import Dungeon.Dungeon;
+import Dungeon.Percenter;
+import Dungeon.Position;
 import Items.Item;
 import Items.ItemBase;
-import dungeonlooter.InvalidConstantException;
 import java.awt.Image;
-import java.awt.Toolkit;
 
 /**
  * @author Andrew
@@ -14,21 +16,22 @@ public class Monster extends Creature{
     int damage;
     String descr;
     int xpreward;
+    int ID;
     
     public Monster(String name, Image img, int maxhealth, int damage, int defence, int strength,
-            int dexterity, int sightradius, int hregen, int xpreward, String descr){
+            int dexterity, int sightradius, int hregen, int xpreward, String descr, int ID){
         super(name, img, maxhealth, defence, strength, dexterity, hregen, sightradius);
         this.damage = damage;
         this.xpreward = xpreward;
+        this.ID = ID;
     }
     
     @Override
     public Damage getDamage(){
         return new Damage(damage, strength, dexterity);
     }
-    @Override
-    public void passTurn(){
-        //ну пока что ничего, можно реген. ну да фиг с ним, потом баффы
+    public int getID(){
+        return ID;
     }
     public void AIturn(Dungeon dungeon){
         boolean inSight = false;
@@ -66,7 +69,7 @@ public class Monster extends Creature{
                         if(dungeon.moveCreature(this, diry))
                             break;
             }
-        }else{  //надо переписать чтоб через константы и чтоб проверка на препятствия была здесть чтоб монстр других монстров не атаковал
+        }else{
             int[] values = (new Percenter(1, 1, 1, 1)).getMultiChance(4);
             for(int val: values){
                 try{
@@ -75,11 +78,11 @@ public class Monster extends Creature{
                     try{
                         dungeon.findMonster(npos);
                         flag = true;
-                    }catch(Exception ex){   //посмотреть что тут ловить
+                    }catch(Exception ex){
                         flag = false;
                     }
                     if((dungeon.getCell(npos) != null) && !flag && !(dungeon.getCell(npos).isSolid())){
-                        dungeon.moveCreature(this, Direction.getDir(val));    //соотнести цифры с константами(может быть) и может нужно больше контроля
+                        dungeon.moveCreature(this, Direction.getDir(val));
                         break;
                     }
                 }catch(InvalidConstantException icex){
@@ -101,6 +104,6 @@ public class Monster extends Creature{
     }
     @Override
     public Monster clone(){
-        return new Monster(name, img, maxhealth, damage, defence, strength, dexterity, sightradius, hregen, xpreward, descr);
+        return new Monster(name, img, maxhealth, damage, defence, strength, dexterity, sightradius, hregen, xpreward, descr, ID);
     }
 }

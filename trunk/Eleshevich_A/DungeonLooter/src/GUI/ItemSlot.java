@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package GUI;
 
 import Constants.SlotType;
@@ -9,7 +5,6 @@ import Items.Item;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.util.ArrayDeque;
 
 /**
  *
@@ -19,8 +14,7 @@ public class ItemSlot{
     Point pos;
     int number;
     SlotType type;
-    Item item;  //в принципе здесь не нужно хранить весь предемет, нужно только изображение, с другой стороны проверять наличие предмета, по наличию изображения...
-    //к тому же может уже здесть будет выводиться диаг окно, хотя нет панели
+    Item item;
     
     static int size;
     static void setSize(int newSize){

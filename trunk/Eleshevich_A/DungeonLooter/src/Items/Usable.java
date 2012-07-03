@@ -1,7 +1,6 @@
 package Items;
 
 import Creatures.Buff;
-import Creatures.Effect;
 
 /**
  * @author Andrew

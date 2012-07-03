@@ -1,12 +1,10 @@
 package Items;
 
-import Creatures.InventoryFullException;
 import Dungeon.Position;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  *
