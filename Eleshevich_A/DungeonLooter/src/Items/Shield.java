@@ -1,10 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Items;
 
 import Constants.ArmorClass;
+import Constants.ArmorType;
 import java.awt.Image;
 
 /**
@@ -12,11 +9,11 @@ import java.awt.Image;
  * @author Andrew
  */
 public class Shield extends Armor{
-    public Shield(String name, Image img, int def, ArmorClass aclass, String descr){
-        super(name, img, def, ArmorType.SHIELD, aclass, descr);
+    public Shield(String name, Image img, int def, ArmorClass aclass, String descr, int ID){
+        super(name, img, def, ArmorType.SHIELD, aclass, descr, ID);
     }
     @Override
     public Shield clone(){
-        return new Shield(name, img, defence, aclass, descr);
+        return new Shield(name, img, defence, aclass, descr, ID);
     }
 }

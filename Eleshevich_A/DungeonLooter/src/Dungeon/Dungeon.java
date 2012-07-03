@@ -1,15 +1,15 @@
 package Dungeon;
 
-import Constants.CellType;
 import Constants.CellStatus;
-import Constants.PlayerSlot;
+import Constants.CellType;
+import Constants.Direction;
 import Constants.StairType;
+import Creatures.Bestiary;
 import Creatures.Creature;
 import Creatures.Monster;
 import Creatures.Player;
 import GUI.Messager;
 import GUI.Updatable;
-import Items.BodyArmor;
 import Items.Item;
 import Items.ItemBase;
 import Items.ItemStack;
@@ -77,10 +77,10 @@ public class Dungeon implements TimeSpace{
         return monsters[currLevel - 1];
     }
     public void movePlayer(Direction dir){
-        Position oldPos = player.getPos();
+        playerSightUnset(player.getPos());
         if(moveCreature(player, dir)){
             passTurn();
-            playerSightRenew(oldPos, player.getPos());  //может вызывать при passTurn
+            playerSightSet(player.getPos());
         }
     }
     public void playerCloseDoor(Direction dir){
@@ -112,7 +112,7 @@ public class Dungeon implements TimeSpace{
         else{
             Stair stair = (Stair)cell;
             if(stair.getSType().equals(StairType.STAIR_OUT)){
-                if(player.haveArtifact()){     //надо бы этот диалог куда то в другое место поместить
+                if(player.haveArtifact()){
                     JOptionPane.showMessageDialog(null, "Поздравляю!!! Вы прошли игру!!!");
                     System.exit(1);
                 }else
@@ -131,14 +131,14 @@ public class Dungeon implements TimeSpace{
     }
     public boolean moveCreature(Creature creat, Direction dir){
         try{
-            Position target = creat.getPos().getNewPos(dir); //переделать со switch
+            Position target = creat.getPos().getNewPos(dir);
             try{
                 if(!creat.isPlayer() && player.getPos().equals(target))
                     closeCombat(creat, player);
                 else
                     closeCombat(creat, findMonster(target));
-            }catch(NotFoundException nfex){ //может спервва Cell получить а потом мучить, а то по 20 раз вызывать...
-                if(getCell(target) == null)   //тут тоже попробовать объединить
+            }catch(NotFoundException nfex){
+                if(getCell(target) == null)
                     return false;
                 if(getCell(target).isSolid()){
                     if(getCell(target).getType().equals(CellType.DOOR) && creat.isPlayer()){
@@ -148,24 +148,25 @@ public class Dungeon implements TimeSpace{
                         return false;
                 }
                 else
-                    creat.move(target);    //можно с проверкой на то, что двигаемое существо - игрок пересчитать зону видимости здесь
+                    creat.move(target);
             }
             return true;
         }catch(IndexOutOfBoundsException ioex){
             return false;
         }
     }
+    @Override
     public void passTurn(){
-        generateMonsters();
+        if(counter%10 == 0)
+            generateMonster();
         player.passTurn();
         itemFloorRenew();
         for(Monster monster: getMonsters()){
             monster.passTurn();
             monster.AIturn(this);
         }
-        System.out.println("Прошёл ход №" + counter);
         counter++;
-        PScreen.update();   //возможно не надо обновлять каждый ход
+        PScreen.update();
         DScreen.update();
     }
     public Deque<Position> calcVision(Creature creat){ return calcVision(creat.getPos(), creat.getSightRad()); }
@@ -189,10 +190,6 @@ public class Dungeon implements TimeSpace{
         }
         throw new NotFoundException();
     }
-    void playerSightRenew(Position oldPos, Position newPos){
-        playerSightUnset(oldPos);
-        playerSightSet(newPos);
-    }
     void playerSightUnset(Position pos){
         for(Position tpos: calcVision(pos, player.getSightRad()))
             getField()[tpos.y][tpos.x].setStatus(CellStatus.INVISIBLE);
@@ -211,7 +208,7 @@ public class Dungeon implements TimeSpace{
             message += ", но " + dc.getName() + " увернулся";
         mess.print(message);
         if(dc.getHealth() <= 0){
-            if(dc.isPlayer()){   //здесь надо по другому(вызвать ф-цию main panel, которая выведет сообение и завершит работу)
+            if(dc.isPlayer()){
                 JOptionPane.showMessageDialog(null, "Игра окончена!");
                 System.exit(0);
             }else{
@@ -228,15 +225,29 @@ public class Dungeon implements TimeSpace{
                         getItemStacks().add(istack);
                     }
                 }
-                getMonsters().remove((Monster)dc);   //проверить будет ли работать без преобразования типов
+                getMonsters().remove((Monster)dc);
             }
         }
     }
     public Deque<ItemStack> getItemStacks(){
         return itemStacks[currLevel - 1];
     }
-    void generateMonsters(){
-        
+    void generateMonster(){
+        int y = ((int)(Math.random()*1000))%getField().length;
+        int x = ((int)(Math.random()*1000))%getField()[0].length;
+        Position pos = new Position(x, y);
+        try{
+            findMonster(pos);
+        }catch(NotFoundException nfex){
+            Cell cell = getCell(pos);
+            if(cell == null)
+                return;
+            if(!cell.isSolid() && !(player.getPos().equals(pos)) && !(cell.getStatus().equals(CellStatus.VISIBLE))){
+                Monster monster = Bestiary.getMonsterRandom();
+                monster.move(pos);
+                getMonsters().add(monster);
+            }
+        }
     }
     ItemStack findItemStack(Position pos) throws NotFoundException{
         for(ItemStack istack: getItemStacks()){
@@ -245,13 +256,13 @@ public class Dungeon implements TimeSpace{
         }
         throw new NotFoundException();
     }
-    void itemFloorRenew(){    //вкрутить поиск itemstck по коорд
+    void itemFloorRenew(){
         if(player.getItemsFloor() != null && !getItemStacks().contains(player.getItemsFloor())){
             getItemStacks().add(player.getItemsFloor());
         }
         player.setItemsFloor(null);
         Iterator<ItemStack> itt = getItemStacks().iterator();
-        while(itt.hasNext()){    //итератор, чтобы по ходу удалять (проверить без него)
+        while(itt.hasNext()){
             ItemStack istack = itt.next();
             if(istack.isEmpty())
                 itt.remove();

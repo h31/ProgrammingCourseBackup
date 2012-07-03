@@ -93,7 +93,7 @@ public class SimpleDialog {
                 null, options, "В правую")){
             case 0: return PlayerSlot.RIGHT_HAND;
             case 1: return PlayerSlot.LEFT_HAND;
-            default: return PlayerSlot.RIGHT_HAND;  //ну точно нужно исключение
+            default: return PlayerSlot.RIGHT_HAND;
         }
     }
 }

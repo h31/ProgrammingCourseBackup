@@ -1,19 +1,17 @@
 package Dungeon;
 
-import Constants.CellStatus;
 import Constants.CellType;
+import Constants.PlayerSlot;
+import Constants.StairType;
 import Creatures.Bestiary;
 import Creatures.Monster;
 import Creatures.Player;
-import Constants.PlayerSlot;
-import Constants.StairType;
-import Items.Armor;
 import Items.BodyArmor;
 import Items.ItemBase;
-import Items.Weapon;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.StringTokenizer;
 
@@ -21,44 +19,6 @@ import java.util.StringTokenizer;
  * @author Andrew
  */
 public class DungeonGenerator {
-//    public static Dungeon generateDungeon(String pname){
-//        Player player = new Player(pname, 20, 0, 10, 10, 4, 4);
-//        ArrayDeque<Monster> monsters1 = new ArrayDeque<Monster>();
-//        Cell[][] floor1 = new Cell[500][500];
-//        int by = 150;
-//        for(int x = 100; x <= 110; x++)
-//            floor1[by][x] = new Wall();
-//        int bx = 100;
-//        for(int y = 151; y <= 160; y++)
-//            floor1[y][bx] = new Wall();
-//        bx = 110;
-//        for(int y = 151; y <= 160; y++)
-//            floor1[y][bx] = new Wall();
-//        by = 161;
-//        for(int x = 100; x <= 110; x++)
-//            floor1[by][x] = new Wall();
-//        for(int y = 151; y <= 160; y++){
-//            for(int x = 101; x <= 109; x++){
-//                floor1[y][x] = new Floor();
-//            }
-//        }
-//        player.move(new Position(105, 155));
-//        try{    //переписать с использованием ItemBase
-//            player.inventoryPut(ItemBase.getItemID(0));
-//            player.wieldHand(ItemBase.getItemID(1), PlayerSlot.RIGHT_HAND);
-//            player.putOn((BodyArmor)ItemBase.getItemID(3));
-//        }catch(Exception ex){
-//            System.out.println(ex.getMessage());
-//        }
-//        Monster m1 = Bestiary.getMonsterID(0);
-//        m1.move(new Position(107, 158));
-//        monsters1.add(m1);
-//        Cell[][][] field = new Cell[1][][];
-//        field[0] = floor1;
-//        ArrayDeque[] monsters = new ArrayDeque[1];
-//        monsters[0] = monsters1;
-//        return new Dungeon(field, player, monsters);
-//    }
     public static Dungeon loadDungeon(String pname) throws LoadingException{
         try{
             Player player = new Player(pname, 20, 0, 7, 6, 4, 4);
@@ -66,11 +26,9 @@ public class DungeonGenerator {
             player.wieldHand(ItemBase.getItemName("Деревянный щит"), PlayerSlot.LEFT_HAND);
             player.putOn((BodyArmor)ItemBase.getItemName("Штаны"));
             player.inventoryPut(ItemBase.getItemName("Зелье здоровья"));
+            //player.inventoryPut(ItemBase.getItemRandom());
+            player.inventoryPut(ItemBase.getItemName("Железный меч"));
             player.inventoryPut(ItemBase.getItemName("Зелье силы"));
-            player.inventoryPut(ItemBase.getItemName("Железный шлем"));
-            player.inventoryPut(ItemBase.getItemName("Железная броня"));
-            player.inventoryPut(ItemBase.getItemName("Железные поножи"));
-            player.inventoryPut(ItemBase.getItemName("Железный щит"));
             Position apos = null;
             String mainDir = "Map/";
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(mainDir+"data.txt")));

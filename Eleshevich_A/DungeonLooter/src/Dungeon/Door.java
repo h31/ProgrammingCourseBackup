@@ -2,7 +2,6 @@ package Dungeon;
 
 import Constants.CellStatus;
 import Constants.CellType;
-import java.awt.Component;
 import java.awt.Image;
 import java.awt.Toolkit;
 
@@ -17,10 +16,6 @@ public class Door extends Cell{
     static Image doorClose = Toolkit.getDefaultToolkit().createImage("Data/doorClose.gif");
     static Image doorOpendark = Toolkit.getDefaultToolkit().createImage("Data/doorOpendark.gif");
     static Image doorClosedark = Toolkit.getDefaultToolkit().createImage("Data/doorClosedark.gif");
-    
-    static void prepareImages(Component comp){
-        
-    }
     
     Door(int weight){
         super(CellType.DOOR);

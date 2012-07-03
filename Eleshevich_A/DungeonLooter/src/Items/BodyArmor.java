@@ -1,9 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Items;
 
+import Constants.ArmorType;
 import Constants.ArmorClass;
 import Constants.PlayerSlot;
 import java.awt.Image;
@@ -15,8 +12,8 @@ import java.awt.Image;
 public class BodyArmor extends Armor{
     PlayerSlot slotType;
     
-    public BodyArmor(String name, Image img, int def, PlayerSlot stype, ArmorClass aclass, String descr){
-        super(name, img, def, ArmorType.BODY_ARMOR, aclass, descr);
+    public BodyArmor(String name, Image img, int def, PlayerSlot stype, ArmorClass aclass, String descr, int ID){
+        super(name, img, def, ArmorType.BODY_ARMOR, aclass, descr, ID);
         slotType = stype;
     }
     public PlayerSlot getSlotType(){
@@ -24,6 +21,6 @@ public class BodyArmor extends Armor{
     }
     @Override
     public BodyArmor clone(){
-        return new BodyArmor(name, img, defence, slotType, aclass, descr);
+        return new BodyArmor(name, img, defence, slotType, aclass, descr, ID);
     }
 }

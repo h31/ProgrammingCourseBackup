@@ -10,8 +10,8 @@ import java.util.Iterator;
  * @author Andrew
  */
 public abstract class Creature {
-    String name;
-    int health;
+    protected String name;
+    protected int health;
     protected int maxhealth;
     protected int defence;
     protected int dexterity;
@@ -54,7 +54,7 @@ public abstract class Creature {
     public void passTurn(){
         if(health < maxhealth && hregen > 0){
             hrcount ++;
-            if(hrcount >= 10 - Math.round(hregen*0.7d)){
+            if(hrcount >= 10 - Math.min(Math.round(hregen*0.7d), 10)){
                 hrcount = 0;
                 health++;
             }
@@ -73,7 +73,7 @@ public abstract class Creature {
             }
         }
     }
-    public void takeEffect(Effect effect){   //после этого надо проверить, не сдох ли подопечный
+    public void takeEffect(Effect effect){
         switch(effect.getVarChar()){
             case HEALTH: health += effect.getValue(); if(health > maxhealth) health = maxhealth; break;
             case MAXHEALTH: maxhealth += effect.getValue(); break;
