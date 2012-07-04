@@ -190,8 +190,6 @@ public class PlayerPanel extends JPanel implements Updatable{
                 case FLOOR: player.pickUpFloor(number); break;
                 case INVENTORY: player.dropInvFloor(number); break;
             }
-        }catch(PlayerException pex){
-            JOptionPane.showMessageDialog(this, pex.getDialogMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
         }catch(Exception ex){
             System.err.println(ex.getMessage());
         }
