@@ -125,9 +125,8 @@ public class Player extends Creature{
         inventory[num] = null;
         return item;
     }
-    public void pickUpFloor(int number) throws InventoryFullException{
-        if(!inventoryPut(itemsFloor.itemTake(number)))
-            throw new InventoryFullException();
+    public void pickUpFloor(int number){
+        inventoryPut(itemsFloor.itemTake(number));
         dungeon.passTurn();
     }
     public void dropInvFloor(int number){
