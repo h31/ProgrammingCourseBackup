@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Records.xml
+    Created on : 10 Май 2012 г., 0:11
+    Author     : user
+    Description:
+        Purpose of the document follows.
+-->
+
+<root>
+        <score1> 4562 </score1>
+        <score2> 12 </score2>
+        <score3> 13 </score3>
+        <score4> 14 </score4>
+        <score5> 15 </score5>
+</root>
