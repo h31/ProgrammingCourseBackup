@@ -5,6 +5,7 @@
 
 class Figure;
 #include <QtGui>
+#include <vector>
 
 #include "bishop.h"
 #include "knight.h"
@@ -24,6 +25,18 @@ struct PlayingBoard
 	Figure *figureOnCell;
 };
 
+struct TurnCoordinate
+{
+    int startX;
+    int startY;
+    int finishX;
+    int finishY;
+
+    TurnCoordinate(int sX, int sY, int fX, int fY);
+
+    friend ostream& operator << (ostream &out,const TurnCoordinate &T);
+};
+
 class Desk: public QObject
 {
    Q_OBJECT
@@ -31,6 +44,8 @@ private:
 	Figure *wKing;
 	Figure *bKing;
 	
+    vector <TurnCoordinate> turnVec;
+
 	PlayingBoard **playingBoard;
 	Figure **figure;
 
@@ -52,6 +67,11 @@ public:
 	bool checkMat(const bool whitePlayer);
     bool checkShah(const bool whitePlayer);
 	bool makeFigureTurn(const int startX,const int startY,const int finishX,const int finishY, const bool whitePlayerTurn);
+
+    void setTurnVecElem(TurnCoordinate coord);
+    TurnCoordinate getTurnVecElem(int id);
+    int getTurnVecSize();
+    void clearTurnVec();
 
     void printPlayingBoard();
 	~Desk();

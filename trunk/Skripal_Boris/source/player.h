@@ -33,12 +33,15 @@ signals:
      void printShah();
      void printFalseTurn();
      void printMat();
+     void turnWarTrue();
 public:
     Desk *desk;
 	Player();
     bool getWhitePlayerTurnNow();
     int getWhitePlayerWins();
     int getBlackPlayerWins();
+    void setWins(bool isWhitePlayerTrue,int score);
+    void setWhitePlayerTurn(bool whitePlayerTurn);
     void plusWinner(bool whitePlayer);
     void newGame();
     Winner getWinner();
