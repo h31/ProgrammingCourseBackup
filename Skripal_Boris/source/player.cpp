@@ -105,6 +105,7 @@ void Player::makePlayerTurn(int startX, int startY, int finishX, int finishY)
         if(isTurnTrue == true)
         {
             insertWhitePlayerTurnNow();
+            turnWarTrue();
         }
         else
             printFalseTurn();
@@ -137,4 +138,22 @@ void Player::plusWinner(bool whitePlayer)
 Winner Player::getWinner()
 {
     return winner;
+}
+
+void Player::setWhitePlayerTurn(bool whitePlayerTurn)
+{
+    if(whitePlayerTurn==true)
+        whitePlayerTurnNow=true;
+    else
+        whitePlayerTurnNow=false;
+    return;
+}
+
+void Player::setWins(bool isWhitePlayerTrue, int score)
+{
+    if(isWhitePlayerTrue==true)
+        whitePlayerWins=score;
+    else
+        blackPlayerWins=score;
+    return;
 }

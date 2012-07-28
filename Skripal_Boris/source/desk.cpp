@@ -29,7 +29,9 @@ Desk::Desk()
 }
 
 void Desk::createNewDesk()
-{//расстановка ладей
+{
+    clearTurnVec();
+    //расстановка ладей
 	figure[0] = new Rook(1,1,true);
 
 	figure[1] = new Rook(8,1,true);
@@ -424,6 +426,8 @@ bool Desk::makeFigureTurn(const int startX,const int startY,const int finishX,co
             cancelTurn(finishX,finishY,numberOfSecondFigure);
 			return false;
 		}
+        TurnCoordinate coord(startX,startY,finishY,finishY);
+        setTurnVecElem(coord);
 
 		return true;
 	}
@@ -435,6 +439,9 @@ bool Desk::makeFigureTurn(const int startX,const int startY,const int finishX,co
 			cancelTurn(finishX,finishY,numberOfSecondFigure);
 			return false;
 		}
+        TurnCoordinate coord(startX,startY,finishY,finishY);
+        setTurnVecElem(coord);
+
 		return true;
 	}
 
@@ -454,6 +461,9 @@ bool Desk::makeFigureTurn(const int startX,const int startY,const int finishX,co
             return false;
         }
 
+        TurnCoordinate coord(startX,startY,finishY,finishY);
+        setTurnVecElem(coord);
+
         changePawn(whitePlayerTurnNow);
 		refreshPlayingBoard();
 		return true;
@@ -470,4 +480,38 @@ void Desk::cancelTurn(const int coordinateX, const int coordinateY, const int nu
 	getFigure(number)->eatFigure(false);
     getFigure(number)->increaceSteps(false);
 	return;
+}
+
+ostream& operator <<(ostream &out, const TurnCoordinate &T)
+{
+    out<<T.startX<<" "<<T.startY<<" "<<T.finishX<<" "<<T.finishY;
+    return out;
+}
+
+TurnCoordinate::TurnCoordinate(int sX,int sY,int fX,int fY)
+{
+    startX = sX;
+    startY = sY;
+    finishX = fX;
+    finishY = fY;
+}
+
+void Desk::setTurnVecElem(TurnCoordinate coord)
+{
+    turnVec.push_back(coord);
+}
+
+TurnCoordinate Desk::getTurnVecElem(int id)
+{
+    return turnVec[id];
+}
+
+int Desk::getTurnVecSize()
+{
+    return turnVec.size();
+}
+
+void Desk::clearTurnVec()
+{
+    turnVec.clear();
 }
