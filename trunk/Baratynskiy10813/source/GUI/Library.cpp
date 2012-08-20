@@ -9,21 +9,14 @@ Library::~Library()
 {
     delete [] word;
 }
-//int Library::numberOfWords(QFile &in)
-//{
-////        in.seekg(0, ios::end);
-////        const int numOfWords = in.tellg();
-////        in.seekg(0, ios::beg);
-////        return numOfWords;
-//}
 
 DictionaryWord* Library::takeEng()
 {
-    QFile file("c://eng_words.txt");
+    QFile file("c://Hangman/eng_words.txt");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QTextStream text(&file);
     srand(time(NULL));
-    int numOfWords = 197776;
+    int numOfWords = 19776;
     randNum = rand() % numOfWords;
     int i = 0;
     while (i != randNum)
@@ -36,11 +29,11 @@ DictionaryWord* Library::takeEng()
 
 DictionaryWord* Library::takeRus()
 {
-    QFile file("c://rus_words.txt");
+    QFile file("c://Hangman/rus_words.txt");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QTextStream text(&file);
     srand(time(NULL));
-    int numOfWords = 1146266;
+    int numOfWords = 14842;
     randNum = rand() % numOfWords;
     int i = 0;
     while (i != randNum)

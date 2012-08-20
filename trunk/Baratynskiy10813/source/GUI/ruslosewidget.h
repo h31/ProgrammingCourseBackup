@@ -2,6 +2,7 @@
 #define RUSLOSEWIDGET_H
 
 #include <QWidget>
+#include "QLabel"
 #include "QPushButton"
 
 namespace Ui {
@@ -17,7 +18,7 @@ public:
     ~RusLoseWidget();
     QPushButton* returnYes();
     QPushButton* returnNo();
-    
+    QLabel *getLabel();
 private slots:
     void on_yes_clicked();
 

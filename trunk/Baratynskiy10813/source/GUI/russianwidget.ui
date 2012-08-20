@@ -6,9 +6,220 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>480</width>
+    <height>305</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>470</width>
+    <height>305</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>480</width>
+    <height>305</height>
+   </size>
+  </property>
+  <property name="palette">
+   <palette>
+    <active>
+     <colorrole role="WindowText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>0</red>
+        <green>0</green>
+        <blue>0</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Button">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Midlight">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Dark">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Mid">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Text">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>0</red>
+        <green>0</green>
+        <blue>0</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="ButtonText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>0</red>
+        <green>0</green>
+        <blue>0</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </active>
+    <inactive>
+     <colorrole role="WindowText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>0</red>
+        <green>0</green>
+        <blue>0</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Button">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Midlight">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Dark">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Mid">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Text">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>0</red>
+        <green>0</green>
+        <blue>0</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="ButtonText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>0</red>
+        <green>0</green>
+        <blue>0</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </inactive>
+    <disabled>
+     <colorrole role="WindowText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Button">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Midlight">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Dark">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Mid">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Text">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="ButtonText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </disabled>
+   </palette>
   </property>
   <property name="windowTitle">
    <string>Виселица</string>
@@ -29,16 +240,60 @@
   <widget class="QLabel" name="word">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>90</x>
      <y>80</y>
-     <width>291</width>
+     <width>361</width>
      <height>51</height>
     </rect>
    </property>
+   <property name="maximumSize">
+    <size>
+     <width>361</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Bookman Old Style</family>
+     <family>Century Schoolbook</family>
      <pointsize>26</pointsize>
+     <italic>true</italic>
     </font>
    </property>
    <property name="text">
@@ -48,7 +303,7 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>30</x>
      <y>180</y>
      <width>31</width>
      <height>31</height>
@@ -66,14 +321,303 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Button">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Midlight">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Dark">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Mid">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Text">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Base">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Window">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="AlternateBase">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Button">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Midlight">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Dark">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Mid">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Text">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Base">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Window">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="AlternateBase">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Button">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Midlight">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Dark">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Mid">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Text">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Base">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Window">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="AlternateBase">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="acceptDrops">
+    <bool>false</bool>
    </property>
    <property name="text">
     <string>А</string>
@@ -82,7 +626,7 @@
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>60</x>
      <y>180</y>
      <width>31</width>
      <height>31</height>
@@ -100,10 +644,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -116,7 +700,7 @@
   <widget class="QPushButton" name="pushButton_3">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>90</x>
      <y>180</y>
      <width>31</width>
      <height>31</height>
@@ -134,10 +718,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -150,7 +774,7 @@
   <widget class="QPushButton" name="pushButton_4">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>120</x>
      <y>180</y>
      <width>31</width>
      <height>31</height>
@@ -168,10 +792,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -184,7 +848,7 @@
   <widget class="QPushButton" name="pushButton_5">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>150</x>
      <y>180</y>
      <width>31</width>
      <height>31</height>
@@ -202,10 +866,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -218,7 +922,7 @@
   <widget class="QPushButton" name="pushButton_6">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>180</x>
      <y>180</y>
      <width>31</width>
      <height>31</height>
@@ -236,10 +940,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -252,7 +996,7 @@
   <widget class="QPushButton" name="pushButton_7">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>210</x>
      <y>180</y>
      <width>31</width>
      <height>31</height>
@@ -270,10 +1014,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -286,7 +1070,7 @@
   <widget class="QPushButton" name="pushButton_8">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>240</x>
      <y>180</y>
      <width>31</width>
      <height>31</height>
@@ -304,10 +1088,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -320,7 +1144,7 @@
   <widget class="QPushButton" name="pushButton_9">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>270</x>
      <y>180</y>
      <width>31</width>
      <height>31</height>
@@ -338,10 +1162,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -354,7 +1218,7 @@
   <widget class="QPushButton" name="pushButton_10">
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>300</x>
      <y>180</y>
      <width>31</width>
      <height>31</height>
@@ -372,10 +1236,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -388,7 +1292,7 @@
   <widget class="QPushButton" name="pushButton_11">
    <property name="geometry">
     <rect>
-     <x>310</x>
+     <x>330</x>
      <y>180</y>
      <width>31</width>
      <height>31</height>
@@ -406,10 +1310,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -422,7 +1366,7 @@
   <widget class="QPushButton" name="pushButton_12">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>360</x>
      <y>180</y>
      <width>31</width>
      <height>31</height>
@@ -440,10 +1384,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -456,7 +1440,7 @@
   <widget class="QPushButton" name="pushButton_13">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>30</x>
      <y>210</y>
      <width>31</width>
      <height>31</height>
@@ -474,10 +1458,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -490,7 +1514,7 @@
   <widget class="QPushButton" name="pushButton_14">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>60</x>
      <y>210</y>
      <width>31</width>
      <height>31</height>
@@ -508,10 +1532,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -524,7 +1588,7 @@
   <widget class="QPushButton" name="pushButton_15">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>90</x>
      <y>210</y>
      <width>31</width>
      <height>31</height>
@@ -542,10 +1606,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -558,7 +1662,7 @@
   <widget class="QPushButton" name="pushButton_16">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>120</x>
      <y>210</y>
      <width>31</width>
      <height>31</height>
@@ -576,10 +1680,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -592,7 +1736,7 @@
   <widget class="QPushButton" name="pushButton_17">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>360</x>
      <y>210</y>
      <width>31</width>
      <height>31</height>
@@ -610,10 +1754,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -626,7 +1810,7 @@
   <widget class="QPushButton" name="pushButton_18">
    <property name="geometry">
     <rect>
-     <x>310</x>
+     <x>330</x>
      <y>210</y>
      <width>31</width>
      <height>31</height>
@@ -644,10 +1828,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -660,7 +1884,7 @@
   <widget class="QPushButton" name="pushButton_19">
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>300</x>
      <y>210</y>
      <width>31</width>
      <height>31</height>
@@ -678,10 +1902,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -694,7 +1958,7 @@
   <widget class="QPushButton" name="pushButton_20">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>270</x>
      <y>210</y>
      <width>31</width>
      <height>31</height>
@@ -712,10 +1976,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -728,7 +2032,7 @@
   <widget class="QPushButton" name="pushButton_21">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>240</x>
      <y>210</y>
      <width>31</width>
      <height>31</height>
@@ -746,10 +2050,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -762,7 +2106,7 @@
   <widget class="QPushButton" name="pushButton_22">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>210</x>
      <y>210</y>
      <width>31</width>
      <height>31</height>
@@ -780,10 +2124,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -796,7 +2180,7 @@
   <widget class="QPushButton" name="pushButton_23">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>180</x>
      <y>210</y>
      <width>31</width>
      <height>31</height>
@@ -814,10 +2198,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -830,7 +2254,7 @@
   <widget class="QPushButton" name="pushButton_24">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>150</x>
      <y>210</y>
      <width>31</width>
      <height>31</height>
@@ -848,10 +2272,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -864,7 +2328,7 @@
   <widget class="QPushButton" name="pushButton_25">
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>300</x>
      <y>240</y>
      <width>31</width>
      <height>31</height>
@@ -882,10 +2346,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -898,7 +2402,7 @@
   <widget class="QPushButton" name="pushButton_26">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>270</x>
      <y>240</y>
      <width>31</width>
      <height>31</height>
@@ -916,10 +2420,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -932,7 +2476,7 @@
   <widget class="QPushButton" name="pushButton_27">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>240</x>
      <y>240</y>
      <width>31</width>
      <height>31</height>
@@ -950,10 +2494,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -966,7 +2550,7 @@
   <widget class="QPushButton" name="pushButton_28">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>210</x>
      <y>240</y>
      <width>31</width>
      <height>31</height>
@@ -984,10 +2568,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -1000,7 +2624,7 @@
   <widget class="QPushButton" name="pushButton_29">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>180</x>
      <y>240</y>
      <width>31</width>
      <height>31</height>
@@ -1018,10 +2642,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -1034,7 +2698,7 @@
   <widget class="QPushButton" name="pushButton_30">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>150</x>
      <y>240</y>
      <width>31</width>
      <height>31</height>
@@ -1052,10 +2716,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -1068,7 +2772,7 @@
   <widget class="QPushButton" name="pushButton_31">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>120</x>
      <y>240</y>
      <width>31</width>
      <height>31</height>
@@ -1086,10 +2790,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -1102,7 +2846,7 @@
   <widget class="QPushButton" name="pushButton_32">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>90</x>
      <y>240</y>
      <width>31</width>
      <height>31</height>
@@ -1120,10 +2864,50 @@
      <height>31</height>
     </size>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>120</red>
+         <green>120</green>
+         <blue>120</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="font">
     <font>
-     <family>Candara</family>
-     <pointsize>10</pointsize>
+     <family>Century Schoolbook</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
     </font>
    </property>
    <property name="cursor">
@@ -1131,6 +2915,95 @@
    </property>
    <property name="text">
     <string>Ш</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="statButton">
+   <property name="geometry">
+    <rect>
+     <x>354</x>
+     <y>10</y>
+     <width>101</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>51</red>
+         <green>56</green>
+         <blue>127</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="font">
+    <font>
+     <family>Century Schoolbook</family>
+     <pointsize>9</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>Статистика</string>
    </property>
   </widget>
  </widget>
