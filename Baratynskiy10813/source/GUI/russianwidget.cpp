@@ -1,6 +1,7 @@
 #include "russianwidget.h"
 #include "ui_russianwidget.h"
 #include "QTextCodec"
+#include "QMessageBox"
 
 RussianWidget::RussianWidget(QWidget *parent) :
     QWidget(parent),
@@ -10,10 +11,21 @@ RussianWidget::RussianWidget(QWidget *parent) :
     game = new Game;
     iflose = new RusLoseWidget;
     ifwin = new RusWinWidget;
+    stats = new Statistics;
+    stats->readStatistics();
+    st = new RusStat;
+    stats->setGames(stats->getGames().toDouble());
+    stats->setWins(stats->getWins().toDouble());
+    stats->setLoses(stats->getLoses().toDouble());
+    stats->setWinPer(stats->getWinPer().toDouble());
+    stats->setLosePer(stats->getLosePer().toDouble());
     QPalette pal = this->palette();
     pal.setBrush(QPalette::Window,
-    QBrush(Qt::white));
+    QBrush(QPixmap("C://Hangman/screen1.png")));
     this->setPalette(pal);
+    QPalette qpal = ui->pushButton->palette();
+    qpal.setBrush(QPalette::Button,QBrush(Qt::white));
+    ui->pushButton->setPalette(qpal);
     QTextCodec::setCodecForCStrings(
     QTextCodec::codecForName(
     "Windows-1251"));
@@ -26,6 +38,7 @@ void RussianWidget::connectButtons()
     QObject::connect(ifwin->returnYes(),SIGNAL(clicked()),this,SLOT(close()));
     QObject::connect(ifwin->returnNo(),SIGNAL(clicked()),this,SLOT(close()));
 }
+
 
 void RussianWidget::play()
 {
@@ -40,6 +53,7 @@ void RussianWidget::makeLabel()
     game->uword->makeUserWord(*game->dword);
     ui->word->setText(game->uword->word);
     ui->misses->setNum(game->man->curMisses);
+    iflose->getLabel()->setText(game->dword->word);
 }
 
 void RussianWidget::checkLetter()
@@ -50,6 +64,11 @@ void RussianWidget::checkLetter()
         ui->word->setText(game->uword->word);
         if (game->uword->word == game->dword->word)
         {
+            stats->setGames(stats->getDGames()+1);
+            stats->setWins(stats->getDWins()+1);
+            stats->setWinPer(100/stats->getDGames()*stats->getDWins());
+            stats->setLosePer(100/stats->getDGames()*stats->getDLoses());
+            stats->writeStatistics();
             ifwin->show();
             return;
         }
@@ -61,6 +80,11 @@ void RussianWidget::checkLetter()
        game->uword->putMistake(game->man->curMisses);
        if (game->man->curMisses == game->man->maxMisses)
        {
+           stats->setGames(stats->getDGames()+1);
+           stats->setLoses(stats->getDLoses()+1);
+           stats->setWinPer(100/stats->getDGames()*stats->getDWins());
+           stats->setLosePer(100/stats->getDGames()*stats->getDLoses());
+           stats->writeStatistics();
            ui->word->setText(game->dword->word);
            iflose->show();
            return;
@@ -285,4 +309,14 @@ void RussianWidget::paintEvent(QPaintEvent *event)
         pix.load("C://Hangman/#6.png");
     qp.drawPixmap(0,0,pix);
     ui->misses->setPixmap(pix);
+}
+
+void RussianWidget::on_statButton_clicked()
+{
+    st->returnGames()->setNum(stats->getDGames());
+    st->returnWins()->setNum(stats->getDWins());
+    st->returnLoses()->setNum(stats->getDLoses());
+    st->returnWinPercent()->setNum(stats->getDWinPer());
+    st->returnLosePercent()->setNum(stats->getDLosePer());
+    st->show();
 }

@@ -26,12 +26,4 @@ bool Game::isLose()
         return true;
     else return false;
 }
-void Game::reset()
-{
-    man->curMisses=0;
-    for (int i=0;i<=man->maxMisses;i++)
-    {
-        man->man[i] = ' ';
-        uword->mistakes[i] = ' ';
-    }
-}
+

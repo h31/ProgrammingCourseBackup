@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "QPushButton"
+#include "QLabel"
 
 namespace Ui {
 class IfLoseWidget;
@@ -18,6 +19,7 @@ public:
      Ui::IfLoseWidget *ui;
      QPushButton* returnYes();
      QPushButton* returnNo();
+     QLabel *getLabel();
 private slots:
     void on_yes_clicked();
 };

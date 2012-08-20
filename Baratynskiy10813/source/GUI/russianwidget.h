@@ -10,6 +10,8 @@
 #include "QPaintEvent"
 #include "ruslosewidget.h"
 #include "ruswinwidget.h"
+#include "statistics.h"
+#include "russtat.h"
 
 namespace Ui {
 class RussianWidget;
@@ -25,6 +27,8 @@ public:
     Game *game;
     RusLoseWidget *iflose;
     RusWinWidget *ifwin;
+    Statistics *stats;
+    RusStat *st;
     void connectButtons();
     void makeLabel();
     void addWidgets(QGridLayout *layout);
@@ -33,7 +37,6 @@ public:
     void play();
 protected:
     void paintEvent(QPaintEvent *event);
-    
 private slots:
     void on_pushButton_clicked();
 
@@ -98,6 +101,8 @@ private slots:
     void on_pushButton_26_clicked();
 
     void on_pushButton_25_clicked();
+
+    void on_statButton_clicked();
 
 private:
     Ui::RussianWidget *ui;

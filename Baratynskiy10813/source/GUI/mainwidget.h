@@ -10,6 +10,8 @@
 #include "QPaintEvent"
 #include "iflosewidget.h"
 #include "ifwinwidget.h"
+#include "statistics.h"
+#include "stats.h"
 
 namespace Ui {
 class MainWidget;
@@ -25,15 +27,17 @@ public:
     Game *game;
     IfLoseWidget *iflose;
     IfWinWidget *ifwin;
+    Statistics *stats;
+    Stats *st;
     void connectButtons();
     void makeLabel();
     void addWidgets(QGridLayout *layout);
     void checkLetter();
+
 public:
     void play();
 protected:
     void paintEvent(QPaintEvent *event);
-    
 private slots:
     void on_a_clicked();
 
@@ -86,6 +90,9 @@ private slots:
     void on_y_clicked();
 
     void on_z_clicked();
+
+
+    void on_statButton_clicked();
 
 private:
     Ui::MainWidget *ui;

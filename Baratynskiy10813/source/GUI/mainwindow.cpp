@@ -8,6 +8,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QPalette pal = this->palette();
+    pal.setBrush(QPalette::Window,
+    QBrush(QPixmap("C://Hangman/screen1.png")));
+    this->setPalette(pal);
 }
 
 MainWindow::~MainWindow()

@@ -1,5 +1,6 @@
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
+#include "QMessageBox"
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
@@ -9,11 +10,21 @@ MainWidget::MainWidget(QWidget *parent) :
     game = new Game;
     iflose = new IfLoseWidget;
     ifwin = new IfWinWidget;
+    stats = new Statistics;
+    stats->readStatistics();
+    st = new Stats;
+    stats->setGames(stats->getGames().toDouble());
+    stats->setWins(stats->getWins().toDouble());
+    stats->setLoses(stats->getLoses().toDouble());
+    stats->setWinPer(stats->getWinPer().toDouble());
+    stats->setLosePer(stats->getLosePer().toDouble());
     QPalette pal = this->palette();
     pal.setBrush(QPalette::Window,
-    QBrush(Qt::white));
+    QBrush(QPixmap("C://Hangman/screen1.png")));
     this->setPalette(pal);
 }
+
+
 
 void MainWidget::connectButtons()
 {
@@ -22,6 +33,7 @@ void MainWidget::connectButtons()
     QObject::connect(ifwin->returnYes(),SIGNAL(clicked()),this,SLOT(close()));
     QObject::connect(ifwin->returnNo(),SIGNAL(clicked()),this,SLOT(close()));
 }
+
 void MainWidget::play()
 {
     game->dword = game->lib->takeEng();
@@ -35,6 +47,7 @@ void MainWidget::makeLabel()
     game->uword->makeUserWord(*game->dword);
     ui->word->setText(game->uword->word);
     ui->misses->setNum(game->man->curMisses);
+    iflose->getLabel()->setText(game->dword->word);
 }
 void MainWidget::checkLetter()
 {
@@ -44,6 +57,11 @@ void MainWidget::checkLetter()
         ui->word->setText(game->uword->word);
         if (game->uword->word == game->dword->word)
         {
+            stats->setGames(stats->getDGames()+1);
+            stats->setWins(stats->getDWins()+1);
+            stats->setWinPer(100/stats->getDGames()*stats->getDWins());
+            stats->setLosePer(100/stats->getDGames()*stats->getDLoses());
+            stats->writeStatistics();
             ifwin->show();
             return;
         }
@@ -55,6 +73,11 @@ void MainWidget::checkLetter()
        game->uword->putMistake(game->man->curMisses);
        if (game->man->curMisses == game->man->maxMisses)
        {
+           stats->setGames(stats->getDGames()+1);
+           stats->setLoses(stats->getDLoses()+1);
+           stats->setWinPer(100/stats->getDGames()*stats->getDWins());
+           stats->setLosePer(100/stats->getDGames()*stats->getDLoses());
+           stats->writeStatistics();
            ui->word->setText(game->dword->word);
            iflose->show();
            return;
@@ -240,6 +263,18 @@ void MainWidget::paintEvent(QPaintEvent *event)
         pix.load("C://Hangman/#5.png");
     if (game->man->curMisses==6)
         pix.load("C://Hangman/#6.png");
+
     qp.drawPixmap(0,0,pix);
     ui->misses->setPixmap(pix);
+}
+
+
+void MainWidget::on_statButton_clicked()
+{
+    st->returnGames()->setNum(stats->getDGames());
+    st->returnWins()->setNum(stats->getDWins());
+    st->returnLoses()->setNum(stats->getDLoses());
+    st->returnWinPercent()->setNum(stats->getDWinPer());
+    st->returnLosePercent()->setNum(stats->getDLosePer());
+    st->show();
 }
