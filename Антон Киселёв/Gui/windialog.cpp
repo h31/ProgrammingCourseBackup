@@ -6,6 +6,7 @@ WinDialog::WinDialog(QWidget *parent) :
     ui(new Ui::WinDialog)
 {
     ui->setupUi(this);
+    this->
     QObject::connect(ui->pushButton, SIGNAL(clicked()), this,SLOT(on_pushButton_clicked()));
 }
 

@@ -172,7 +172,104 @@ void Field::Graphic_Parameters(int ixRow, int ixCol, int point_1, int point_2, i
     parameters[ ixRow ][ ixCol ].p_x = p_1;
     parameters[ ixRow ][ ixCol ].p_y = p_2;
 }
-
+//Создание поля для определения цвета клетки
+void Field::CreateGraphicField()
+{
+    GraphicField = new int * [ 9 ];
+    for (int i = 0; i < 9; i++)
+        GraphicField[ i ] = new int [ 9 ];
+    for (int ixRow = 0; ixRow < 9; ixRow++)
+    {
+        for (int ixCol = 0; ixCol < 9; ixCol++)
+        {
+            if (GameField[ ixRow ][ ixCol ] == 0)
+                GraphicField[ ixRow ][ ixCol ] = 0;
+            else if (GameField[ ixRow ][ ixCol ] != 0)
+                GraphicField[ ixRow ][ ixCol ] = 1;
+        }
+    }
+}
+//Взятие значения из графического поля
+int Field::CellGraphicField(int ixRow, int ixCol)
+{
+    return GraphicField[ ixRow ][ ixCol ];
+}
+//Поиск повторов
+bool Field::SearchRepeatsRow(int ixRow, int ixCol)
+{
+    for (int SqIxCol = 0; SqIxCol < ixCol; ++SqIxCol)
+    {
+        if (GameField[ ixRow ][ SqIxCol ] == GameField[ ixRow ][ ixCol ])
+        {
+            x = ixRow;
+            y = SqIxCol;
+            return true;
+        }
+    }
+    for (int SqIxCol = ixCol+1; SqIxCol < 9; SqIxCol++)
+    {
+        if (GameField[ ixRow ][ SqIxCol ] == GameField[ ixRow ][ ixCol ])
+        {
+            x = ixRow;
+            y = SqIxCol;
+            return true;
+        }
+    }
+    return false;
+}
+bool Field::SearchRepeatsCol(int ixRow, int ixCol)
+{
+    for (int SqIxRow = 0; SqIxRow < ixRow; ++SqIxRow)
+    {
+        if (GameField[ SqIxRow ][ ixCol ] == GameField[ ixRow ][ ixCol ])
+        {
+            x = SqIxRow;
+            y = ixCol;
+            return true;
+        }
+    }
+    for (int SqIxRow = ixRow+1; SqIxRow < 9; SqIxRow++)
+    {
+        if (GameField[ SqIxRow ][ ixCol ] == GameField[ ixRow ][ ixCol ])
+        {
+            x = SqIxRow;
+            y = ixCol;
+            return true;
+        }
+    }
+    return false;
+}
+void Field::SearchRepeatsSq(int ixRow, int ixCol)
+{
+    for (int i = 0; i < 9; i++)
+    {
+        mass_x[ i ] = 10;
+        mass_y[ i ] = 10;
+    }
+    int SqIxRow = ixRow/3;
+    int SqIxCol = ixCol/3;
+    int ddi = 0;
+    int ddj = 0;
+    int _b = SqIxRow*3;
+    int __b = SqIxCol*3;
+    int i = 0;
+    int j = 0;
+    for (ddi = _b; ddi < _b+3; ddi++)
+    {
+        for (ddj = __b; ddj < __b+3; ddj++)
+        {
+            if (GameField[ ddi ][ ddj ] == GameField[ ixRow ][ ixCol ])
+            {
+                x = ddi;
+                y = ddj;
+                mass_x[ i ] = x;
+                mass_y[ j ] = y;
+                i++;
+                j++;
+            }
+        }
+    }
+}
 Field::~Field(void)
 {
 }
