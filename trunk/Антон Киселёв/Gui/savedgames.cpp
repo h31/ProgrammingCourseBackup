@@ -1,7 +1,7 @@
 #include "savedgames.h"
 #include <QFile>
 #include <QTextStream>
-SavedGames::SavedGames()
+SavedGames::SavedGames(void)
 {
 }
 //Сохранение сгенерированного поля
@@ -13,7 +13,27 @@ void SavedGames::SaveReadyField(Field* GameField, char name[])
     for (int ixRow = 0; ixRow < 9; ixRow++)
     {
         for (int ixCol = 0; ixCol < 9; ixCol++)
+        {
+            out << GameField->GameField[ ixRow ][ ixCol ];
+            out << " ";
+        }
+        out << "\n";
+    }
+    out << "\n";
+    for (int ixRow = 0; ixRow < 9; ixRow++)
+    {
+        for (int ixCol = 0; ixCol < 9; ixCol++)
             out << GameField->FieldVictory[ ixRow ][ ixCol ] << " ";
+        out << "\n";
+    }
+    out << "\n";
+    for (int ixRow = 0; ixRow < 9; ixRow++)
+    {
+        for (int ixCol = 0; ixCol < 9; ixCol++)
+        {
+            out << GameField->GraphicField[ ixRow ][ ixCol ];
+            out << " ";
+        }
         out << "\n";
     }
     file.close();
@@ -52,6 +72,16 @@ void SavedGames::RecordData(char name[], Field* GameField)
         }
         out << "\n";
     }
+    out << "\n";
+    for (int ixRow = 0; ixRow < 9; ixRow++)
+    {
+        for (int ixCol = 0; ixCol < 9; ixCol++)
+        {
+            out << GameField->GraphicField[ ixRow ][ ixCol ];
+            out << " ";
+        }
+        out << "\n";
+    }
     file.close();
 }
 //Запрос на загрузку игры
@@ -83,7 +113,10 @@ void SavedGames::LoadGame(char name[], Field* GameField)
         for (int ixCol = 0; ixCol < 9; ixCol++)
         {
             in >> GameField->GameField[ ixRow ][ ixCol ];
+            out << GameField->GameField[ ixRow ][ixCol];
+            out << " ";
         }
+        out << "\n";
     }
     for (int ixRow = 0; ixRow < 9; ixRow++)
     {
@@ -91,6 +124,16 @@ void SavedGames::LoadGame(char name[], Field* GameField)
         {
             in >> GameField->FieldVictory[ ixRow ][ ixCol ];
             out << GameField->FieldVictory[ ixRow ][ixCol];
+            out << " ";
+        }
+        out << "\n";
+    }
+    for (int ixRow = 0; ixRow < 9; ixRow++)
+    {
+        for (int ixCol = 0; ixCol < 9; ixCol++)
+        {
+            in >> GameField->GraphicField[ ixRow ][ ixCol ];
+            out << GameField->GraphicField[ ixRow ][ ixCol ];
             out << " ";
         }
         out << "\n";

@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "savedgames.h"
-#include "game.h"
 #include "windialog.h"
 #include <QWidget>
 #include <QEvent>
@@ -12,7 +11,7 @@ MainWindow::MainWindow()
     CreateActions();
     CreateMenu();
 }
-
+//Действия в меню
 void MainWindow::CreateActions()
 {
     is_New_Game_Activated = false;
@@ -29,9 +28,12 @@ void MainWindow::CreateActions()
     connect(checkingAction,SIGNAL(triggered()),this,SLOT(Checking()));
     exitAction = new QAction("Exit",this);
     connect(exitAction,SIGNAL(triggered()),this,SLOT(close()));
+    includeTips = new QAction("Tips",this);
+    connect(includeTips,SIGNAL(triggered()), this,SLOT(Include_Tips()));
+    switchoffTips = new QAction("No Tips",this);
+    connect(switchoffTips,SIGNAL(triggered()),this,SLOT(Switch_off_Tips()));
 }
-
-
+//Игровое меню
 void MainWindow::CreateMenu()
 {
     bar = new QMenuBar(this);
@@ -42,22 +44,18 @@ void MainWindow::CreateMenu()
     Game->addAction(checkingAction);
     Game->addAction(saveAction);
     Game->addSeparator();
+    Game->addAction(includeTips);
+    Game->addAction(switchoffTips);
+    Game->addSeparator();
     Game->addAction(exitAction);
     this->setMenuBar(bar);
 }
-
-void MainWindow::paintEvent(QPaintEvent *)
+//Рисование поля
+void MainWindow::DrawPole(QPen &pen, int & pointIxRow, int &pointIxCol)
 {
-    int pointIxRow = 10;
-    int pointIxCol = 50;
-    QPen pen;
-    pen.setWidth(3);
-
-
-    QPainter* painter = new QPainter;
+    painter = new QPainter;
     painter->begin(this);
     painter->setPen(pen);
-
     painter->drawRect(10, 50, 90, 90);
     painter->drawRect(100, 50, 90, 90);
     painter->drawRect(190, 50, 90, 90);
@@ -76,119 +74,100 @@ void MainWindow::paintEvent(QPaintEvent *)
     {
         for (int ixCol = 0; ixCol < 9; ixCol++)
         {
+            painter->setBrush(QBrush(Qt::green, Qt::Dense4Pattern));
             painter->drawRect(pointIxRow, pointIxCol, 30, 30);
             pointIxRow = pointIxRow+30;
         }
         pointIxRow = 10;
         pointIxCol = pointIxCol+30;
     }
-    int p1 = 18;
-    int p2 = 75;
-    if (is_New_Game_Activated == true)
+
+}
+//Закрашиваем клетки
+void MainWindow::DrawCells()
+{
+    painter->setFont(QFont("Times", 20, QFont::Normal));
+    for (int ixRow = 0; ixRow < 9; ixRow++)
     {
-        painter->setFont(QFont("Times", 20, QFont::Normal));
-        for (int ixRow = 0 ; ixRow < 9; ixRow++)
+        for (int ixCol = 0; ixCol < 9; ixCol++)
         {
-            for (int ixCol = 0; ixCol < 9; ixCol++)
+            if (GameField->CellGraphicField(ixRow, ixCol) == 0)
             {
-                if (GameField->GetCell(ixRow, ixCol) == 0)
+                painter->setBrush(QBrush(Qt::green, Qt::Dense1Pattern));
+                painter->drawRect(GameField->parameters[ ixRow ][ ixCol ].point_x, GameField->parameters[ ixRow ][ ixCol ].point_y, 30, 30);
+                if (tips == 1)
                 {
-                    painter->drawText(p1, p2, " ");
+                    if ((GameField->GetCell(ixRow, ixCol) != 0) && (GameField->GetCell(ixRow, ixCol) != GameField->FieldVictory[ ixRow ][ ixCol ]))
+                        PaintTips(ixRow, ixCol);
                 }
-                else if (GameField->GetCell(ixRow, ixCol) != 0)
-                {
-                    QString y(QString::number(GameField->GetCell(ixRow, ixCol), 10));
-                    painter->drawText(p1, p2, y);
-                }
-                p1 = p1+30;
             }
-            p1 = 18;
-            p2 = p2+30;
+            else if (GameField->CellGraphicField(ixRow, ixCol) != 0)
+            {
+                painter->setBrush(QBrush(Qt::green, Qt::Dense4Pattern));
+                painter->drawRect(GameField->parameters[ ixRow ][ ixCol ].point_x, GameField->parameters[ ixRow ][ ixCol ].point_y, 30, 30);
+            }
         }
     }
-    p1 = 18;
-    p2 = 75;
-    if (is_Load_Game_Activated == true)
-    {
-        painter->setFont(QFont("Times", 20, QFont::Normal));
-        for (int ixRow = 0 ; ixRow < 9; ixRow++)
-        {
-            for (int ixCol = 0; ixCol < 9; ixCol++)
-            {
-                if (GameField->GetCell(ixRow, ixCol) == 0)
-                {
-                    painter->drawText(p1, p2, " ");
-                }
-                else if (GameField->GetCell(ixRow, ixCol) != 0)
-                {
-                    QString y(QString::number(GameField->GetCell(ixRow, ixCol), 10));
-                    painter->drawText(p1, p2, y);
-                }
-                p1 = p1+30;
-            }
-            p1 = 18;
-            p2 = p2+30;
-        }
-    }
-    pointIxRow = 10;
-    pointIxCol = 50;
-    p1 = 18;
-    p2 = 75;
     if (is_Checking == true)
     {
-        int count = 0;
-        for (int ixRow = 0 ; ixRow < 9; ixRow++)
-        {
-            for (int ixCol = 0; ixCol < 9; ixCol++)
-            {
-                if (GameField->GameField[ ixRow ][ ixCol ] != GameField->FieldVictory[ ixRow ][ ixCol ])
-                {
-                    painter->setBrush(QBrush(Qt::red, Qt::Dense4Pattern));
-                    painter->drawRect(pointIxRow, pointIxCol, 30, 30);
-                    pointIxRow = pointIxRow+30;
-                    count++;
-                }
-                if (GameField->GameField[ ixRow ][ ixCol ] == GameField->FieldVictory[ ixRow ][ ixCol ])
-                {
-                    painter->setBrush(QBrush(Qt::green, Qt::Dense4Pattern));
-                    painter->drawRect(pointIxRow, pointIxCol, 30, 30);
-                    pointIxRow = pointIxRow+30;
-                }
-            }
-            pointIxRow = 10;
-            pointIxCol = pointIxCol+30;
-        }
-        painter->setFont(QFont("Times", 20, QFont::Normal));
-        for (int ixRow = 0 ; ixRow < 9; ixRow++)
-        {
-            for (int ixCol = 0; ixCol < 9; ixCol++)
-            {
-                if (GameField->GetCell(ixRow, ixCol) == 0)
-                {
-                    painter->drawText(p1, p2, " ");
-                }
-                else if (GameField->GetCell(ixRow, ixCol) != 0)
-                {
-                    QString y(QString::number(GameField->GetCell(ixRow, ixCol), 10));
-                    painter->drawText(p1, p2, y);
-                }
-                p1 = p1+30;
-            }
-            p1 = 18;
-            p2 = p2+30;
-        }
-        if (count == 0)
-        {
-            WinDialog* win = new WinDialog;
-            win->show();
-            is_Checking = false;
-        }
+        Paint_Mistakes();
     }
+}
+//Рисуем текст
+void MainWindow::DrawText(int &p1, int &p2)
+{
+    painter->setFont(QFont("Times", 20, QFont::Normal));
+    for (int ixRow = 0; ixRow < 9; ixRow++)
+    {
+        for (int ixCol = 0; ixCol < 9; ixCol++)
+        {
+            if (GameField->GetCell(ixRow, ixCol) == 0)
+            {
+                painter->drawText(p1, p2, " ");
+            }
+            else if (GameField->GetCell(ixRow, ixCol) != 0)
+            {
+                QString y(QString::number(GameField->GetCell(ixRow, ixCol), 10));
+                painter->drawText(p1, p2, y);
+            }
+            p1 = p1+30;
+        }
+        p1 = 18;
+        p2 = p2+30;
+    }
+}
+//Событие мыши
+void MainWindow::DrawEvent()
+{
     if (is_Mouse_Clicked == true)
     {
         QString y(QString::number(GameField->GetCell(defined_ixRow, defined_ixCol),10));
         painter->drawText(GameField->parameters[ defined_ixRow ][ defined_ixCol ].p_x, GameField->parameters[ defined_ixRow ][ defined_ixCol ].p_y, y);
     }
+}
+
+//Изменение раскраски поля по массиву чисел
+void MainWindow::paintEvent(QPaintEvent *)
+{
+    int pointIxRow = 10;
+    int pointIxCol = 50;
+    int p1 = 18;
+    int p2 = 75;
+    QPen pen;
+    pen.setWidth(3);
+    DrawPole(pen, pointIxRow, pointIxCol);
+    pointIxRow = 10;
+    pointIxCol = 50;
+    if (is_New_Game_Activated == true)
+    {
+        DrawCells();
+        DrawText(p1, p2);
+    }
+    p1 = 18;
+    p2 = 75;
+    pointIxRow = 10;
+    pointIxCol = 50;
+    DrawEvent();
     this->resize(300, 350);
     painter->end();
 }
@@ -200,7 +179,7 @@ MainWindow::~MainWindow()
     delete[] hard;
     delete[] lay;
 }
-
+//Выбор уровня
 void MainWindow::ChoiceLevel()
 {
     leveldialog = new QDialog;
@@ -217,13 +196,14 @@ void MainWindow::ChoiceLevel()
     leveldialog->setLayout(lay);
     leveldialog->show();
 }
-
+//Начала новой игры
 void MainWindow::CreateNewGame(int choice)
 {
     GameField = new Field;
     Save_Graphic_Options();
     save_game = new SavedGames;
     GameField->Fill_Zero(choice);
+    GameField->CreateGraphicField();
     save_game->SaveReadyField(GameField, "CurrentGameField.txt");
     is_New_Game_Activated = true;
     is_Load_Game_Activated = false;
@@ -232,53 +212,58 @@ void MainWindow::CreateNewGame(int choice)
     if (is_New_Game_Activated == true)
         repaint();
 }
-
+//Легкий уровень
 void MainWindow::firstlevel()
 {
     int choice = 4;
     CreateNewGame(choice);
     leveldialog->close();
 }
-
+//Средний уровень
 void MainWindow::secondlevel()
 {
     int choice = 5;
     CreateNewGame(choice);
     leveldialog->close();
 }
-
+//Трудный уровень
 void MainWindow::thirdlevel()
 {
     int choice = 6;
     CreateNewGame(choice);
     leveldialog->close();
 }
-
+//Обработка событий мыши
 void MainWindow::mousePressEvent(QMouseEvent *ev)
 {
-    if (ev->button() == Qt::RightButton)
+    if (is_New_Game_Activated == true)
     {
-        is_Mouse_Clicked = true;
-        is_Load_Game_Activated = false;
-        is_New_Game_Activated = true;
-        is_Checking = false;
-        if (is_Mouse_Clicked == true)
+        if (ev->button() == Qt::RightButton)
         {
-            QPoint p = ev->pos();
-            int ixRow = (p.y()-50)/30;
-            int ixCol = (p.x()-10)/30;
-            defined_ixRow = ixRow;
-            defined_ixCol = ixCol;
-
-            int test = QInputDialog::getInt(this, "Enter number", "number: ", 0, 1, 9, 1);
-
-            GameField->InsertChislo(ixRow, ixCol, test);
-            repaint();
+            is_Mouse_Clicked = true;
+            is_New_Game_Activated = true;
+            if (is_Mouse_Clicked == true)
+            {
+                QPoint p = ev->pos();
+                if ((p.y() >= 50) && (p.y() <= 350) && (p.x() >= 10) && (p.x() <= 310))
+                {
+                    int ixRow = (p.y()-50)/30;
+                    int ixCol = (p.x()-10)/30;
+                    if (GameField->GraphicField[ ixRow ][ ixCol ] == 0)
+                    {
+                        defined_ixRow = ixRow;
+                        defined_ixCol = ixCol;
+                        int test = QInputDialog::getInt(this, "Enter number", "number: ", 0, 1, 9, 1);
+                        GameField->InsertChislo(ixRow, ixCol, test);
+                        repaint();
+                        Define_Victory();
+                    }
+                }
+            }
         }
     }
 }
-
-
+//Диалог сохранения игры
 void MainWindow::SaveDialog()
 {
     savedialog = new QDialog;
@@ -292,42 +277,41 @@ void MainWindow::SaveDialog()
     savedialog->setLayout(savelay);
     savedialog->show();
 }
-
 void MainWindow::save_pressed()
 {
     save_game->SaveRequest(GameField);
     savedialog->close();
 }
-
 void MainWindow::cancel_press()
 {
     savedialog->close();
 }
-
+//Загрузка игры
 void MainWindow::LoadGame()
 {
     GameField = new Field;
+    GameField->CreateGraphicField();
     Save_Graphic_Options();
     save_game = new SavedGames;
     save_game->LoadRequest(GameField);
-    is_Load_Game_Activated = true;
-    is_New_Game_Activated = false;
+    is_Load_Game_Activated = false;
+    is_New_Game_Activated = true;
     is_Mouse_Clicked = false;
     is_Checking = false;
-    if (is_Load_Game_Activated == true)
+    if (is_New_Game_Activated == true)
         repaint();
 }
-
+//Проверка поля
 void MainWindow::Checking()
 {
     is_Checking = true;
-    is_Load_Game_Activated = false;
     is_Mouse_Clicked = false;
-    is_New_Game_Activated = false;
+    is_New_Game_Activated = true;
+    tips = 0;
     if (is_Checking == true)
         repaint();
 }
-
+//Сохранение графичеких опций
 void MainWindow::Save_Graphic_Options()
 {
     int pointIxRow = 10;
@@ -348,14 +332,73 @@ void MainWindow::Save_Graphic_Options()
         p2 = p2+30;
     }
 }
-
-
-
-
-
-
-
-
+//Включение подсказок
+void MainWindow::Include_Tips()
+{
+    tips = 1;
+    is_Checking = false;
+}
+//Выключение подсказок
+void MainWindow::Switch_off_Tips()
+{
+    tips = 0;
+    is_Checking = false;
+}
+//Рисование подсказок
+void MainWindow::PaintTips(int &ixRow, int& ixCol)
+{
+    painter->setBrush(QBrush(Qt::yellow, Qt::Dense1Pattern));
+    if (GameField->SearchRepeatsRow(ixRow, ixCol) == 1)
+    {
+        painter->drawRect(GameField->parameters[ GameField->x ][ GameField->y ].point_x, GameField->parameters[ GameField->x ][ GameField->y ].point_y, 30, 30);
+        QString y(QString::number(GameField->GameField[ GameField->x ][ GameField->y ], 10));
+        painter->drawText(GameField->parameters[ GameField->x ][ GameField->y ].p_x, GameField->parameters[ GameField->x ][ GameField->y ].p_y, y);
+    }
+    if (GameField->SearchRepeatsCol(ixRow, ixCol) == 1)
+    {
+        painter->drawRect(GameField->parameters[ GameField->x ][ GameField->y ].point_x, GameField->parameters[ GameField->x ][ GameField->y ].point_y, 30, 30);
+        QString y(QString::number(GameField->GameField[ GameField->x ][ GameField->y ], 10));
+        painter->drawText(GameField->parameters[ GameField->x ][ GameField->y ].p_x, GameField->parameters[ GameField->x ][ GameField->y ].p_y, y);
+    }
+    GameField->SearchRepeatsSq(ixRow, ixCol);
+    for (int i = 0; i < 9; i++)
+    {
+        if (GameField->mass_x[ i ] != 10)
+        {
+            painter->drawRect(GameField->parameters[ GameField->mass_x[ i ] ][ GameField->mass_y[ i ] ].point_x, GameField->parameters[ GameField->mass_x[ i ] ][ GameField->mass_y[ i ] ].point_y, 30, 30);
+            QString y(QString::number(GameField->GameField[ GameField->mass_x[ i ] ][ GameField->mass_y[ i ] ], 10));
+            painter->drawText(GameField->parameters[ GameField->mass_x[ i ] ][ GameField->mass_y[ i ] ].p_x, GameField->parameters[ GameField->mass_x[ i ] ][ GameField->mass_y[ i ] ].p_y, y);
+        }
+    }
+    painter->setBrush(QBrush(Qt::red, Qt::Dense1Pattern));
+    painter->drawRect(GameField->parameters[ ixRow ][ ixCol ].point_x, GameField->parameters[ ixRow ][ ixCol ].point_y, 30, 30);
+}
+//Закрашивание клеток с ошибками
+void MainWindow::Paint_Mistakes()
+{
+    for (int ixRow = 0; ixRow < 9; ixRow++)
+    {
+        for (int ixCol = 0; ixCol < 9; ixCol++)
+        {
+            if (GameField->GameField[ ixRow ][ ixCol ] != GameField->FieldVictory[ ixRow ][ ixCol ])
+            {
+                painter->setBrush(QBrush(Qt::red, Qt::Dense1Pattern));
+                painter->drawRect(GameField->parameters[ ixRow ][ ixCol ].point_x, GameField->parameters[ ixRow ][ ixCol ].point_y, 30, 30);
+            }
+        }
+    }
+}
+//Проверка игрока на победу
+void MainWindow::Define_Victory()
+{
+    if (GameField->Define_Victory() == true)
+    {
+        is_New_Game_Activated = false;
+        WinDialog* Win = new WinDialog;
+        Win->show();
+        repaint();
+    }
+}
 
 
 

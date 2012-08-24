@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <cstdlib>
+#include <string>
 #include "field.h"
 
 class SavedGames
@@ -17,6 +18,4 @@ public:
     void LoadRequest(Field* GameField);
     ~SavedGames(void);
 };
-
-
 #endif // SAVEDGAMES_H
