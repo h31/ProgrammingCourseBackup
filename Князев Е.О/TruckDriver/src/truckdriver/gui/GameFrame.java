@@ -1,12 +1,16 @@
 package truckdriver.gui;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import truckdriver.City;
+import truckdriver.GodCountPair;
 import truckdriver.resources.Resources;
 import truckdriver.Start;
 import truckdriver.Truck;
@@ -73,6 +77,23 @@ public class GameFrame extends JFrame {
                     }
                 }
             }  
+        });
+        this.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("pressed");
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    double money = Start.inter.getTruck().getMoney();
+                    for (GodCountPair item : Start.inter.getTruck().getGods()) {
+                        money += item.getCount() * item.getGod().getPrice();
+                    }
+                    JOptionPane.showMessageDialog(null, 
+                            "Заработанные деньги = " + money, "Информация", JOptionPane.INFORMATION_MESSAGE);
+                    System.exit(0);
+                }
+            }
+        
         });
         add(canvas);
         setResizable(false);
