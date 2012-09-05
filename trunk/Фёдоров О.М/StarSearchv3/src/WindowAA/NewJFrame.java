@@ -906,6 +906,9 @@ private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {
                 Constellations[b].Stars[i].paint(gt);
         
             }
+            jButton7.setVisible(false);
+            jButton8.setVisible(false);
+            jButton9.setVisible(false);
             repaint();
         
         
@@ -916,7 +919,7 @@ private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {
     Game = 2;
     StarsFrame.removeAll(StarsFrame);
         LinesFrame.removeAll(LinesFrame);
-    BufferedReader in;
+        BufferedReader in;
         BufferedReader in2;
         String s="";
         String z="";
@@ -1035,6 +1038,9 @@ private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {
                 Constellations[b].Stars[i].paint(gt);
         
             }
+            jButton7.setVisible(false);
+            jButton8.setVisible(false);
+            jButton9.setVisible(false);
             repaint();
         
     
@@ -1059,7 +1065,7 @@ private void jpnlPaintMouseClicked(java.awt.event.MouseEvent evt) {
                 }
                 else
                 {
-                    
+                    StarsFrame.get(i).Visibility=true;
                     jLabel1.setText("Loose");
                 }
             }
