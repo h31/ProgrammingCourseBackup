@@ -1319,8 +1319,8 @@ if(Game == 1 && jButton9.Flag)
     private AnswerButton jButton9;
             
     //для ФАЙЛОВ!!!
-    String StarSQL = "c:/SQLStars.txt";
-    String ConstellationSQL = "c:/SQLConstellations.txt";
+    String StarSQL = "/SQLStars.txt";
+    String ConstellationSQL = "/SQLConstellations.txt";
     //Line LinesFRAME[];
     //Star StarsFRAME[];
     //int ls,ll = 0;
