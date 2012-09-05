@@ -95,19 +95,9 @@ void SavedGames::LoadGame(char name[], Field* GameField)
     QFile infile(name);
     infile.open(QIODevice::ReadOnly);
     QTextStream in(&infile);
-    /*if (!in)
-    {
-        cout << "Файл не открылся!\n";
-        return;
-    }*/
     QFile outfile("C:\\QtProjects\\SUDOKU\\CurrentGameField.txt");
     outfile.open(QIODevice::ReadOnly, QIODevice::WriteOnly);
     QTextStream out(&outfile);
-    /*if (!out)
-    {
-        cout << "Файл не открылся!\n";
-        return;
-    }*/
     for (int ixRow = 0; ixRow < 9; ixRow++)
     {
         for (int ixCol = 0; ixCol < 9; ixCol++)

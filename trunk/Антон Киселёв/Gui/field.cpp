@@ -195,6 +195,7 @@ int Field::CellGraphicField(int ixRow, int ixCol)
     return GraphicField[ ixRow ][ ixCol ];
 }
 //Поиск повторов
+//По строке
 bool Field::SearchRepeatsRow(int ixRow, int ixCol)
 {
     for (int SqIxCol = 0; SqIxCol < ixCol; ++SqIxCol)
@@ -217,6 +218,7 @@ bool Field::SearchRepeatsRow(int ixRow, int ixCol)
     }
     return false;
 }
+//По столбцу
 bool Field::SearchRepeatsCol(int ixRow, int ixCol)
 {
     for (int SqIxRow = 0; SqIxRow < ixRow; ++SqIxRow)
@@ -239,6 +241,7 @@ bool Field::SearchRepeatsCol(int ixRow, int ixCol)
     }
     return false;
 }
+//По квадрату
 void Field::SearchRepeatsSq(int ixRow, int ixCol)
 {
     for (int i = 0; i < 9; i++)

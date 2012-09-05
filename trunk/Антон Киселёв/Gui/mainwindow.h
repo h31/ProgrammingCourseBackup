@@ -7,6 +7,10 @@
 #include <QEvent>
 #include "savedgames.h"
 
+namespace Ui {
+class MainWindow;
+}
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -23,11 +27,14 @@ class MainWindow : public QMainWindow
 
     QMenuBar *bar;//Меню-бар
 public:
+    explicit MainWindow(QMainWindow *parent = 0);
+    ~MainWindow();
     //Флаги событий
     bool is_New_Game_Activated;//Новая игра
     bool is_Load_Game_Activated;//Загрузка игры
     bool is_Mouse_Clicked;//Нажатие мыши
     bool is_Checking;//Проверка поля на ошибки
+    bool is_Keyboard_activated;//Клавиатура
 
     int tips;//Подсказки
 
@@ -46,8 +53,6 @@ public:
 
     QPainter* painter;
 
-    MainWindow();
-    ~MainWindow();
     //Определение координаты клетки
     int defined_ixRow;
     int defined_ixCol;
@@ -57,7 +62,6 @@ public:
     void DrawCells();//Рисование клеток
     void DrawText(int &p1, int &p2);//Вставка текста
     void DrawEvent();//Рисование события мыши
-
     //Мышь
     void mousePressEvent(QMouseEvent * ev);
     void PaintTips(int &ixRow, int &ixCol);
@@ -67,7 +71,11 @@ public:
     void Paint_Mistakes();
     void Define_Victory();
 
+protected:
+    void changeEvent(QEvent *e);
+
 private:
+    Ui::MainWindow *ui;
     void CreateActions();
     void CreateMenu();
 
@@ -83,6 +91,15 @@ private slots:
     void cancel_press();
     void Include_Tips();
     void Switch_off_Tips();
+    void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
+    void on_pushButton_3_clicked();
+    void on_pushButton_4_clicked();
+    void on_pushButton_5_clicked();
+    void on_pushButton_6_clicked();
+    void on_pushButton_7_clicked();
+    void on_pushButton_8_clicked();
+    void on_pushButton_9_clicked();
 };
 
 #endif // MAINWINDOW_H
