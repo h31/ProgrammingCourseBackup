@@ -745,6 +745,7 @@ private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {
                 Constellations[b].Stars[i].paint(gt);
         
             }
+            
             repaint();
             /*while(!jButton7.isSelected() && !jButton8.isSelected() && !jButton9.isSelected())
             {
@@ -764,11 +765,9 @@ private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {
     jButton7.setVisible(true);
     jButton8.setVisible(true);
     jButton9.setVisible(true);
-    jButton7.setSelected(false);
-    jButton8.setSelected(false);
-    jButton9.setSelected(false);
+
     //jButton1.setVisible(false);
-    //jButton2.setVisible(false);
+   // jButton2.setVisible(false);
     //jButton3.setVisible(false);
     jLabel1.setVisible(false);
     
@@ -906,9 +905,7 @@ private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {
                 Constellations[b].Stars[i].paint(gt);
         
             }
-            jButton7.setVisible(false);
-            jButton8.setVisible(false);
-            jButton9.setVisible(false);
+            
             repaint();
         
         
@@ -916,6 +913,9 @@ private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {
 
 private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {
     jLabel1.setVisible(false);
+    jButton7.setVisible(true);
+    jButton8.setVisible(true);
+    jButton9.setVisible(true);
     Game = 2;
     StarsFrame.removeAll(StarsFrame);
         LinesFrame.removeAll(LinesFrame);
@@ -1164,7 +1164,10 @@ private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {
         LinesFrame.removeAll(LinesFrame); 
         jButton7.setSelected(false);
         repaint();
-    }    
+    }
+    jButton7.setVisible(false);
+            jButton8.setVisible(false);
+            jButton9.setVisible(false);
 }
 
 private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {
@@ -1209,7 +1212,10 @@ if(Game == 1 && jButton8.Flag)
         LinesFrame.removeAll(LinesFrame); 
         jButton7.setSelected(false);
         repaint();
-    }    
+    }
+    jButton7.setVisible(false);
+            jButton8.setVisible(false);
+            jButton9.setVisible(false);
 }
 
 private void jButton9MouseClicked(java.awt.event.MouseEvent evt) {
@@ -1254,7 +1260,10 @@ if(Game == 1 && jButton9.Flag)
         LinesFrame.removeAll(LinesFrame); 
         jButton7.setSelected(false);
         repaint();
-    }    
+    }
+    jButton7.setVisible(false);
+            jButton8.setVisible(false);
+            jButton9.setVisible(false);
 }
     /**
      * @param args the command line arguments
