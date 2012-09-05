@@ -1,13 +1,18 @@
 #include "mainwindow.h"
 #include "savedgames.h"
 #include "windialog.h"
+#include "ui_mainwindow.h"
+#include <QMainWindow>
 #include <QWidget>
 #include <QEvent>
 #include <QMouseEvent>
 #include <QtGui>
 
-MainWindow::MainWindow()
+MainWindow::MainWindow(QMainWindow *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
 {
+    ui->setupUi(this);
     CreateActions();
     CreateMenu();
 }
@@ -141,11 +146,15 @@ void MainWindow::DrawEvent()
 {
     if (is_Mouse_Clicked == true)
     {
-        QString y(QString::number(GameField->GetCell(defined_ixRow, defined_ixCol),10));
-        painter->drawText(GameField->parameters[ defined_ixRow ][ defined_ixCol ].p_x, GameField->parameters[ defined_ixRow ][ defined_ixCol ].p_y, y);
+        painter->setBrush(QBrush(Qt::blue, Qt::Dense4Pattern));
+        painter->drawRect(GameField->parameters[ defined_ixRow ][ defined_ixCol ].point_x, GameField->parameters[ defined_ixRow ][ defined_ixCol ].point_y, 30, 30);
+        if (GameField->GetCell(defined_ixRow, defined_ixCol) != 0)
+        {
+            QString y(QString::number(GameField->GetCell(defined_ixRow, defined_ixCol),10));
+            painter->drawText(GameField->parameters[ defined_ixRow ][ defined_ixCol ].p_x, GameField->parameters[ defined_ixRow ][ defined_ixCol ].p_y, y);
+        }
     }
 }
-
 //Изменение раскраски поля по массиву чисел
 void MainWindow::paintEvent(QPaintEvent *)
 {
@@ -168,12 +177,12 @@ void MainWindow::paintEvent(QPaintEvent *)
     pointIxRow = 10;
     pointIxCol = 50;
     DrawEvent();
-    this->resize(300, 350);
+    this->resize(360, 350);
     painter->end();
 }
-
 MainWindow::~MainWindow()
 {
+    delete ui;
     delete[] easy;
     delete[] normal;
     delete[] hard;
@@ -196,7 +205,7 @@ void MainWindow::ChoiceLevel()
     leveldialog->setLayout(lay);
     leveldialog->show();
 }
-//Начала новой игры
+//Начало новой игры
 void MainWindow::CreateNewGame(int choice)
 {
     GameField = new Field;
@@ -236,9 +245,10 @@ void MainWindow::thirdlevel()
 //Обработка событий мыши
 void MainWindow::mousePressEvent(QMouseEvent *ev)
 {
+    is_Keyboard_activated = false;
     if (is_New_Game_Activated == true)
     {
-        if (ev->button() == Qt::RightButton)
+        if (ev->button() == Qt::LeftButton)
         {
             is_Mouse_Clicked = true;
             is_New_Game_Activated = true;
@@ -253,10 +263,8 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
                     {
                         defined_ixRow = ixRow;
                         defined_ixCol = ixCol;
-                        int test = QInputDialog::getInt(this, "Enter number", "number: ", 0, 1, 9, 1);
-                        GameField->InsertChislo(ixRow, ixCol, test);
+                        is_Keyboard_activated = true;
                         repaint();
-                        Define_Victory();
                     }
                 }
             }
@@ -400,32 +408,106 @@ void MainWindow::Define_Victory()
     }
 }
 
+void MainWindow::changeEvent(QEvent *e)
+{
+    QMainWindow::changeEvent(e);
+    switch (e->type()) {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    default:
+        break;
+    }
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//События нажатия клавиш
+void MainWindow::on_pushButton_clicked()
+{
+    int chislo = 1;
+    if (is_Keyboard_activated == true)
+    {
+        GameField->InsertChislo(defined_ixRow, defined_ixCol, chislo);\
+        repaint();
+        Define_Victory();
+    }
+}
+void MainWindow::on_pushButton_2_clicked()
+{
+    int chislo = 2;
+    if (is_Keyboard_activated == true)
+    {
+        GameField->InsertChislo(defined_ixRow, defined_ixCol, chislo);\
+        repaint();
+        Define_Victory();
+    }
+}
+void MainWindow::on_pushButton_3_clicked()
+{
+    int chislo = 3;
+    if (is_Keyboard_activated == true)
+    {
+        GameField->InsertChislo(defined_ixRow, defined_ixCol, chislo);\
+        repaint();
+        Define_Victory();
+    }
+}
+void MainWindow::on_pushButton_4_clicked()
+{
+    int chislo = 4;
+    if (is_Keyboard_activated == true)
+    {
+        GameField->InsertChislo(defined_ixRow, defined_ixCol, chislo);\
+        repaint();
+        Define_Victory();
+    }
+}
+void MainWindow::on_pushButton_5_clicked()
+{
+    int chislo = 5;
+    if (is_Keyboard_activated == true)
+    {
+        GameField->InsertChislo(defined_ixRow, defined_ixCol, chislo);\
+        repaint();
+        Define_Victory();
+    }
+}
+void MainWindow::on_pushButton_6_clicked()
+{
+    int chislo = 6;
+    if (is_Keyboard_activated == true)
+    {
+        GameField->InsertChislo(defined_ixRow, defined_ixCol, chislo);\
+        repaint();
+        Define_Victory();
+    }
+}
+void MainWindow::on_pushButton_7_clicked()
+{
+    int chislo = 7;
+    if (is_Keyboard_activated == true)
+    {
+        GameField->InsertChislo(defined_ixRow, defined_ixCol, chislo);\
+        repaint();
+        Define_Victory();
+    }
+}
+void MainWindow::on_pushButton_8_clicked()
+{
+    int chislo = 8;
+    if (is_Keyboard_activated == true)
+    {
+        GameField->InsertChislo(defined_ixRow, defined_ixCol, chislo);\
+        repaint();
+        Define_Victory();
+    }
+}
+void MainWindow::on_pushButton_9_clicked()
+{
+    int chislo = 9;
+    if (is_Keyboard_activated == true)
+    {
+        GameField->InsertChislo(defined_ixRow, defined_ixCol, chislo);\
+        repaint();
+        Define_Victory();
+    }
+}
