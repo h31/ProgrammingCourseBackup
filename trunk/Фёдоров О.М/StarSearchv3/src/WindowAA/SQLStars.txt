@@ -1,0 +1,1 @@
+10:1 StarName1 3 300 300:2 StarName2 5 350 300:3 StarName3 7 350 350:4 StarName4 6 300 350:5 StarName5 3 400 400:6 StarName6 5 450 400:7 StarName7 7 450 450:8 StarName8 6 400 450:9 StarName9 10 400 400:10 StarName10 9 450 450 
