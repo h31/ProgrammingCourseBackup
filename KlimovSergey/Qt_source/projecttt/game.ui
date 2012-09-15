@@ -31,7 +31,17 @@
     <addaction name="actionCheck"/>
     <addaction name="actionExit"/>
    </widget>
+   <widget class="QMenu" name="menuActions">
+    <property name="title">
+     <string>Actions</string>
+    </property>
+    <addaction name="actionSave"/>
+    <addaction name="actionLoad"/>
+    <addaction name="separator"/>
+    <addaction name="actionShow_Answer"/>
+   </widget>
    <addaction name="menuMenu"/>
+   <addaction name="menuActions"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionStart">
@@ -47,6 +57,21 @@
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionLoad">
+   <property name="text">
+    <string>Load</string>
+   </property>
+  </action>
+  <action name="actionShow_Answer">
+   <property name="text">
+    <string>Show Answer</string>
    </property>
   </action>
  </widget>

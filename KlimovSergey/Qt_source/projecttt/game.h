@@ -35,6 +35,12 @@ private slots:
 
     void on_actionExit_activated();
 
+    void on_actionSave_activated();
+
+    void on_actionLoad_activated();
+
+    void on_actionShow_Answer_activated();
+
 private:
     Ui::Game *ui;
 
