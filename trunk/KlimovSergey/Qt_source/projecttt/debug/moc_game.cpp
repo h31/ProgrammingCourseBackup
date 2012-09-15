@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'game.h'
 **
-** Created: Wed 16. May 23:43:31 2012
+** Created: Sat 15. Sep 18:36:53 2012
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_Game[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -34,6 +34,9 @@ static const uint qt_meta_data_Game[] = {
        6,    5,    5,    5, 0x08,
       33,    5,    5,    5, 0x08,
       60,    5,    5,    5, 0x08,
+      86,    5,    5,    5, 0x08,
+     112,    5,    5,    5, 0x08,
+     138,    5,    5,    5, 0x08,
 
        0        // eod
 };
@@ -42,6 +45,9 @@ static const char qt_meta_stringdata_Game[] = {
     "Game\0\0on_actionStart_activated()\0"
     "on_actionCheck_activated()\0"
     "on_actionExit_activated()\0"
+    "on_actionSave_activated()\0"
+    "on_actionLoad_activated()\0"
+    "on_actionShow_Answer_activated()\0"
 };
 
 void Game::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -53,6 +59,9 @@ void Game::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
         case 0: _t->on_actionStart_activated(); break;
         case 1: _t->on_actionCheck_activated(); break;
         case 2: _t->on_actionExit_activated(); break;
+        case 3: _t->on_actionSave_activated(); break;
+        case 4: _t->on_actionLoad_activated(); break;
+        case 5: _t->on_actionShow_Answer_activated(); break;
         default: ;
         }
     }
@@ -91,9 +100,9 @@ int Game::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 6;
     }
     return _id;
 }
