@@ -15,12 +15,14 @@ SOURCES += main.cpp\
     tanki.cpp \
     puli.cpp \
     bot.cpp \
-    pole.cpp
+    pole.cpp \
+    test.cpp
 
 HEADERS  += mainwindow.h \
     tanki.h \
     puli.h \
     bot.h \
-    pole.h
+    pole.h \
+    test.h
 
 FORMS    += mainwindow.ui

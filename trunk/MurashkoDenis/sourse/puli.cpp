@@ -2,7 +2,7 @@
 #include "puli.h"
 Bullet::Bullet()
 {
-    speed = 10;
+    speed = 15;
     l=10;
 }
 
