@@ -6,7 +6,6 @@
 #include <QPainter>
 #include <QVector>
 #include "puli.h"
-#include "pole.h"
 #include "bot.h"
 //#include "test.h"
 
@@ -28,13 +27,12 @@ class Igrok//танк-игрок
 public:
     TankCoordinates koords;
     TankVec vec;
-    Field field;
     QVector <Bullet> bullet;//вектор пуль
     int r;//радиус танка
     int speed;//скорость движения танка
 
     Igrok();//контструктор
-    //void draw(QPainter &painter);//рисование танка-игрока
+
 
 };
 
