@@ -10,26 +10,32 @@ public class Karno {
      */
     public static void main(String[] args) {
 //       
-//        ArrayList<Integer> a = new ArrayList();
-//        a.add(0);
-//        a.add(3);
-//        a.add(4);
-//        a.add(7);
-//        a.add(9);
-//        a.add(13);
-//        a.add(15);
-//        a.add(23);
-//        a.add(35);
-//        
+        ArrayList<Integer> a = new ArrayList();
+        a.add(0);
+        a.add(3);
+        a.add(4);
+        a.add(7);
+        a.add(9);
+        a.add(13);
+       a.add(15);
+        //a.add(18);
+        //a.add(34);
+        
 //        
 //        truthTab mt = new truthTab(a);
 //        mt.conShow();
-        for(int i = 0; i<7; i++){
-            
-            System.out.print(Integer.toBinaryString(i));
-            System.out.print("-");
-            int y = GrayCode.encodeGray(i);
-            System.out.println(Integer.toBinaryString(y));
-        }
+//        for(int i = 0; i<7; i++){
+//            
+//            System.out.print(Integer.toBinaryString(i));
+//            System.out.print("-");
+//            int y = GrayCode.encodeGray(i);
+//            System.out.println(Integer.toBinaryString(y));
+//        }
+        
+//        String e = Integer.toBinaryString(GrayCode.encodeGray(5));
+//            int r = Integer.parseInt(e.substring(0, col), 2);
+//            int c = Integer.parseInt(e.substring(col), 2);
+        KarnoMap k = new KarnoMap(a);
+        k.showKarno();
     }
 }

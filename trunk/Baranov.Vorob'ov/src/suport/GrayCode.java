@@ -8,6 +8,19 @@ public class GrayCode {
 
     }
     
+    public static String encodeGray(int natural, int s) {
+
+        String num = Integer.toBinaryString(natural ^ natural >>> 1);
+        String zer = "";
+        for(int i = 0; i<(s-num.length()); i++)
+        {
+            zer+="0";
+        }
+        
+        return zer+=num;
+
+    }
+    
     public static int decodeGray(int gray) {
 
         int natural = 0;
