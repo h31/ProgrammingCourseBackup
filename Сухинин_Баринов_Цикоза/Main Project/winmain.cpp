@@ -2,17 +2,17 @@
 
 //#include "Global.h"
 //#include "Resource.h"
-#define _WINSOCKAPI_    // stops windows.h including winsock.h
+#include <boost\asio.hpp>
+//#define _WINSOCKAPI_    // stops windows.h including winsock.h
 #include "Data.h"
 #include "Control.h"
 #include "Render.h"
 #include "Counter.h"
 #include "Client.h"
-//#include "Server.h"
+#include "Server.h"
 #include <boost\timer.hpp>
 
-
-
+boost::asio::io_service io_service;
 
 
 HGE *hge=0;
@@ -45,7 +45,7 @@ bool RenderFunc()
 	mut_Data.lock();
 	data->tilemap->Render();//рисуем карту
 	//data->tilemap->Render_with_fof(data->My_tank->position,data->My_tank->r1,data->My_tank->r2);
-	render->Render_info(control);//выводим данные //debug
+	render->Render_info(control,client);//выводим данные //debug
 	render->Render_Tanks();//рисуем танки
 	render->Render_Bullets();//рисуем все пули
 	data->tilemap->RenderFG();
@@ -69,13 +69,14 @@ bool Init()
 	control=new Control(hge,data);
 	control->mouse_x=SCREEN_WIDTH/2;
 	control->mouse_y=SCREEN_HEIGHT/2;
-	//client = new Client();
+	client = new Client(io_service,data);
+	io_service.run();
 	//client->Init();
-	//client->Connect("");
-	//client->SendPacket(client->p_server,(void*)"test",strlen ("test") + 1,
+	//client->Connect("127.0.0.1");
+	//client->SendPacket(client->server,(void*)"test",strlen ("test") + 1,
 	//	ENET_PACKET_FLAG_RELIABLE);
 	//client->Disconnect();
-	//return false;
+
     render=new Render(hge,data,control);
 	if (!render->Load())return false;
 	
@@ -88,8 +89,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	// Get HGE interface
 	hge = hgeCreate(HGE_VERSION);
-	SCREEN_WIDTH=GetSystemMetrics(SM_CXSCREEN);
-	SCREEN_HEIGHT=GetSystemMetrics(SM_CYSCREEN);
+	//SCREEN_WIDTH=GetSystemMetrics(SM_CXSCREEN);
+	//SCREEN_HEIGHT=GetSystemMetrics(SM_CYSCREEN);
 	// Set up log file, frame function, render function and window title
 	//hge->System_SetState(HGE_LOGFILE, "hge_tanks.log");
 	hge->System_SetState(HGE_FRAMEFUNC, FrameFunc);
@@ -105,7 +106,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	hge->System_SetState(HGE_SCREENWIDTH, SCREEN_WIDTH);
 	hge->System_SetState(HGE_SCREENHEIGHT, SCREEN_HEIGHT);
 	hge->System_SetState(HGE_SCREENBPP, 32);
-	//hge->System_SetState(HGE_FPS, 200); 
+	hge->System_SetState(HGE_FPS, 200); 
 	hge->System_SetState(HGE_USESOUND, false);
 
 	if(hge->System_Initiate() && Init())
