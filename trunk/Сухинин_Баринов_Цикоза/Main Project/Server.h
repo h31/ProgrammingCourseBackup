@@ -1,30 +1,28 @@
 #ifndef _SERVER_
 #define _SERVER_
 
-#define _WINSOCKAPI_    // stops windows.h including winsock.h
-//#include <windows.h>
+
+#include <boost\asio.hpp>
 #include "ServerData.h"
-#include "include\enet\enet.h"
+
 #include <list>
 #include <conio.h>
 #include <boost\thread.hpp>
 #include <boost\timer.hpp>
+
 using namespace std;
 using namespace boost;
 
 class User
 {
 public:
-	ENetPeer * peer;
-	User(){peer=0;}
+	
 };
 
 class Server
 {
 private:
-	ENetEvent event;
-    ENetHost * server;
-    ENetAddress address;
+	
 	ServerData *serverdata;
 	list <User*> Userlist;
 	//потоки
@@ -40,7 +38,7 @@ private:
 	bool ShutDown();//остановка сервера (сети)
 	void AddUser();//добавить пользователя
 	void DisconnectUser(User *);//отключить пользователя
-	void SendPacket(ENetPeer*,void*,unsigned short,ENetPacketFlag);
+	void SendPacket();
 	void InputLoop();//функция входного потока
 	void HandlerLoop();//функция потока обработки сообщений
 	void OutputLoop(float ms);//функция потока отправки сообщений
@@ -48,7 +46,7 @@ public:
 	
 	Server()
 	{
-		server=0;
+		
 		serverdata=new ServerData();
 		this->Handler_stop=false;
 		this->Input_stop=false;
@@ -77,7 +75,7 @@ public:
 		thread_handler.join();
 		thread_output.join();
 	}
-	~Server(){ delete serverdata; this->ShutDown(); enet_host_destroy(server);}
+	~Server(){ delete serverdata; this->ShutDown();}
 	
 };
 

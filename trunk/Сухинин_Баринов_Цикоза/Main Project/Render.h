@@ -3,6 +3,7 @@
 
 #ifndef _RENDER_
 #define _RENDER_
+#include "Client.h"
 #include "include\hge\hge.h"
 #include "include\hge\hgesprite.h"
 #include "include\hge\hgefont.h"
@@ -29,11 +30,13 @@ public:
 	}
 	bool Load();//загрузка внех необходимых объектов
 	void Free();//чистка
-	void Render_info(Control * control)//debug
+	void Render_info(Control * control,Client * client)//debug
 	{
-		this->data->renderdat->fnt->printf(3, 3, HGETEXT_LEFT, "FPS: %d\nmouse x: %f\nmouse y: %f\nTileoffset x %d\nTileoffset y %d\ntankpos x: %f\ntankpos y: %f\nNumber of bullets: %d\nNumber of effects: %d",
+		this->data->renderdat->fnt->printf(3, 3, HGETEXT_LEFT, "FPS: %d\nmouse x: %f\n"
+			"mouse y: %f\nTileoffset x %d\nTileoffset y %d\ntankpos x: %f\ntankpos y: %f\nNumber of bullets: %d\nNumber of effects: %d\n"
+			"CLIENT INFO\nqueue size: %d",
 			hge->Timer_GetFPS(),control->mouse_x,control->mouse_y,this->data->tilemap->GetOffset_x(),this->data->tilemap->GetOffset_y(),My_tank->position.x,My_tank->position.y,
-			this->data->bullets.size(),this->data->renderdat->ef.size()/*,this->data->renderdat->ParticleArr[0]->particleSistem->*/);
+			this->data->bullets.size(),this->data->renderdat->ef.size(),client->queue_in.size());
 	}
 	void Render_fog_of_war();
 	void Render_My_Tank();
