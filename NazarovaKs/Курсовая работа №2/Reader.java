@@ -12,13 +12,20 @@ public class Reader {
         years=new LinkedList<>();
         birth=new LinkedList<>();
         death=new LinkedList<>();
+        length=0;
+        readOfString(fileName);
+    }
+    /*public class Reader {
+   public Reader(String fileName)throws FileNotFoundException, EOFException{
+        years=new LinkedList<>();
+        birth=new LinkedList<>();
+        death=new LinkedList<>();
         years=readOfString(fileName, "Years");
         birth=readOfString(fileName, "Birth");
         death=readOfString(fileName, "Death");
         length=amtLength();
-    }
-    
-    private List readOfString(String fileName, String stringName)throws FileNotFoundException, EOFException{
+    }*/
+    /*private List readOfString(String fileName, String stringName)throws FileNotFoundException, EOFException{
         int i;
         Scanner in=new Scanner(new File(fileName));
         while(!in.next().equals(stringName)) in.next();
@@ -31,7 +38,21 @@ public class Reader {
             }
             return list;
         }       
+    }*/
+   
+   private void readOfString(String fileName)throws FileNotFoundException, EOFException{
+    Scanner in=new Scanner(new File(fileName));
+        while(in.hasNextLine()){
+            in.nextLine();
+            if(in.hasNextInt()){
+                years.add(in.nextInt());
+                birth.add(in.nextInt());
+                death.add(in.nextInt());
+            }
+        } 
+    length=amtLength();
     }
+   
     private int amtLength(){
         if(years.size()==birth.size() && years.size()==death.size()) return years.size();
         else return minLength(years.size(), birth.size(), death.size());
