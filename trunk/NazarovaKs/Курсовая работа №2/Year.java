@@ -19,6 +19,9 @@ public class Year {
     private double calcOfDemographicFactor(){
         return (birth-death)*100/(birth+death);
     }
+    public int getYear(){
+        return year;
+    }
     public int getBirth(){
         return birth;
     }    
