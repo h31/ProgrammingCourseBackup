@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file alias="coca">coca.wav</file>
-    </qresource>
-</RCC>
