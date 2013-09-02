@@ -1,2 +1,0 @@
-Dungeon.Percenter
-Dungeon.Pair

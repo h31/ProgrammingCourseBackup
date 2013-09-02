@@ -1,2 +1,0 @@
-GUI.SlotMouseAdapter
-GUI.PlayerPanel
